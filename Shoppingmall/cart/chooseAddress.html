@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+		<style type="text/css">
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.cellImg {
+				max-width: 70%;
+				height: auto;
+				vertical-align: middle;
+				position: relative;
+				left: 5px;
+			}
+			
+			.mui-table-view .mui-table-view-cell {
+				background: #F8F8F8;
+				margin-bottom: 5px;
+				border: 1px solid #F0F0F0;
+				color: #5C5C5C;
+			}
+			
+			.mui-table-view .mui-table-view-cell:after {
+				left: 0px;
+			}
+			
+			.leftClassCell {
+				margin: 0 auto;
+				padding-top: 7%;
+				padding-bottom: 4%;
+				width: 30%;
+				float: left;
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.rightClassCell {
+				width: 70%;
+				float: left;
+			}
+			
+			.itemName {
+				color: black;
+				line-height: 1.5em;
+			}
+			
+			.price {
+				color: #41CEA9;
+				padding-top: 30px;
+				margin-top: 30px;
+			}
+			
+			.mui-table-view-cell {
+				/*padding: 0px;*/
+				padding-top: 10px;
+				height: 80px;
+				line-height: 30px;
+			}
+			
+			.mui-media {
+				padding-top: 10px;
+				height: 100px;
+				line-height: 30px;
+			}
+			
+			.morendizhi {
+				font-size: 14px;
+				color: #FF0000;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">选择收货地址</h1>
+			<a id="manage" class="mui-btn-link mui-pull-right">管理/添加</a>
+		</header>
+		<!--<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>-->
+
+		<div id="address_list" class="own-content-padding">
+			<ul id="addressList" class="mui-table-view" style="margin-top: 44px;padding-top: 0px;">
+				<!--<li class="mui-table-view-cell " style=" padding-top: 10px; height:80px;line-height: 30px;">
+					<div>
+						<label id="name" style="padding-right: 100px;">测试</label>
+						<label id="tel">136****7895</label>
+					</div>
+					<div>
+						<label id="xiaoqu"> 开发区天地一品</label>
+					</div>
+				</li>-->
+			</ul>
+		</div>
+
+		<script src="../js/mui.min.js" charset="UTF-8"></script>
+		<script src="../js/ajax.js" charset=""></script>
+		<script src="../js/own.js" charset="UTF-8"></script>
+		<script src="../js/common.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/app.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			var thisYizhan;
+			var addressId;
+			var itemList = new Array();
+			var typeno;
+			var addressList = document.getElementById('addressList');
+			var data = app.getDatas(SHOPACCOUNT);
+			var creater_id;
+			var obj;
+			mui.init({
+				swipeBack: true
+			});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				creater_id = self.creater_id;
+				loadaddressListview();
+				mui('#addressList').on('tap', 'li', function() {
+					console.log("=====choose address list" + this.id);
+					//					console.log("----sublen---" + sublen + ",itemList[sublen]:" + JSON.stringify(itemList[0]));
+					var choseditem = new Array();
+					var choseditem = itemList[this.id];
+					console.log("----choseditem---" + choseditem);
+					var self = plus.webview.currentWebview();
+					var openerWv = self.opener();
+					openerWv.evalJS("GetVal('" + choseditem.shouhuoren_name + "','" + choseditem.shouhuoren_tel + "','" + choseditem.shouhuoren_address + "')");
+					self.close();
+				});
+
+				//接收shop/mine/shouhuodizhi.html自定义事件修改地址
+				window.addEventListener('address', function() {
+					console.log("update address");
+					addressList.innerHTML = "";
+					loadaddressListview();
+				});
+				//返回时刷新地址信息
+				var old_back = mui.back;
+				mui.back = function() {
+					console.log("back");
+					//				var jiesuanPage = plus.webview.getWebviewById('gouwucheShangpinJiesuan.html')
+					//				mui.fire(jiesuanPage, 'address');
+					var choseditem = new Array();
+					var choseditem = itemList[0];
+					console.log("----choseditem---" + choseditem);
+					var self = plus.webview.currentWebview();
+					var openerWv = self.opener();
+					if(obj.address_info != "")
+						openerWv.evalJS("GetVal('" + choseditem.shouhuoren_name + "','" + choseditem.shouhuoren_tel + "','" + choseditem.shouhuoren_address + "')");
+					old_back();
+				}
+				document.getElementById('manage').addEventListener('tap', function() {
+					mui.openWindow({
+						url: "../account/shouhuodizhi.html",
+						id: "shouhuodizhi.html",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+							"creater_id": creater_id
+						}
+					});
+				});
+
+			});
+
+			function loadaddressListview() {
+				//if(!(xiaoqu == null || xiaoqu == "") && !(account == null || account == "")) {
+				initNetAndData(creater_id);
+				//				} else {
+				//					initNetAndData("", "", "");
+				//				}
+
+			}
+
+			function initNetAndData(creater_id) {
+				if(chkNetStatus() == "OK") {
+					itemList = [];
+					mui.ajax(QUERY_ADDRESS_URL, {
+						data: {
+							creater_id: creater_id
+						},
+						async: false,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							var info = JSON.stringify(data);
+							console.log("dingdan====" + info)
+							obj = eval(data);
+							if(obj.success == 1) {
+								//wait.close();
+								//								document.querySelector('#net_error').style.display = 'none';
+								//								document.querySelector('#not_message').style.display = 'none';
+								//								document.querySelector('.addressItem').style.display = 'block';
+								for(var i = 0; i < obj.address_info.length; i++) {
+									item = {};
+									item.shouhuoid = obj.address_info[i].id;
+									item.shouhuoren_name = obj.address_info[i].shouhuoren_name;
+									item.shouhuoren_tel = obj.address_info[i].shouhuoren_tel;
+									item.shouhuoren_address = obj.address_info[i].shouhuoren_address;
+									item.youbian = obj.address_info[i].youbian;
+									itemList.push(item);
+								}
+								productlistSuccess(itemList);
+							} else {
+								wait.close();
+								document.querySelector('.addressItem').style.display = 'none';
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'block';
+								var queryResultMsg = obj.errorMsg;
+
+								console.log("hhhhhh" + queryResultMsg);
+								if(queryResultMsg == '') {
+									document.getElementById('word1').innerHTML = "获取数据失败";
+								} else {
+									document.getElementById('word1').innerHTML = queryResultMsg;
+								}
+
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							wait.close();
+							document.querySelector('#not_message').style.display = 'none';
+							document.querySelector('.addressItem').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'block';
+						}
+					})
+
+				} else {
+					mui.toast("网络异常");
+				}
+			}
+
+			function productlistSuccess(datalist) {
+				//				var i = 0;
+				mui.each(datalist, function(index, items) {
+					var s = items.morenzhuangtai == 1 ? "默认地址" : "";
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.id = index;
+					li.innerHTML = '<div>\
+						<label id="name" style="padding-right: 100px;">' + items.shouhuoren_name + '</label>\
+						<label id="tel">' + items.shouhuoren_tel + '</label>\
+					</div>\
+					<div>\
+						<label id="xiaoqu">' + items.shouhuoren_address + '</label>\
+					</div>';
+					addressList.appendChild(li);
+				});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+
+	</head>
+	<body>
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 800px
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">我的托管</h1>
+			<a href="new_tuoguan.html" class="mui-icon mui-icon-plus mui-pull-right" style="color: white;">
+				<!--<img class="imgsize_title mui-pull-right imgsize_title"  src="../images/actionbar_icon_add.png">-->
+				
+			</a>
+		    
+		</header>
+		<div class="mui-content">
+			<div id="nodate" style="text-align: center;padding-top: 0px;visibility: hidden;">
+			</div>
+			<div id="list" class="mui-scroll">
+				<!--数据列表-->
+				<ul id="tuoguan_list" class="mui-table-view">
+				
+				</ul>
+			</div>
+		</div>		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+				
+				plus.screen.lockOrientation("portrait-primary");
+				var userinfo=eval(app.getDatas(PREFERENCE_USER));
+				var userid = userinfo.id;
+				var xiaoqu = userinfo.xiaoqu;
+				Load_tuoguan();
+				
+				function addli(ab)
+			    {
+			        var ul=document.getElementById("hudong_list");             
+			        var obj=document.createElement("li");         
+			        obj.innerHTML=ab;           
+			        ul.appendChild(obj);                
+			    }
+			    function showNodate(){
+			    	doc.getElementById("nodate").style.visibility="visible";
+			    	doc.getElementById("nodate").innerHTML="暂无托管";
+			    	doc.getElementById("list").style.visibility="hidden";
+			    }
+			    function showTuoguanList(obj){
+			    	doc.getElementById("nodate").style.visibility="hidden";
+			    	doc.getElementById("list").style.visibility="visible";
+			    	for (var i = 0; i < obj.tuoguan.length; i++) {
+
+//			    		var item=obj.tuoguan[i];
+//						var ul=document.getElementById("tuoguan_list"); 
+//						var li = document.createElement('li');
+//						li.classList.add('mui-table-view-cell');
+//						li.classList.add('mui-media');
+//						li.setAttribute('id',item.id);				
+//						var a=document.createElement('a');
+//						a.setAttribute('href','javascript:;');
+//						var img=document.createElement('img');
+//						img.classList.add('mui-media-object');
+//						img.classList.add('mui-pull-left');
+//						img.setAttribute('src',"../../images/ic_data_empty.png");	
+//						var div=document.createElement('div');
+//						div.classList.add('mui-media-body');
+//						div.innerHTML=item.address;
+//						var p1=document.createElement('p');
+//						p1.classList.add('mui-ellipsis');
+//						p1.innerHTML=item.area+'平'+ item.shi+'室'+item.ting+'厅'+item.chu+'厨'+item.wei+'卫';
+//						var p2=document.createElement('p');
+//						p2.classList.add('mui-ellipsis');
+//						p2.innerHTML=item.houseInfo;
+//						var p3=document.createElement('p');
+//						p3.classList.add('mui-ellipsis');
+//						p3.innerHTML=item.cdate.substring(0,10);
+//						var p4=document.createElement('p');
+//						p4.classList.add('mui-ellipsis');
+//						p4.innerHTML=item.fee+'/'+item.unit;
+//						div.appendChild(p1);
+//						div.appendChild(p2);
+//						div.appendChild(p3);
+//						div.appendChild(p4);
+//						a.appendChild(img);
+//						a.appendChild(div);
+//						li.appendChild(a);
+//						ul.appendChild(li);
+						
+						var item=obj.tuoguan[i];
+						var ul=document.getElementById("tuoguan_list"); 
+						var li = document.createElement('li');
+						li.classList.add('mui-table-view-cell');
+						li.setAttribute('id',item.id);				
+						var a=document.createElement('a');
+						a.setAttribute('href','javascript:;');
+						var img=document.createElement('img');
+						//img.classList.add('mui-media-object');
+						img.classList.add('mui-pull-left');
+						img.style.width = "90px";
+						img.style.height = "90px";
+						img.style.marginRight = "15px";
+						
+						if(item.pic==null||item.pic==''||item.pic=="undefined"){
+							img.setAttribute('src',"../../images/ic_data_empty.png");
+						}
+						else{
+							var picstr = item.pic[0];
+							var ss = [];
+							ss = picstr.split("/");
+							picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+							img.setAttribute('src',BASE_URL + picstr);	
+						}
+
+						var div=document.createElement('div');
+						div.classList.add('mui-media-body');
+						div.innerHTML=item.address;
+						var span=document.createElement('span');
+						span.classList.add('mui-pull-right');
+						span.innerHTML=item.cdate.substring(0,10)+'<br />'+item.fee+'/'+item.unit;
+						span.setAttribute('style','font-size: 0.8em;color: gray;padding-top: 20px;');
+						var p=document.createElement('p');
+						p.classList.add('mui-ellipsis');
+						p.innerHTML=item.area+'平'+ item.shi+'室'+item.ting+'厅'+item.chu+'厨'+item.wei+'卫'+'<br />'+item.houseInfo;
+						p.setAttribute('style','width: 70%;padding-top: 2px;');
+						div.appendChild(span);
+						div.appendChild(p);
+						a.appendChild(img);
+						a.appendChild(div);
+						li.appendChild(a);
+						ul.appendChild(li);
+			    	}
+			    }
+				function Load_tuoguan(){
+					console.log("正在加载..."+Query_Fangwutuoguan_URL);
+					var w=plus.nativeUI.showWaiting("正在加载...");
+					mui.ajax(Query_Fangwutuoguan_URL,{
+						data:{
+							xiaoqu: xiaoqu,
+							myId: userid
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+//							headers:{'Content-Type':'application/json'},
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+							console.log(infor);
+							if (obj.success==1) {
+//								mui.toast("加载成功");
+								if(obj.tuoguan==""){
+									showNodate();
+								}else{
+									app.setDatas("tuoguan_list_my",data);
+									showTuoguanList(obj);
+								}	
+							}							
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//mui.toast("error type:"+type);
+							console.log("error type:"+type);
+							console.log(xhr.status);
+							console.log(xhr.readyState);
+							console.log(xhr.response);
+							mui.toast(xhr.response);
+							
+						}
+						
+					});
+				}
+			
+				var addlistener=function () {
+					mui("#tuoguan_list").on('tap', '.mui-table-view-cell', function() {
+						var tuoguan_id = this.getAttribute("id");
+						console.log('托管id：'+tuoguan_id);
+						mui.openWindow({
+							url: 'detail_tuoguan_mine.html',
+							id: 'detail_tuoguan_mine.html',
+//							preload: true,
+							show: {
+								aniShow: 'slide-in-right',
+								duration:200
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								tuoguan_id:tuoguan_id
+							}
+						});
+						
+					});
+				}
+				if (mui.os.plus) {
+					mui.plusReady(function() {
+						setTimeout(function() {
+							//mui('#pullrefresh').pullRefresh().pullupLoading();
+						}, 1000);
+//					initNotice();
+					addlistener();
+					});
+				} else {
+					mui.ready(function() {
+//						mui('#pullrefresh').pullRefresh().pullupLoading();
+						console.log('mui Ready');
+	//					getNotice(xiaoqu,'');
+					});
+				}
+			});
+
+		}(mui, document));
+	</script>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" />
+	</head>
+	<style type="text/css">
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.bottom-bar {
+			position: fixed;
+			/*width: 100%;*/
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: #808080;
+			height: 44px;
+			line-height: 44px;
+			/*padding: 0px 140px 0px 15px;*/
+			color: #fff;
+			font-size: 16px;
+		}
+		
+		.bottom-bar-bottom {
+			width: 100%;
+			background: orange;
+			float: left;
+			text-align: center;
+			font-size: 16px;
+		}
+		
+		.leftView {
+			width: 60%;
+			float: left;
+			color: #5C5C5C;
+			vertical-align: middle;
+		}
+		
+		.rightView {
+			width: 40%;
+			float: left;
+			color: #5C5C5C;
+			text-align: center;
+		}
+		
+		.address {
+			width: 100%;
+			float: left;
+			display: table-cell;
+			vertical-align: middle;
+			color: #5C5C5C;
+			word-wrap: break-word;
+		}
+		
+		.topView {
+			/*height: 40px;*/
+			padding-left: 2%;
+			line-height: 1.2em;
+			height: 50%;
+		}
+		
+		.middleView {
+			/*height: 40px;*/
+			padding-left: 2%;
+			line-height: 1.2em;
+			height: 50%;
+		}
+		
+		.bottomView {
+			height: 50%;
+			padding-left: 2%;
+			line-height: 1.2em;
+		}
+		
+		.leftColumn {
+			padding-left: 2%;
+			padding-top: 1%;
+			width: 50%;
+			color: #5C5C5C;
+			float: left;
+			display: table-cell;
+		}
+		
+		.centerColumn {
+			width: 25%;
+			padding-top: 1%;
+			color: #5C5C5C;
+			float: left;
+			height: 30px;
+			text-align: center;
+		}
+		
+		.rightColumn {
+			padding-top: 1%;
+			width: 25%;
+			color: #5C5C5C;
+			float: left;
+			text-align: center;
+		}
+		
+		.checkbox {
+			height: 15px;
+			width: 15px;
+			vertical-align: middle;
+			/*margin: auto 0;*/
+		}
+		
+		.mui-table-view-cell .mui-media .mui-table-view {
+			height: auto;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.table-line:before {
+			height: 0px;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">幸运抽奖</h1>
+		</header>
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>
+		<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word1" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+		<div class="mui-content">
+			<div class="addressItem" style="display: none;">
+				<ul class="mui-table-view" style="height: 100px;">
+					<li id="topItem" class="mui-table-view-cell mui-media" style="padding: 0px;height: 100%;">
+						<div class="topView" style="height: 50%;">
+							<p class="leftView">测试开发区天地一品</p>
+							<p class="rightView">17862823879</p>
+						</div>
+						<div class="bottomView" style="height: 30%;">
+							<p class="leftView">测试开发区111天地一品</p>
+							<p class="rightView">11111</p>
+						</div>
+						<div class="bottomView" style="height: 50%;">
+							<p class="leftView">测试开发区111天地一品</p>
+							<p class="rightView">11111</p>
+						</div>
+
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" style="padding:0px;">
+						<div class="leftColumn">
+							<input id="checkbox" class="checkbox" type="checkbox" style="margin-left: 10px;"/>
+							<span>设为默认房产</span>
+						</div>
+						<div class="centerColumn">
+							<span class="mui-icon mui-icon mui-icon-trash"></span>
+							<span>编辑</span>
+						</div>
+						<div class="rightColumn">
+							<span class="mui-icon mui-icon-personadd"></span>
+							<span>邀请</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="bottom-bar">
+			<label id="add_address" class="bottom-bar-bottom">绑定房产</label>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var dataList = null;
+			var housePara = "";
+			var housenoStr = "";
+			
+			mui.plusReady(function() {
+
+				load_listview();
+				
+				document.querySelector('.notInfo_error button').addEventListener('tap', function() {
+					load_listview();
+				});
+				
+			});
+
+			document.querySelector('#add_address').addEventListener('tap', function() {
+				
+				var public_obj= eval(app.getDatas(PUBLIC_USER));
+				
+				if(public_obj.xiaoqu_prefix==""||public_obj.xiaoqu_prefix==null||public_obj.xiaoqu_prefix=="undefined"){
+					mui.openWindow({
+						url: '../bindUserInfo_sc.html',
+						id: 'bindUserInfo_sc.html',
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+				else{
+					mui.openWindow({
+						url: "addnewhouse_xiaoqu.html",
+						id: "addnewhouse_xiaoqu.html",
+						show: {
+							aniShow: "slide-in-right ",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+						}
+					});
+				}
+			});
+			
+			function load_listview() {
+				
+				if(chkNetStatus() == "OK"){
+					load_query();
+				}
+				else {
+					showNeterrorView();
+				}
+			}
+
+			function showNeterrorView(){
+				document.querySelector('#not_message').style.display = 'none';
+				document.querySelector('.addressItem').style.display = 'none';
+				document.querySelector('#net_error').style.display = 'block';
+			}
+			
+			function load_query() {
+
+				var public_obj= eval(app.getDatas(PUBLIC_USER));
+				var wait = plus.nativeUI.showWaiting("正在加载，请稍后...");
+				console.log("----public_obj.uid------"+public_obj.uid);
+				console.log("-----------wuye.house_no--------="+eval(app.getDatas(PREFERENCE_USER)).house_no);
+				mui.ajax(QUERY_ALL_HOUSE, {
+					data: {
+						uid: public_obj.uid
+					},
+					async: false,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 15000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log("----wodefangchan-------house====" + info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+
+							if(obj.fangchan==""){
+								document.querySelector('.addressItem').style.display = 'none';
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'block';
+								document.getElementById('word1').innerHTML = "暂未绑定房产，无法抽奖";
+							}
+							else{
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'none';
+								document.querySelector('.addressItem').style.display = 'block';
+								app.setDatas("fangchan_list", data);
+								dataList = null;
+								dataList = [];
+								for(var i = 0; i < obj.fangchan.length; i++) {
+									item = {};
+									item.house_name = obj.fangchan[i].village_name;
+									item.house_prefix = obj.fangchan[i].prefix;
+									item.house_no = obj.fangchan[i].house_no;
+									item.house_address = obj.fangchan[i].address;
+									item.accounttype = obj.fangchan[i].accounttype;
+									dataList.push(item);
+								}
+								console.log("house=" + JSON.stringify(dataList));
+								refreshListview(dataList);
+							}
+						} 
+						else {
+							document.querySelector('.addressItem').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'block';
+							if(obj.errorMsg == '') {
+								document.getElementById('word1').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word1').innerHTML = "网络异常，请稍候重试";
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						showNeterrorView();
+					}
+				});
+			}
+
+			function refreshListview(dataList) {
+
+				var loginDiv = document.querySelector('.addressItem');
+				document.getElementById('addressItem');
+				loginDiv.innerHTML = ' ';
+				var html = '';
+				mui.each(dataList, function(index, item) {
+					var listDiv = '';
+					listDiv += '<div>\
+						<ul class="mui-table-view table-line" style="padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px">\
+							<li id="topItem_' + index + '" class="mui-table-view-cell mui-media" style="padding: 0px;height:100%">\
+								<div class="topView" >\
+									<p class="leftView">' + item.house_name + '</p>\
+									<p class="rightView">'+ "房产编号：" + item.house_no + '</p>\
+								</div>\
+								<div class="bottomView">\
+									<p class="leftView">' + item.house_address + '</p>\
+									<p id=' + index + ' style="color:red" class="rightView" onclick="choujiangButton(this)">业主抽奖</p>\
+								</div>\
+							</li>\
+						</ul>\
+						<ul class="mui-table-view" style="margin-bottom:7px;padding-left:10px">\
+							<li class="mui-table-view-cell mui-media" style="padding:0px;">\
+							</li>\
+						</ul>\
+					</div>'
+
+					html += listDiv;
+				});
+				//console.log(html);
+				loginDiv.innerHTML = html;
+				var public_obj= eval(app.getDatas(PUBLIC_USER));
+//				for(var i = 0; i < dataList.length; i++) {
+//					if(dataList[i].house_no == public_obj.house_no&&dataList[i].house_prefix == public_obj.xiaoqu_prefix) {
+//						document.getElementById(i).checked = true;
+//						document.getElementById(i).disabled="disabled";
+//						document.getElementById('text' + i).innerHTML="默认房产";
+//						document.getElementById('text' + i).style.color = "red";
+//					}
+//					else{
+//						document.getElementById(i).checked = false;
+//						document.getElementById(i).disabled="";
+//						document.getElementById('text' + i).innerHTML="设为默认";
+//					}
+//				}
+			}
+
+			function choujiangButton(event) {
+				
+				var index = event.id;
+				
+				if(dataList[index].accounttype != "1"){
+					
+					mui.alert("仅业主身份可参加抽奖，谢谢合作！");
+				}
+				else{
+
+					var public_obj= eval(app.getDatas(PUBLIC_USER));
+					
+					mui.openWindow({
+						url: "choujiang.html",
+						id: "choujiang.html",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right ",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+							"village_name":dataList[index].house_name,
+							"xiaoqu":dataList[index].house_prefix,
+							"house_no":dataList[index].house_no,
+							"address":dataList[index].house_address
+						}
+					});
+				}
+			}
+			
+			window.addEventListener('refresh', function() {
+				console.log("trigger!!!!")
+				load_listview();
+			});
+		</script>
+	</body>
+
+</html>

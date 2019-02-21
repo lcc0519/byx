@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css">
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 0px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+				font-size: 14px;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content mui-scroll-wrapper">
+			<div id="autolog" style="width:100%;height:100%;display:block;background-image: url(images/login_background.png);background-size: cover;"></div>
+			<div id="content" class="mui-scroll-wrapper" style=" height:100%;background-color: white; background-size: cover;display: none;visibility: hidden;">
+				<div id="aaa" class="mui-scroll" style="text-align: start;margin-bottom: 20%;margin-top: 20%;">
+					<div style="text-align: center;">
+						<img id="login_bk" src="images/byx_login_userlogo.png" style="width:96%;"/>
+					</div>
+					<form id='login-form' class="mui-input-group" style="margin: 10px;">
+						<div class="mui-input-row">
+							<label>手机</label>
+							<input id='account' type="number" maxlength="11" class="mui-input-clear mui-input" onkeyup="onlyNum(this,11)" placeholder="请输入手机号" style="display: inline;vertical-align: middle;" />
+						</div>
+						<div class="mui-input-row">
+							<label>密码</label>
+							<input id='password' type="password" class="mui-input-password" placeholder="请输入密码" />
+						</div>
+					</form>
+					<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+						<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+							<button id='login' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即登录</button>
+						</div>
+						<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+							<button id='guest' class="mui-btn mui-btn-warning" style="width: 100%;border: 0.5px solid #f0ad4e;color: white;">暂不登录，随便看看</button>
+						</div>
+						<div class="link-area"><a id='loginreg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/bmqtt.js" type="text/javascript"></script>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var myTopic = [];
+			var main_loaded_flag;
+			var mainPage;
+			var reconnectTimeout = 2000;
+			var user_obj;
+			var netID;
+			var client;
+			var regphone = /^1[0-9]{10}/;
+			var receive_msg;
+			var topic_msg;
+			var selfwebview;
+			var loginButton = document.getElementById('login');
+			var accountBox = document.getElementById('account');
+			var passwordBox = document.getElementById('password');
+			var regButton = document.getElementById('loginreg');
+			var forgetButton = document.getElementById('forgetPassword');
+					
+			jQuery.noConflict();
+			mui(".mui-scroll-wrapper").scroll({
+				deceleration: 0.0005
+			});
+
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+				});
+
+				$.plusReady(function() {
+					initPlusready();
+				});
+				
+				function initPlusready(){
+					selfwebview = plus.webview.currentWebview();
+					plus.screen.lockOrientation("portrait-primary");
+					//获取屏幕分辩率
+					console.log("Height: "+plus.screen.resolutionHeight+" Width: "+plus.screen.resolutionWidth);
+					var height=plus.screen.resolutionHeight/5;
+					jQuery(document).ready(function () {
+						jQuery('#login_bk').height(height);	
+					});
+					//读取本地存储，检查是否为首次启动
+					var showGuide = plus.storage.getItem("lauchFlag");
+					//console.log('showguide:'+showGuide);
+					if(showGuide) {
+						//有值，说明已经显示过了，无需显示；
+						//关闭splash页面；
+						plus.navigator.closeSplashscreen();
+						plus.navigator.setFullscreen(false);
+						//预加载
+						preload();
+					} else {
+						//显示启动导航
+						mui.openWindow({
+							id: 'guide.html',
+							url: 'guide.html',
+							styles: {
+								popGesture: "none"
+							},
+							show: {
+								aniShow: 'none'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+						//延迟的原因：优先打开启动导航页面，避免资源争夺
+						setTimeout(function() {
+							//预加载
+							preload();
+						}, 500);
+					}
+
+					var settings = app.getSettings();
+					var state = app.getState();
+
+					user_obj = eval(app.getDatas(PUBLIC_USER));
+					var account = user_obj.account;
+					var pwd = user_obj.password;
+					console.log("login:account" + account + "password:" + pwd + "autoLog:" + settings.autoLogin + "showGuide：" + showGuide);
+					if(settings.autoLogin && account != null && pwd != null && showGuide == true) {
+						console.log("自动登录");
+						document.getElementById('autolog').style.display = "block";
+						document.getElementById('content').style.display = "none";
+						document.getElementById('autolog').style.visibility = "visible";
+						document.getElementById('content').style.visibility = "hidden";
+						console.log(document.getElementById('content').style.display);
+						setTimeout(function() {
+							Login(account, pwd);
+						}, 2000);
+					} 
+					else {
+						document.getElementById('autolog').style.display = "none";
+						document.getElementById('content').style.display = "block";
+						document.getElementById('autolog').style.visibility = "hidden";
+						document.getElementById('content').style.visibility = "visible";
+					}
+
+					mui.enterfocus('#login-form input', function() {
+						mui.trigger(loginButton, 'tap');
+					});
+
+					settings.autoLogin = true; //初次获取autologin状态//verify on 20170804
+					app.setSettings(settings);
+					console.log("login初始状态：" + settings.autoLogin);
+					if(!settings.autoLogin) {
+						console.log("settings.autoLogin:" + settings.autoLogin);
+						document.getElementById('content').style.display = "block";
+						document.getElementById('autolog').style.display = "none";
+						document.getElementById('content').style.visibility = "visible";
+						document.getElementById('autolog').style.visibility = "hidden";
+					} else {
+						console.log("autolog user_obj:" + JSON.stringify(user_obj));
+						if(user_obj != "undefined") {
+							if(user_obj.account != null && user_obj.password != null && showGuide) {
+								console.log("----autoLogin");
+								document.getElementById('content').style.display = "none";
+								document.getElementById('autolog').style.display = "block";
+								document.getElementById('content').style.visibility = "hidden";
+								document.getElementById('autolog').style.visibility = "visible";
+
+								setTimeout(function() {
+									Login(user_obj.account, user_obj.password);
+								}, 2000);
+							} else {
+								console.log("----no autoLogin");
+								document.getElementById('content').style.display = "block";
+								document.getElementById('autolog').style.display = "none";
+								document.getElementById('content').style.visibility = "visible";
+								document.getElementById('autolog').style.visibility = "hidden";
+							}
+						} else {
+							console.log("----no autoLogin");
+							document.getElementById('content').style.display = "block";
+							document.getElementById('autolog').style.display = "none";
+							document.getElementById('content').style.visibility = "visible";
+							document.getElementById('autolog').style.visibility = "hidden";
+						}
+					}
+
+					var backButtonPress = 0;
+					mui.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出百益社区');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+					
+					document.getElementById("account").autofocus = "autofocus";
+				}
+				
+				// 监听plusready事件    
+				document.addEventListener( "plusready", function(){  
+					console.log("----plusready-----------addEventListener-------------");
+					plus.push.addEventListener( "click", function ( msg ) {  
+						// 分析msg.payload处理业务逻辑  
+						console.log( "You clicked--receive_msg---=" + receive_msg ); 
+						console.log( "You clicked--topic_msg-----=" + topic_msg );
+						
+						if(topic_msg == myTopic[0]){
+							console.log("---------topic == myTopic[0]--------");
+							return;
+						}
+						else if(topic_msg == myTopic[1]){
+							console.log("---------topic == myTopic[1]--------");
+							
+							var wuyefeipage = plus.webview.getWebviewById("wuyefei.html");
+							if(wuyefeipage!="undefined"&&wuyefeipage!=null){
+								console.log("-----wuyefeipage!=undefine&&wuyefeipage!=null-----");
+								mui.fire(wuyefeipage, 'refreshmqtt');
+							}
+							else{
+								mui.openWindow({
+									url: 'wuye/jiaofei/wuyefei.html',
+									id: 'wuyefei.html',
+									preload: false,
+									show: {
+										aniShow: 'slide-in-right',
+										duration:300
+									},
+									styles: {
+										popGesture: 'hide'
+									},
+									waiting: {
+										autoShow: false
+									}
+								});	
+							}	
+							return;
+						}
+						else if(topic_msg == myTopic[2]||topic_msg == myTopic[3]){
+							console.log("---------topic == myTopic[2]------ myTopic[3]-----");
+							var ssArray = receive_msg.split("_");
+							console.log("----------ssArray[0]------="+ssArray[0]);
+							if(ssArray.length>1){
+								console.log("----------ssArray[1]------="+ssArray[1]);
+								
+								var login_obj = eval(app.getDatas(PUBLIC_USER));
+								if(login_obj!=""&&login_obj!="undefined"&&login_obj!=null){
+									var noticeid = ssArray[1];
+									
+									mui.ajax(Query_Tongzhigonggao_All_URL_SC, {
+										data:{
+										xiaoqu:login_obj.xiaoqu_prefix,
+										tel:login_obj.tel
+										},
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型
+										timeout: 10000, //超时时间设置为10秒；
+										success: function(data) {
+											infor = JSON.stringify(data);
+											var obj = eval(data);
+											console.log("=============="+infor);
+											if(obj.success == 1) {
+												app.setDatas('Notice_list',data);
+												
+					    						var tabmainpage = plus.webview.getWebviewById('../tab-main.html');
+												mui.fire(tabmainpage, 'refreshmqtt');
+
+												var detailpage = plus.webview.getWebviewById("detail_notice.html");
+												if(detailpage!="undefined"&&detailpage!=null){
+													console.log("-----detailpage!=undefine&&detailpage!=null-----");
+													mui.fire(detailpage, 'refreshmqtt', {
+									                    idd: noticeid
+									                });
+												}
+												else{
+													mui.openWindow({
+														url: 'wuye/tongzhi/detail_notice.html',
+														id: 'detail_notice.html',
+														preload: false,
+														show: {
+															aniShow: 'pop-in'
+														},
+														styles: {
+															popGesture: 'hide'
+														},
+														waiting: {
+															autoShow: false
+														},
+														extras:{
+															Notice_id:noticeid
+														}
+													});	
+												}
+											} 
+										},
+										error: function(xhr, type, errorThrown) {
+											console.log("======网络异常========");
+										}
+									});
+								}
+							}	
+							return;
+						}
+						else if(topic_msg == myTopic[4]){
+							console.log("---------topic == myTopic[4]--------");
+							return;
+						}
+						else if(topic_msg == myTopic[5]){
+							console.log("---------topic == myTopic[5]--------");
+							var ssArray = receive_msg.split("_");
+							console.log("----------ssArray[0]------="+ssArray[0]);
+							if(ssArray.length>1){
+								console.log("----------ssArray[1]------="+ssArray[1]);
+								
+								var login_obj = eval(app.getDatas(PUBLIC_USER));
+								if(login_obj!=""&&login_obj!="undefined"&&login_obj!=null){
+									var hudongid = ssArray[1];
+									
+									mui.ajax(Query_Tousujianyi_URL_SC, {
+										data:{
+											xiaoqu:login_obj.xiaoqu_prefix,
+											tel:login_obj.tel,
+											type:"public"
+										},
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型
+										timeout: 10000, //超时时间设置为10秒；
+										success: function(data) {
+											infor = JSON.stringify(data);
+											var obj = eval(data);
+											console.log("=============="+infor);
+											if(obj.success == 1) {
+												app.setDatas('Hudong_list',data);
+												
+					    						var hudongpage = plus.webview.getWebviewById('wuye/tousujianyi/tousujianyi_main.html');
+												if(hudongpage!="undefined"&&hudongpage!=null){
+													mui.fire(hudongpage, 'refreshmqtt');
+												}
+												else{
+													console.log("-----hudongpage=undefine-----");
+												}
+												
+												var detailpage = plus.webview.getWebviewById("detail_hudong.html");
+												console.log("-----detailpage--------="+detailpage);
+												if(detailpage!="undefined"&&detailpage!=null){
+													console.log("-----detailpage!=undefine&&detailpage!=null-----");
+													mui.fire(detailpage, 'refreshmqtt', {
+									                    idd: hudongid
+									                });
+												}
+												else{
+													console.log("-----detailpage==undefine||detailpage==null-----");
+													mui.openWindow({
+														url: 'wuye/tousujianyi/detail_hudong.html',
+														id: 'detail_hudong.html',
+														preload: false,
+														show: {
+															aniShow: 'pop-in'
+														},
+														styles: {
+															popGesture: 'hide'
+														},
+														waiting: {
+															autoShow: false
+														},
+														extras:{
+															Hudong_id:hudongid
+														}
+													});	
+												}
+											} 
+										},
+										error: function(xhr, type, errorThrown) {
+											console.log("======网络异常========");
+										}
+									});
+								}
+							}	
+							return;
+						}
+						else{
+							console.log("---------topic == myTopic[]-----------");
+							return;
+						}
+					}, false );  
+				}, false );
+				
+				window.addEventListener('reload', function() {
+					console.log("======addEventListener===reload============");
+					initPlusready();
+				});
+				
+				function MQTTconnect() {
+					console.log("start connect...");
+		
+					var userinfo = eval(app.getDatas(PUBLIC_USER));
+					
+					myTopic = [];
+					myTopic[0] = userinfo.uid + "_fahuo";
+					myTopic[1] = userinfo.xiaoqu_prefix + "_wuyefei_" + userinfo.account;
+					myTopic[2] = userinfo.xiaoqu_prefix + "_gonggao";
+					myTopic[3] = userinfo.xiaoqu_prefix + "_gonggao_" + userinfo.account;
+					myTopic[4] = userinfo.xiaoqu_prefix + "_fangke_" + userinfo.account;
+					myTopic[5] = userinfo.xiaoqu_prefix + "_hudong_" + userinfo.account;
+						
+					console.log("111myTopic[0]:"+myTopic[0]);
+					console.log("111myTopic[1]:"+myTopic[1]);
+					console.log("111myTopic[2]:"+myTopic[2]);
+					console.log("111myTopic[3]:"+myTopic[3]);
+					console.log("111myTopic[4]:"+myTopic[4]);
+					console.log("111myTopic[5]:"+myTopic[5]);
+					
+					client = mqtt.connect('ws://120.192.167.83:3000');
+					client.on('connect', function() {
+						console.log("connect success!!!!" + myTopic)
+						//var myTopic = '000010020_xiazai';
+						client.subscribe(myTopic);
+					});
+					
+					client.on('message', function(topic, message) {
+						console.log("topic:" + topic);
+						console.log(message.toString());
+						
+						receive_msg = message.toString();
+						var ss = receive_msg.split("_");
+						console.log("----------ss[0]------="+ss[0]);
+						if(ss.length>1){
+							console.log("----------ss[1]------="+ss[1]);
+						}
+						topic_msg = topic;
+						createLocalPushMsg(ss[0]);
+					});
+				}
+		
+				function createLocalPushMsg(message) {
+					var dates = new Date();
+					var str = dateToStr(new Date()).substring(2);
+					var options = {
+						title: '百益社区',
+						cover: false,
+						when: dates
+					};
+					if(mui.os.android){
+						plus.push.createMessage(message, "LocalMSG", options);
+						console.log("创建本地消息成功！请到系统消息中心查看！");
+					}
+						
+					if(plus.os.name == "iOS") {
+						console.log('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
+					}
+				}
+				
+				function preload() {
+					mainPage = mui.preload({
+						"id": './Shoppingmall/shop-main.html',
+						"url": './Shoppingmall/shop-main.html'
+					});
+					main_loaded_flag = true;
+				}
+				
+				var toMain = function() {
+					//使用定时器的原因：
+					//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
+					console.log("toMain works start");
+					var id = setInterval(function() {
+						console.log("main_loaded_flag before:" + main_loaded_flag);
+						if(main_loaded_flag) {
+							console.log("main_loaded_flag:" + main_loaded_flag);
+							clearInterval(id);
+							mui.fire(mainPage, 'gohome', null);
+							mainPage.show("slide-in-right", 300);
+						}
+					}, 1000);
+					console.log("toMain works end");
+				};
+				
+				regButton.addEventListener('tap', function(event) {
+					mui.openWindow({
+						url: 'register_sc.html',
+						id: 'register_sc.html',
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+
+				}, false);
+					
+				forgetButton.addEventListener('tap', function(event) {
+					console.log("点击忘记密码")
+					mui.openWindow({
+						url: 'forget_password_sc.html',
+						id: 'forget_password_sc.html',
+						preload: true,
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}, false);
+				
+				document.getElementById('guest').addEventListener('tap', function() {
+					Login("guest", "123456");
+				});
+				
+				function Login(account, pwd) {
+					console.log("正在登录...");
+					console.log("账号：" + account + "密码：" + pwd);						
+					if(account == "" || pwd == "") {
+						mui.toast("信息填写不全，请检查");
+					}
+					else{						
+						if(chkstr(account) && chkpwd(pwd)) {
+							if(chkNetStatus() == "OK") {										
+								var w = plus.nativeUI.showWaiting("正在登录...");
+								mui.ajax(LOGIN_URL_SC, {
+									data: JSON.stringify({
+										user: account,
+										pwd: pwd
+									}),
+									dataType: 'json', //服务器返回json格式数据
+									type: 'post', //HTTP请求类型
+									timeout: 10000, //超时时间设置为10秒；
+									success: function(data) {
+										w.close();
+										var infor = JSON.stringify(data);
+										var obj = eval(data);
+										console.log("loginsuccess+info:" + infor);
+										if(obj.success == 1) {
+											console.log("login success");
+											app.setDatas(PUBLIC_USER, data);
+											MQTTconnect(); 
+											var data1 = app.getDatas(PUBLIC_USER);
+											data1.password = pwd;
+											app.setDatas(PUBLIC_USER, data1); //增加密码
+											
+											var userobj = eval(app.getDatas(PUBLIC_USER));
+											console.log("-----PUBLIC_USER----------="+JSON.stringify(userobj));
+											var shopinfoobj = {};
+											shopinfoobj["zhanghao"] = userobj.account;
+											shopinfoobj["mima"] = "";
+											shopinfoobj["id"] = userobj.public_userid;
+											shopinfoobj["dizhi"] = "";
+											shopinfoobj["dianhua"] = userobj.tel;
+											shopinfoobj["xingming"] = userobj.real_name;
+											shopinfoobj["type"] = "wuye";	
+											shopinfoobj["xiaoqu"] = "public";
+											app.setDatas(SHOPACCOUNT,shopinfoobj);
+											console.log("-----SHOPACCOUNT----------="+JSON.stringify(app.getDatas(SHOPACCOUNT)));
+											
+											var shoppingmall = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+											mui.fire(shoppingmall, 'switch');
+			
+											toMain();
+//											setTimeout(function() {
+//												//selfwebview.close();
+//											}, 1000);
+										} else {
+											document.getElementById('content').style.display = "block";
+											document.getElementById('autolog').style.display = "none";
+											document.getElementById('content').style.visibility = "visible";
+											document.getElementById('autolog').style.visibility = "hidden";
+											mui.toast(obj.errorMsg);
+										}
+									},
+									error: function(xhr, type, errorThrown) {
+										w.close();
+										document.getElementById('content').style.display = "block";
+										document.getElementById('autolog').style.display = "none";
+										document.getElementById('content').style.visibility = "visible";
+										document.getElementById('autolog').style.visibility = "hidden";
+										mui.toast("登录异常，请稍候再试");
+										console.log("error type:" + type);
+										console.log(xhr.status);
+										console.log(xhr.readyState);
+										console.log(xhr.response);
+									}
+								});
+							}
+							else{
+								mui.toast("网络异常");
+							}
+						}
+						else{
+							mui.toast("账户或密码中包含不被允许的特殊字符，请检查后重新输入");
+						}
+					}
+				}
+
+				function getcurrentWebviews() {
+					var currWebviews = plus.webview.all();
+					var webviewFlag = 0;
+					if(currWebviews) {
+						for(var i = 0; i < currWebviews.length; i++) {
+							var arrwebview = currWebviews[i].getURL()
+							console.log("加载的页面:" + arrwebview);
+							if(webviewloaded(arrwebview, 'tab-main.html')) {
+								webviewFlag++;
+							} else if(webviewloaded(arrwebview, 'tab-setting.html')) {
+								webviewFlag++;
+							} else if(webviewloaded(arrwebview, 'shop/tab-yizhan-main.html')) {
+								webviewFlag++;
+							} else if(webviewloaded(arrwebview, 'minsheng/minsheng.html')) {
+								webviewFlag++;
+							} else if(webviewloaded(arrwebview, 'jiankang/jiankang.html')) {
+								webviewFlag++;
+							}
+						}
+						}
+					return webviewFlag;
+				}
+
+				function webviewloaded(arrwebview, srcwebview) {
+					if(arrwebview.indexOf(srcwebview) > 0) {
+						return true;
+					} else{
+						return false;
+					}	
+				}
+				
+				loginButton.addEventListener('tap', function(event) {
+
+					Login(accountBox.value.trim(), passwordBox.value);
+				});
+				
+				window.addEventListener('closeMqtt', function() {
+					console.log("close MQTT")
+					client.end();
+				});
+				
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

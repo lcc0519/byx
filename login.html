@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css">
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 30%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 0px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+				font-size: 14px;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 0px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+				border-radius: 25px;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+		</style>
+	</head>
+
+	<body>
+	<div class="mui-content mui-scroll-wrapper">
+			<div id="autolog" style="width:100%;height:100%;display:block;background-image: url(images/login_background.png);background-size: cover;"></div>
+			<div id="content" class="mui-scroll-wrapper" style=" height:100%;background-color: white; background-size: cover;display: none;visibility: hidden;">
+				<div id="aaa" class="mui-scroll" style="text-align: start;margin-bottom: 20%;margin-top: 15%;">
+					<div style="text-align: center;">
+						<img id="login_bk" src="images/byx_login_userlogo.png" style="width:96%;"/>
+					</div>
+					<form id='login-form' class="mui-input-group" style="margin: 10px;">
+						<div class="mui-input-row">
+							<label>账户</label>
+							<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账户" style="display: inline;vertical-align: middle;" />
+						</div>
+						<div class="mui-input-row">
+							<label>密码</label>
+							<input id='password' type="password" class="mui-input-password" placeholder="请输入密码" />
+						</div>
+						<div class="mui-input-row">
+							<label>小区</label>					
+							<select id="xiaoqulist" >
+								<option value="choose" disabled="disabled" >请选择小区</option>					
+							</select>																	
+						</div>
+					</form>
+					<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+						<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+							<button id='login' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即登录</button>
+						</div>
+						<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+							<button id='guest' class="mui-btn mui-btn-warning" style="width: 100%;border: 0.5px solid #f0ad4e;color: white;">暂不登录，随便看看</button>
+						</div>
+						
+						<div class="link-area"><a id='loginreg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+						</div>
+						<!--<div class="mui-col-sm-6 mui-col-xs-6">
+							<a id='loginreg' class="mui-pull-left" style="font-size: 0.8em;color: blue;">新用户注册</a>					
+						</div>
+						<div class="mui-col-sm-6 mui-col-xs-6">
+							<a id='forgetPassword' class="mui-pull-right" style="font-size: 0.8em;color: red;">找回账户</a>					
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/bmqtt.js" type="text/javascript"></script>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var myTopic = [];
+			var main_loaded_flag;
+			var mainPage;
+			var xiaoquid = new Array();
+			var xiaoquname = new Array();
+			var xiaoquprefix = new Array();
+			var xiaoquobj = document.getElementById('xiaoqulist');
+			var isActive = false;
+			var reconnectTimeout = 2000;
+			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			var netID;
+			var client;
+			//			var BASE_URL  = "http://221.214.171.37:8888/wuye/"; //zhenhua
+			//			var BASE_URL  = "http://120.192.167.83/wuye/";
+			//			var LOGIN_URL = BASE_URL + "server/login.php";
+			//			var XQ_URL = BASE_URL + "server/xiaoquList.php";
+			jQuery.noConflict();
+			mui(".mui-scroll-wrapper").scroll({
+				deceleration: 0.0005
+			});
+
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+				});
+
+				$.plusReady(function() {
+					//					setTimeout(function(){
+					//      var array = plus.webview.all();
+					//      if(array){
+					//          for(var i=0,len=array.length;i<len;i++){
+					//                  console.log("预加载页面："+array[i].getURL());
+					//              }
+					//      }
+					//  },500);
+
+
+					plus.screen.lockOrientation("portrait-primary");
+					//获取屏幕分辩率
+					console.log("Height: "+plus.screen.resolutionHeight+" Width: "+plus.screen.resolutionWidth);
+					var height=plus.screen.resolutionHeight/5;
+					jQuery(document).ready(function () {
+						jQuery('#login_bk').height(height);	
+		
+					});
+					//读取本地存储，检查是否为首次启动
+					var showGuide = plus.storage.getItem("lauchFlag");
+//					console.log('showguide:'+showGuide);
+					if(showGuide) {
+						//有值，说明已经显示过了，无需显示；
+						//关闭splash页面；
+						plus.navigator.closeSplashscreen();
+						plus.navigator.setFullscreen(false);
+						//预加载
+						preload();
+					} else {
+						//显示启动导航
+						mui.openWindow({
+							id: 'guide.html',
+							url: 'guide.html',
+							styles: {
+								popGesture: "none"
+							},
+							show: {
+								aniShow: 'none'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+						//延迟的原因：优先打开启动导航页面，避免资源争夺
+						setTimeout(function() {
+							//预加载
+							preload();
+						}, 500);
+					}
+					
+					//注册后自动登录调用
+					window.addEventListener('refreshxiaoqu', function() {
+						console.log("refreshxiaoqu");
+						getxiaoquList();
+						loadXiaoqu();
+						client.end();
+						console.log("refresh end");
+					});
+					var login_page = plus.webview.currentWebview();
+					//										login_page.hide();
+					console.log("login plusready");
+
+					//获取屏幕分辩率
+					console.log("Height: " + plus.screen.resolutionHeight + " Width: " + plus.screen.resolutionWidth);
+//					var margin_top = plus.screen.resolutionHeight / 4;
+//					jQuery(document).ready(function() {
+//						jQuery('#mainbody').css({
+//							'padding-top': margin_top
+//						});
+//					});
+
+					//仅支持竖屏显示
+
+					var settings = app.getSettings();
+					//					var UserInfo = app.getDatas(PREFERENCE_USER);
+					//					alert(JSON.stringify(settings));
+					var state = app.getState();
+
+					function getxiaoquList() {
+						//获取小区列表
+						//mui.toast(Query_Xiaoquliebiao_URL);
+						mui.post(Query_Xiaoquliebiao_URL, JSON.stringify({
+							xiaoqu: ""
+						}), function(data) {
+							var infor = JSON.stringify(data);
+							var obj = eval(data);
+							//("结果："+obj.success+"\n小区名称："+obj.village[0].name+"\n小区代码："+obj.village[0].prefix+"\n驿站："+obj.village[0].stationname);
+							console.log("小区列表:" + infor);
+							if(obj.success == 1) {
+								//mui.toast(obj.village.length);
+								app.setDatas(YIZHAN, data);
+								console.log("YIZHAN==" + JSON.stringify(eval(app.getDatas(YIZHAN))));
+								//var store = plus.webview.getWebviewById('shop/tab-yizhan-main.html');
+								//mui.fire(store, 'switch');
+								xiaoquid.splice(0, xiaoquid.length);
+								xiaoquname.splice(0, xiaoquname.length);
+								xiaoquprefix.splice(0, xiaoquprefix.length);
+								for(var i = 0; i < obj.village.length; i++) {
+									xiaoquid[i] = obj.village[i].id;
+									xiaoquname[i] = obj.village[i].name;
+									xiaoquprefix[i] = obj.village[i].prefix;
+									//									console.log("append option start");
+									//									xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+									//									console.log("append option end");
+								}
+								InsertXiaoqu(); //add by rocky on 20170717
+							} else {
+								mui.toast(infor);
+							}
+						}, 'json');
+					}
+
+					function InsertXiaoqu() { //插入小区列表
+						while(xiaoquobj.length > 1) {
+							xiaoquobj.options.remove(1);
+						}
+						if(xiaoquname.length > 0 && xiaoquobj.options.length == 1) {
+							for(var i = 0; i < xiaoquname.length; i++) {
+								xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+								//								console.log("小区名称："+xiaoquname[i]);
+							}
+						}
+						console.log('小区列表数量：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+					}
+
+					//					InsertXiaoqu(); //remark by rocky on 20170717
+					console.log('first load xiaoqu list');
+					var loadXiaoqu = function() {
+						netID = setInterval(function() {
+							console.log('小区list刷新');
+							if(chkNetStatus() == "OK") {
+								console.log('小区列表数量2222：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+								if((xiaoquobj.options.length > 1) && (xiaoquobj.options.length == (xiaoquname.length + 1))) {
+									console.log('got xiaoqu list');
+									clearInterval(netID);
+								} else {
+									console.log("refreah xiaoqu list");
+									getxiaoquList();
+									//								InsertXiaoqu();
+									console.log('second load xiaoqu list');
+									//								mui.toast("重新加载数据");
+								}
+							} else {
+								mui.toast("网络异常");
+							}
+						}, 5000);
+					}
+					getxiaoquList();
+					loadXiaoqu();
+
+					function preload() {
+						//onsole.log("预加载tab-index");
+						mainPage = $.preload({
+							"id": 'tab-index',
+							"url": 'tab-index.html'
+						});
+						main_loaded_flag = true;
+					}
+					var toMain = function() {
+						//使用定时器的原因：
+						//可能执行太快，main页面loaded事件尚未触发就执行自定义事件，此时必然会失败
+						console.log("toMain works start");
+						var id = setInterval(function() {
+							console.log("main_loaded_flag before:" + main_loaded_flag);
+							if(main_loaded_flag) {
+								console.log("main_loaded_flag:" + main_loaded_flag);
+								clearInterval(id);
+								$.fire(mainPage, 'gohome', null);
+								mainPage.show("slide-in-right", 300);
+							}
+						}, 1000);
+						console.log("toMain works end");
+					};
+					var account = user_obj.account;
+					var pwd = user_obj.password;
+					var xiaoqu = user_obj.xiaoqu;
+					var xiaoqu_name = user_obj.xiaoqu_name;
+					console.log("login:account" + account + "password:" + pwd + "xiaoqu:" + xiaoqu + "autoLog:" + settings.autoLogin + "showGuide：" + showGuide);
+					if(settings.autoLogin && account != null && pwd != null && xiaoqu != null && xiaoqu_name != null && showGuide == true) {
+						console.log("自动登录");
+						document.getElementById('autolog').style.display = "block";
+						document.getElementById('content').style.display = "none";
+						document.getElementById('autolog').style.visibility = "visible";
+						document.getElementById('content').style.visibility = "hidden";
+						console.log(document.getElementById('content').style.display);
+						//						login_page.hide();
+						Login(account, pwd, xiaoqu, xiaoqu_name);
+					} else {
+						document.getElementById('autolog').style.display = "none";
+						document.getElementById('content').style.display = "block";
+						document.getElementById('autolog').style.visibility = "hidden";
+						document.getElementById('content').style.visibility = "visible";
+					}
+
+					var loginButton = document.getElementById('login');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					//var communityBox = doc.getElementById("community");
+					//					var autoLoginButton = doc.getElementById("autoLogin");//20170804
+					var regButton = doc.getElementById('loginreg');
+					var forgetButton = doc.getElementById('forgetPassword');
+
+					//登录
+					loginButton.addEventListener('tap', function(event) {
+						var index = xiaoquobj.selectedIndex;
+						var xiaoquvalue = xiaoquobj.options[index].value;
+						var xiaoqu_name = xiaoquobj.options[index].text;
+						console.log("小区name：" + xiaoqu_name);
+						if(xiaoquvalue == "choose") {
+							mui.alert("请选择小区");
+						} else {
+							console.log("start login");
+							//mui.toast(LOGIN_URL);
+
+							Login(accountBox.value.trim(), passwordBox.value, xiaoquvalue, xiaoqu_name);
+						}
+
+					});
+					$.enterfocus('#login-form input', function() {
+						$.trigger(loginButton, 'tap');
+					});
+
+					//					autoLoginButton.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
+					//					autoLoginButton.addEventListener('toggle', function(event) {
+					//						setTimeout(function() {
+					//							isActive = event.detail.isActive;
+					//							console.log("isActive:"+isActive);
+					////							console.log("setting:"+settings);
+					//							settings.autoLogin = isActive;
+					//							app.setSettings(settings);
+					//							console.log("autologin:"+settings.autoLogin);
+					//						}, 50);
+					//					}, false);
+					//					settings.autoLogin = autoLoginButton.checked; //初次获取autologin状态
+					settings.autoLogin = true; //初次获取autologin状态//verify on 20170804
+					app.setSettings(settings);
+					console.log("login初始状态：" + settings.autoLogin);
+					if(!settings.autoLogin) {
+						console.log("settings.autoLogin:" + settings.autoLogin);
+						document.getElementById('content').style.display = "block";
+						document.getElementById('autolog').style.display = "none";
+						document.getElementById('content').style.visibility = "visible";
+						document.getElementById('autolog').style.visibility = "hidden";
+					} else {
+						console.log("autolog user_obj:" + JSON.stringify(user_obj));
+						if(user_obj != "undefined") {
+							if(user_obj.account != null && user_obj.password != null && user_obj.xiaoqu != null && showGuide) {
+								console.log("----autoLogin");
+								document.getElementById('content').style.display = "none";
+								document.getElementById('autolog').style.display = "block";
+								document.getElementById('content').style.visibility = "hidden";
+								document.getElementById('autolog').style.visibility = "visible";
+								Login(user_obj.account, user_obj.password, user_obj.xiaoqu, user_obj.xiaoqu_name);
+							} else {
+								console.log("----no autoLogin");
+								document.getElementById('content').style.display = "block";
+								document.getElementById('autolog').style.display = "none";
+								document.getElementById('content').style.visibility = "visible";
+								document.getElementById('autolog').style.visibility = "hidden";
+							}
+						} else {
+							console.log("----no autoLogin");
+							document.getElementById('content').style.display = "block";
+							document.getElementById('autolog').style.display = "none";
+							document.getElementById('content').style.visibility = "visible";
+							document.getElementById('autolog').style.visibility = "hidden";
+						}
+					}
+					//					//20170804
+					//					autoLoginButton.addEventListener('tap', function() {
+					//						setTimeout(function() {
+					//							isActive = autoLoginButton.checked;
+					//							console.log("isActive:" + isActive);
+					//							settings.autoLogin = isActive;
+					//							app.setSettings(settings);
+					//							console.log("autologin:" + settings.autoLogin);
+					//						}, 50);
+					//					}, false);
+
+					console.log("autoLogin after:" + settings.autoLogin);
+					regButton.addEventListener('tap', function(event) {
+						if(netID) {
+							clearInterval(netID);
+						}
+						$.openWindow({
+							url: 'reg.html',
+							id: 'reg.html',
+							//							preload: true,
+							show: {
+								aniShow: 'slide-in-right',
+								duration: 300
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+
+					}, false);
+					forgetButton.addEventListener('tap', function(event) {
+						console.log("点击忘记密码")
+						$.openWindow({
+							url: 'forget_password.html',
+							id: 'forget_password.html',
+							preload: true,
+							show: {
+								aniShow: 'slide-in-right',
+								duration: 300
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					}, false);
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+					document.getElementById('guest').addEventListener('tap', function() {
+						var account = 'guest';
+						var pwd = '123456';
+						var xiaoquval = 'kfqtdy';
+						var xiaoquname = '开发区天地一品';
+						Login(account, pwd, xiaoquval, xiaoquname);
+					});
+
+					function Login(account, pwd, xiaoquvalue, xiaoquname) {
+						console.log("正在登录...");
+						//			var flag=0;
+						console.log("账号：" + account + "密码：" + pwd + "小区：" + xiaoquvalue + ",小区名称：" + xiaoquname);
+						if(chkstr(account) && chkpwd(pwd)) {
+							var w = plus.nativeUI.showWaiting("正在登录...");
+							mui.ajax(LOGIN_URL, {
+								data: JSON.stringify({
+									user: account,
+									pwd: pwd,
+									xiaoqu: xiaoquvalue,
+									xiaoqu_name: xiaoquname
+								}),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								timeout: 10000, //超时时间设置为10秒；
+								//							headers:{'Content-Type':'application/json'},
+								success: function(data) {
+									var infor = JSON.stringify(data);
+									var obj = eval(data);
+									//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+									console.log("loginsuccess+info:" + infor);
+									if(obj.success == 1) {
+										console.log("login success");
+										//										mui.toast("登录成功");
+
+										app.setDatas(PREFERENCE_USER, data);
+										//add by ada----
+										MQTTconnect();   //remarked by rocky on 20170821
+										//add by ada-------
+										var data1 = app.getDatas(PREFERENCE_USER);
+										data1.password = pwd;
+										app.setDatas(PREFERENCE_USER, data1); //增加密码
+										var data2=app.getDatas(PREFERENCE_USER);
+										console.log("login data2:"+JSON.stringify(data2));
+										getxiaoquList(); 
+										
+										
+										var userobj = eval(app.getDatas(PREFERENCE_USER));
+										var shopinfoobj = {};
+										
+										shopinfoobj["zhanghao"] = userobj.account;
+										shopinfoobj["mima"] = "";
+										shopinfoobj["id"] = userobj.id;
+										shopinfoobj["dizhi"] = "";
+										shopinfoobj["dianhua"] = userobj.tel;
+										shopinfoobj["xingming"] = userobj.realname;
+										shopinfoobj["type"] = "wuye";	
+										shopinfoobj["xiaoquid"] = userobj.xiaoqu_id;	
+										shopinfoobj["xiaoqu"] = userobj.xiaoqu;
+										app.setDatas(SHOPACCOUNT,shopinfoobj);
+										
+				
+										var tabmain = plus.webview.getWebviewById('tab-main.html');
+										console.log("tabmain:"+tabmain);
+										mui.fire(tabmain, 'show');
+										var tabsetting = plus.webview.getWebviewById('tab-setting.html');
+										console.log("tab-setting trigger!!!====???==========");
+										mui.fire(tabsetting, 'switch');
+										var tabshequ = plus.webview.getWebviewById('./shequ/zhuti/zhuti.html');
+										console.log("abshequ trigger!!!====???==========");
+										mui.fire(tabshequ, 'gozhuti');
+										var shoppingmall = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+										mui.fire(shoppingmall, 'switch');
+										
+										var phonepage = plus.webview.getWebviewById('tab-phone.html');
+										mui.fire(phonepage, 'refresh');
+										console.log("登录信息 xiaoqu:" + data1.xiaoqu_name);
+										console.log("登录信息 NAME:" + data1.realname);
+
+										toMain();
+										setTimeout(function() {
+											w.close();
+										}, 1000);
+									} else {
+										w.close();
+										document.getElementById('content').style.display = "block";
+										document.getElementById('autolog').style.display = "none";
+										document.getElementById('content').style.visibility = "visible";
+										document.getElementById('autolog').style.visibility = "hidden";
+										mui.toast(obj.errorMsg);
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									w.close();
+									document.getElementById('content').style.display = "block";
+									document.getElementById('autolog').style.display = "none";
+									document.getElementById('content').style.visibility = "visible";
+									document.getElementById('autolog').style.visibility = "hidden";
+
+									mui.toast("网络异常");
+									console.log("error type:" + type);
+									console.log(xhr.status);
+									console.log(xhr.readyState);
+									console.log(xhr.response);
+								}
+
+							});
+						} else {
+							mui.toast("账户或密码中包含不被允许的特殊字符，请检查后重新输入");
+						}
+
+					}
+
+					function getcurrentWebviews() {
+						var currWebviews = plus.webview.all();
+						var webviewFlag = 0;
+						if(currWebviews) {
+							for(var i = 0; i < currWebviews.length; i++) {
+								var arrwebview = currWebviews[i].getURL()
+								console.log("加载的页面:" + arrwebview);
+								if(webviewloaded(arrwebview, 'tab-main.html')) {
+									webviewFlag++;
+								} else if(webviewloaded(arrwebview, 'tab-setting.html')) {
+									webviewFlag++;
+								} else if(webviewloaded(arrwebview, 'shop/tab-yizhan-main.html')) {
+									webviewFlag++;
+								} else if(webviewloaded(arrwebview, 'minsheng/minsheng.html')) {
+									webviewFlag++;
+								} else if(webviewloaded(arrwebview, 'jiankang/jiankang.html')) {
+									webviewFlag++;
+								}
+							}
+
+						}
+						return webviewFlag;
+					}
+
+					function webviewloaded(arrwebview, srcwebview) {
+						if(arrwebview.indexOf(srcwebview) > 0) {
+							return true;
+						} else
+							return false;
+					}
+
+					function MQTTconnect() {
+						console.log("start connect...");
+
+						var userinfo = eval(app.getDatas(PREFERENCE_USER))
+						console.log("userinfo==========" + JSON.stringify(app.getDatas(PREFERENCE_USER)))
+						myTopic = [];
+						myTopic[0] = userinfo.xiaoqu + "_xianxia_" + userinfo.account;
+						myTopic[1] = userinfo.huiyuanka + '_xiazai';
+						myTopic[2] = userinfo.xiaoqu + "_wuyefei";
+						console.log("111myTopic[0]:"+myTopic[0]);
+						console.log("111myTopic[1]:"+myTopic[1]);
+						console.log("111myTopic[2]:"+myTopic[2]);
+						client = mqtt.connect('ws://120.192.167.83:3000');
+						client.on('connect', function() {
+							console.log("connect success!!!!" + myTopic)
+							//var myTopic = '000010020_xiazai';
+							client.subscribe(myTopic);
+						});
+						client.on('message', function(topic, message) {
+							console.log("myTopic[0]:"+myTopic[0]);
+							console.log("myTopic[1]:"+myTopic[1]);
+							console.log("myTopic[2]:"+myTopic[2]);
+							// message is Buffer 
+							//mui.toast(topic);
+							console.log("topic:"+topic);
+							console.log(message.toString());
+							createLocalPushMsg(message.toString());
+							//client.end();
+						});
+					}
+
+					function createLocalPushMsg(message) {
+						var dates = new Date();
+						var str = dateToStr(new Date()).substring(2);
+						var options = {
+							title: '百益社区',
+							cover: false,
+							when: dates
+						};
+						if(mui.os.android)
+							//message = str + message;
+							message = message
+						plus.push.createMessage(message, "LocalMSG", options);
+						console.log("创建本地消息成功！请到系统消息中心查看！");
+						if(plus.os.name == "iOS") {
+							console.log('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
+						}
+					}
+				});
+			}(mui, document));
+			
+		</script>
+	</body>
+
+</html>

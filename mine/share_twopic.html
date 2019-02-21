@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>分享</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+				/*border:1px solid red;*/
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+			
+			.detail_tupian img {
+				width: 200px;
+				height: 200px;
+				/*vertical-align: middle;*/
+			}
+			
+			.shareimg {
+				height: 20px;
+				width: 20px;
+				float: right;
+				/*border:1px solid red;*/
+				margin-right: 10px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" ></span>
+				</button>
+			<h1 class="mui-center mui-title">分享</h1>
+			<!--<a id="namesubmit" class="mui-icon mui-icon-checkmarkempty mui-pull-right" style=" font-size:45px;margin-top: -12px;margin-right: -15px;"></a>-->
+		</header>
+		<div class="mui-content">
+			<div id="ios" style="height:45%;width:100%;">
+				<div style="margin-top:10px; text-align: center;">
+					<p style="text-align: center;">苹果用户请扫描下面的二维码(长按图片分享)</p>
+				</div>
+				<div class="detail_tupian" style="text-align: center;" id="share">
+					<img id="shareios" src="../images/iOS_AppStore.png" style=" vertical-align: middle;">
+				</div>
+				<!--<div>
+					<img src="../images/shareicon.png" class="shareimg" />
+				</div>-->
+			</div>
+			<div style="border:6px solid white"></div>
+			<div id="android" style="height:45%;width:100%;">
+				<div style="margin-top:10px; text-align: center;">
+					<p style="text-align: center;">安卓用户请扫描下面的二维码(长按图片分享)</p>
+				</div>
+				<div class="detail_tupian" style="text-align: center;">
+					<img id="shareandroid" src="../images/android.png" style=" vertical-align: middle;">
+				</div>
+				<!--<div id="share">
+					<img src="../images/shareicon.png" class="shareimg" />
+				</div>-->
+			</div>
+
+		</div>
+	</body>
+	<script src="../js/mui.min.js "></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true, //启用右滑关闭功能
+			gestureConfig: {
+				tap: true, //默认为true
+				longtap: true //默认为false				
+			}
+		});
+		var shares = {};
+
+		mui.plusReady(function() {
+			plus.share.getServices(function(s) {
+				if(s && s.length > 0) {
+					for(var i = 0; i < s.length; i++) {
+						var t = s[i];
+						shares[t.id] = t;
+					}
+				}
+			}, function() {
+				console.log("获取分享服务列表失败");
+			});
+
+			//分享链接点击事件
+			mui('.detail_tupian').on('longtap','img', function() {
+				console.log("----longtap---");
+//				var imgid;
+				var id=this.getAttribute('id');
+				console.log("ididid--"+id);				
+				var ids = [{
+						id: "weixin",
+						ex: "WXSceneSession"
+					}, {
+						id: "weixin",
+						ex: "WXSceneTimeline"
+					}, {
+						id: "sinaweibo"
+					}, {
+						id: "qq"
+					}],
+					bts = [{
+						title: "发送给微信好友"
+					}, {
+						title: "分享到微信朋友圈"
+					}, {
+						title: "分享到新浪微博"
+					},  {
+						title: "分享到QQ"
+					}];
+				plus.nativeUI.actionSheet({
+					cancel: "取消",
+					buttons: bts
+				}, function(e) {
+					var i = e.index;
+					if(i > 0) {
+						var s_id = ids[i - 1].id;
+						var share = shares[s_id];
+						if(share) {
+							if(share.authenticated) {
+								shareMessage(share, ids[i - 1].ex,id);
+							} else {
+								share.authorize(function() {
+									shareMessage(share, ids[i - 1].ex,id);
+								}, function(e) {
+									console.log("认证授权失败：" + e.code + " - " + e.message);
+								});
+							}
+						} else {
+							mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
+						}
+					}
+				});
+			});
+
+		});
+
+		function shareMessage(share, ex,imgid) {
+			var sharecount=0;
+			console.log("---shareMessage---"+share+","+ex+","+imgid);
+			var msg = {
+				extra: {
+					scene: ex
+				}
+			};
+			if(imgid=="shareios"){
+				msg.pictures = ["_www/images/iOS_AppStore.png"];
+			}
+			else if(imgid=="shareandroid"){
+				msg.pictures = ["_www/images/android.png"];
+			}
+			
+			//			msg.href = "http://120.192.167.83/wuye/releaseApp/icommunity.apk";
+			//			msg.title = "喆家apk下载";
+						msg.content = "我正在体验喆家，喜欢的话扫描二维码下载一个吧";
+			//			if (~share.id.indexOf('weibo')) {
+			//				msg.content += "；体验地址：http://www.dcloud.io/hellomui/";
+			//			}
+			//			msg.thumbs = ["_www/images/android.png"];
+			share.send(msg, function() {
+				console.log("分享到\"" + share.description + "\"成功！ ");
+				mui.toast("分享成功");
+			}, function(e) {
+				mui.toast("分享失败");
+//				if(e.code==-2){
+//					mui.toast("已取消分享");
+//				}else if(e.code==-3 || e.code==-8){					
+//					if(++sharecount < 2){
+//						//TODO 分享失败可能是图片过大的问题，递归取默认图片重新分享 
+//						shareMessage(share, ex,imgid);
+//					}else{
+//						mui.toast("分享失败");
+//					}
+//				}
+//				else{
+//					console.error('分享失败:'+JSON.stringify(e)) ;
+//					mui.toast(e.message);
+//				}
+//				console.log("分享到\"" + share.description + "\"失败: " + e.code + " - " + e.message);
+////				mui.toast( e.message);
+			});
+		}
+	</script>
+
+</html>

@@ -1,0 +1,4928 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "com.baiyixinkj.BYSQ",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "百益社区",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.0.044",/*应用版本名称*/
+		"code": "83"
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "login_sc.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.dcloud.io"
+	},
+	"permissions": {
+		"Accelerometer": {
+			"description": "访问加速度感应器"
+		},
+
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+
+
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Gallery": {
+			"description": "访问系统相册"
+		},
+
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+
+		"Orientation": {
+			"description": "访问方向感应器"
+		},
+		"Proximity": {
+			"description": "访问距离感应器"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+		"UI": {},
+		"Uploader": {
+			"description": "管理文件上传任务"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Zip": {
+			"description": "文件压缩与解压缩"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+
+		"Webview": {},
+		"NativeUI": {},
+		"Navigator": {},
+		"NativeObj": {},
+		"Share": {},
+		"OAuth": {},
+		"Device": {},
+		"Payment": {},
+		"Maps": {},
+		"Audio": {},
+		"Speech": {},
+		"Camera": {},
+		"Barcode": {},
+		"Contacts": {},
+		"Messaging": {},
+		"Geolocation": {},"Push":{}
+
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,"delay":"1000"
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins":{"push":{"igexin":{"appid":"UEmvuG1l9XAMRJYVuCjIg1","appkey":"cIQEGSm5jF6MMW4pIGn0H1","appsecret":"OQbzHsYBtC86FKA1DyLNY"}},
+				"maps":{
+					"baidu":{
+						"appkey_ios":"kqLRV3kKtbXSIbi9muXocq1LpIOZc7wM",
+						"appkey_android":"P4abUhvNz58CInO0QZaNzNCv5rBWeKhx",
+						"appkey":"4Y3qkyS4ITwuR8TXQ3kyZu212qYqAqGu",
+						"description":"百度地图"
+					}
+				},
+				"payment":{
+					"weixin":{
+						"description":"微信支付",
+						"appid":"wx2bd056b53afea15c"
+					},
+					"alipay":{
+						"description":"阿里支付",
+						"scheme":""
+					}
+				},
+				"share":{
+					"weixin":{
+						"appid":"wx2bd056b53afea15c",
+						"appsecret":"e17e418437369a8348f22c9b533d405e",
+						"description":"可选，微信分享"
+					}
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": []
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
+			},
+			"orientation": ["portrait-primary"],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"retina8": "unpackage/res/icons/180x180.png",
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": ""
+					},
+					"ipad": {
+						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "","hdpi":"images/welcome_480x762.png","xhdpi":"images/welcome_720x1242.png","xxhdpi":"images/welcome_1080x1882.png"
+				}
+			}
+		},"ads":{"rp":false,"splash":false,"push":false,"spot":false},"adid":"126457240105"
+	},
+	"dependencies": {
+		"pages": {
+			"setting.html": {
+				"href": "setting.html",
+				"resources": [
+					"js/mui.min.js",
+					"js/mui.view.js",
+					"libs/easymob-webim-sdk/jquery-1.11.1.js",
+					"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+					"libs/easymob-webim-sdk/json2.js",
+					"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+					"js/feedback.js",
+					"js/feedback-page.js",
+					"js/mui.locker.js",
+					"js/app.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/feedback-page.css",
+					"images/iconfont-tianjia.png"
+				],
+				"refer": [
+					"login.html"
+				],
+				"priority": 1
+			},
+			"main.html": {
+				"href": "main.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"js/app.js",
+					"images/iconfont-tianjia.png",
+					"images/z2.png",
+					"images/z1.png",
+					"images/z3.png"
+				],
+				"refer": [
+					"setting.html",
+					"unlock.html"
+				],
+				"priority": 1
+			},
+			"unlock.html": {
+				"href": "unlock.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"js/mui.locker.js",
+					"js/app.js"
+				],
+				"refer": [
+					"login.html",
+					"main.html"
+				],
+				"priority": 0
+			},
+			"forget_password.html": {
+				"href": "forget_password.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"css/css.css",
+					"js/common.js"
+				],
+				"priority": 1,
+				"refer": [
+					"phoneCodeVerify.html",
+					"phoneCodeMAS.html"
+				]
+			},
+			"reg.html": {
+				"href": "reg.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"css/css.css",
+					"js/common.js",
+					"images/tip.jpg"
+				],
+				"refer": [
+					"login.html",
+					"phoneCodeVerify.html",
+					"phoneCodeMAS.html"
+				],
+				"priority": 3
+			},
+			"login.html": {
+				"href": "login.html",
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"js/mui.min.js",
+					"js/mui.enterfocus.js",
+					"js/app.js",
+					"images/qihoo.png",
+					"images/qq.png",
+					"images/sinaweibo.png",
+					"images/weixin.png",
+					"js/var.js",
+					"js/globalvar.js",
+					"js/common.js",
+					"css/css.css",
+					"images/login_bk.jpg",
+					"images/user.png",
+					"js/jquery-1.11.0.js",
+					"css/iconfont.css",
+					"fonts/iconfont.ttf",
+					"images/login.jpg",
+					"images/logo_icon.png",
+					"images/byx_login_userlogo.png",
+					"images/welcome.jpg",
+					"js/bmqtt.js",
+					"images/login_background.png"
+				],
+				"refer": [
+					"unlock.html",
+					"forget_password.html",
+					"main.html",
+					"reg.html",
+					"bindUserInfo.html",
+					"tab-webview-main.html",
+					"tab-index.html",
+					"guide.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-about.html": {
+				"resources": [
+					"images/home_wuye.png",
+					"images/logo_zhejiayizhan.png",
+					"images/z2.png",
+					"images/home_jinrong.png",
+					"images/z1.png",
+					"images/home_minsheng.png",
+					"images/home_jiankang.png",
+					"images/z3.png",
+					"images/iconfont-tianjia.png",
+					"images/wuye_tousujianyi.png",
+					"js/jquery-1.11.0.js"
+				],
+				"refer": [
+					"wuye/wuye.html",
+					"shop/tab-webview-main.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-main.html": {
+				"resources": [
+					"tab-webview-subpage-about.html",
+					"fonts/mui.ttf",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"tab-webview-subpage-setting.html",
+					"tab-webview-subpage-contact.html"
+				],
+				"priority": 0
+			},
+			"tab-webview-subpage-setting.html": {
+				"resources": [
+					"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+					"libs/easymob-webim-sdk/json2.js",
+					"libs/easymob-webim-sdk/jquery-1.11.1.js",
+					"js/mui.locker.js",
+					"js/feedback.js",
+					"css/feedback-page.css",
+					"js/feedback-page.js",
+					"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+					"js/mui.view.js",
+					"js/app.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/wuye.html": {
+				"resources": [
+					"wuye/fonts/mui.ttf",
+					"wuye/images/wuye_wuyebaoxiu.png",
+					"wuye/images/wuye_louyuduijiang.png",
+					"wuye/images/wuye_parking.png",
+					"wuye/images/wuye_wuyejiaofei.png",
+					"wuye/images/wuye_menjinguanli.png",
+					"wuye/images/wuye_tongzhigonggao.png",
+					"wuye/images/wuye_tousujianyi.png",
+					"wuye/css/mui.min.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"wuye/css/common.css",
+					"images/z3.jpg",
+					"images/z2.png",
+					"images/z1.png"
+				],
+				"refer": [
+					"wuye/baoxiu/baoxiu.html",
+					"wuye/jiankong/demo.html",
+					"wuye/jiaofei/jiaofei.html",
+					"wuye/tongzhi/tongzhi.html",
+					"wuye/menjin/menjin.html",
+					"wuye/yeweihui/yeweihui.html",
+					"wuye/tingche/tingche.html"
+				],
+				"priority": 0
+			},
+			"shop/tab-webview-main.html": {
+				"resources": [
+					"shop/fonts/mui.ttf",
+					"shop/css/iconfont.css",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/fonts/iconfont.ttf",
+					"shop/css/shop.css",
+					"shop/tab-webview-subpage-mendian.html"
+				],
+				"refer": [
+					"shop/tab-webview-subpage-chat.html",
+					"shop/tab-webview-subpage-setting.html",
+					"shop/tab-webview-subpage-contact.html"
+				],
+				"priority": 0
+			},
+			"shop/tab-webview-subpage-mendian.html": {
+				"resources": [
+					"shop/js/jquery-1.11.0.js",
+					"shop/image/z1.png",
+					"shop/image/z3.png",
+					"shop/image/z2.png",
+					"shop/images/mendian_xinxi_qisongjine.png",
+					"shop/images/z1.png",
+					"shop/images/mendian_youhui_zhifu.png",
+					"shop/images/logo_dial.png",
+					"shop/images/z2.png",
+					"shop/images/mendian_youhui_manjian.png",
+					"shop/images/z3.png",
+					"shop/images/mendian_xinxi_peisongfanwei.png",
+					"shop/images/mendian_xinxi_yingyeshijian.png",
+					"shop/images/mendian_youhui_shoudan.png",
+					"shop/css/default.css",
+					"shop/images/mendian_xinxi_peisongfei.png",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/fonts/mui.ttf"
+				],
+				"refer": [
+					"shop/search.html"
+				],
+				"priority": 0
+			},
+			"tab-index.html": {
+				"resources": [
+					"tab-main.html",
+					"fonts/mui.ttf",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/iconfont.css",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [
+					"tab-phone.html",
+					"tab-setting.html",
+					"tab-setting1.html",
+					"shequ/shequ.html",
+					"shequ/card.html",
+					"shop/shops_main.html",
+					"shequ/zhuti/zhuti.html",
+					"Shoppingmall/shop-main.html"
+				],
+				"priority": 0
+			},
+			"tab-setting.html": {
+				"resources": [
+					"js/feedback.js",
+					"js/mui.view.js",
+					"images/home_me_yijianfankui.png",
+					"images/home_me_huiyuanka.png",
+					"images/home_me_guanyuruanjian.png",
+					"images/submit.png",
+					"images/home_me_tousujianyi.png",
+					"images/home_me_xiaoxitongzhi.png",
+					"images/home_me_bangdingxinxi.png",
+					"images/home_me_bangzhuzhongxin.png",
+					"images/home_me_shouhuodizhi.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"images/ic_launcher.png",
+					"css/feedback.css",
+					"images/user-photo.png",
+					"css/css.css",
+					"images/home_me_fenxiangyingyong.png"
+				],
+				"refer": [
+					"mine/userInfo.html",
+					"mine/yijianfankui.html",
+					"mine/guanyuruanjian.html",
+					"mine/share.html",
+					"wuye/yeweihui/tousu.html",
+					"shop/mine/huiyuanka.html",
+					"shop/mine/shouhuodizhi.html",
+					"bindUserInfo.html",
+					"login.html",
+					"wuye/yeweihui/hudong.html",
+					"wuye/tongzhi/tongzhi.html",
+					"mine/huiyuankachaxun.html",
+					"mine/help.html",
+					"feedback.html"
+				],
+				"priority": 0
+			},
+			"tab-main.html": {
+				"resources": [
+					"images/home_wuye.png",
+					"images/logo_zhejiayizhan.png",
+					"images/z2.png",
+					"js/jquery-1.11.0.js",
+					"images/home_jinrong.png",
+					"images/z1.png",
+					"images/home_minsheng.png",
+					"images/home_jiankang.png",
+					"images/z3.png",
+					"images/wuye_tousujianyi.png",
+					"images/iconfont-tianjia.png",
+					"images/zhejiayizhan.png",
+					"images/jiankang.png",
+					"images/jinrong.png",
+					"images/shangpincuxiao.jpg",
+					"images/shequ.png",
+					"images/yijanfuwu.png",
+					"css/mui.min.css",
+					"images/shequhuodongbiaoti.png",
+					"images/shequhuodong.jpg",
+					"images/wuye.png",
+					"images/cuxiaoshangpinbiaoti.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/iconfont.css",
+					"images/guanggao.png",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/ajax.js",
+					"images/demo_gridview_xqgb.png",
+					"images/demo_gridview_wyjf.png",
+					"images/demo_gridview_more.png",
+					"images/demo_gridview_tsjy.png",
+					"images/demo_gridview_afgj.png",
+					"images/demo_gridview_xrmj.png",
+					"images/demo_gridview_wybx.png",
+					"images/demo_gridview_mmtc.png",
+					"images/demo_gridview_yzsc.png",
+					"images/demo_gridview_sqjk.png",
+					"images/demo_gridview_bmxx.png",
+					"shop/tab-yizhan-main.html",
+					"images/notice.png",
+					"images/demo_gridview_fwtg.png",
+					"images/byx_demo_qiandao_bg.png",
+					"images/z3.jpg",
+					"images/z1.jpg",
+					"images/demo_gridview_zntc.png",
+					"images/demo_gridview_fwfw.png",
+					"images/demo_gridview_zxsj.png",
+					"images/demo_gridview_shjf.png",
+					"images/demo_gridview_jkys.png",
+					"images/demo_gridview_sqms.png",
+					"images/minsheng.png",
+					"images/demo_gridview_dtkm.png",
+					"images/demo_gridview_ywh.png",
+					"images/z4.jpg",
+					"images/z6.jpg",
+					"images/z5.jpg",
+					"images/demo_gridview_yjqz.png",
+					"images/demo_gridview_sqlt.png",
+					"images/demo2_gridview_bmfu.png",
+					"images/demo2_gridview_yjkm.png"
+				],
+				"refer": [
+					"shop/tab-webview-main.html",
+					"wuye/wuye.html",
+					"jinrong/jinrong.html",
+					"jiankang/jiankang.html",
+					"mine/notice_main.html",
+					"tab-phone.html",
+					"minsheng/minsheng.html",
+					"feedback.html",
+					"wuye/tongzhi/tongzhi.html",
+					"wuye/jiaofei/jiaofei.html",
+					"wuye/tongzhi/detail_notice.html",
+					"wuye/baoxiu/baoxiu.html",
+					"anfang/anfang.html",
+					"wuye/menjin/menjin.html",
+					"wuye/jiankong/demo.html",
+					"wuye/tingche/tingche.html",
+					"wuye/yeweihui/yeweihui.html",
+					"wuye/tuoguan/tuoguan.html",
+					"bianminxinxi/bianminxinxi_mian.html",
+					"zhuangxiusheji/zhuangxiusheji_main.html",
+					"zhinengtingche/zhinengtingche_main.html",
+					"wuye/jiankong/shequjiankong_main .html",
+					"baidumap/my_location.html",
+					"baidumap/my_location1.html",
+					"baidumap/dingwei.html",
+					"baidumap/current_location.html",
+					"shops_main.html",
+					"o2o/o2o.html",
+					"bianminxinxi/bianminxinxi_main.html",
+					"shop/shops_main.html",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/zhinengtingche/zhinengtingche_main.html",
+					"wuye/zhuangxiusheji/zhuangxiusheji_main.html",
+					"wuye/shequjiankong/shequjiankong_main.html",
+					"wuye/yeweihui/yeweihui_main.html",
+					"wuye/tousujianyi/tousujianyi_main.html",
+					"reg.html",
+					"wuye/diantikaimen/diantikaimen_main.html",
+					"shequ/zhuti/zhuti.html",
+					"register_sc.html",
+					"bindUserInfo_sc.html",
+					"wuye/yijianqiuzhu/qiuzhu.html",
+					"shequ/zhuti/zhuti_sc.html",
+					"mine/bindmenjin.html",
+					"mine/binddianti.html",
+					"mine/wodebeiyaoqing.html",
+					"wuye/jiaofei/wuyefei.html"
+				],
+				"priority": 0
+			},
+			"shop/tab-webview-subpage-goods.html": {
+				"resources": [
+					"shop/js/own.js",
+					"shop/images/baijiu.jpg",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js"
+				],
+				"refer": [
+					"shop/product-detail-needtem.html"
+				],
+				"priority": 0
+			},
+			"shop/tab-yizhan-main.html": {
+				"resources": [
+					"shop/tab-webview-subpage-mendian.html",
+					"shop/fonts/mui.ttf",
+					"shop/css/iconfont.css",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/fonts/iconfont.ttf",
+					"shop/css/shop.css",
+					"js/app.js",
+					"js/common.js",
+					"shop/mendian/tab-webview-subpage-mendian.html",
+					"js/mui.min.js",
+					"/js/mui.min.js",
+					"shop/cart/tab-webview-subpage-cart.html",
+					"shop/goods/tab-webview-subpage-goods.html"
+				],
+				"refer": [
+					"shop/tab-webview-subpage-cart.html",
+					"shop/tab-webview-subpage-goods.html",
+					"shop/tab-webview-subpage-account.html",
+					"shop/mine/tab-webview-subpage-account.html"
+				],
+				"priority": 0
+			},
+			"shop/tab-webview-subpage-account.html": {
+				"resources": [
+					"shop/images/yizhan_yiwancheng.png",
+					"shop/images/yizhan_daifahuo.png",
+					"shop/images/yizhan_wodemendian.png",
+					"shop/images/yizhan_shouhuodizhi.png",
+					"shop/images/yizhan_xiaozizhongxin.png",
+					"shop/images/yizhan_daipingjia.png",
+					"shop/images/yizhan_wodeshoucang.png",
+					"shop/images/yizhan_peisongzhong.png",
+					"shop/images/yizhan_liulanjilu.png",
+					"shop/images/yizhan_daifukuan.png",
+					"shop/images/yizhan_huiyuanka.png",
+					"shop/images/yizhan_daishouhuo.png",
+					"shop/css/shop.css",
+					"shop/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/tab-webview-subpage-cart.html": {
+				"resources": [
+					"js/mui.min.js",
+					"shop/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/pullrefresh_sub.html": {
+				"resources": [
+					"images/notice.png",
+					"js/common.js",
+					"css/mui.min.css",
+					"js/app.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"mine/detail_notice.html"
+				],
+				"priority": 0
+			},
+			"mine/notice_main.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"mine/pullrefresh_sub.html",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/detail_notice.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/product-detail-needtem.html": {
+				"resources": [
+					"shop/js/own.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/search.html": {
+				"resources": [
+					"shop/js/zepto.min.js",
+					"shop/css/mui.min.css",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mendian/tab-webview-subpage-mendian.html": {
+				"resources": [
+					"shop/js/jquery-1.11.0.js",
+					"shop/js/mui.min.js",
+					"shop/fonts/mui.ttf",
+					"shop/css/mui.min.css",
+					"shop/css/default.css",
+					"shop/images/z1.png",
+					"shop/images/z2.png",
+					"shop/images/mendian_youhui_shoudan.png",
+					"shop/images/z3.png",
+					"shop/images/mendian_xinxi_qisongjine.png",
+					"shop/images/mendian_xinxi_peisongfanwei.png",
+					"shop/images/mendian_xinxi_yingyeshijian.png",
+					"shop/images/mendian_xinxi_peisongfei.png",
+					"shop/images/logo_dial.png",
+					"shop/images/mendian_youhui_zhifu.png",
+					"shop/images/mendian_youhui_manjian.png",
+					"js/app.js",
+					"js/common.js",
+					"shop/images/ic_data_empty.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css"
+				],
+				"refer": [
+					"shop/mendian/search.html"
+				],
+				"priority": 0
+			},
+			"shop/goods/tab-webview-subpage-goods.html": {
+				"resources": [
+					"shop/js/own.js",
+					"shop/images/baijiu.jpg",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/js/source.js",
+					"shop/images/guantou.jpg",
+					"shop/images/banjin.jpg",
+					"shop/images/jiyazhipin.jpg",
+					"shop/images/maoerduo.jpg",
+					"shop/images/guodongbuding.jpg",
+					"shop/images/weihuabing.jpg",
+					"shop/images/guazi.jpg",
+					"shop/images/gumianlatiao.jpg",
+					"shop/images/rouganroufu.jpg",
+					"shop/images/dougan.jpg",
+					"shop/images/babaozhou.jpg",
+					"shop/images/woniusu.jpg",
+					"shop/images/guoba.jpg",
+					"shop/images/tangguo.jpg",
+					"shop/images/danjuan.jpg",
+					"shop/images/qiaokeli.jpg",
+					"shop/images/huotuichang.jpg",
+					"shop/images/huasheng.jpg",
+					"shop/images/fangbianmian.jpg",
+					"shop/images/shutiao.jpg",
+					"shop/images/xiatiao.jpg",
+					"shop/images/dazao.jpg",
+					"shop/images/jianguo.jpg",
+					"shop/images/dangao.jpg",
+					"shop/images/shupian.jpg",
+					"shop/images/shaqima.jpg",
+					"shop/images/putaogan.jpg",
+					"shop/images/mianbao.jpg",
+					"shop/images/binggan.jpg",
+					"shop/images/yuganyusi.jpg",
+					"shop/images/chaye.jpg",
+					"shop/images/fuzhu.jpg",
+					"shop/images/huashengyou.jpg",
+					"shop/images/dami.jpg",
+					"shop/images/muer.jpg",
+					"shop/images/dadouyou.jpg",
+					"shop/images/mianfen.jpg",
+					"shop/images/tiaoheyou.jpg",
+					"shop/images/fensi.jpg",
+					"shop/images/zhimayou.jpg",
+					"shop/images/guamian.jpg",
+					"shop/images/fentiao.jpg",
+					"shop/images/kafeiyinliao.jpg",
+					"shop/images/chayinliao.jpg",
+					"shop/images/bailandi.jpg",
+					"shop/images/zhiwudanbaiyin.jpg",
+					"shop/images/gongnengyinliao.jpg",
+					"shop/images/naichayinliao.jpg",
+					"shop/images/kuangquanshui.jpg",
+					"shop/images/tansuanyinliao.jpg",
+					"shop/images/rupinyinliao.jpg",
+					"shop/images/yundongyinliao.jpg",
+					"shop/images/guozhiyinliao.jpg",
+					"shop/images/dianchi.jpg",
+					"shop/images/pijiu.jpg",
+					"shop/images/putaojiu.jpg",
+					"shop/images/huangjiu.jpg",
+					"shop/images/liangcha.jpg",
+					"shop/images/baojianjiu.jpg",
+					"shop/images/yingerhufupin.jpg",
+					"shop/images/yingermuyulu.jpg",
+					"shop/images/chunniunai.jpg",
+					"shop/images/liaojiu.jpg",
+					"shop/images/zaofen.jpg",
+					"shop/images/cu.jpg",
+					"shop/images/haoyou.jpg",
+					"shop/images/xiyiye.jpg",
+					"shop/images/hufasu.jpg",
+					"shop/images/hufupin.jpg",
+					"shop/images/yashua.jpg",
+					"shop/images/yagao.jpg",
+					"shop/images/suanniunai.jpg",
+					"shop/images/ganzatiaoliao.jpg",
+					"shop/images/xijiejing.jpg",
+					"shop/images/xishouye.jpg",
+					"shop/images/jiang.jpg",
+					"shop/images/muyulu.jpg",
+					"shop/images/weijingjijing.jpg",
+					"shop/images/zhiniaoku.jpg",
+					"shop/images/feizao.jpg",
+					"shop/images/baitang.jpg",
+					"shop/images/hongtang.jpg",
+					"shop/images/xiangzao.jpg",
+					"shop/images/xiyifen.jpg",
+					"shop/images/jiangyou.jpg",
+					"shop/images/xiaoduye.jpg",
+					"shop/images/xifashui.jpg",
+					"shop/images/jiaomu.jpg",
+					"shop/images/furu.jpg",
+					"shop/images/haichanpin.jpg",
+					"shop/images/bingtang.jpg",
+					"js/common.js",
+					"js/own.js",
+					"shop/images/ic_wifi_empty.png",
+					"shop/images/ic_data_empty.png",
+					"shop/css/own.css",
+					"shop/images/zanwutupian.png",
+					"shop/images/maipian.jpg",
+					"shop/images/weishengzhi.jpg",
+					"shop/images/weishengjin.jpg",
+					"shop/fonts/mui.ttf",
+					"shop/images/adv.png",
+					"shop/js/jquery-1.11.0.js",
+					"images/ic_launcher.png",
+					"js/app.js"
+				],
+				"refer": [
+					"shop/goods/product-detail-needtem.html",
+					"shop/goods/category-detail-new-needtem.html",
+					"shop/goods/cuxiao-detail-new-needtem.html",
+					"shop/mendian/search.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/tab-webview-subpage-account.html": {
+				"resources": [
+					"shop/images/yizhan_yiwancheng.png",
+					"shop/images/yizhan_daifahuo.png",
+					"shop/images/yizhan_wodemendian.png",
+					"shop/images/yizhan_shouhuodizhi.png",
+					"shop/images/yizhan_xiaozizhongxin.png",
+					"shop/images/yizhan_daipingjia.png",
+					"shop/images/yizhan_wodeshoucang.png",
+					"shop/images/yizhan_peisongzhong.png",
+					"shop/images/yizhan_liulanjilu.png",
+					"shop/images/yizhan_daifukuan.png",
+					"shop/images/yizhan_huiyuanka.png",
+					"shop/images/yizhan_daishouhuo.png",
+					"shop/css/shop.css",
+					"js/common.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/fonts/mui.ttf",
+					"js/app.js",
+					"shop/images/zanwutupian.png",
+					"shop/images/wode_bkg.jpg",
+					"images/user-photo.png",
+					"shop/css/own.css",
+					"images/ic_launcher.png"
+				],
+				"refer": [
+					"shop/mine/wodemendian.html",
+					"shop/mine/daifahuo.html",
+					"shop/mine/yiwancheng.html",
+					"shop/mine/shouhuodizhi.html",
+					"shop/mine/wodezuji.html",
+					"shop/mine/daipingjia.html",
+					"shop/mine/daifukuan.html",
+					"shop/mine/peisongzhong.html",
+					"shop/mine/daishouhuo.html",
+					"shop/mine/xiaoxizhongxin.html",
+					"shop/mine/huiyuanka.html",
+					"shop/mine/wodeshoucang.html"
+				],
+				"priority": 0
+			},
+			"shop/cart/tab-webview-subpage-cart.html": {
+				"resources": [
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"js/wl_ajax.js",
+					"js/common.js",
+					"js/app.js",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css",
+					"shop/images/ic_data_empty.png",
+					"shop/images/zanwutupian.png",
+					"shop/fonts/mui.ttf",
+					"css/iconfont.css",
+					"fonts/iconfont.ttf",
+					"js/jquery-1.11.0.js",
+					"shop/js/own.js",
+					"images/ic_launcher.png",
+					"shop/js/iconfont.css",
+					"shop/css1/iconfont.css",
+					"shop/css1/iconfont.ttf"
+				],
+				"refer": [
+					"shop/cart/index.html",
+					"shop/cart/YizhanShangpinListItemDetail.html",
+					"shop/goods/YizhanShangpinListItemDetail.html",
+					"shop/goods/yizhanShangpinListItemDetail.html",
+					"shop/cart/gouwucheShangpinJiesuan.html"
+				],
+				"priority": 0
+			},
+			"shop/mendian/search.html": {
+				"resources": [
+					"shop/js/zepto.min.js",
+					"shop/fonts/mui.ttf",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/ic_data_empty.png",
+					"shop/images/banjin.jpg",
+					"shop/images/ic_wifi_empty.png",
+					"js/common.js"
+				],
+				"refer": [
+					"shop/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"shop/goods/product-detail-needtem.html": {
+				"resources": [
+					"shop/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/goods/category-detail-new-needtem.html": {
+				"resources": [
+					"shop/css/own.css",
+					"shop/fonts/mui.ttf",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/banjin.jpg",
+					"js/app.js",
+					"js/common.js",
+					"shop/js/h.js",
+					"shop/images/ic_data_empty.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/images/zanwutupian.png",
+					"js/ajax.js"
+				],
+				"refer": [
+					"shop/goods/shangpinxiangqing.html",
+					"shop/goods/YizhanShangpinListItemDetail.html",
+					"shop/goods/yizhanShangpinListItemDetail.html",
+					"shop/mendian/search.html"
+				],
+				"priority": 0
+			},
+			"shop/goods/cuxiao-detail-new-needtem.html": {
+				"resources": [
+					"shop/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.min.css",
+					"shop/css/own.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/banjin.jpg",
+					"shop/images/ic_data_empty.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/images/zanwutupian.png"
+				],
+				"refer": [
+					"shop/goods/yizhanCuxiaoListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"shop/goods/shangpinxiangqing.html": {
+				"resources": [
+					"shop/js/Promotion.js",
+					"shop/images/yizhan_weishoucang.png",
+					"js/ajax.js",
+					"shop/js/YizhanShangpinListItemInfo.js",
+					"shop/js/PromotionResult.js",
+					"shop/images/yizhan_yishoucang.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/daifahuo.html": {
+				"resources": [
+					"shop/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"shop/images/banjin.jpg",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/ic_data_empty.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/goods/YizhanShangpinListItemDetail.html": {
+				"resources": [
+					"shop/js/Promotion.js",
+					"shop/images/yizhan_weishoucang.png",
+					"js/ajax.js",
+					"shop/js/YizhanShangpinListItemInfo.js",
+					"shop/js/PromotionResult.js",
+					"shop/images/yizhan_yishoucang.png",
+					"shop/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/wodemendian.html": {
+				"resources": [
+					"shop/fonts/mui.ttf",
+					"shop/images/ic_data_empty.png",
+					"js/app.js",
+					"js/common.js",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/mui.min.css",
+					"shop/css/own.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/cart/YizhanShangpinListItemDetail.html": {
+				"resources": [
+					"shop/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-phone.html": {
+				"resources": [
+					"images/phone3.png",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"images/home_guanjia_touxiang.png",
+					"css/mui.min.css",
+					"images/ic_data_empty.png",
+					"images/ic_wifi_empty.png",
+					"js/app.js",
+					"js/common.js",
+					"fonts/mui.ttf",
+					"css/css.css",
+					"feedback.html",
+					"images/phone.png"
+				],
+				"refer": [
+					"tab-setting.html",
+					"bindUserInfo.html"
+				],
+				"priority": 0
+			},
+			"minsheng/mine/minsheng-account.html": {
+				"resources": [
+					"minsheng/images/yizhan_daifahuo.png",
+					"minsheng/images/yizhan_xiaozizhongxin.png",
+					"minsheng/images/yizhan_wodeshoucang.png",
+					"minsheng/images/yizhan_daipingjia.png",
+					"minsheng/css/shop.css",
+					"minsheng/images/yizhan_daifukuan.png",
+					"minsheng/images/yizhan_wodemendian.png",
+					"minsheng/images/yizhan_yiwancheng.png",
+					"minsheng/images/yizhan_peisongzhong.png",
+					"minsheng/images/yizhan_huiyuanka.png",
+					"minsheng/images/yizhan_daishouhuo.png",
+					"minsheng/images/yizhan_liulanjilu.png",
+					"minsheng/images/yizhan_shouhuodizhi.png",
+					"js/common.js",
+					"minsheng/js/mui.min.js",
+					"minsheng/images/zanwutupian.png",
+					"js/app.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/css/own.css",
+					"images/user-photo.png"
+				],
+				"refer": [
+					"minsheng/mine/daifukuan.html",
+					"minsheng/mine/daifahuo.html",
+					"minsheng/mine/daishouhuo.html"
+				],
+				"priority": 0
+			},
+			"minsheng/goods/minsheng-goods.html": {
+				"resources": [
+					"minsheng/images/xiashuidaoweixiu.jpg",
+					"minsheng/images/ic_data_empty.png",
+					"minsheng/js/own.js",
+					"minsheng/images/zhongdiangong.jpg",
+					"minsheng/css/own.css",
+					"minsheng/images/xinfangkaihuang.jpg",
+					"minsheng/images/yuesao.jpg",
+					"minsheng/images/ic_wifi_empty.png",
+					"minsheng/images/baomu.jpg",
+					"minsheng/js/source.js",
+					"minsheng/images/jiadianweixiu.jpg",
+					"minsheng/images/jiatingbaojie.jpg",
+					"minsheng/images/yuyingshi.jpg",
+					"minsheng/images/banjiafuwu.jpg",
+					"minsheng/images/shangmenxiche.jpg",
+					"minsheng/images/qichexiupei.jpg",
+					"minsheng/images/guohu.jpg",
+					"minsheng/images/lvyoufuwu.jpg",
+					"minsheng/images/xidifuwu.jpg",
+					"minsheng/images/gerenxiezhen.jpg",
+					"minsheng/images/zhuangxiucaigou.jpg",
+					"minsheng/images/qichechuzu.jpg",
+					"minsheng/images/chuangyezhidao.jpg",
+					"minsheng/images/chongwufuwu.jpg",
+					"minsheng/images/shenche.jpg",
+					"minsheng/images/meirongmeifa.jpg",
+					"minsheng/images/yishutechang.jpg",
+					"minsheng/images/ertongyule.jpg",
+					"minsheng/images/kaisuofuwu.jpg",
+					"minsheng/images/fangwusheji.jpg",
+					"minsheng/images/qicheqingxi.jpg",
+					"minsheng/images/xicheka.jpg",
+					"minsheng/images/zaishengziyuan.jpg",
+					"minsheng/images/fangwuchushou.jpg",
+					"minsheng/images/kuaidifuwu.jpg",
+					"minsheng/images/hunshasheying.jpg",
+					"minsheng/images/dianxinfuwu.jpg",
+					"minsheng/images/piaojudaigou.jpg",
+					"minsheng/images/wenhuatechang.jpg",
+					"minsheng/images/fangwuzulin.jpg",
+					"minsheng/images/tiyutechang.jpg",
+					"minsheng/images/qichebaoyang.jpg",
+					"minsheng/images/fangwushigong.jpg",
+					"minsheng/images/hunqingtuiguang.jpg",
+					"minsheng/images/weizhangchuli.jpg",
+					"js/common.js",
+					"minsheng/fonts/mui.ttf",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/images/mingshengguogao1.png",
+					"minsheng/images/minshengguogao1.png",
+					"minsheng/js/jquery-1.11.0.js"
+				],
+				"refer": [
+					"minsheng/goods/cuxiao-detail-new-needtem.html",
+					"minsheng/goods/category-detail-new-needtem.html"
+				],
+				"priority": 0
+			},
+			"jiankang/goods/jiankang-goods.html": {
+				"resources": [
+					"jiankang/images/ic_data_empty.png",
+					"jiankang/css/own.css",
+					"jiankang/images/yangshengcha.jpg",
+					"jiankang/js/own.js",
+					"jiankang/images/ic_wifi_empty.png",
+					"jiankang/images/jiankangshipin.jpg",
+					"jiankang/images/baojianpin.jpg",
+					"jiankang/js/source.js",
+					"jiankang/images/ru.jpg",
+					"jiankang/images/shui.jpg",
+					"jiankang/images/yujia.jpg",
+					"jiankang/images/shequchangyi.jpg",
+					"jiankang/images/gao.jpg",
+					"jiankang/images/jianshen.jpg",
+					"jiankang/images/jinghua.jpg",
+					"jiankang/images/jianshenclub.jpg",
+					"jiankang/images/jiemian.jpg",
+					"jiankang/images/hanzheng.jpg",
+					"jiankang/images/shuang.jpg",
+					"jiankang/images/zhishijiangzuo.jpg",
+					"jiankang/images/meirong.jpg",
+					"jiankang/images/changdiyundong.jpg",
+					"jiankang/images/taiji.gif",
+					"jiankang/images/mianmo.jpg",
+					"jiankang/images/baisuishouxing.jpg",
+					"jiankang/images/yundong.jpg",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js",
+					"js/common.js",
+					"jiankang/fonts/mui.ttf",
+					"jiankang/images/jiankangguogao1.png",
+					"jiankang/js/jquery-1.11.0.js"
+				],
+				"refer": [
+					"jiankang/goods/category-detail-new-needtem.html"
+				],
+				"priority": 0
+			},
+			"jinrong/cart/jinrong-cart.html": {
+				"resources": [
+					"jinrong/images/zanwutupian.png",
+					"js/app.js",
+					"js/jquery-1.11.0.js",
+					"js/common.js",
+					"jinrong/js/own.js",
+					"css/iconfont.css",
+					"jinrong/images/ic_wifi_empty.png",
+					"jinrong/images/ic_data_empty.png",
+					"jinrong/css/own.css",
+					"fonts/iconfont.ttf",
+					"jinrong/css/mui.min.css",
+					"jinrong/js/mui.min.js",
+					"images/ic_launcher.png",
+					"jinrong/css1/iconfont.css",
+					"jinrong/css1/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jinrong/jinrong.html": {
+				"resources": [
+					"jinrong/fonts/mui.ttf",
+					"jinrong/fonts/iconfont.ttf",
+					"jinrong/css/mui.min.css",
+					"jinrong/js/mui.min.js",
+					"jinrong/css/shop.css",
+					"jinrong/css/iconfont.css",
+					"jinrong/mendian/jinrong-mendian.html",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [
+					"jinrong/cart/jinrong-cart.html",
+					"jinrong/goods/jinrong-goods.html",
+					"jinrong/mine/jinrong-account.html"
+				],
+				"priority": 0
+			},
+			"jiankang/cart/jiankang-cart.html": {
+				"resources": [
+					"jiankang/images/zanwutupian.png",
+					"fonts/iconfont.ttf",
+					"jiankang/images/ic_data_empty.png",
+					"jiankang/css/own.css",
+					"jiankang/js/own.js",
+					"jiankang/images/ic_wifi_empty.png",
+					"js/app.js",
+					"js/jquery-1.11.0.js",
+					"css/iconfont.css",
+					"js/common.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js",
+					"images/ic_launcher.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/jiankang.html": {
+				"resources": [
+					"jiankang/css/mui.min.css",
+					"jiankang/css/shop.css",
+					"jiankang/fonts/mui.ttf",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/iconfont.css",
+					"jiankang/mendian/jiankang-mendian.html",
+					"jiankang/fonts/iconfont.ttf",
+					"js/common.js",
+					"js/app.js",
+					"jiankang/hmendian/jiankang-mendian.html",
+					"jiankang/hgoods/jiankang-goods.html"
+				],
+				"refer": [
+					"jiankang/goods/jiankang-goods.html",
+					"jiankang/cart/jiankang-cart.html",
+					"jiankang/mine/jiankang-account.html",
+					"jiankang/hcart/jiankang-cart.html",
+					"jiankang/hmine/jiankang-account.html"
+				],
+				"priority": 0
+			},
+			"minsheng/minsheng.html": {
+				"resources": [
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/css/iconfont.css",
+					"minsheng/fonts/mui.ttf",
+					"minsheng/mendian/minsheng-mendian.html",
+					"minsheng/fonts/iconfont.ttf",
+					"js/app.js",
+					"js/common.js",
+					"minsheng/mmendian/minsheng-mendian.html",
+					"minsheng/mgoods/minsheng-goods.html"
+				],
+				"refer": [
+					"minsheng/mine/minsheng-account.html",
+					"minsheng/goods/minsheng-goods.html",
+					"minsheng/cart/minsheng-cart.html",
+					"minsheng/mcart/minsheng-cart.html",
+					"minsheng/mmine/minsheng-account.html"
+				],
+				"priority": 0
+			},
+			"minsheng/cart/minsheng-cart.html": {
+				"resources": [
+					"minsheng/images/zanwutupian.png",
+					"js/app.js",
+					"js/jquery-1.11.0.js",
+					"minsheng/js/own.js",
+					"fonts/iconfont.ttf",
+					"minsheng/images/ic_data_empty.png",
+					"minsheng/images/ic_wifi_empty.png",
+					"minsheng/css/own.css",
+					"css/iconfont.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"js/common.js",
+					"images/ic_launcher.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/mendian/minsheng-mendian.html": {
+				"resources": [
+					"minsheng/images/mendian_xinxi_yingyeshijian.png",
+					"minsheng/js/jquery-1.11.0.js",
+					"minsheng/images/mendian_xinxi_peisongfanwei.png",
+					"minsheng/images/mendian_youhui_zhifu.png",
+					"minsheng/css/default.css",
+					"minsheng/images/mendian_youhui_manjian.png",
+					"minsheng/images/mendian_youhui_shoudan.png",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/images/m1.jpg",
+					"minsheng/images/m3.jpg",
+					"minsheng/images/m2.jpg",
+					"minsheng/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/mendian/jiankang-mendian.html": {
+				"resources": [
+					"jiankang/images/mendian_youhui_shoudan.png",
+					"jiankang/images/mendian_youhui_manjian.png",
+					"jiankang/images/jk2.jpg",
+					"jiankang/css/default.css",
+					"jiankang/css/mui.min.css",
+					"jiankang/images/jk3.jpg",
+					"jiankang/js/jquery-1.11.0.js",
+					"jiankang/images/mendian_youhui_zhifu.png",
+					"jiankang/images/jk1.jpg",
+					"jiankang/images/mendian_xinxi_peisongfanwei.png",
+					"jiankang/js/mui.min.js",
+					"jiankang/images/mendian_xinxi_yingyeshijian.png",
+					"jiankang/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jinrong/mendian/jinrong-mendian.html": {
+				"resources": [
+					"jinrong/images/jr3.jpg",
+					"jinrong/js/jquery-1.11.0.js",
+					"jinrong/css/default.css",
+					"jinrong/images/mendian_xinxi_peisongfanwei.png",
+					"jinrong/images/mendian_youhui_zhifu.png",
+					"jinrong/images/jr2.jpg",
+					"jinrong/images/mendian_xinxi_yingyeshijian.png",
+					"jinrong/images/mendian_youhui_manjian.png",
+					"jinrong/images/jr1.jpg",
+					"jinrong/images/mendian_youhui_shoudan.png",
+					"jinrong/css/mui.min.css",
+					"jinrong/js/mui.min.js",
+					"jinrong/fonts/mui.ttf",
+					"jinrong/images/mendian_xinxi_peisongfei.png",
+					"jinrong/images/mendian_xinxi_qisongjine.png",
+					"jinrong/images/ic_data_empty.png",
+					"jinrong/images/ic_wifi_empty.png",
+					"jinrong/css/own.css",
+					"jinrong/images/logo_dial.png",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jinrong/goods/jinrong-goods.html": {
+				"resources": [
+					"jinrong/js/source.js",
+					"jinrong/images/touzilicai.jpg",
+					"jinrong/js/own.js",
+					"jinrong/images/daikuanyewu.jpg",
+					"jinrong/images/dailiyewu.jpg",
+					"jinrong/css/mui.min.css",
+					"jinrong/images/ic_wifi_empty.png",
+					"jinrong/images/yinhangkayewu.jpg",
+					"jinrong/js/mui.min.js",
+					"jinrong/images/ic_data_empty.png",
+					"jinrong/css/own.css",
+					"jinrong/images/caichanbaoxian.jpg",
+					"jinrong/images/xintuo.jpg",
+					"jinrong/images/jinrongtouzi.jpg",
+					"jinrong/images/diandang.jpg",
+					"jinrong/images/jijin.jpg",
+					"jinrong/images/xianjinlicai.jpg",
+					"jinrong/images/licaibaoxian.jpg",
+					"jinrong/images/gupiaojiaoyi.jpg",
+					"jinrong/images/renshenbaoxian.jpg",
+					"js/common.js",
+					"jinrong/fonts/mui.ttf",
+					"jinrong/js/jquery-1.11.0.js",
+					"images/ic_launcher.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"phoneCodeVerify.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/ajax.js",
+					"css/style.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/mine/jiankang-account.html": {
+				"resources": [
+					"jiankang/images/yizhan_daifukuan.png",
+					"jiankang/images/yizhan_xiaozizhongxin.png",
+					"jiankang/images/yizhan_daifahuo.png",
+					"jiankang/images/yizhan_wodemendian.png",
+					"jiankang/images/yizhan_liulanjilu.png",
+					"jiankang/images/yizhan_daishouhuo.png",
+					"jiankang/css/shop.css",
+					"jiankang/images/yizhan_huiyuanka.png",
+					"jiankang/images/yizhan_daipingjia.png",
+					"jiankang/images/yizhan_wodeshoucang.png",
+					"jiankang/images/yizhan_yiwancheng.png",
+					"jiankang/images/yizhan_peisongzhong.png",
+					"jiankang/images/yizhan_shouhuodizhi.png",
+					"js/common.js",
+					"jiankang/images/zanwutupian.png",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/mui.min.css",
+					"js/app.js",
+					"jiankang/css/own.css",
+					"images/user-photo.png",
+					"shop/images/health.png"
+				],
+				"refer": [
+					"jiankang/mine/daifahuo.html"
+				],
+				"priority": 0
+			},
+			"jinrong/mine/jinrong-account.html": {
+				"resources": [
+					"jinrong/images/yizhan_wodeshoucang.png",
+					"jinrong/images/yizhan_daifukuan.png",
+					"jinrong/images/yizhan_daishouhuo.png",
+					"jinrong/images/yizhan_peisongzhong.png",
+					"jinrong/images/yizhan_daifahuo.png",
+					"jinrong/images/yizhan_liulanjilu.png",
+					"jinrong/images/yizhan_shouhuodizhi.png",
+					"jinrong/images/yizhan_huiyuanka.png",
+					"jinrong/images/yizhan_wodemendian.png",
+					"jinrong/images/yizhan_xiaozizhongxin.png",
+					"jinrong/images/yizhan_daipingjia.png",
+					"jinrong/css/shop.css",
+					"jinrong/images/yizhan_yiwancheng.png",
+					"jinrong/images/zanwutupian.png",
+					"js/common.js",
+					"js/app.js",
+					"jinrong/css/mui.min.css",
+					"jinrong/js/mui.min.js",
+					"images/user-photo.png",
+					"jinrong/css/own.css",
+					"jinrong/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/baoxiu/baoxiu.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/images/actionbar_icon_add.png",
+					"wuye/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/baoxiu/new_baoxiu.html",
+					"wuye/css/common.css"
+				],
+				"refer": [
+					"wuye/baoxiu/detail_baoxiu.html"
+				],
+				"priority": 0
+			},
+			"wuye/baoxiu/new_baoxiu.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"wuye/images/icon_addpic_unfocused.png",
+					"wuye/images/baoxiuminerepair.png",
+					"wuye/images/baoxiuhouse.png",
+					"wuye/images/baoxiucontacts.png",
+					"wuye/images/baoxiuphonerepair.png",
+					"wuye/css/mui.min.css",
+					"wuye/images/cab_done.png",
+					"wuye/baoxiu/baoxiu.html",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/baoxiu/detail_baoxiu.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"wuye/images/baoxiuminerepair.png",
+					"wuye/images/baoxiuhouse.png",
+					"wuye/images/baoxiucontacts.png",
+					"wuye/images/baoxiuphonerepair.png",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/mui.min.css",
+					"wuye/css/common.css",
+					"wuye/js/mui.previewimage.js",
+					"wuye/js/mui.zoom.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/jiankong/shequjiankong_main .html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/goods/yizhanShangpinListItemDetail.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/images/yizhan_weishoucang.png",
+					"shop/css/iconfont.css",
+					"js/ajax.js",
+					"shop/images/yizhan_yishoucang.png",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/fonts/mui.ttf",
+					"shop/images/zanwutupian.png",
+					"shop/fonts/iconfont.ttf",
+					"shop/js/mui.zoom.js",
+					"shop/js/mui.lazyload.js",
+					"shop/js/swiper-3.4.2.min.js",
+					"shop/css/swiper.min.css",
+					"shop/images/babaozhou.jpg",
+					"shop/js/mui.lazyload.img.js",
+					"shop/js/mui.previewimage.js",
+					"shop/images/biaozhu.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css"
+				],
+				"refer": [
+					"shop/cart/gouwucheShangpinJiesuan.html"
+				],
+				"priority": 0
+			},
+			"shop/cart/gouwucheFukuan.html": {
+				"resources": [
+					"js/app.js",
+					"shop/js/own.js",
+					"shop/css/shop.css",
+					"shop/images/china_union_pay.png",
+					"shop/images/gouxuanno.png",
+					"shop/images/alipay.png",
+					"js/common.js",
+					"shop/images/wechat_pay.png",
+					"shop/images/gouxuanok.png",
+					"shop/js/immersed.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.picker.min.js",
+					"shop/js/mui.min.js",
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanno.png",
+					"images/zhifufangshi_weixinzhifu.png"
+				],
+				"refer": [
+					"shop/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"shop/cart/gouwucheShangpinJiesuan.html": {
+				"resources": [
+					"shop/images/white_ic_auto_locate.png",
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.picker.min.css",
+					"shop/css/mui.min.css",
+					"shop/js/mui.picker.min.js",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/location_32px.png"
+				],
+				"refer": [
+					"shop/cart/gouwucheFukuan.html",
+					"shop/cart/chooseAddress.html"
+				],
+				"priority": 0
+			},
+			"wuye/jiaofei/wuyefei.html": {
+				"resources": [
+					"wuye/css/style.css",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/jiaofei/jiaofei.html",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanno.png",
+					"wuye/css/common.css",
+					"images/zhifufangshi_weixinzhifu.png",
+					"images/gouxuanok.png",
+					"images/ic_data_empty.png",
+					"images/ic_wifi_empty.png"
+				],
+				"refer": [
+					"wuye/jiaofei/payment.html",
+					"wuye/jiaofei/yuqizhangdan.html",
+					"wuye/jiaofei/wuyefei_history.html"
+				],
+				"priority": 0
+			},
+			"wuye/jiaofei/payment.html": {
+				"resources": [
+					"css/mui.min.css",
+					"wuye/css/common.css",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiaofei/jiaofei.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/js/app.js",
+					"wuye/jiaofei/wuyefei.html",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/css/common.css",
+					"images/wuye_wuyefei.png",
+					"images/wuye_cheweifei.png",
+					"images/wuye_cheweiguanlifei.png",
+					"images/wuye_zhuangxiuyajin.png",
+					"js/common.js",
+					"js/mui.min.js",
+					"wuye/images/bg.jpg",
+					"js/app.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bindUserInfo.html": {
+				"resources": [
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/css.css",
+					"js/app.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/daifukuan.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/images/banjin.jpg",
+					"shop/images/ic_data_empty.png",
+					"shop/fonts/mui.ttf",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css"
+				],
+				"refer": [
+					"shop/mine/daifukuanDetail.html",
+					"shop/mine/zhifu.html"
+				],
+				"priority": 0
+			},
+			"minsheng/goods/cuxiao-detail-new-needtem.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/js/own.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/iconfont.css",
+					"minsheng/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/goods/category-detail-new-needtem.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/js/own.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/iconfont.css",
+					"minsheng/css/mui.min.css",
+					"minsheng/js/source.js",
+					"minsheng/images/baomupic.jpg",
+					"minsheng/images/hua.jpg",
+					"minsheng/images/qi.jpg",
+					"minsheng/images/shu.jpg",
+					"minsheng/images/qin.jpg",
+					"minsheng/images/zuqiu.jpg",
+					"minsheng/images/lanqiu.jpg",
+					"minsheng/images/tangfa.jpg",
+					"minsheng/images/lifa.jpg",
+					"minsheng/images/jiuyepeixun.jpg",
+					"minsheng/images/huochepiao.jpg",
+					"minsheng/images/feijipiao.jpg",
+					"minsheng/images/qichepiao.jpg",
+					"minsheng/images/dianyingpiao.jpg"
+				],
+				"refer": [
+					"minsheng/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"minsheng/goods/yizhanShangpinListItemDetail.html": {
+				"resources": [
+					"minsheng/images/yizhan_weishoucang.png",
+					"js/app.js",
+					"js/common.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/iconfont.css",
+					"minsheng/css/mui.min.css",
+					"js/ajax.js",
+					"minsheng/js/source.js"
+				],
+				"refer": [
+					"minsheng/cart/gouwucheShangpinJiesuan.html"
+				],
+				"priority": 0
+			},
+			"guide.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/g2.jpg",
+					"images/g1.jpg",
+					"images/g3.jpg",
+					"images/logo_zhejiayizhan.png",
+					"images/g1.png",
+					"images/g2.png",
+					"images/g3.png",
+					"images/g4.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/cart/gouwucheShangpinJiesuan.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/js/own.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.picker.min.css",
+					"minsheng/css/iconfont.css",
+					"minsheng/css/mui.min.css",
+					"minsheng/js/mui.picker.min.js"
+				],
+				"refer": [
+					"minsheng/cart/gouwucheFukuan.html"
+				],
+				"priority": 0
+			},
+			"minsheng/cart/gouwucheFukuan.html": {
+				"resources": [
+					"minsheng/images/gouxuanno.png",
+					"js/app.js",
+					"minsheng/js/own.js",
+					"minsheng/css/shop.css",
+					"minsheng/images/gouxuanok.png",
+					"minsheng/images/china_union_pay.png",
+					"minsheng/js/immersed.js",
+					"js/common.js",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/images/alipay.png",
+					"minsheng/js/mui.picker.min.js",
+					"minsheng/images/wechat_pay.png"
+				],
+				"refer": [
+					"minsheng/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"minsheng/mine/daifukuan.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css"
+				],
+				"refer": [
+					"minsheng/mine/daifukuanDetail.html"
+				],
+				"priority": 0
+			},
+			"minsheng/mine/daifukuanDetail.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/js/own.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.picker.min.css",
+					"minsheng/css/iconfont.css",
+					"minsheng/css/mui.min.css",
+					"minsheng/js/mui.picker.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/goods/category-detail-new-needtem.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"jiankang/js/own.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/css/shop.css",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/iconfont.css",
+					"jiankang/js/source.js",
+					"jiankang/images/danbaizhifen.jpg",
+					"jiankang/images/weishengsu.jpg",
+					"jiankang/images/gaipian.jpg",
+					"jiankang/images/kangxuetang.jpg",
+					"jiankang/images/kangyanghua.jpg",
+					"jiankang/images/changweiyanghu.jpg",
+					"jiankang/images/kongzhitizhong.jpg",
+					"jiankang/images/xinnaohealth.jpg",
+					"jiankang/images/qudou.jpg",
+					"jiankang/images/guangchangwu.jpg"
+				],
+				"refer": [
+					"jiankang/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"jiankang/goods/yizhanShangpinListItemDetail.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/css/shop.css",
+					"js/ajax.js",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/iconfont.css",
+					"jiankang/js/source.js"
+				],
+				"refer": [
+					"jiankang/cart/gouwucheShangpinJiesuan.html"
+				],
+				"priority": 0
+			},
+			"jiankang/cart/gouwucheShangpinJiesuan.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"jiankang/css/mui.picker.min.css",
+					"jiankang/js/own.js",
+					"jiankang/js/mui.picker.min.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/css/shop.css",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/iconfont.css",
+					"jiankang/images/white_ic_auto_locate.png"
+				],
+				"refer": [
+					"jiankang/cart/gouwucheFukuan.html"
+				],
+				"priority": 0
+			},
+			"jiankang/cart/gouwucheFukuan.html": {
+				"resources": [
+					"jiankang/images/gouxuanok.png",
+					"js/app.js",
+					"jiankang/images/alipay.png",
+					"jiankang/css/shop.css",
+					"jiankang/images/wechat_pay.png",
+					"js/common.js",
+					"jiankang/js/own.js",
+					"jiankang/js/immersed.js",
+					"jiankang/js/mui.picker.min.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/images/gouxuanno.png",
+					"jiankang/js/mui.min.js",
+					"jiankang/images/china_union_pay.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiaofei/yuqizhangdan.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"images/gouxuanok.png",
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/style.css",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanno.png",
+					"wuye/css/common.css",
+					"images/zhifufangshi_weixinzhifu.png"
+				],
+				"refer": [
+					"wuye/jiaofei/payment.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/xiaoxizhongxin.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/peisongzhong.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tongzhi/tongzhi.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/js/app.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/tongzhi/pullrefresh_sub.html",
+					"wuye/css/common.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tongzhi/pullrefresh_sub.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/notice.png",
+					"wuye/js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/fonts/mui.ttf"
+				],
+				"refer": [
+					"wuye/tongzhi/detail_notice.html"
+				],
+				"priority": 0
+			},
+			"wuye/menjin/menjin.html": {
+				"resources": [
+					"wuye/css/style.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"wuye/images/little_qrcode.png",
+					"wuye/css/mui.min.css",
+					"wuye/images/guan.png",
+					"wuye/fonts/mui.ttf",
+					"wuye/menjin/fangkema.html",
+					"wuye/menjin/controldoor.html",
+					"wuye/images/door_close.png",
+					"wuye/images/opendoor_close.png",
+					"wuye/images/opendoor_open.png",
+					"wuye/images/door_open.png",
+					"images/ic_data_empty.png",
+					"images/ic_wifi_empty.png"
+				],
+				"refer": [
+					"wuye/menjin/fangkejilu.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihui.html": {
+				"resources": [
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/js/common.js",
+					"wuye/yeweihui/hudong.html",
+					"wuye/yeweihui/gonggao.html",
+					"wuye/fonts/mui.ttf",
+					"wuye/yeweihui/yeweihuiguanli.html",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/hudong.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/yeweihui/yeweihui.html",
+					"wuye/images/actionbar_icon_add.png",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/yeweihui/add_hudong.html"
+				],
+				"refer": [
+					"wuye/yeweihui/detail_hudong.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/gonggao.html": {
+				"resources": [
+					"wuye/yeweihui/yeweihui.html",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/js/common.js",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tingche/tingche.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/images/parking_accredit.png",
+					"wuye/css/style.css",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/images/parking_record.png",
+					"wuye/images/little_qrcode.png",
+					"wuye/fonts/mui.ttf",
+					"wuye/menjin/fangkema.html",
+					"wuye/tingche/tingcherecord.html"
+				],
+				"refer": [
+					"wuye/tingche/idlecheweilist.html",
+					"wuye/menjin/fangkejilu.html",
+					"wuye/tingche/cheweifenbu.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/wodeshoucang.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"shop/js/own.js",
+					"shop/css1/iconfont.css",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/daifukuanDetail.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.picker.min.css",
+					"shop/css/mui.min.css",
+					"shop/css/own.css",
+					"shop/js/mui.picker.min.js",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/fonts/mui.ttf",
+					"shop/images/yizhan_shouhuodizhi.png"
+				],
+				"refer": [
+					"shop/goods/yizhanShangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"minsheng/mine/daifahuo.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/mine/daishouhuo.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"minsheng/css/shop.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/mine/daifahuo.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/css/shop.css",
+					"jiankang/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/daishouhuo.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css"
+				],
+				"refer": [
+					"shop/mine/daishouhuoDetail.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/daishouhuoDetail.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.picker.min.css",
+					"shop/css/mui.min.css",
+					"shop/js/mui.picker.min.js",
+					"shop/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"feedback.html": {
+				"resources": [
+					"css/feedback.css",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/feedback.js",
+					"js/app.js",
+					"js/common.js",
+					"css/css.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-setting1.html": {
+				"resources": [
+					"css/css.css",
+					"css/feedback.css",
+					"js/feedback.js",
+					"js/mui.view.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/userInfo.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/feedback.js",
+					"js/mui.view.js",
+					"fonts/mui.ttf",
+					"images/ic_launcher.png"
+				],
+				"refer": [
+					"mine/changeName.html",
+					"mine/changeTel.html",
+					"phoneCodeVerify.html",
+					"phoneCodeMAS.html",
+					"mine/changeNickname.html",
+					"phoneCodeVerify_sc.html",
+					"mine/changePwd.html"
+				],
+				"priority": 0
+			},
+			"mine/changeName.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/yijianfankui.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/guanyuruanjian.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/ic_launcher.png",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/share.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/shareiOS.png",
+					"fonts/mui.ttf",
+					"images/bysq_android.png",
+					"images/share_icommunity.png",
+					"mine/images/share_bysq_common_h5.png",
+					"images/share_bysq_common_H5.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/tousu.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"css/mui.min.css",
+					"wuye/css/mui.min.css",
+					"wuye/yeweihui/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/detail_hudong.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/huiyuanka.html": {
+				"resources": [
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"js/app.js",
+					"js/common.js",
+					"shop/images/ic_data_empty.png",
+					"shop/fonts/mui.ttf",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css",
+					"js/jquery-1.11.0.js",
+					"shop/js/JsBarcode.all.min.js"
+				],
+				"refer": [
+					"shop/mine/huiyuankachongzhi.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/shouhuodizhi.html": {
+				"resources": [
+					"shop/css/mui.min.css",
+					"shop/css/shop.css",
+					"js/app.js",
+					"js/common.js",
+					"shop/js/mui.min.js",
+					"shop/images/ic_data_empty.png",
+					"shop/fonts/mui.ttf",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css"
+				],
+				"refer": [
+					"shop/mine/addnewaddress.html",
+					"shop/mine/editAddress.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/zhifu.html": {
+				"resources": [
+					"js/app.js",
+					"shop/js/own.js",
+					"shop/css/shop.css",
+					"shop/images/china_union_pay.png",
+					"shop/images/gouxuanno.png",
+					"shop/images/alipay.png",
+					"js/common.js",
+					"shop/images/wechat_pay.png",
+					"shop/images/gouxuanok.png",
+					"shop/js/immersed.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.picker.min.js",
+					"shop/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/goods/yizhanCuxiaoListItemDetail.html": {
+				"resources": [
+					"js/app.js",
+					"shop/js/mui.zoom.js",
+					"shop/css/iconfont.css",
+					"shop/js/mui.lazyload.js",
+					"shop/css/shop.css",
+					"shop/js/swiper-3.4.2.min.js",
+					"js/common.js",
+					"shop/css/swiper.min.css",
+					"shop/js/mui.lazyload.img.js",
+					"js/ajax.js",
+					"shop/js/mui.previewimage.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/images/yizhan_weishoucang.png",
+					"shop/images/biaozhu.png",
+					"shop/images/yizhan_yishoucang.png",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/own.css",
+					"shop/fonts/mui.ttf",
+					"shop/fonts/iconfont.ttf"
+				],
+				"refer": [
+					"shop/cart/gouwucheShangpinJiesuan.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/daipingjia.html": {
+				"resources": [],
+				"refer": [
+					"shop/mine/pingjia.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/addnewaddress.html": {
+				"resources": [
+					"shop/css/mui.picker.min.css",
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"js/mui.min.js",
+					"shop/css/mui.min.css",
+					"shop/css/shop.css",
+					"shop/fonts/mui.ttf",
+					"js/jquery-1.11.0.js",
+					"shop/css/own.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/cart/chooseAddress.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"shop/js/own.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"shop/fonts/mui.ttf",
+					"shop/css/own.css"
+				],
+				"refer": [
+					"shop/mine/shouhuodizhi.html"
+				],
+				"priority": 0
+			},
+			"shop/mine/huiyuankachongzhi.html": {
+				"resources": [
+					"shop/images/gouxuanno.png",
+					"shop/images/alipay.png",
+					"shop/js/own.js",
+					"shop/images/wechat_pay.png",
+					"shop/images/gouxuanok.png",
+					"shop/js/immersed.js",
+					"shop/css/mui.min.css",
+					"shop/js/mui.picker.min.js",
+					"shop/images/china_union_pay.png",
+					"js/app.js",
+					"js/common.js",
+					"shop/js/mui.min.js",
+					"shop/css/shop.css",
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanok.png",
+					"images/gouxuanno.png",
+					"images/zhifufangshi_weixinzhifu.png"
+				],
+				"refer": [
+					"shop/mine/huiyuanka.html"
+				],
+				"priority": 0
+			},
+			"mine/huiyuankachaxun.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"shop/mine/huiyuanka.html",
+					"mine/huiyuankashenqing.html"
+				],
+				"priority": 0
+			},
+			"mine/huiyuankashenqing.html": {
+				"resources": [
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanno.png",
+					"images/zhifufangshi_weixinzhifu.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/gouxuanok.png",
+					"css/css.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tongzhi/detail_notice.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/common.css",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shequ/shequ.html": {
+				"resources": [
+					"shequ/images/asd888.jpg",
+					"shequ/images/0.jpg",
+					"shequ/images/c.png",
+					"shequ/images/ads.png",
+					"shequ/images/jt1.jpg",
+					"shequ/images/a7.jpg",
+					"shequ/images/a3.jpg",
+					"shequ/images/link.png",
+					"shequ/images/c1.jpg",
+					"shequ/images/ma1.jpg",
+					"shequ/images/c8.jpg",
+					"shequ/images/xa1.jpg",
+					"shequ/images/bg.jpg",
+					"shequ/images/yt3.jpg",
+					"shequ/css/app.css",
+					"shequ/images/c2.jpg",
+					"shequ/images/c3.jpg",
+					"shequ/images/n5.jpg",
+					"shequ/images/l.png",
+					"shequ/images/a1.jpg",
+					"shequ/images/c4.jpg",
+					"shequ/images/a4.jpg",
+					"shequ/js/jquery.min.js",
+					"shequ/images/a2.jpg",
+					"shequ/images/a5.jpg",
+					"shequ/images/bq1.png",
+					"shequ/img/s5.jpg",
+					"shequ/img/sb4.jpg",
+					"shequ/img/y1.jpeg",
+					"shequ/img/sb1.jpg",
+					"shequ/img/bg.jpeg",
+					"shequ/js/photoswipe.js",
+					"shequ/css/iconfont.css",
+					"shequ/img/sb3.jpg",
+					"shequ/css/demo.css",
+					"shequ/css/photoswipe.css",
+					"shequ/img/tx2.jpg",
+					"shequ/img/th1.jpg",
+					"shequ/css/iconfont.woff",
+					"shequ/js/photoswipe-ui-default.min.js",
+					"shequ/css/default-skin/default-skin.css",
+					"shequ/img/tx.jpg",
+					"shequ/img/tx3.jpg",
+					"shequ/img/m3.jpg",
+					"shequ/css/default-skin/default-skin.svg",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"shequ/images/s4_m.jpg",
+					"shequ/images/dingwei.png",
+					"shequ/images/s5.jpg",
+					"shequ/images/s3_m.jpg",
+					"shequ/images/s5_m.jpg",
+					"shequ/css/commes.css",
+					"shequ/images/s1_m.jpg",
+					"shequ/js/photoswipe.min.js",
+					"shequ/images/s1.jpg",
+					"shequ/images/s2.jpg",
+					"shequ/images/s2_m.jpg",
+					"shequ/images/yuantiao.jpg",
+					"shequ/images/logo.png",
+					"shequ/fonts/mui.ttf",
+					"shequ/fonts/iconfont.ttf",
+					"shequ/js/mui.zoom.js",
+					"shequ/js/mui.previewimage.js",
+					"shequ/images/muwu.jpg",
+					"shequ/images/s3.jpg",
+					"shequ/images/shuijiao.jpg",
+					"shequ/images/s4.jpg",
+					"shequ/new_note.html",
+					"shequ/js/jquery-1.11.0.js",
+					"shequ/js/mui.picker.js",
+					"shequ/js/mui.poppicker.js",
+					"shequ/js/mui.picker.min.js",
+					"shequ/css/mui.picker.min.css",
+					"shequ/images/news.jpg",
+					"shequ/images/ershoumarket.jpg",
+					"shequ/images/xiuxianyule.jpg",
+					"shequ/js/source.js",
+					"shequ/images/czyj1.png",
+					"shequ/images/shequ_sjyl.png",
+					"shequ/images/shequ_sqxw.png",
+					"shequ/images/shequ_ylsj.png"
+				],
+				"refer": [
+					"shequ/shequ_show.html"
+				],
+				"priority": 0
+			},
+			"anfang/anfang.html": {
+				"resources": [
+					"anfang/css/shop.css",
+					"js/app.js",
+					"js/common.js",
+					"anfang/fonts/mui.ttf",
+					"anfang/css/mui.min.css",
+					"anfang/css/iconfont.css",
+					"anfang/fonts/iconfont.ttf",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tuoguan/tuoguan.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/mui.min.css",
+					"wuye/tuoguan/tuoguan_mine.html",
+					"js/common.js",
+					"js/app.js",
+					"wuye/js/jquery-1.11.0.js",
+					"shequ/new_note.html"
+				],
+				"refer": [
+					"wuye/tuoguan/detail_tuoguan.html"
+				],
+				"priority": 0
+			},
+			"wuye/tuoguan/tuoguan_mine.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/images/actionbar_icon_add.png",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/tuoguan/new_baoxiu.html",
+					"wuye/tuoguan/tuoguan.html",
+					"wuye/tuoguan/new_tuoguan.html"
+				],
+				"refer": [
+					"wuye/tuoguan/detail_tuoguan.html",
+					"wuye/tuoguan/detail_tuoguan_mine.html"
+				],
+				"priority": 0
+			},
+			"wuye/tuoguan/new_baoxiu.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"wuye/images/icon_addpic_unfocused.png",
+					"wuye/tuoguan/tuoguan_mine.html",
+					"wuye/images/baoxiuminerepair.png",
+					"wuye/images/baoxiuhouse.png",
+					"wuye/images/baoxiucontacts.png",
+					"wuye/images/baoxiuphonerepair.png",
+					"wuye/css/mui.min.css",
+					"wuye/images/cab_done.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tuoguan/detail_tuoguan.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"wuye/tuoguan/images/fangwushigong.jpg",
+					"wuye/tuoguan/images/fangwuzulin.jpg",
+					"css/mui.min.css",
+					"wuye/tuoguan/images/fangwusheji.jpg",
+					"wuye/tuoguan/images/fangwuchushou.jpg",
+					"wuye/tuoguan/images/zhuangxiusheji_bg.jpg",
+					"images/z1.jpg",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tuoguan/new_tuoguan.html": {
+				"resources": [
+					"wuye/tuoguan/tuoguan_mine.html",
+					"wuye/images/icon_addpic_unfocused.png",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"css/feedback.css",
+					"wuye/tuoguan/js/addnew_tuoguan.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shequ/new_note.html": {
+				"resources": [
+					"shequ/images/icon_addpic_unfocused.png",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"wuye/tuoguan/tuoguan.html",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shequ/shequ_show.html": {
+				"resources": [
+					"shequ/js/jquery-1.11.0.js",
+					"shequ/images/s3.jpg",
+					"shequ/images/yuantiao.jpg",
+					"shequ/css/iconfont.css",
+					"shequ/images/s5_m.jpg",
+					"shequ/js/mui.zoom.js",
+					"shequ/images/shuijiao.jpg",
+					"shequ/images/s4.jpg",
+					"shequ/js/mui.previewimage.js",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"shequ/images/s1.jpg",
+					"shequ/fonts/iconfont.ttf",
+					"shequ/images/muwu.jpg",
+					"shequ/images/logo.png",
+					"shequ/js/source.js",
+					"shequ/images/praise.png",
+					"shequ/js/comment.js",
+					"js/app.js",
+					"js/common.js",
+					"shequ/images/s3_m.jpg",
+					"shequ/fonts/mui.ttf"
+				],
+				"refer": [
+					"shequ/new_note.html"
+				],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_mian.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/bianmin_jiudianzhusu.png",
+					"bianminxinxi/bianminxinxi_yinhangbaoxian.html",
+					"images/bianmin_yinhangbaoxian.png",
+					"images/bianmin_wodeshequ.png",
+					"images/bianmin_kuaicanwaimai.png",
+					"images/bianmin_gonggongrexian.png",
+					"images/bianmin_wuliukuaidi.png",
+					"images/bianmin_huochejipiao.png",
+					"bianminxinxi/bianminxinxi_huochejipiao.html",
+					"bianminxinxi/bianminxinxi_wuliukuaidi.html",
+					"bianminxinxi/bianminxinxi_jiudianzhusu.html",
+					"fonts/mui.ttf",
+					"bianminxinxi/bianminxinxi_kefushouhou.html",
+					"bianminxinxi/bianminxinxi_kuaicanwaimai.html",
+					"bianminxinxi/bianminxinxi_gonggongrexian.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhuangxiusheji/zhuangxiusheji_main.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/zhuangxiusheji_zhuangxiufuwu.png",
+					"images/zhuangxiusheji_quanwuzhengzhuang.png",
+					"images/zhuangxiusheji_bg.jpg",
+					"images/zhuangxiusheji_kuaisubaojia.png",
+					"zhuangxiusheji/zhuangxiusheji_quanwuzhengzhuang.html",
+					"zhuangxiusheji/zhuangxiusheji_shigongxianchang.html",
+					"fonts/mui.ttf",
+					"zhuangxiusheji/images/ad4.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang.png",
+					"zhuangxiusheji/images/ad5.jpg",
+					"zhuangxiusheji/images/ad1.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_zhuangxiufuwu.png",
+					"zhuangxiusheji/images/zhuangxiusheji_kuaisubaojia.png",
+					"zhuangxiusheji/images/ad3.jpg",
+					"zhuangxiusheji/images/ad2.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhinengtingche/zhinengtingche_main.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"images/zhinengtigche_gerenzhongxin.jpg",
+					"js/common.js",
+					"js/mui.min.js",
+					"images/zhinengtigche_cheweidaohang.jpg",
+					"images/zhinengtigche_tingchejiaofei.jpg",
+					"images/zhinengtingche_bg1.jpg",
+					"css/mui.min.css",
+					"images/zhinengtingche_bg2.png",
+					"zhinengtingche/zhinengtingche_tingchejiaofei.html",
+					"zhinengtingche/zhinengtingche_cheweidaohang.html",
+					"fonts/mui.ttf",
+					"zhinengtingche/images/zhinengtigche_gerenzhongxin.jpg",
+					"zhinengtingche/images/zhinengtingche_bg2.png",
+					"zhinengtingche/images/zhinengtigche_tingchejiaofei.jpg",
+					"zhinengtingche/images/zhinengtingche_bg1.jpg",
+					"zhinengtingche/images/zhinengtigche_cheweidaohang.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhuangxiusheji/zhuangxiusheji_quanwuzhengzhuang.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"images/zhuangxiusheji_quanwuzhengzhuang_5.jpg",
+					"images/zhuangxiusheji_quanwuzhengzhuang_2.jpg",
+					"images/zhuangxiusheji_quanwuzhengzhuang_1.jpg",
+					"css/mui.min.css",
+					"images/zhuangxiusheji_quanwuzhengzhuang_4.jpg",
+					"images/zhuangxiusheji_quanwuzhengzhuang_3.jpg",
+					"images/zhuangxiusheji_quanwuzhengzhuang_6.jpg",
+					"zhuangxiusheji/zhuangxiusheji_main.html",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_6.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_1.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_2.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_5.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_4.jpg",
+					"zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_3.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_yinhangbaoxian.html": {
+				"resources": [
+					"bianminxinxi/bianminxinxi_mian.html",
+					"images/logo_taipingyangbaoxian.png",
+					"images/logo_zhongguogongshangyinhhang.png",
+					"images/logo_zhongguojiansheyinhang.png",
+					"images/logo_zhongguopingan.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_taipingyangbaoxian.png",
+					"bianminxinxi/images/logo_zhongguojiansheyinhang.png",
+					"bianminxinxi/images/logo_zhongguopingan.png",
+					"bianminxinxi/images/logo_zhongguogongshangyinhhang.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhinengtingche/zhinengtingche_tingchejiaofei.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"zhinengtingche/zhinengtingche_main.html",
+					"images/xiaoqutingche_tingchefei.jpg",
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"zhinengtingche/images/tcjf.jpg",
+					"images/gouxuanno.png",
+					"images/zhifufangshi_weixinzhifu.png",
+					"images/gouxuanok.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhinengtingche/zhinengtingche_cheweidaohang.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"zhinengtingche/zhinengtingche_main.html",
+					"images/tingchechangdaohang.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/shequjiankong_main .html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/css/mui.min.css",
+					"wuye/jiankong/demo.html",
+					"/images/xiaoqujiankong_xidamen.png",
+					"images/xiaoqujiankong_xidamen.png",
+					"images/xiaoqujiankong_dongdamen.png",
+					"images/xiaoqujiankong_nandamen.png",
+					"wuye/jiankong/demo_haikang.html",
+					"wuye/jiankong/demo_dahua.html",
+					"js/jquery-1.11.0.js",
+					"wuye/jiankong/demo_dahua_haigang1.html",
+					"wuye/jiankong/demo_dahua_haigang2.html",
+					"wuye/jiankong/demo_dahua_tdyp1.html",
+					"wuye/jiankong/demo_dahua_tdyp2.html",
+					"wuye/jiankong/demo_dahua_haigang_shipinhuifang.html",
+					"wuye/jiankong/images/xiaoqujiankong_dongdamen.png",
+					"wuye/jiankong/images/xiaoqujiankong_xidamen.png",
+					"wuye/jiankong/images/xiaoqujiankong_nandamen.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_haikang.html": {
+				"resources": [
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html",
+					"wuye/js/mui.min.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua.html": {
+				"resources": [
+					"wuye/jiankong/shequjiankong_main .html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihuiguanli.html": {
+				"resources": [
+					"wuye/css/style.css",
+					"wuye/yeweihui/yeweihui.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"js/mui.min.js",
+					"js/webviewGroup.js",
+					"wuye/yeweihui/guanli/tab-top-subpage-1.html",
+					"css/mui.min.css",
+					"wuye/yeweihui/guanli/yeweihuiguanli_toupiao.html",
+					"wuye/fonts/mui.ttf",
+					"js/common.js"
+				],
+				"refer": [
+					"wuye/yeweihui/guanli/tab-top-subpage-3.html",
+					"wuye/yeweihui/guanli/tab-top-subpage-4.html",
+					"wuye/yeweihui/guanli/tab-top-subpage-2.html",
+					"wuye/yeweihui/guanli/tab-top-subpage-5.html",
+					"wuye/yeweihui/guanli/yeweihuiguanli_xuanju.html",
+					"wuye/yeweihui/guanli/yeweihuiguanli_huiyi.html",
+					"wuye/yeweihui/guanli/yeweihuiguanli_huodong.html",
+					"wuye/yeweihui/guanli/yeweihuiguanli_gonggao.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/add_hudong.html": {
+				"resources": [
+					"wuye/images/cab_done.png",
+					"wuye/yeweihui/hudong.html",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_huochejipiao.html": {
+				"resources": [
+					"images/logo_dongfanghangkong.png",
+					"images/logo_huochepiaoyudingdianhua.png",
+					"bianminxinxi/bianminxinxi_mian.html",
+					"images/logo_12306kefurexian.png",
+					"images/logo_chunqiuhangkong.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_huochepiaoyudingdianhua.png",
+					"bianminxinxi/images/logo_dongfanghangkong.png",
+					"bianminxinxi/images/logo_12306kefurexian.png",
+					"bianminxinxi/images/logo_chunqiuhangkong.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_wuliukuaidi.html": {
+				"resources": [
+					"bianminxinxi/bianminxinxi_mian.html",
+					"images/logo_yuantongsudi.png",
+					"images/logo_shunfengsuyun.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_yuantongsudi.png",
+					"bianminxinxi/images/logo_shunfengsuyun.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/menjin/fangkema.html": {
+				"resources": [
+					"wuye/js/mui.dtpicker.js",
+					"wuye/images/icon_visit_time.png",
+					"wuye/js/jquery.min.js",
+					"wuye/images/icon_tel.png",
+					"wuye/css/mui.dtpicker.css",
+					"wuye/images/icon_identity_card.png",
+					"wuye/js/mui.listpicker.js",
+					"wuye/images/icon_gender.png",
+					"wuye/css/mui.listpicker.css",
+					"wuye/images/icon_guest_name.png",
+					"wuye/js/jquery.qrcode.min.js",
+					"wuye/js/jquery-1.8.3.min.js",
+					"wuye/menjin/touch.js",
+					"wuye/images/fenxiang.png",
+					"wuye/menjin/menjin.html",
+					"css/mui.min.css",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"wuye/css/style.css",
+					"js/common.js",
+					"wuye/menjin/fangkema.html",
+					"wuye/fonts/mui.ttf",
+					"fonts/mui.ttf",
+					"wuye/tingche/tingche.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/menjin/controldoor.html": {
+				"resources": [
+					"wuye/images/lock_on.png",
+					"wuye/images/arrow.png",
+					"wuye/images/vibe_off.png",
+					"wuye/images/shake_off.png",
+					"wuye/menjin/menjin.html",
+					"wuye/css/mui.min.css",
+					"wuye/images/shake_on.png",
+					"wuye/js/mui.min.js",
+					"wuye/images/vibe_on.png",
+					"wuye/css/style.css",
+					"js/app.js",
+					"js/common.js",
+					"wuye/images/lock_off.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_jiudianzhusu.html": {
+				"resources": [
+					"bianminxinxi/bianminxinxi_mian.html",
+					"images/logo_rujiajiudian.png",
+					"images/logo_jinjiangzhixingjiudian.png",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"bianminxinxi/images/logo_rujiajiudian.png",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_jinjiangzhixingjiudian.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_kefushouhou.html": {
+				"resources": [
+					"images/logo_meituan.png",
+					"images/logo_jingdongshangcheng.png",
+					"images/logo_zhongguoliantong.png",
+					"images/logo_zhongguoyidong.png",
+					"images/logo_apple.png",
+					"images/logo_geli.png",
+					"bianminxinxi/bianminxinxi_mian.html",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_zhongguoliantong.png",
+					"bianminxinxi/images/logo_zhongguoyidong.png",
+					"bianminxinxi/images/logo_geli.png",
+					"bianminxinxi/images/logo_apple.png",
+					"bianminxinxi/images/logo_jingdongshangcheng.png",
+					"bianminxinxi/images/logo_meituan.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shop/mine/editAddress.html": {
+				"resources": [
+					"shop/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"shop/css/iconfont.css",
+					"js/mui.min.js",
+					"shop/css/mui.picker.min.css",
+					"shop/css/mui.min.css",
+					"shop/css/own.css",
+					"shop/css/shop.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"zhuangxiusheji/zhuangxiusheji_shigongxianchang.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"zhuangxiusheji/zhuangxiusheji_main.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/hcart/jiankang-cart.html": {
+				"resources": [
+					"jiankang/css1/iconfont.css",
+					"jiankang/css1/iconfont.ttf",
+					"jiankang/js/own.js",
+					"js/jquery-1.11.0.js",
+					"jiankang/images/ic_data_empty.png",
+					"jiankang/css/own.css",
+					"jiankang/images/ic_wifi_empty.png",
+					"js/app.js",
+					"js/common.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/hmendian/jiankang-mendian.html": {
+				"resources": [
+					"jiankang/images/ic_data_empty.png",
+					"jiankang/images/mendian_youhui_manjian.png",
+					"jiankang/images/mendian_xinxi_peisongfei.png",
+					"jiankang/images/jk2.jpg",
+					"jiankang/images/ic_wifi_empty.png",
+					"jiankang/js/jquery-1.11.0.js",
+					"jiankang/images/jk1.jpg",
+					"jiankang/images/mendian_youhui_zhifu.png",
+					"jiankang/images/mendian_xinxi_yingyeshijian.png",
+					"jiankang/images/mendian_youhui_shoudan.png",
+					"jiankang/css/own.css",
+					"jiankang/css/default.css",
+					"jiankang/images/jk3.jpg",
+					"jiankang/images/mendian_xinxi_qisongjine.png",
+					"jiankang/images/mendian_xinxi_peisongfanwei.png",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"jiankang/images/logo_dial.png",
+					"jiankang/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/mmendian/minsheng-mendian.html": {
+				"resources": [
+					"minsheng/images/mendian_xinxi_yingyeshijian.png",
+					"minsheng/images/ic_data_empty.png",
+					"minsheng/images/mendian_youhui_zhifu.png",
+					"minsheng/images/mendian_youhui_manjian.png",
+					"minsheng/css/own.css",
+					"minsheng/js/jquery-1.11.0.js",
+					"minsheng/images/mendian_xinxi_peisongfanwei.png",
+					"minsheng/css/default.css",
+					"minsheng/images/mendian_youhui_shoudan.png",
+					"minsheng/images/ic_wifi_empty.png",
+					"minsheng/images/m1.jpg",
+					"minsheng/images/mendian_xinxi_peisongfei.png",
+					"minsheng/images/m3.jpg",
+					"minsheng/images/mendian_xinxi_qisongjine.png",
+					"minsheng/images/m2.jpg",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/images/logo_dial.png",
+					"js/app.js",
+					"js/common.js",
+					"minsheng/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/hgoods/jiankang-goods.html": {
+				"resources": [
+					"jiankang/js/own.js",
+					"jiankang/js/source.js",
+					"jiankang/images/ic_data_empty.png",
+					"jiankang/css/own.css",
+					"jiankang/images/ic_wifi_empty.png",
+					"jiankang/js/jquery-1.11.0.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js",
+					"js/common.js",
+					"jiankang/fonts/mui.ttf"
+				],
+				"refer": [
+					"jiankang/hgoods/category-detail-needtem.html"
+				],
+				"priority": 0
+			},
+			"minsheng/mmine/minsheng-account.html": {
+				"resources": [
+					"minsheng/images/yizhan_daifahuo.png",
+					"minsheng/images/yizhan_peisongzhong.png",
+					"minsheng/images/yizhan_wodeshoucang.png",
+					"minsheng/images/yizhan_xiaozizhongxin.png",
+					"minsheng/images/yizhan_huiyuanka.png",
+					"minsheng/images/yizhan_daipingjia.png",
+					"minsheng/images/yizhan_daifukuan.png",
+					"minsheng/images/yizhan_daishouhuo.png",
+					"minsheng/images/yizhan_wodemendian.png",
+					"minsheng/images/yizhan_yiwancheng.png",
+					"minsheng/images/yizhan_liulanjilu.png",
+					"minsheng/images/yizhan_shouhuodizhi.png",
+					"minsheng/css/shop.css",
+					"images/ic_launcher.png",
+					"js/common.js",
+					"minsheng/css/own.css",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"minsheng/fonts/mui.ttf",
+					"js/app.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/mgoods/minsheng-goods.html": {
+				"resources": [
+					"minsheng/js/own.js",
+					"minsheng/js/source.js",
+					"minsheng/js/jquery-1.11.0.js",
+					"minsheng/images/ic_data_empty.png",
+					"minsheng/images/ic_wifi_empty.png",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/own.css",
+					"minsheng/css/mui.min.css",
+					"js/common.js",
+					"minsheng/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"minsheng/mcart/minsheng-cart.html": {
+				"resources": [
+					"minsheng/css1/iconfont.css",
+					"minsheng/css1/iconfont.ttf",
+					"minsheng/images/ic_wifi_empty.png",
+					"minsheng/css/own.css",
+					"minsheng/js/own.js",
+					"minsheng/images/ic_data_empty.png",
+					"js/jquery-1.11.0.js",
+					"js/app.js",
+					"minsheng/js/mui.min.js",
+					"minsheng/css/mui.min.css",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/hmine/jiankang-account.html": {
+				"resources": [
+					"jiankang/images/yizhan_daifukuan.png",
+					"jiankang/images/yizhan_xiaozizhongxin.png",
+					"shop/images/health.png",
+					"jiankang/images/yizhan_daifahuo.png",
+					"jiankang/images/yizhan_wodemendian.png",
+					"jiankang/images/yizhan_liulanjilu.png",
+					"jiankang/images/yizhan_daishouhuo.png",
+					"jiankang/images/yizhan_huiyuanka.png",
+					"jiankang/images/yizhan_daipingjia.png",
+					"jiankang/images/yizhan_wodeshoucang.png",
+					"jiankang/images/yizhan_yiwancheng.png",
+					"jiankang/images/yizhan_peisongzhong.png",
+					"jiankang/images/yizhan_shouhuodizhi.png",
+					"jiankang/css/shop.css",
+					"jiankang/css/own.css",
+					"jiankang/js/mui.min.js",
+					"images/ic_launcher.png",
+					"js/common.js",
+					"jiankang/css/mui.min.css",
+					"js/app.js",
+					"jiankang/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"jiankang/hgoods/category-detail-needtem.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"jiankang/js/own.js",
+					"jiankang/css/mui.min.css",
+					"jiankang/js/mui.min.js",
+					"jiankang/css/iconfont.css"
+				],
+				"refer": [
+					"jiankang/hgoods/shangpinListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"jiankang/hgoods/shangpinListItemDetail.html": {
+				"resources": [
+					"jiankang/js/mui.lazyload.img.js",
+					"jiankang/js/mui.zoom.js",
+					"jiankang/js/mui.previewimage.js",
+					"jiankang/css/swiper.min.css",
+					"jiankang/js/mui.lazyload.js",
+					"jiankang/js/swiper-3.4.2.min.js",
+					"shop/images/biaozhu.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_kuaicanwaimai.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"images/logo_meituanwaimai.png",
+					"js/mui.min.js",
+					"images/logo_jiyejia.png",
+					"css/mui.min.css",
+					"images/logo_kendejizhaijisong.png",
+					"images/logo_elema.png",
+					"bianminxinxi/bianminxinxi_mian.html",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_kendejizhaijisong.png",
+					"bianminxinxi/images/logo_meituanwaimai.png",
+					"bianminxinxi/images/logo_elema.png",
+					"bianminxinxi/images/logo_jiyejia.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_gonggongrexian.html": {
+				"resources": [
+					"bianminxinxi/bianminxinxi_mian.html",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"images/logo_xiaofeizhefuwujubao.png",
+					"css/mui.min.css",
+					"images/logo_guojiadianwang.png",
+					"images/logo_huojing.png",
+					"images/logo_jiaotongshigubaojing.png",
+					"bianminxinxi/bianminxinxi_main.html",
+					"bianminxinxi/images/logo_guojiadianwang.png",
+					"bianminxinxi/images/logo_jiaotongshigubaojing.png",
+					"bianminxinxi/images/logo_xiaofeizhefuwujubao.png",
+					"bianminxinxi/images/logo_huojing.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua_haigang1.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html",
+					"wuye/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua_haigang2.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua_tdyp1.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua_tdyp2.html": {
+				"resources": [
+					"js/mui.min.js",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html",
+					"wuye/js/app.js",
+					"js/app.js",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/jiankong/demo_dahua_haigang_shipinhuifang.html": {
+				"resources": [
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/js/common.js",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/jiankong/shequjiankong_main .html",
+					"wuye/js/mui.min.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"baidumap/my_location.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"baidumap/my_location1.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"baidumap/current_location.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"baidumap/js/convertor.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shops_main.html": {
+				"resources": [
+					"images/ic_data_empty.png",
+					"images/ic_wifi_empty.png",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/css.css"
+				],
+				"refer": [
+					"shop/tab-yizhan-main.html"
+				],
+				"priority": 0
+			},
+			"o2o/o2o.html": {
+				"resources": [
+					"o2o/js/mui.min.js",
+					"o2o/mendian/o2o-mendian.html",
+					"o2o/fonts/mui.ttf",
+					"o2o/css/mui.min.css",
+					"o2o/css/shop.css",
+					"o2o/fonts/iconfont.ttf",
+					"o2o/css/iconfont.css"
+				],
+				"refer": [
+					"o2o/mine/o2o-account.html",
+					"o2o/goods/o2o-goods.html",
+					"o2o/cart/o2o-cart.html"
+				],
+				"priority": 0
+			},
+			"o2o/mendian/o2o-mendian.html": {
+				"resources": [
+					"o2o/images/mendian_xinxi_qisongjine.png",
+					"o2o/images/mendian_youhui_shoudan.png",
+					"o2o/images/mendian_xinxi_peisongfanwei.png",
+					"o2o/images/jk3.jpg",
+					"o2o/images/mendian_youhui_zhifu.png",
+					"o2o/images/ic_data_empty.png",
+					"o2o/css/default.css",
+					"o2o/images/ic_wifi_empty.png",
+					"o2o/images/mendian_youhui_manjian.png",
+					"o2o/images/mendian_xinxi_peisongfei.png",
+					"o2o/images/jk2.jpg",
+					"o2o/images/jk1.jpg",
+					"o2o/js/jquery-1.11.0.js",
+					"o2o/css/own.css",
+					"o2o/images/mendian_xinxi_yingyeshijian.png",
+					"o2o/js/mui.min.js",
+					"o2o/css/mui.min.css",
+					"o2o/images/logo_dial.png",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"o2o/mine/o2o-account.html": {
+				"resources": [
+					"o2o/images/yizhan_yiwancheng.png",
+					"o2o/images/yizhan_shouhuodizhi.png",
+					"o2o/images/yizhan_wodemendian.png",
+					"o2o/images/yizhan_daifahuo.png",
+					"o2o/images/yizhan_daishouhuo.png",
+					"o2o/images/yizhan_daipingjia.png",
+					"o2o/images/yizhan_huiyuanka.png",
+					"o2o/images/yizhan_wodeshoucang.png",
+					"shop/images/health.png",
+					"o2o/images/yizhan_liulanjilu.png",
+					"o2o/images/yizhan_xiaozizhongxin.png",
+					"o2o/images/yizhan_daifukuan.png",
+					"o2o/images/yizhan_peisongzhong.png",
+					"o2o/css/shop.css",
+					"images/ic_launcher.png",
+					"js/common.js",
+					"o2o/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"o2o/goods/o2o-goods.html": {
+				"resources": [
+					"o2o/js/source.js",
+					"o2o/js/own.js",
+					"o2o/js/mui.min.js",
+					"o2o/images/ic_data_empty.png",
+					"o2o/js/jquery-1.11.0.js",
+					"o2o/css/mui.min.css",
+					"o2o/css/own.css",
+					"o2o/images/ic_wifi_empty.png",
+					"o2o/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"o2o/cart/o2o-cart.html": {
+				"resources": [
+					"o2o/css1/iconfont.css",
+					"o2o/css1/iconfont.ttf",
+					"js/jquery-1.11.0.js",
+					"o2o/js/own.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"phoneCodeMAS.html": {
+				"resources": [
+					"js/base64.js",
+					"js/ajax.js",
+					"js/md5.js",
+					"css/style.css",
+					"css/mui.min.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bianminxinxi/bianminxinxi_main.html": {
+				"resources": [
+					"js/app.js",
+					"images/bianmin_jiudianzhusu.png",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"images/bianmin_yinhangbaoxian.png",
+					"images/bianmin_kuaicanwaimai.png",
+					"images/bianmin_gonggongrexian.png",
+					"images/bianmin_wuliukuaidi.png",
+					"images/bianmin_huochejipiao.png",
+					"bianminxinxi/bianminxinxi_huochejipiao.html",
+					"bianminxinxi/bianminxinxi_yinhangbaoxian.html",
+					"bianminxinxi/bianminxinxi_kuaicanwaimai.html",
+					"bianminxinxi/bianminxinxi_kefushouhou.html",
+					"bianminxinxi/bianminxinxi_wuliukuaidi.html",
+					"bianminxinxi/bianminxinxi_gonggongrexian.html",
+					"bianminxinxi/bianminxinxi_jiudianzhusu.html",
+					"bianminxinxi/images/bianmin_huochejipiao.png",
+					"bianminxinxi/images/bianmin_gonggongrexian.png",
+					"bianminxinxi/images/bianmin_kuaicanwaimai.png",
+					"bianminxinxi/images/bianmin_yinhangbaoxian.png",
+					"bianminxinxi/images/bianmin_jiudianzhusu.png",
+					"bianminxinxi/images/bianmin_wuliukuaidi.png",
+					"bianminxinxi/images/bianmin_wodeshequ.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tuoguan/detail_tuoguan_mine.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"wuye/zhuangxiusheji/images/ad2.jpg",
+					"js/common.js",
+					"wuye/zhuangxiusheji/images/ad1.jpg",
+					"js/jquery-1.11.0.js",
+					"wuye/zhuangxiusheji/images/ad3.jpg",
+					"wuye/zhuangxiusheji/images/ad4.jpg",
+					"wuye/tuoguan/images/zhuangxiusheji_bg.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/help.html": {
+				"resources": [
+					"images/bangzhuzhongxin/img_2.png",
+					"images/bangzhuzhongxin/img_14.png",
+					"images/bangzhuzhongxin/img_18.png",
+					"images/bangzhuzhongxin/img_11.png",
+					"images/bangzhuzhongxin/img_21.png",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"images/bangzhuzhongxin/img_16.png",
+					"images/bangzhuzhongxin/img_20.png",
+					"js/mui.min.js",
+					"images/bangzhuzhongxin/img_19.png",
+					"js/mui.previewimage.js",
+					"images/bangzhuzhongxin/img_12.png",
+					"images/bangzhuzhongxin/img_15.png",
+					"images/bangzhuzhongxin/img_8.png",
+					"images/bangzhuzhongxin/img_1.png",
+					"images/bangzhuzhongxin/img_13.png",
+					"js/app.js",
+					"images/bangzhuzhongxin/img_6.png",
+					"images/bangzhuzhongxin/img_17.png",
+					"images/bangzhuzhongxin/img_5.png",
+					"images/bangzhuzhongxin/img_9.png",
+					"images/bangzhuzhongxin/img_3.png",
+					"images/bangzhuzhongxin/img_4.png",
+					"images/bangzhuzhongxin/img_22.png",
+					"images/bangzhuzhongxin/img_10.png",
+					"css/mui.min.css",
+					"images/bangzhuzhongxin/img_7.png",
+					"mine/images/bangzhuzhongxin/img_18.png",
+					"mine/images/bangzhuzhongxin/img_3.png",
+					"mine/images/bangzhuzhongxin/img_11.png",
+					"mine/images/bangzhuzhongxin/img_1.png",
+					"mine/images/bangzhuzhongxin/img_7.png",
+					"mine/images/bangzhuzhongxin/img_19.png",
+					"mine/images/bangzhuzhongxin/img_12.png",
+					"mine/images/bangzhuzhongxin/img_4.png",
+					"mine/images/bangzhuzhongxin/img_14.png",
+					"mine/images/bangzhuzhongxin/img_2.png",
+					"mine/images/bangzhuzhongxin/img_10.png",
+					"mine/images/bangzhuzhongxin/img_8.png",
+					"mine/images/bangzhuzhongxin/img_13.png",
+					"mine/images/bangzhuzhongxin/img_5.png",
+					"mine/images/bangzhuzhongxin/img_16.png",
+					"mine/images/bangzhuzhongxin/img_9.png",
+					"mine/images/bangzhuzhongxin/img_22.png",
+					"mine/images/bangzhuzhongxin/img_21.png",
+					"mine/images/bangzhuzhongxin/img_20.png",
+					"mine/images/bangzhuzhongxin/img_17.png",
+					"mine/images/bangzhuzhongxin/img_15.png",
+					"mine/images/bangzhuzhongxin/img_6.png",
+					"fonts/mui.ttf",
+					"css/css.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/changeTel.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"phoneCodeMAS.html",
+					"phoneCodeVerify.html"
+				],
+				"priority": 0
+			},
+			"shop/shops_main.html": {
+				"resources": [
+					"shop/js/jquery-1.11.0.js",
+					"shop/images/ic_data_empty.png",
+					"shop/fonts/mui.ttf",
+					"shop/images/ic_wifi_empty.png",
+					"shop/css/mui.min.css",
+					"shop/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"shop/shop_newadd.html",
+					"shop/tab-yizhan-main.html"
+				],
+				"priority": 0
+			},
+			"shop/shop_newadd.html": {
+				"resources": [
+					"css/feedback.css",
+					"shop/js/mui.min.js",
+					"shop/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"shop/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_main.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/bianminxinxi/images/bianmin_jiudianzhusu.png",
+					"wuye/bianminxinxi/images/bianmin_huochejipiao.png",
+					"wuye/fonts/mui.ttf",
+					"wuye/js/app.js",
+					"wuye/bianminxinxi/images/bianmin_kuaicanwaimai.png",
+					"wuye/bianminxinxi/images/bianmin_wodeshequ.png",
+					"wuye/bianminxinxi/images/bianmin_gonggongrexian.png",
+					"wuye/bianminxinxi/images/bianmin_yinhangbaoxian.png",
+					"wuye/js/common.js",
+					"wuye/css/mui.min.css",
+					"wuye/bianminxinxi/images/bianmin_wuliukuaidi.png",
+					"wuye/bianminxinxi/bianminxinxi_huochejipiao.html",
+					"wuye/bianminxinxi/bianminxinxi_jiudianzhusu.html",
+					"wuye/bianminxinxi/bianminxinxi_kefushouhou.html",
+					"wuye/bianminxinxi/bianminxinxi_wuliukuaidi.html",
+					"wuye/bianminxinxi/bianminxinxi_gonggongrexian.html",
+					"wuye/bianminxinxi/bianminxinxi_yinhangbaoxian.html",
+					"wuye/bianminxinxi/bianminxinxi_kuaicanwaimai.html",
+					"wuye/bianminxinxi/bianminxinxi_changyongdianhua.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_huochejipiao.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_chunqiuhangkong.png",
+					"wuye/bianminxinxi/images/logo_huochepiaoyudingdianhua.png",
+					"wuye/bianminxinxi/images/logo_12306kefurexian.png",
+					"wuye/bianminxinxi/images/logo_dongfanghangkong.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_jiudianzhusu.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_rujiajiudian.png",
+					"wuye/bianminxinxi/images/logo_jinjiangzhixingjiudian.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_kefushouhou.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_jingdongshangcheng.png",
+					"wuye/bianminxinxi/images/logo_geli.png",
+					"wuye/bianminxinxi/images/logo_meituan.png",
+					"wuye/bianminxinxi/images/logo_zhongguoliantong.png",
+					"wuye/bianminxinxi/images/logo_apple.png",
+					"wuye/bianminxinxi/images/logo_zhongguoyidong.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_wuliukuaidi.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_shunfengsuyun.png",
+					"wuye/bianminxinxi/images/logo_yuantongsudi.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_gonggongrexian.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_jiaotongshigubaojing.png",
+					"wuye/bianminxinxi/images/logo_xiaofeizhefuwujubao.png",
+					"wuye/bianminxinxi/images/logo_guojiadianwang.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/bianminxinxi/images/logo_huojing.png",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_yinhangbaoxian.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_zhongguopingan.png",
+					"wuye/bianminxinxi/images/logo_zhongguojiansheyinhang.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/bianminxinxi/images/logo_zhongguogongshangyinhhang.png",
+					"wuye/bianminxinxi/images/logo_taipingyangbaoxian.png",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_kuaicanwaimai.html": {
+				"resources": [
+					"wuye/bianminxinxi/images/logo_elema.png",
+					"wuye/bianminxinxi/images/logo_meituanwaimai.png",
+					"wuye/bianminxinxi/images/logo_kendejizhaijisong.png",
+					"wuye/bianminxinxi/images/logo_jiyejia.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/bianminxinxi/bianminxinxi_changyongdianhua.html": {
+				"resources": [
+					"wuye/js/jquery-1.11.0.js",
+					"images/ic_data_empty.png",
+					"wuye/bianminxinxi/bianminxinxi_main.html",
+					"wuye/bianminxinxi/images/bianmin_wodeshequ.png",
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhinengtingche/zhinengtingche_tingchejiaofei.html": {
+				"resources": [
+					"images/zhifufangshi_zhifubaozhifu.png",
+					"wuye/zhinengtingche/images/tcjf.jpg",
+					"wuye/css/style.css",
+					"images/zhifufangshi_yinlianzhifu.png",
+					"images/gouxuanno.png",
+					"images/zhifufangshi_weixinzhifu.png",
+					"images/gouxuanok.png",
+					"wuye/zhinengtingche/zhinengtingche_main.html",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhinengtingche/zhinengtingche_main.html": {
+				"resources": [
+					"wuye/zhinengtingche/images/zhinengtingche_bg1.jpg",
+					"wuye/zhinengtingche/images/zhinengtigche_cheweidaohang.jpg",
+					"wuye/zhinengtingche/images/zhinengtigche_tingchejiaofei.jpg",
+					"wuye/zhinengtingche/images/zhinengtingche_bg2.png",
+					"wuye/zhinengtingche/images/zhinengtigche_gerenzhongxin.jpg",
+					"wuye/zhinengtingche/zhinengtingche_cheweidaohang.html",
+					"wuye/zhinengtingche/zhinengtingche_tingchejiaofei.html",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhinengtingche/zhinengtingche_cheweidaohang.html": {
+				"resources": [
+					"wuye/zhinengtingche/zhinengtingche_main.html",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhuangxiusheji/zhuangxiusheji_main.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_zhuangxiufuwu.png",
+					"wuye/zhuangxiusheji/images/ad2.jpg",
+					"wuye/zhuangxiusheji/images/ad1.jpg",
+					"wuye/zhuangxiusheji/images/ad4.jpg",
+					"wuye/js/common.js",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang.png",
+					"wuye/js/app.js",
+					"wuye/zhuangxiusheji/images/ad3.jpg",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_kuaisubaojia.png",
+					"wuye/zhuangxiusheji/images/ad5.jpg",
+					"wuye/css/mui.min.css",
+					"wuye/zhuangxiusheji/zhuangxiusheji_quanwuzhengzhuang.html",
+					"wuye/zhuangxiusheji/zhuangxiusheji_shigongxianchang.html",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/app.js",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhuangxiusheji/zhuangxiusheji_quanwuzhengzhuang.html": {
+				"resources": [
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_1.jpg",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_2.jpg",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_3.jpg",
+					"wuye/zhuangxiusheji/zhuangxiusheji_main.html",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_6.jpg",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_5.jpg",
+					"wuye/zhuangxiusheji/images/zhuangxiusheji_quanwuzhengzhuang_4.jpg",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/zhuangxiusheji/zhuangxiusheji_shigongxianchang.html": {
+				"resources": [
+					"wuye/zhuangxiusheji/zhuangxiusheji_main.html",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/shequjiankong/demo_dahua_tdyp1.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/shequjiankong/shequjiankong_main.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/shequjiankong/shequjiankong_main.html": {
+				"resources": [
+					"wuye/shequjiankong/demo_dahua_tdyp1.html",
+					"wuye/js/mui.min.js",
+					"wuye/shequjiankong/images/xiaoqujiankong_xidamen.png",
+					"js/jquery-1.11.0.js",
+					"wuye/shequjiankong/images/xiaoqujiankong_dongdamen.png",
+					"wuye/css/mui.min.css",
+					"wuye/shequjiankong/images/xiaoqujiankong_nandamen.png",
+					"wuye/fonts/mui.ttf",
+					"wuye/shequjiankong/demo_dahua_tdyp2.html",
+					"wuye/shequjiankong/demo_dahua_tdyp3.html",
+					"wuye/shequjiankong/demo_dahua_tdyp4.html"
+				],
+				"refer": [
+					"wuye/shequjiankong/shequjiankong_detail.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/tab-top-subpage-1.html": {
+				"resources": [
+					"wuye/yeweihui/css/mui.min.css",
+					"js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/tab-top-subpage-2.html": {
+				"resources": [
+					"wuye/yeweihui/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/tab-top-subpage-5.html": {
+				"resources": [
+					"wuye/yeweihui/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/tab-top-subpage-4.html": {
+				"resources": [
+					"wuye/yeweihui/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/tab-top-subpage-3.html": {
+				"resources": [
+					"wuye/yeweihui/css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/yeweihuiguanli_toupiao.html": {
+				"resources": [
+					"wuye/fonts/mui.ttf",
+					"wuye/css/mui.min.css",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/yeweihuiguanli_huiyi.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/guanli/yeweihuiguanli_xuanju.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihui_main.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"js/webviewGroup.js",
+					"wuye/yeweihui/yeweihuiguanli_toupiao.html",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [
+					"wuye/yeweihui/yeweihuiguanli_xuanju.html",
+					"wuye/yeweihui/yeweihuiguanli_huiyi.html",
+					"wuye/yeweihui/yeweihuiguanli_huodong.html",
+					"wuye/yeweihui/yeweihuiguanli_gonggao.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihuiguanli_toupiao.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tousujianyi/tousujianyi_main.html": {
+				"resources": [
+					"wuye/js/app.js",
+					"css/mui.min.css",
+					"wuye/js/common.js",
+					"wuye/tousujianyi/hudong.html",
+					"wuye/tousujianyi/add_hudong.html",
+					"images/ic_data_empty.png",
+					"wuye/js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"images/ic_wifi_empty.png",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"wuye/tousujianyi/detail_hudong.html"
+				],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihuiguanli_huodong.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yeweihui/yeweihuiguanli_xuanju.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tousujianyi/hudong.html": {
+				"resources": [
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf",
+					"js/app.js",
+					"js/common.js",
+					"wuye/tousujianyi/tousujianyi_main.html",
+					"wuye/css/mui.min.css"
+				],
+				"refer": [
+					"wuye/tousujianyi/detail_hudong.html"
+				],
+				"priority": 0
+			},
+			"wuye/tousujianyi/add_hudong.html": {
+				"resources": [
+					"wuye/css/mui.min.css",
+					"wuye/tousujianyi/tousujianyi_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tousujianyi/detail_hudong.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/shequjiankong/demo_dahua_tdyp2.html": {
+				"resources": [
+					"wuye/shequjiankong/shequjiankong_main.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/shequjiankong/demo_dahua_tdyp3.html": {
+				"resources": [
+					"wuye/shequjiankong/shequjiankong_main.html",
+					"wuye/js/mui.min.js",
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/diantikaimen/diantikaimen_main.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/shequjiankong/demo_dahua_tdyp4.html": {
+				"resources": [
+					"wuye/js/app.js",
+					"js/app.js",
+					"js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/js/jquery-1.11.0.js",
+					"wuye/js/mui.min.js",
+					"wuye/shequjiankong/shequjiankong_main.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/diantikaimen/diantikaimen_main.html": {
+				"resources": [
+					"wuye/fonts/mui.ttf",
+					"wuye/css/style.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"wuye/css/mui.min.css",
+					"wuye/images/guan.png",
+					"wuye/shequjiankong/images/xiaoqujiankong_xidamen.png",
+					"wuye/shequjiankong/images/xiaoqujiankong_dongdamen.png",
+					"wuye/images/opendoor.png",
+					"wuye/images/door_close.png",
+					"wuye/images/door_open.png",
+					"wuye/images/opendoor_close.png",
+					"wuye/images/opendoor_open.png",
+					"wuye/shequjiankong/demo_dahua_tdyp3.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shequ/zhuti/zhuti.html": {
+				"resources": [
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"js/common.js",
+					"shequ/zhuti/z_pullrefresh_sub.html",
+					"js/app.js",
+					"shequ/fonts/mui.ttf"
+				],
+				"refer": [
+					"shequ/zhuti/add_zhuti.html"
+				],
+				"priority": 0
+			},
+			"shequ/zhuti/z_pullrefresh_sub.html": {
+				"resources": [
+					"shequ/images/czyj1.png",
+					"js/app.js",
+					"js/common.js",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"images/ic_data_empty.png",
+					"images/ic_wifi_empty.png"
+				],
+				"refer": [
+					"shequ/zhuti/detail_zhuti.html"
+				],
+				"priority": 0
+			},
+			"shequ/zhuti/add_zhuti.html": {
+				"resources": [
+					"js/app.js",
+					"css/feedback.css",
+					"js/common.js",
+					"shequ/images/icon_addpic_unfocused.png",
+					"css/mui.min.css",
+					"shequ/js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"shequ/zhuti/detail_zhuti.html": {
+				"resources": [
+					"shequ/js/mui.zoom.js",
+					"js/app.js",
+					"js/common.js",
+					"shequ/js/mui.previewimage.js",
+					"shequ/js/jquery-1.11.0.js",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"shequ/js/comment.js",
+					"shequ/css/iconfont.css",
+					"shequ/js/source.js",
+					"shequ/fonts/iconfont.ttf",
+					"shequ/fonts/mui.ttf",
+					"shequ/images/logo.png"
+				],
+				"refer": [
+					"shequ/zhuti/add_tiezi.html"
+				],
+				"priority": 0
+			},
+			"shequ/zhuti/add_tiezi.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shequ/images/icon_addpic_unfocused.png",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"shequ/fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/shop-main.html": {
+				"resources": [
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/store/store-webview.html",
+					"Shoppingmall/css/iconfont.css",
+					"js/mui.min.js",
+					"js/app.js",
+					"js/common.js",
+					"tab-main.html"
+				],
+				"refer": [
+					"Shoppingmall/account/account-webview.html",
+					"Shoppingmall/cart/cart-webview.html",
+					"register_sc.html",
+					"bindUserInfo.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/store/store-webview.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/images/g2.png",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/js/jquery-1.11.0.js",
+					"Shoppingmall/images/z1.png",
+					"Shoppingmall/css/iconfont.css",
+					"Shoppingmall/css/head.css",
+					"Shoppingmall/images/z3.png",
+					"Shoppingmall/images/z2.png",
+					"js/app.js",
+					"js/common.js",
+					"Shoppingmall/images/error.png",
+					"Shoppingmall/images/title6.jpg",
+					"Shoppingmall/images/title5.jpg",
+					"Shoppingmall/images/title4.jpg"
+				],
+				"refer": [
+					"Shoppingmall/store/shangjia_advert.html",
+					"Shoppingmall/store/goods-needtem.html",
+					"Shoppingmall/store/dianpu.html",
+					"Shoppingmall/search.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/cart/cart-webview.html": {
+				"resources": [
+					"Shoppingmall/images/bbkc.png",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/js/jquery-1.11.0.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/images/ic_data_empty.png",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"js/app.js",
+					"js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [
+					"Shoppingmall/cart/cartquerendingdan.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/store/shangjia_advert.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/js/jquery-1.11.0.js",
+					"Shoppingmall/images/z1.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/store/goods-needtem.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/images/cake.jpg",
+					"Shoppingmall/images/jiu.jpg",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/images/candy.jpg",
+					"Shoppingmall/js/jquery-1.11.0.js",
+					"Shoppingmall/css/head.css",
+					"Shoppingmall/js/datouwang.js",
+					"Shoppingmall/js/jquery-1.8.2.min.js",
+					"Shoppingmall/images/error.png",
+					"Shoppingmall/css/datouwang.css",
+					"Shoppingmall/css/iconfont.css",
+					"Shoppingmall/js/gps.js",
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/fonts/mui.ttf"
+				],
+				"refer": [
+					"Shoppingmall/store/goodsListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/store/goodsListItemDetail.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/js/mui.zoom.js",
+					"Shoppingmall/js/mui.lazyload.img.js",
+					"Shoppingmall/js/mui.previewimage.js",
+					"Shoppingmall/js/mui.lazyload.js",
+					"Shoppingmall/js/swiper-3.4.2.min.js",
+					"Shoppingmall/images/map_icon.png",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/account-webview.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/images/g2.png",
+					"js/common.js",
+					"js/app.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/iconfont.css",
+					"images/home_me_yijianfankui.png",
+					"images/home_me_guanyuruanjian.png",
+					"images/home_me_fenxiangyingyong.png",
+					"images/home_me_bangzhuzhongxin.png",
+					"images/ic_launcher.png",
+					"images/home_me_shouhuodizhi.png"
+				],
+				"refer": [
+					"Shoppingmall/account/daishouhuo.html",
+					"Shoppingmall/account/daifahuo.html",
+					"Shoppingmall/account/shouhuodizhi.html",
+					"Shoppingmall/account/wodeshoucang.html",
+					"Shoppingmall/account/daifukuan.html",
+					"Shoppingmall/account/peisongzhong.html",
+					"feedback.html",
+					"mine/guanyuruanjian.html",
+					"mine/share.html",
+					"mine/help.html",
+					"mine/userInfo.html",
+					"login_sc.html",
+					"register_sc.html",
+					"Shoppingmall/account/yiwancheng.html",
+					"mine/bindmenjin.html",
+					"mine/binddianti.html",
+					"mine/wodefangchan.html",
+					"mine/wodebeiyaoqing.html",
+					"mine/wodechoujiang.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/account/daishouhuo.html": {
+				"resources": [
+					"Shoppingmall/images/ic_data_empty.png",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/daifahuo.html": {
+				"resources": [
+					"Shoppingmall/images/ic_data_empty.png",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/store/dianpu.html": {
+				"resources": [
+					"Shoppingmall/fonts/iconfont.ttf",
+					"js/app.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/bg.jpg",
+					"Shoppingmall/images/title6.jpg",
+					"Shoppingmall/images/g2.png",
+					"Shoppingmall/js/common.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"Shoppingmall/css/iconfont.css",
+					"Shoppingmall/images/title5.jpg",
+					"Shoppingmall/css/head.css",
+					"Shoppingmall/images/title4.jpg"
+				],
+				"refer": [
+					"Shoppingmall/store/goodsListItemDetail.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/search.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"images/ic_data_empty.png",
+					"Shoppingmall/fonts/mui.ttf",
+					"images/ic_wifi_empty.png",
+					"Shoppingmall/js/zepto.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/tingche/tingcherecord.html": {
+				"resources": [
+					"wuye/images/actionbar_icon_add.png",
+					"wuye/tingche/tingche.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/shouhuodizhi.html": {
+				"resources": [
+					"Shoppingmall/js/common.js",
+					"js/app.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/images/ic_data_empty.png",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png"
+				],
+				"refer": [
+					"Shoppingmall/account/addnewaddress.html",
+					"Shoppingmall/account/editAddress_sc.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/account/wodeshoucang.html": {
+				"resources": [
+					"Shoppingmall/images/ic_data_empty.png",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"js/jquery-1.11.0.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/css/iconfont.css",
+					"Shoppingmall/fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"login_sc.html": {
+				"resources": [
+					"js/app.js",
+					"fonts/mui.ttf",
+					"css/style.css",
+					"js/mui.enterfocus.js",
+					"css/css.css",
+					"js/common.js",
+					"images/byx_login_userlogo.png",
+					"js/mui.min.js",
+					"js/jquery-1.11.0.js",
+					"css/iconfont.css",
+					"css/mui.min.css",
+					"js/bmqtt.js",
+					"images/login_background.png"
+				],
+				"refer": [
+					"guide.html",
+					"Shoppingmall/shop-main.html",
+					"register_sc.html",
+					"forget_password_sc.html",
+					"wuye/jiaofei/jiaofei.html",
+					"wuye/tongzhi/tongzhi.html",
+					"wuye/tongzhi/detail_notice.html",
+					"wuye/jiaofei/wuyefei.html",
+					"wuye/tousujianyi/detail_hudong.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/cart/cartquerendingdan.html": {
+				"resources": [
+					"Shoppingmall/fonts/iconfont.ttf",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/daifukuan.html": {
+				"resources": [
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/images/ic_data_empty.png",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/peisongzhong.html": {
+				"resources": [
+					"Shoppingmall/fonts/iconfont.ttf",
+					"Shoppingmall/images/ic_data_empty.png",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/css/iconfont.css"
+				],
+				"refer": [
+					"Shoppingmall/account/daifahuoDetail.html"
+				],
+				"priority": 0
+			},
+			"register_sc.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"images/byx_login_userlogo.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/jquery-1.11.0.js",
+					"js/bmqtt.js"
+				],
+				"refer": [
+					"phoneCodeVerify_sc.html",
+					"regist_protocol.html"
+				],
+				"priority": 0
+			},
+			"phoneCodeVerify_sc.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/ajax.js",
+					"css/style.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"bindUserInfo_sc.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"bindUserAddress_sc.html"
+				],
+				"priority": 0
+			},
+			"bindUserAddress_sc.html": {
+				"resources": [
+					"css/css.css",
+					"css/mui.min.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"forget_password_sc.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/style.css",
+					"css/header.css"
+				],
+				"refer": [
+					"phoneCodeVerify_sc.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/account/yiwancheng.html": {
+				"resources": [
+					"Shoppingmall/images/ic_data_empty.png",
+					"js/app.js",
+					"Shoppingmall/js/common.js",
+					"Shoppingmall/css/mui.min.css",
+					"Shoppingmall/js/mui.min.js",
+					"Shoppingmall/css/style.css",
+					"Shoppingmall/fonts/mui.ttf",
+					"Shoppingmall/images/ic_wifi_empty.png",
+					"Shoppingmall/css/iconfont.css",
+					"Shoppingmall/fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/changeNickname.html": {
+				"resources": [
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mine/changePwd.html": {
+				"resources": [
+					"css/css.css",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"Shoppingmall/account/daifahuoDetail.html": {
+				"resources": [
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"wuye/yijianqiuzhu/qiuzhu.html": {
+				"resources": [
+					"images/phone3.png",
+					"css/css.css",
+					"js/app.js",
+					"js/common.js",
+					"js/jquery-1.11.0.js",
+					"js/mui.min.js",
+					"images/home_guanjia_touxiang.png",
+					"css/mui.min.css",
+					"images/ic_wifi_empty.png",
+					"images/phone.png"
+				],
+				"refer": [
+					"feedback.html"
+				],
+				"priority": 0
+			},
+			"shequ/zhuti/zhuti_sc.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"shequ/css/mui.min.css",
+					"shequ/js/mui.min.js",
+					"shequ/fonts/mui.ttf",
+					"shequ/zhuti/z_pullrefresh_sub.html"
+				],
+				"refer": [
+					"shequ/zhuti/add_zhuti.html"
+				],
+				"priority": 0
+			},
+			"wuye/tingche/idlecheweilist.html": {
+				"resources": [],
+				"refer": [
+					"wuye/tingche/tingche.html",
+					"wuye/tingche/cheweishenqing.html"
+				],
+				"priority": 0
+			},
+			"wuye/menjin/fangkejilu.html": {
+				"resources": [],
+				"refer": [
+					"wuye/tingche/tingche.html",
+					"wuye/menjin/detail_fangkejilu.html",
+					"wuye/menjin/menjin.html"
+				],
+				"priority": 0
+			},
+			"mine/wodefangchan.html": {
+				"resources": [],
+				"refer": [
+					"mine/wodeyaoqing.html",
+					"mine/addnewhouse_xiaoqu.html",
+					"bindUserInfo_sc.html",
+					"mine/wodexiaofangtu.html",
+					"mine/wodechoujiang.html"
+				],
+				"priority": 0
+			},
+			"mine/wodeyaoqing.html": {
+				"resources": [],
+				"refer": [
+					"mine/addnewinvite.html"
+				],
+				"priority": 0
+			},
+			"mine/addnewhouse_xiaoqu.html": {
+				"resources": [],
+				"refer": [
+					"mine/addnewhouse_address.html"
+				],
+				"priority": 0
+			},
+			"mine/wodechoujiang.html": {
+				"resources": [],
+				"refer": [
+					"mine/addnewhouse_xiaoqu.html",
+					"mine/choujiang.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/service.js",
+				"libs/easymob-webim-sdk/quickstart.md",
+				"README.md"
+			]
+		}
+	},
+	"unpackage":[
+	  "README.md"
+	]
+}

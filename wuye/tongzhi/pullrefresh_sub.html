@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul id="notice_list" class="mui-table-view mui-table-view-chevron">
+				
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			var xiaoqu=user_obj.xiaoqu;
+			var myid = user_obj.id;
+			var userid=user_obj.id;
+			console.log("xiaoqu: "+xiaoqu+" userid: "+userid);
+			var getNotice=function (community,id) {
+				console.log("通知URL"+Query_Tongzhigonggao_All_URL);
+				console.log("xiaoqu: "+community+" userid: "+id);
+				var infor=null;
+				mui.ajax(Query_Tongzhigonggao_All_URL, {
+					data:{
+					xiaoqu:community,
+					userid:id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 5000, //超时时间设置为10秒；
+					success: function(data) {
+						infor = JSON.stringify(data);
+						var obj = eval(data);
+	//					alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+						console.log(infor);
+						if(obj.success == 1) {
+							app.setDatas('Notice_list',data);
+		//					mui.alert("登录成功");
+		//					app.setDatas(PREFERENCE_USER, data);
+						} 
+						else {
+							mui.toast(infor);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);		
+					}
+				});
+			}
+				
+			var initNotice = function() {
+				console.log('initial notice');
+				getNotice(xiaoqu,myid);
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					
+					var notice_obj = eval(app.getDatas('Notice_list'));
+					for (var i = 0; i <notice_obj.notice.length; i++) {
+						if (cells.length==notice_obj.notice.length) {
+							console.log('uptodate');
+							break;
+						} else{
+							if (cells.length>notice_obj.notice.length) {
+								cells.clear();
+							}
+							console.log(notice_obj.notice[i].title);
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.setAttribute('id',notice_obj.notice[i].id);
+							var a=document.createElement('a');
+							a.setAttribute('href','#detailNotice');
+							a.classList.add('mui-navigate-right');
+							var img=document.createElement('img');
+							img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+							img.setAttribute('src','../../images/notice.png');
+							img.setAttribute('style','height: 25px;');
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.classList.add('mui-ellipsis');
+							div.innerHTML=notice_obj.notice[i].title;
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=notice_obj.notice[i].content;
+							var span=document.createElement('span');
+							span.className='mui-h5';
+							span.innerHTML=notice_obj.notice[i].cdate;
+							div.appendChild(p);
+							div.appendChild(span);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							table.appendChild(li);
+						}
+					}
+				}, 100);
+			}
+			
+			var addlistener=function () {
+				mui("#notice_list").on('tap', '.mui-table-view-cell', function() {
+					//获取id
+					var notice_id = this.getAttribute("id");
+					
+					console.log("notice id is: " + notice_id);
+						mui.openWindow({
+							url: 'detail_notice.html',
+							id: 'detail_notice.html',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								Notice_id:notice_id
+							}
+						});
+//						localStorage.setItem('Notice_id',notice_id);
+				});
+			}
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				console.log("pulldownRefresh");
+				getNotice(xiaoqu,myid);
+				setTimeout(function() {
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					var notice_obj = eval(app.getDatas('Notice_list'));
+					console.log('cell number :'+cells.length+' notice number:'+notice_obj.notice.length);
+					if (cells.length>=notice_obj.notice.length){
+						console.log('pull down to update,no newer notice');
+						mui.toast('已经是最新了');
+					}
+					for (var i = notice_obj.notice.length-cells.length; i > 0 ; i--) {
+						if (cells.length>=notice_obj.notice.length) {
+							console.log('pull down to update,no newer notice');
+							break;
+						} 
+						else{
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+	//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+							li.setAttribute('id',notice_obj.notice[i-1].id);
+							var a=document.createElement('a');
+							a.setAttribute('href','#detailNotice');
+							a.classList.add('mui-navigate-right');
+							var img=document.createElement('img');
+							img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+							img.setAttribute('src','../../images/notice.png');
+							img.setAttribute('style','height: 25px;');
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.classList.add('mui-ellipsis');
+							div.innerHTML=notice_obj.notice[i-1].title;
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=notice_obj.notice[i-1].content;
+							var span=document.createElement('span');
+							span.className='mui-h5';
+							span.innerHTML=notice_obj.notice[i-1].cdate;
+							div.appendChild(p);
+							div.appendChild(span);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							//下拉刷新，新纪录插到最前面；
+							table.insertBefore(li, table.firstChild);	
+						}
+					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1000);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			
+			function pullupRefresh() {
+				getNotice(xiaoqu,myid);
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					
+//					for (var i = cells.length, len = i + 5; i < len; i++)
+//						var li = document.createElement('li');
+//						li.className = 'mui-table-view-cell';
+//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+//						table.appendChild(li);
+//					}
+					var notice_obj = eval(app.getDatas('Notice_list'));
+					for (var i = 0; i < notice_obj.notice.length; i++) {
+						if (cells.length>=notice_obj.notice.length) {
+							console.log('pull up to update,no newer notice');
+							break;
+						} 
+						else{
+							console.log(notice_obj.notice[i].title);
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.setAttribute('id',notice_obj.notice[i].id);
+//							li.innerHTML = '<a class="mui-navigate-right"> ' + notice_obj.notice[i].title + '</a>';
+							var a=document.createElement('a');
+							a.setAttribute('href','#detailNotice');
+							a.classList.add('mui-navigate-right');
+							var img=document.createElement('img');
+							img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+							img.setAttribute('src','../../images/notice.png');
+							img.setAttribute('style','height: 25px;');
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.classList.add('mui-ellipsis');
+							console.log('pull up notice index: '+i);
+							div.innerHTML=notice_obj.notice[i].title;
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=notice_obj.notice[i].content;
+							var span=document.createElement('span');
+							span.className='mui-h5';
+							span.innerHTML=notice_obj.notice[i].cdate;
+							div.appendChild(p);
+							div.appendChild(span);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							table.appendChild(li);							
+						}
+					}
+				}, 1000);
+			}
+			
+
+			
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+					console.log("mui plus Ready!");
+					initNotice();
+					addlistener();
+				});
+			} 
+			else {
+				mui.ready(function() {
+					console.log('mui Ready00');
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+					console.log('mui Ready');
+//					getNotice(xiaoqu,'');
+				});
+			}
+
+		</script>
+	</body>
+
+</html>

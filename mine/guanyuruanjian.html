@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: white;
+			}
+			
+			.mui-content {
+				/*border: 5px solid #6641E2;*/
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 44px;
+				bottom: 0;
+				width: 100%;
+				height: 90%;
+				background-color: white;
+			}
+			
+			.about-img {
+				/*border: 2px salmon dotted;*/
+				margin-top: 20%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+			
+			.footer {
+				/*border: 1px solid #099FDE;*/
+				position: fixed;
+				text-align: center;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 88px;
+				color: #fff;
+				font-size: 16px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" style="color: white;"></span>
+				</button>
+			<h1 class="mui-center mui-title">关于百益社区</h1>
+			<!--<a id="abou" class="mui-icon mui-icon-checkmarkempty mui-pull-right" style=" font-size:45px;margin-top: -12px;margin-right: -15px;"></a>-->
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<div class="detail_tupian" style="text-align: center;">
+				<img class="about-img" src="../images/ic_launcher.png">
+			</div>
+			<div id="version" style="text-align: center;padding-top: 20px;">当前应用版本</div>
+			<div style="margin-top: 20px;text-align: center;">
+				<!--<button>检测新版本</button>-->
+				<button id="check_version" type="button" class="mui-btn mui-btn-blue mui-btn-outlined" style="display:none;">检测新版本</button>
+			</div>
+			<div class="footer">
+				<!--<p>百益信科技集团 版权所有</p>-->
+				<!--<p>富士康科技集团 版权所有</p>-->
+				<p>Copyright@ 2016-2026 All Rights Reserved.</p>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		var CheckVerButton = document.getElementById('check_version');
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		mui.plusReady(function() {
+			plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+				wgtVer = inf.version;
+				document.getElementById("version").innerHTML = "V" + wgtVer;
+				console.log("当前应用版本：" + wgtVer);
+				if(mui.os.ios){
+					document.getElementById("check_version").style.display="none";
+				}else if(mui.os.android){
+					document.getElementById("check_version").style.display="";
+				}
+			});
+
+		});
+		CheckVerButton.addEventListener('tap', function() {
+			if(mui.os.ios) {
+				console.log(plus.os.name + plus.os.version);
+				//				mui.toast('已经是最新版本！');
+//				appStoreCheck();//remarked by xinmei on 20170822
+			} else {
+				console.log(plus.os.name + plus.os.version);
+				versionCheck();
+			}
+		});
+
+		//检查更新版本for iOS
+		function appStoreCheck() {
+			var appstore_download_url;
+			mui.ajax(AppStore_URL, {
+				data: {
+					id: AppleID
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				//				headers:{'Content-Type':'application/json'},
+				success: function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("info:" + infor);
+					for(var i = 0; i < obj.results.length; i++) {
+						var version = obj.results[i].version;
+						appstore_download_url = obj.results[i].trackViewUrl;
+						console.log("App Version:" + version);
+						console.log("App Store URL: " + appstore_download_url);
+						//								console.log("AppStoreURL:"+obj.results[0].trackViewUrl+" version:"+obj.results[0].version);
+					}
+					if(wgtVer && version && check(wgtVer, version)) {
+						mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新', '暂不更新'], function(e) {
+							if(e.index == 1) {
+								//				    						plus.runtime.quit();
+								return;
+							} else {
+								console.log('开始更新程序');
+								plus.runtime.openURL(appstore_download_url); //进入App Store下载
+							}
+						}, 'div');
+					} else {
+						console.log('已经是最新版本');
+						mui.toast('已经是最新版本');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("网络异常");
+					console.log("error type:" + type);
+					console.log(xhr.status);
+					console.log(xhr.readyState);
+					console.log(xhr.response);
+				}
+
+			});
+		}
+
+		//检查更新版本for Android
+		function versionCheck() {
+					var xhr = new plus.net.XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch(xhr.readyState) {
+							case 0:
+		//						console.log('更新请求已经初始化');
+								break;
+							case 1:
+		//						console.log('更新请求已打开');
+								break;
+							case 2:
+		//						console.log('更新请求已发送');
+								break;
+							case 3:
+		//						console.log('更新请求已响应');
+								break;
+							case 4:
+		//						console.log('更新请求已接收');
+								if(xhr.status == 200) {
+									console.log('xhr返回信息：' + xhr.responseText);
+									var App_info = JSON.parse(xhr.responseText);
+									
+									if(App_info.apk==''||App_info.apk==null||App_info.apk=="undefined"){
+										mui.toast('已经是最新版本');
+									}
+									else{
+										var version = App_info.apk[0].version.substr(1);
+										var down_url = BASE_URL + App_info.apk[0].filepath.substr(2);
+										var upgrade_flag = App_info.apk[0].upgrade;  //立即升级flag：1，否；2，是
+										console.log('下载地址：' + down_url);
+										console.log('最新版本：' + version + ' 当前版本：' + wgtVer);
+										if(wgtVer && version && check(wgtVer, version)) {
+											if (upgrade_flag == 1) {
+												mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['暂不更新', '立即更新'], function(e) {
+													if(e.index == 0) {
+														//				    						plus.runtime.quit();
+														return;
+													} else {
+														console.log('开始更新程序');
+														downloadPackage(down_url);
+													}
+												}, 'div');									
+											} else{
+												mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新'], function(e) {
+													if(e.index == 0) {
+														downloadPackage(down_url);
+													}
+												}, 'div');	
+											}								
+										} else {
+											console.log('已经是最新版本');
+											mui.toast('已经是最新版本');
+										}
+									}
+								} else {
+									console.log('xhr请求失败：' + xhr.readyState);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('GET', UPDATE_APP_URL);
+					xhr.send();
+				}
+		var waiting = null;
+
+		function downloadPackage(down_URL) {
+			CheckVerButton.disabled=true;
+			waiting = plus.nativeUI.showWaiting('正在下载安装包...');
+			console.log(down_URL);
+			//删除旧版安装包
+			deletePackage();
+			var task = null;
+			task = plus.downloader.createDownload(down_URL, {
+				filename: '_downloads/update/'
+			}, function(d, status) {
+				if(status == 200) {
+					console.log('下载成功' + d.filename);
+					waiting.setTitle("开始安装");
+					installPackage(d.filename); //安装程序
+				} else {
+					console.log('下载失败');
+					plus.nativeUI.alert('下载安装包失败');
+					CheckVerButton.disabled = false;
+					waiting.close();
+				}
+				//plus.nativeUI.closeWaiting();
+			});
+			var percent = 0;
+			task.addEventListener("statechanged", function(download, status) {
+				switch(download.state) {
+					case 2:
+						CheckVerButton.disabled = true;
+						waiting.setTitle("已连接到服务器");
+						break;
+					case 3:
+						CheckVerButton.disabled = true;
+						percent = download.downloadedSize / download.totalSize * 100;
+//						console.log("已下载 " + parseInt(percent) + "%");
+						var mess="   正在下载： " + parseInt(percent) + "%   ";
+//						console.log("mess:"+mess);
+						waiting.setTitle(mess);
+						break;
+					case 4:
+						waiting.setTitle("下载完成");
+						CheckVerButton.disabled = false;
+						break;
+				}
+			});
+
+			console.log("task--" + task);
+			task.start();
+		}
+
+		function deletePackage () {
+			plus.io.resolveLocalFileSystemURL("_downloads/update",function (entry) {						
+				console.log("下载路径："+entry.toLocalURL());
+				entry.removeRecursively(function (entry) {
+					console.log("Remove Succeeded");
+				},function (e) {
+					console.log(e.message);
+				})
+			},function (e) {
+				console.log("Resolve file URL failed:"+e.message);
+				return;
+			});
+		}
+
+		function installPackage(filepath) {
+			plus.nativeUI.showWaiting('正在安装百益社区...');
+			plus.runtime.install(filepath, {}, function() {
+				plus.nativeUI.closeWaiting();
+				console.log('安装成功！');
+				localStorage.removeItem(PUBLIC_USER);
+				localStorage.removeItem(PREFERENCE_USER);
+				localStorage.removeItem(WUYE_ACCOUNT_TYPE);
+				localStorage.removeItem(WUYE_DEFAULT_MENJIN);
+				plus.storage.removeItem("Wuye_Active_Module");
+				plus.storage.removeItem("lauchFlag");
+				plus.storage.removeItem("qiandaoFlag");
+				plus.nativeUI.alert('百益社区更新完成！', function() {
+					CheckVerButton.disabled = false;
+					plus.runtime.restart();
+				});
+			}, function(e) {
+				plus.nativeUI.closeWaiting();
+				console.log('安装百益社区失败[' + e.code + ']:' + e.message);
+				plus.nativeUI.alert('安装百益社区失败[' + e.code + ']:' + e.message);
+				CheckVerButton.disabled = false;
+			});
+		}
+
+		function check(currVer, newVer) {
+			var ss1 = new Array();
+			var ss2 = new Array();
+			ss1 = currVer.split(".");
+			ss2 = newVer.split(".");
+			console.log("check ---" + ss1 + "," + ss2);
+			console.log("check --SS1[2]-" + ss1[2]);
+			console.log("check --SS2[2]-" + ss2[2]);
+			console.log("check --SS1[2]-" + parseInt(ss1[2], 10));
+			console.log("check --SS2[2]-" + parseInt(ss2[2], 10));
+			
+			if(parseInt(ss1[0], 10) < parseInt(ss2[0], 10)) {
+				return true;
+			} 
+			else if(parseInt(ss1[0], 10) == parseInt(ss2[0], 10)) {
+				//				console.log(parseInt(ss1[0],10)+parseInt(ss2[0],10));
+				if(parseInt(ss1[1], 10) < parseInt(ss2[1], 10)) {
+					return true;
+				} 
+				else if(parseInt(ss1[1], 10) == parseInt(ss2[1], 10)) {
+					//					console.log(parseInt(ss1[1],10)+parseInt(ss2[1],10));
+					if(parseInt(ss1[2], 10) < parseInt(ss2[2], 10)) {
+						return true;
+					} 
+//					else if(parseInt(ss1[2], 10) == parseInt(ss2[2], 10)){
+//						
+//						if(parseInt(ss1[3], 10) < parseInt(ss2[3], 10)) {
+//							return true;
+//						} 
+//						else {
+//							return false;
+//						}
+//					}
+					else {
+						return false;
+					}
+				} 
+				else {
+					return false;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	</script>
+
+</html>

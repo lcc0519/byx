@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<style type="text/css">
+			.span-title{
+				width: 30%;
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.input-style {
+				float: left;
+				line-height: 50px;
+				text-align: start;
+				align-content: flex-end;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" style="color: white;"></span>
+				</button>
+			<h1 class="mui-center mui-title">绑定房产</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group" style="margin: 5px;">
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">预留电话</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='yuliudianhua' type="number" maxlength="11" class="mui-input-clear mui-input" onkeyup="onlyNum(this,11)" placeholder="请输入预留电话">
+					</div>	
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">所在小区</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='xiaoquname' type="text" class="mui-input-clear mui-input" disabled="disabled">
+					</div>	
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">详细地址</span>
+					<div id="" class="input-style" style="margin-left: 12px;">	
+						<select id="addresslist">
+							<option value="choose" disabled="disabled">请选择详细地址</option>
+						</select>
+					</div>
+				</div>
+			</form>
+			<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='bind' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即绑定</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			var bindButton = document.getElementById('bind');
+			var xiaoqunameBox = document.getElementById('xiaoquname');
+			var yuliudianhuaBox = document.getElementById('yuliudianhua');
+			var houseid = new Array();
+			var housename = new Array();
+			var houseno = new Array();
+			var addressobj = document.getElementById('addresslist');
+			var self;
+			var xiaoqu_pre;
+			var w = null;
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+	
+				xiaoqunameBox.value = self.xiaoquname;
+				xiaoqu_pre = self.xiaoquprefix;
+				
+				loadAddress();
+				
+				bindButton.addEventListener('tap', function(event) {
+					var index = addressobj.selectedIndex;
+					var myHouseNumber = addressobj.options[index].value;
+					var myZhuzhi = addressobj.options[index].text;
+					
+					if(myHouseNumber == "choose") {
+						mui.alert("请选择地址");
+						return;
+					}
+					else{
+						if(yuliudianhuaBox.value.length<7){
+							mui.alert("预留电话号码位数不对，请检查");
+							return;
+						}
+						
+						var w = plus.nativeUI.showWaiting("正在绑定房产...");
+						var _uid = self.uid;
+						var _account = self.account;
+						var _tel = self.tel;
+						var _nickname = self.nickname;
+						var _xiaoquprefix= self.xiaoquprefix;
+						var _accounttype = self.accounttype;
+						var _realname = self.real_name;
+						var _cid = self.cid;
+						
+						console.log("-------_uid------="+_uid);
+						console.log("-------_account------="+_account);
+						console.log("---------_tel----="+_tel);
+						console.log("--------_nickname-----="+_nickname);
+						console.log("--------_xiaoquprefix-----="+_xiaoquprefix);
+						console.log("---------_accounttype----="+_accounttype);
+						console.log("----------_realname---="+_realname);
+						console.log("----------_cid---="+_cid);
+						console.log("----------myZhuzhi---="+myZhuzhi);
+						console.log("----------myHouseNumber---="+myHouseNumber);
+						
+						mui.ajax(BIND_USERINFO_URL_SC, {
+							data: JSON.stringify({
+								uid:_uid,
+								account:_account,
+								tel:_tel,
+								nickname:_nickname,
+								xiaoqu:_xiaoquprefix,
+								accounttype: _accounttype,
+								real_name: _realname,
+								cid: _cid,
+								address: myZhuzhi,
+								house_no: myHouseNumber,
+								default_houseno:myHouseNumber,
+								tel2:yuliudianhuaBox.value
+							}),
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, //超时时间设置为10秒；
+							success: function(data) {
+								w.close();
+								var infor = JSON.stringify(data);
+								var obj = eval(data);
+								console.log("----BIND--------="+infor);
+								if(obj.success == 1) {
+									w.close();
+									mui.toast("绑定成功");
+//									var data1 = app.getDatas(PREFERENCE_USER);
+//									data1.id = obj.id;
+//									data1.accounttype = _accounttype;
+//									data1.realname = _realname;
+//									data1.cid = _cid;
+//									data1.house_no = myHouseNumber;
+//									data1.address = myZhuzhi;
+//									data1.flag = obj.flag;
+//									data1.role = obj.role;
+//									app.setDatas(PREFERENCE_USER, data1);
+									
+									var data2 = app.getDatas(PUBLIC_USER);
+									data2.real_name = _realname;
+									data2.xiaoqu_prefix = _xiaoquprefix;
+									data2.cid = _cid;
+									data2.address = myZhuzhi;
+									data2.nickname = _nickname;
+									app.setDatas(PUBLIC_USER, data2);
+									
+									var fangchanpage = plus.webview.getWebviewById('wodefangchan.html');
+									mui.fire(fangchanpage, 'refresh');
+									var infopage = plus.webview.getWebviewById('bindUserInfo_sc.html');
+									mui.fire(infopage, 'bindsuccess');
+									
+									var infopage = plus.webview.getWebviewById('tab-main.html');
+									mui.fire(infopage, 'bindSuccess');
+									
+									var shoppingmall = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+									mui.fire(shoppingmall, 'switch');
+	
+									setTimeout(function() {
+										self.close();
+									}, 1000);
+								}
+								else{
+									if(obj.errorMsg=="realnameforbidden"){
+										mui.alert("您的真实姓名与开发商登记原始数据不一致，请检查确认");
+										setTimeout(function() {
+											self.close();
+										}, 500);
+									}
+									else if(obj.errorMsg=="cidforbidden"){
+										mui.alert("您的身份证号与开发商登记原始数据不一致，请检查确认");
+										setTimeout(function() {
+											self.close();
+										}, 500);
+									}
+									else{
+										mui.toast("网络异常，请稍候重试");
+									}
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								w.close();
+								mui.toast("网络异常，请先检查网络");	
+							}
+						});
+					}
+				});
+			});
+			
+			var loadAddress = function() {
+				w = plus.nativeUI.showWaiting("正在获取地址列表，请稍候...");
+				addressID = setInterval(function() {
+					console.log('小区list刷新');
+					if(chkNetStatus() == "OK") {
+						if((addressobj.options.length > 1) && (addressobj.options.length == (housename.length + 1))) {
+							console.log('got xiaoqu list');
+							clearInterval(addressID);
+							w.close();
+						} else {
+							console.log("refreah address list");
+							getAddressList();
+							console.log('second load address list');							
+							//mui.toast("重新加载地址列表数据");
+						}
+					} else {
+						w.close();
+						mui.toast("网络异常");
+					}
+				}, 5000);
+			}
+			
+			function getAddressList() {
+				//获取小区列表
+				//mui.toast(Query_Xiaoquliebiao_URL);
+				
+				mui.post(Query_Address_URL, {
+					xiaoqu: xiaoqu_pre
+				}, function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("小区列表:" + infor);
+					if(obj.success == 1) {
+						w.close();
+						houseid.splice(0, houseid.length);
+						housename.splice(0, housename.length);
+						houseno.splice(0, houseno.length);
+						for(var i = 0; i < obj.houses.length; i++) {
+							houseid[i] = obj.houses[i].id;
+							housename[i] = obj.houses[i].houseInfo;
+							houseno[i] = obj.houses[i].house_no;
+						}
+						InsertAddress();
+					} else {
+						w.close();
+						mui.toast(infor.errorMsg);
+					}
+				}, 'json');
+			}
+
+			function InsertAddress() { //插入小区列表
+				while(addressobj.length > 1) {
+					addressobj.options.remove(1);
+				}
+				if(housename.length > 0 && addressobj.options.length == 1) {
+					for(var i = 0; i < housename.length; i++) {
+						addressobj.options.add(new Option(housename[i], houseno[i]));
+					}
+				}
+				console.log('address列表数量：' + addressobj.options.length + 'address名字数量：' + housename.length);
+			}
+		</script>
+	</body>
+
+</html>

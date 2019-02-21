@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<title></title>
+		<style>
+		body {
+			background-color: white;
+		}
+
+		.mui-table-view-cell {
+			padding: 12px;
+			padding-left: 15px;
+		}
+		
+		.mui-table-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 10px;
+			right: 10px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc
+		}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">火车机票</h1>
+		</header>
+		
+		<div class="mui-scroll-wrapper">
+		    <div class="mui-scroll">
+				<div class="mui-content-padded" style="margin: 44px 0px 0px 0px; padding: 0;">
+					<ul id="notice_view" class="mui-table-view">
+						<li class="mui-table-view-cell">
+					        <a href="" class="mui-navigate-right">
+					            <img class="mui-media-object mui-pull-left" src="./images/logo_12306kefurexian.png" style="height:30px;">
+					            <div class="mui-media-body" style="height: 30px;line-height: 30px;">
+					         		<span>12306客户服务热线</span>				         			                
+					         		<span class="mui-pull-right" style="margin-right: 20px;">12306</span>
+					            </div>
+					        </a>
+					    </li>
+					    <li class="mui-table-view-cell">
+					        <a href="" class="mui-navigate-right">
+					            <img class="mui-media-object mui-pull-left" src="./images/logo_huochepiaoyudingdianhua.png" style="height:30px;">
+					            <div class="mui-media-body" style="height: 30px;line-height: 30px;">
+					         		<span>火车票订票热线</span>				         			                
+					         		<span class="mui-pull-right" style="margin-right: 20px;">95105105</span>
+					            </div>
+					        </a>
+					    </li>
+					    <li class="mui-table-view-cell">
+					        <a href="" class="mui-navigate-right">
+					            <img class="mui-media-object mui-pull-left" src="./images/logo_dongfanghangkong.png" style="height:30px;">
+					            <div class="mui-media-body" style="height: 30px;line-height: 30px;">
+					         		<span>东方航空</span>				         			                
+					         		<span class="mui-pull-right" style="margin-right: 20px;">95530</span>
+					            </div>
+					        </a>
+					    </li>
+					    <li class="mui-table-view-cell">
+					        <a href="" class="mui-navigate-right">
+					            <img class="mui-media-object mui-pull-left" src="./images/logo_chunqiuhangkong.png" style="height:30px;">
+					            <div class="mui-media-body" style="height: 30px;line-height: 30px;">
+					         		<span>春秋航空</span>				         			                
+					         		<span class="mui-pull-right" style="margin-right: 20px;">95524</span>
+					            </div>
+					        </a>
+					    </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration:0.0005
+			});
+			mui.plusReady(function () {
+		
+			mui("#notice_view").on('tap', '.mui-table-view-cell', function() {
+				
+				plus.device.dial(this.getElementsByClassName('mui-pull-right')[0].innerHTML,true);
+			});
+
+		});
+	</script>
+</html>

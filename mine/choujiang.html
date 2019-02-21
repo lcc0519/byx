@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/css.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+				/*border:1px solid red;*/
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+			
+			.detail_tupian img {
+				width: 200px;
+				height: 200px;
+				/*vertical-align: middle;*/
+			}
+			
+			.help_img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" ></span>
+				</button>
+			<h1 class="mui-center mui-title">幸运抽奖</h1>
+		</header>
+		<div class="mui-content">
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">本小区暂无抽奖</span>
+				<br />
+			</div>
+			<div id="choujiang_id" class="choujiang_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img id="choujiangimg_id" src="images/cjBtn.png" style="height: 100px;"/>
+				<br />
+			</div>
+			<div id="jiangpin_id" class="jiangpin_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img id="jiangpinimg_id" src="" style="height: 100px;"/>
+				<br />
+				<p id="jiangpinname1_id"></p>
+				<p id="jiangpinname2_id"></p>
+				<img id="choujiangimg_id" src="images/05.png" style="height: 100px;"/>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.zoom.js"></script>
+	<script>
+		mui.init({
+			swipeBack: false //启用右滑关闭功能
+		});
+		var currentWebView;
+		var this_xiaoqu;
+		var this_houseno;
+		
+		mui.plusReady(function() {
+			currentWebView = plus.webview.currentWebview();
+			this_xiaoqu = currentWebView.xiaoqu;
+			this_houseno = currentWebView.house_no;
+			console.log("-------this_houseno------="+this_houseno);
+			queryChoujiang();
+			
+			document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+				queryChoujiang();
+			}, false);
+		});
+		
+		function queryChoujiang(){
+			console.log("------queryChoujiang-----------");
+			if(chkNetStatus() != "OK") {
+				showNeterrorView("网络异常");
+				return;
+			}	
+
+			var w=plus.nativeUI.showWaiting("正在查询，请稍候...");
+				
+			console.log("-------queryChouqiang------="+QUERY_CHOUJIANG_URL);
+			
+			mui.ajax(QUERY_CHOUJIANG_URL,{
+				data:{
+					xiaoqu:this_xiaoqu,
+					houseNo:this_houseno
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				success:function (data){
+					w.close();	
+					var infor=JSON.stringify(data);
+					var obj=eval(data);
+					console.log("-------queryChouqiang--------="+infor);
+					if (obj.success==1) {
+
+						if(obj.jiangpin == ""||obj.jiangpin.length==0){
+							showNulldataView();	
+						}
+						else {
+							if(obj.myjiangpin.name==""&&obj.myjiangpin.pic==""){
+								document.querySelector('#jiangpin_id').style.display = 'none';
+								document.querySelector('#neterror_id').style.display = 'none';
+								document.querySelector('#nulldata_id').style.display = 'none';
+								document.querySelector('#choujiang_id').style.display = 'block';
+								
+								document.querySelector('#choujiangimg_id').addEventListener('tap', function() {
+									queryJiangpin();
+								});
+							}
+							else{
+								showJiangpinView();
+								if(obj.myjiangpin.pic==""){
+									document.querySelector('#jiangpinimg_id').src = "../images/ic_data_empty.png";
+								}
+								else{
+									var s = new Array();
+									s = obj.myjiangpin.pic.split("/");
+									var picPath = BASE_URL + s[1] + "/" + s[2] + "/" + s[3];
+									console.log("picPath:" + picPath);
+								
+									document.querySelector('#jiangpinimg_id').src = picPath;
+								}
+							
+								document.querySelector('#jiangpinname1_id').innerHTML = obj.myjiangpin.name;
+								document.querySelector('#jiangpinname2_id').innerHTML = "您已经抽过奖，请与物业联系领取奖品";
+								document.querySelector('#choujiangimg_id').disabled="disabled";	
+							}
+						}
+					} 
+					else{
+						showNeterrorView("网络异常");						
+					}								
+				},							
+				error:function(xhr,type,errorThrown){
+					w.close();
+					showNeterrorView("网络异常");	
+				}	
+			});	
+		}
+		
+		function queryJiangpin(){
+	
+			console.log("------queryJiangpin-----------");
+			if(chkNetStatus() != "OK") {
+				showNeterrorView("网络异常");
+				return;
+			}	
+
+			var w=plus.nativeUI.showWaiting("正在抽奖，请稍候...");
+				
+			console.log("-------queryJiangpin------="+QUERY_JIANGPIN_URL);
+			
+			mui.ajax(QUERY_JIANGPIN_URL,{
+				data:{
+					xiaoqu:this_xiaoqu,
+					houseNo:this_houseno
+				},
+				dataType:'json',//服务器返回json格式数据
+				type:'post',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				success:function (data){
+					w.close();	
+					var infor=JSON.stringify(data);
+					var obj=eval(data);
+					console.log("-------queryChouqiang--------="+infor);
+
+					if (obj.success==1) {
+						
+						if(obj.myjiangpin.name!=""){
+							showJiangpinView();
+							if(obj.myjiangpin.pic==""){
+								document.querySelector('#jiangpinimg_id').src = "../images/ic_data_empty.png";
+							}
+							else{
+								var s = new Array();
+								s = obj.myjiangpin.pic.split("/");
+								var picPath = BASE_URL + s[1] + "/" + s[2] + "/" + s[3];
+								console.log("picPath:" + picPath);
+							
+								document.querySelector('#jiangpinimg_id').src = picPath;
+							}
+							
+							document.querySelector('#jiangpinname1_id').innerHTML = obj.myjiangpin.name;
+							document.querySelector('#jiangpinname2_id').innerHTML = "请与物业联系领取奖品";
+							document.querySelector('#choujiangimg_id').disabled="disabled";		
+						}				
+					} 
+					else{
+						showNeterrorView("网络异常");						
+					}								
+				},							
+				error:function(xhr,type,errorThrown){
+					w.close();
+					showNeterrorView("网络异常");	
+				}	
+			});	
+		}
+		
+		function showNeterrorView(msg){
+			document.querySelector('#choujiang_id').style.display = 'none';
+			document.querySelector('#jiangpin_id').style.display = 'none';
+			document.querySelector('#nulldata_id').style.display = 'none';
+			document.querySelector('#neterror_id').style.display = 'block';
+			document.querySelector('.neterror_cls span').innerHTML = msg;
+		}
+				
+		function showNulldataView(){
+			document.querySelector('#choujiang_id').style.display = 'none';
+			document.querySelector('#jiangpin_id').style.display = 'none';
+			document.querySelector('#neterror_id').style.display = 'none';
+			document.querySelector('#nulldata_id').style.display = 'block';
+		}
+		
+		function showJiangpinView(){
+			document.querySelector('#choujiang_id').style.display = 'none';
+			document.querySelector('#neterror_id').style.display = 'none';
+			document.querySelector('#nulldata_id').style.display = 'none';
+			document.querySelector('#jiangpin_id').style.display = 'block';
+		}
+		
+	</script>
+
+</html>

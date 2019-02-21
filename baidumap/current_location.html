@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"></script>
+  	<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4Y3qkyS4ITwuR8TXQ3kyZu212qYqAqGu"></script>-->
+	<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=4Y3qkyS4ITwuR8TXQ3kyZu212qYqAqGu&services=&t=20170803155555"></script>
+  	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+	<script src="../js/mui.min.js"></script>
+
+    <style type="text/css">
+		*{ margin: 0px; padding: 0px;}
+  		body{text-align: center;  height: 100%;overflow:hidden;}
+  		#allmap{ width: 100%;height: 100%; position: absolute;}
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav" style="background-color: DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  style="color: white;"></a>
+		    <h1 id="title" class="mui-title" style="color: white;">当前位置</h1>
+	</header>
+    <div id="allmap"></div>
+	<script type="text/javascript">
+		mui.init(
+			
+		);
+		mui.plusReady(function(){
+
+			window.BMap_loadScriptTime = (new Date).getTime();
+			console.log("-------plusReady-------");
+			if(supportsGeoLocation()){
+        		navigator.geolocation.getCurrentPosition(mapIt,locationError);
+     		}else{
+        		mui.toast("暂不支持 获取位置信息")
+     		}
+			
+			
+			function supportsGeoLocation(){
+            	return !!navigator.geolocation;
+            }
+			
+			function mapIt(position){ 
+                var lon = position.coords.longitude;
+                var lat = position.coords.latitude;
+                // alert("您位置的经度是："+lon+" 纬度是："+lat);
+                var map = new BMap.Map("allmap");
+                var point = new BMap.Point(""+lon+"",""+lat+"");
+                map.centerAndZoom(point,19);
+                var gc = new BMap.Geocoder();
+                
+                var geolocationControl = new BMap.GeolocationControl();
+  				geolocationControl.addEventListener("locationSuccess", function(e){
+  					BMap.Convertor.translate(point,0,translateCallback);
+//					 map.closeInfoWindow();
+//					var addComp = e.addressComponent;
+//                      if(addComp.province!==addComp.city){
+//                          var sContent =
+//                	            "<div><h4 style='margin:0 0 5px 0;padding:0.2em 0'>您111当前的位置是：</h4>" + 
+//                     	        "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>"+addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber+"</p>" + 
+//                         	    "</div>";}
+//                      else{
+//                          var sContent =
+//                        	    "<div><h4 style='margin:0 0 5px 0;padding:0.2em 0'>您111当前的位置是：</h4>" + 
+//                             	"<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>"+ addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber+"</p>" + 
+//                             	"</div>";
+//                      }
+//                  var infoWindow = new BMap.InfoWindow(sContent);
+//                 
+//                  map.openInfoWindow(infoWindow,point);
+				});
+				geolocationControl.addEventListener("locationError",function(e){
+				// 定位失败事件
+					mui.toast(e.message);
+				});
+				map.addControl(geolocationControl);
+  
+  				geolocationControl.location();
+                console.log("-------addControl-------");
+                
+                
+                translateCallback = function (point){
+                	console.log("-----000-point-000---="+point);
+                	
+                    var marker = new BMap.Marker(point);
+                    map.addOverlay(marker);
+                    map.setCenter(point);
+                    gc.getLocation(point, function(rs){
+                        var addComp = rs.addressComponents;
+                        if(addComp.province!==addComp.city){
+                            var sContent =
+                  	            "<div><h4 style='margin:0 0 5px 0;padding:0.2em 0'>您当前的位置是：</h4>" + 
+                       	        "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>"+addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber+"</p>" + 
+                           	    "</div>";}
+                        else{
+                            var sContent =
+                          	    "<div><h4 style='margin:0 0 5px 0;padding:0.2em 0'>您当前的位置是：</h4>" + 
+                               	"<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>"+ addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber+"</p>" + 
+                               	"</div>";
+                        }
+                        var infoWindow = new BMap.InfoWindow(sContent);
+                        map.openInfoWindow(infoWindow,point);
+                        console.log("-----000--000---="+point);
+                    }); 
+                }                    
+
+                //BMap.Convertor.translate(point,0,translateCallback); 
+
+				
+				
+//              var local = new BMap.LocalSearch(map, {
+//					renderOptions:{map: map}
+//				});
+//				
+//				local.search("喆家驿站");
+
+
+//				var s = [];
+//				var options = {
+//					renderOptions: {
+//						map: map,
+//						autoViewport: true,  
+// 				        selectFirstResult: false  
+//					},
+//					onSearchComplete: 
+//					function(results) {
+//						// 判断状态是否正确
+//						if (local.getStatus() == BMAP_STATUS_SUCCESS){
+//							//var s = [];
+//							for (var i = 0; i < results.getCurrentNumPois(); i ++){
+//								s.push(results.getPoi(i).title + ", " + results.getPoi(i).address);
+//							}
+//							//document.getElementById("r-result").innerHTML = s.join("<br/>");
+//							//alert(s);
+//						}
+//					}
+//				};
+//				var local = new BMap.LocalSearch(map, options);
+//				local.search("喆家驿站");
+
+            }
+
+			
+			function locationError(error)
+            {
+            	switch(error.code)
+                {
+                case error.PERMISSION_DENIED:
+                	mui.toast("获取位置信息权限失败");
+                  	break;
+                case error.POSITION_UNAVAILABLE:
+                   	mui.toast("位置信息不可用");
+                  	break;
+                case error.TIMEOUT:
+                   	mui.toast("网络超时");
+                  	break;
+                case error.UNKNOWN_ERROR:
+                   	mui.toast("未知错误");
+                  	break;
+                }
+            }
+		});
+		
+</script>
+</body>
+</html>

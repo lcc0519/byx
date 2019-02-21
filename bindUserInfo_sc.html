@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+		<style type="text/css">
+			.span-title{
+				width: 30%;
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.input-style {
+				float: left;
+				line-height: 50px;
+				text-align: start;
+				align-content: flex-end;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" style="color: white;"></span>
+				</button>
+			<h1 class="mui-center mui-title">绑定信息</h1>
+		</header>
+		<div class="mui-content">
+			<!--<div class="mui-content-padded mui-row" style="margin-top: 10px;">
+				<h5 style="color:#797979;">请选择绑定类型：房主/租客</h5>
+			</div>-->
+			<form class="mui-input-group" style="margin: 5px;">
+				<!--<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">绑定类型</span>
+					<div id="" class="input-style" style="margin-left: 12px;">
+							<input type="radio" name="radio" value="fangzhu"/>房主
+							<input type="radio" name="radio" value="zuke"/>租客
+					</div>
+				</div>-->
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">昵称</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='nickname' type="text" class="mui-input-clear mui-input" placeholder="请填写昵称" maxlength="10">
+					</div>	
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">真实姓名</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='name' type="text" class="mui-input-clear mui-input" placeholder="请填写真实姓名" maxlength="10" onkeyup="CNletter(this,10)">
+					</div>	
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title" >身份证号</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='cid' type="text" onkeyup="IDcard(this,18)" class="mui-input-clear mui-input" placeholder="（选填）" maxlength="18">
+					</div>
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">小区名称</span>
+					<div id="" class="input-style" style="margin-left: 12px;">	
+						<select id="xiaoqulist">
+							<option value="choose" disabled="disabled">请选择小区</option>
+	
+						</select>
+					</div>
+				</div>
+			</form>
+			<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='bind' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即绑定</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			var bindButton = document.getElementById('bind');
+			var nameBox = document.getElementById('name');
+			var nicknameBox = document.getElementById('nickname'); 
+			var cidBox = document.getElementById('cid');
+			var xiaoquid = new Array();
+			var xiaoquname = new Array();
+			var xiaoquprefix = new Array();
+			var xiaoquobj = document.getElementById('xiaoqulist');
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+			var w = null;
+			mui.plusReady(function() {
+				
+				
+				loadXiaoqu();
+				
+				bindButton.addEventListener('tap', function(event) {
+				
+//					var typeObj = document.getElementsByName('radio');
+//					var myUserType = "";
+//					for(var i = 0; i < typeObj.length; i++) {
+//						if(typeObj[i].checked) {
+//							if(typeObj[i].value == "fangzhu") {
+//								myUserType = "1";
+//							} else if(typeObj[i].value == "zuke") {
+//								myUserType = "3";
+//							}
+//						}
+//					}
+
+					var myUserType = "1";
+//					if(myUserType == "") {
+//						mui.alert("请选择绑定类型");
+//						return;
+//					}
+					
+					if(nicknameBox.value == "" || nameBox.value == "") {
+						
+						if(nicknameBox.value == ""){
+							mui.alert("请填写昵称");
+							return;
+						}
+						else if(nameBox.value == ""){
+							mui.alert("请填写真实姓名");
+							return;
+						}
+					} 
+					else {
+						if(cidBox.value != ""){
+							
+							if(cidBox.value.length != 18) {
+								mui.alert("身份证位数不正确，请检查");
+								return;
+							} 
+						}
+							
+						var index = xiaoquobj.selectedIndex;
+						var myxiaoquprefix = xiaoquobj.options[index].value;
+						var myxiaoquname = xiaoquobj.options[index].text;
+						if(myxiaoquprefix == "choose") {
+							mui.alert("请选择小区");
+							return;
+						}
+						else{
+							var public_user = eval(app.getDatas(PUBLIC_USER));
+							mui.openWindow({
+								url: 'bindUserAddress_sc.html',
+								id: 'bindUserAddress_sc.html',
+								show: {
+									aniShow: 'slide-in-right',
+									duration: 300
+								},
+								waiting: {
+									autoShow: false,
+									title: "正在加载..."
+								},
+								extras: {
+									"uid": public_user.uid,
+									"account": public_user.account,
+									"tel": public_user.tel,
+									"nickname": nicknameBox.value,
+									"xiaoquname": myxiaoquname,
+									"xiaoquprefix": myxiaoquprefix,
+									"accounttype": myUserType,
+									"real_name": nameBox.value,
+									"cid": cidBox.value
+								}
+							});
+						}			
+					}
+				});
+			});
+			
+			var loadXiaoqu = function() {
+				w = plus.nativeUI.showWaiting("正在获取小区列表，请稍候...");
+				netID = setInterval(function() {
+				console.log('小区list刷新');
+					if(chkNetStatus() == "OK") {
+						console.log('小区列表数量2222：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+						if((xiaoquobj.options.length > 1) && (xiaoquobj.options.length == (xiaoquname.length + 1))) {
+							console.log('got xiaoqu list');
+							clearInterval(netID);
+							w.close();
+						} else {
+							console.log("refreah xiaoqu list");
+							getxiaoquList();
+							console.log('second load xiaoqu list');							
+							//mui.toast("重新加载小区列表数据");
+						}
+					} else {
+						w.close();
+						mui.toast("网络异常");
+					}
+				}, 5000);
+			}
+			
+			function getxiaoquList() {
+				//获取小区列表
+				//mui.toast(Query_Xiaoquliebiao_URL);
+				
+				mui.post(Query_Xiaoquliebiao_URL, JSON.stringify({
+					xiaoqu: ""
+				}), function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("小区列表:" + infor);
+					if(obj.success == 1) {
+						w.close();
+						xiaoquid.splice(0, xiaoquid.length);
+						xiaoquname.splice(0, xiaoquname.length);
+						xiaoquprefix.splice(0, xiaoquprefix.length);
+						for(var i = 0; i < obj.village.length; i++) {
+							xiaoquid[i] = obj.village[i].id;
+							xiaoquname[i] = obj.village[i].name;
+							xiaoquprefix[i] = obj.village[i].prefix;
+						}
+						InsertXiaoqu();
+					} else {
+						w.close();
+						mui.toast(infor.errorMsg);
+					}
+				}, 'json');
+			}
+
+			function InsertXiaoqu() { //插入小区列表
+				while(xiaoquobj.length > 1) {
+					xiaoquobj.options.remove(1);
+				}
+				if(xiaoquname.length > 0 && xiaoquobj.options.length == 1) {
+					for(var i = 0; i < xiaoquname.length; i++) {
+						xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+					}
+				}
+				console.log('小区列表数量：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+			}
+			
+			window.addEventListener('bindsuccess', function() {
+			
+				plus.webview.currentWebview().close();
+			});
+		</script>
+	</body>
+
+</html>

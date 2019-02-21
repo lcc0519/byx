@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/head.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<link rel="stylesheet" href="../css/datouwang.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			/*	/*	/*	/*
+			#nav {
+				
+				position: relative;
+				
+				background: white;
+				width: 100%;
+				z-index: 1;
+			}*/
+			
+			#search {
+				background-color: #FDFDFD;
+				line-height: 30px;
+				margin-top: 6px;
+				border-radius: 50px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 0px 15px;
+				vertical-align: top;
+				border-right: 0px;
+				border-bottom: 0px;
+			}
+			
+			h6 {
+				line-height: 0.2em;
+			}
+			
+			.mui-bar-transparent {
+				top: 0;
+				background-color: rgba(0, 191, 255, 0);
+				-webkit-box-shadow: none;
+				box-shadow: none
+			}
+			
+			.bgDiv {
+				border-radius: 5px;
+				background-color: white;
+				width: 100%;
+			}
+			
+			#adv li {
+				margin: 0;
+				padding: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.cellImg {
+				max-width: 70%;
+				vertical-align: middle;
+				margin-left: 15px;
+			}
+			
+			.leftClassCell {
+				width: 30%;
+				float: left;
+				line-height: 100px;
+				display: table-cell;
+			}
+			
+			.rightClassCell {
+				width: 70%;
+				float: left;
+			}
+			
+			.itemName {
+				color: black;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				margin-top: 15px;
+				line-height: 2.0em;
+			}
+			
+			.price {
+				line-height: 1.5em;
+				margin-right: 2px;
+				display: inline;
+			}
+			
+			.guige {
+				line-height: 1.5em;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				margin-top: 2px;
+				height: auto;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body .price-one {
+				margin-top: 5px;
+				/*float: left;*/
+				font-size: 1.0em;
+				/*margin-left: 7%;*/
+				color: red;
+				margin-bottom: 5px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-transparent" style="z-index: 9999;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<div id="search" class="mui-title">
+				<span class="mui-icon mui-icon-search" style="color: #AAAAAA;font-size: 20px;"></span>
+				<label href="search.html" style="color: #AAAAAA; font-size: 14px;">输入商家名、品类或商圈</label>
+			</div>
+		</header>
+		<div id="content" class="mui-content">
+			<div id="loading" style="text-align: center;">
+				<span class="mui-spinner" style="margin-top: 70px;"></span>
+			</div>
+			<div id="net_error2" class="notInfo_error" style="text-align: center; margin-top: 70px;display: none;">
+				<img id="image_view_adv" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word_adv" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+			<div id="slider" class="mui-slider" style="display: none;">
+				<div id="slider_pic" class="mui-slider-group mui-slider-loop">
+
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 10px;display: none;">
+				<img id="image_view" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+			<ul id="gridview" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;display: none;">
+
+			</ul>
+			<!--<div>-->
+			<div style="width: 100%;background:white; text-align: center;margin-top: 7px;border-bottom: 1px solid #ddd;padding: 5px 0px;">
+				<label class="mui-icon iconfont icon-xihuan-copy" style="font-size: 20px;color: #ff5000;"></label>
+				<label style="color: #ff5000;font-size: 16px;">推荐商品</label>
+			</div>
+			<div id="net_error1" class="notInfo_error" style="text-align: center; margin-top: 10px;display: none;">
+				<img id="image_view1" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word1" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+			<div id="news" class="mui-table-view mui-grid-view" style="padding-left: 6px;display: none;">
+
+			</div>
+			<div style="width: 100%;background:white; text-align: center;margin-top: 7px;border-bottom: 1px solid #ddd;padding: 5px 0px;">
+				<label class="mui-icon iconfont icon-rexiao" style="font-size: 20px;color: #ff5000;"></label>
+				<label style="color: #ff5000;font-size: 16px;">热销商品</label>
+			</div>
+
+			<div id="space" style="display: none;height: 35px;background-color: white;"></div>
+			<!--<div >-->
+			<div id="nav" class="screening" style="padding: 0px 0px;border-bottom: 1px solid gainsboro;height: 35px;display: none;">
+				<div id="nearby" class="Regional" style="width: 50%;float: left;text-align: center;">
+					<p id="nearby_title" style="display: inline;vertical-align: middle;line-height: 35px;">附近</p>
+					<span class="mui-icon iconfont icon-downbutton" style="color: darkgrey;"></span>
+				</div>
+				<div id="sort" class="Sort" style="width: 50%;float: left;text-align: center;">
+					<p id="sort_title" style="display: inline;vertical-align: middle;line-height: 35px;">智能排序</p>
+					<span class="mui-icon iconfont icon-downbutton" style="color: darkgrey;"></span>
+				</div>
+			</div>
+			<!--<div class="grade-eject">
+				<ul class="grade-w" id="gradew">
+					<li onclick="grade1(this)"><span class="xiaobiao">1225></span> 附近 </li>
+					<li onclick="grade1(this)"><span class="xiaobiao">1225></span> 1km </li>
+					<li onclick="grade1(this)"><span class="xiaobiao">1225></span> 3km </li>
+					<li onclick="grade1(this)"> <span class="xiaobiao">1225></span> 5km</li>
+					<li onclick="grade1(this)"> <span class="xiaobiao">1225></span> 10km</li>
+					<li onclick="grade1(this)"><span class="xiaobiao">1225></span> 全部</li>
+				</ul>
+			</div>
+			<div class="Sort-eject Sort-height">
+				<ul class="Sort-Sort" id="Sort-Sort">
+					<li onclick="Sorts(this)">智能排序</li>
+					<li onclick="Sorts(this)">离我最近</li>
+					<li onclick="Sorts(this)">好评优先</li>
+					<li onclick="Sorts(this)">人气优先</li>
+					<li onclick="Sorts(this)">价格最低</li>
+					<li onclick="Sorts(this)">价格最高</li>
+				</ul>
+			</div>-->
+			<div style="padding: 0 15px;border-bottom: 1px solid gainsboro;height: 35px;background-color: white;" onclick="getGeocode()">
+
+				<div id="location_info" style="display: none;line-height: 34px;vertical-align: middle;">
+					<p style="display: inline;">当前位置：</p>
+					<p id="location" id="position" style="display: inline;"></p>
+					<p class="mui-icon iconfont icon-shuaxin mui-pull-right" style="margin-top: 8px;"></p>
+				</div>
+				<div>
+					<p id="dingwei" style="display: block;line-height: 35px;vertical-align: middle;">正在定位...</p>
+				</div>
+				<div id="dingweifail" style="display: none;line-height: 35px;vertical-align: middle;">
+					<p style="display: inline;">定位失败</p>
+					<p class="mui-icon iconfont icon-shuaxin mui-pull-right" style="margin-top: 8px;"></p>
+				</div>
+			</div>
+			<div id="homeDiv">
+				<div id="rexiaoshangpin" class="mui-table-view" style="padding-right: 10px;background-color: white;">
+
+				</div>
+			</div>
+			<!--</div>-->
+			<!--</div>-->
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/jquery-1.8.2.min.js"></script>
+	<script src="../js/datouwang.js"></script>
+	<script src="../js/gps.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		window.onload = function() {
+			//	menuFixed('nav');
+		}
+		var shopSubArray = [];
+		var advertArray = [];
+		var allAdvArray = [];
+		var pictureList = [];
+		var rexiaodataList = [];
+		var current = {};
+		var pingtai, shangjia_fenlei_id, self;
+		var btn = document.getElementById("search");
+		var gridview = document.getElementById('gridview');
+		mui.plusReady(function() {
+			var height = plus.screen.resolutionHeight / 4;
+			jQuery('#slider').height(height);
+			jQuery('#loading').height(height);
+			self = plus.webview.currentWebview();
+			pingtai = self.pingtai;
+			createrid = self.createrid;
+			shangjia_fenlei_id = self.shangjia_fenlei_id;
+			//	getShangpinRexiao(shangjia_fenlei_id);
+			getShopsubtype();
+			getadvert();
+			getGeocode();
+			getAllAdvert();
+			document.getElementById("net_error2").addEventListener('tap', function() {
+				console.log("tap")
+				getAllAdvert();
+			}, false);
+			document.getElementById("net_error").addEventListener('tap', function() {
+				console.log("tap")
+				getShopsubtype();
+			}, false);
+			document.getElementById("net_error1").addEventListener('tap', function() {
+				console.log("tap")
+				getadvert();
+			}, false);
+			//	setGridviewHtm();
+			mui('#gridview').on('tap', 'li', function() {
+				var shangpin_fenlei_id = this.getAttribute('id');
+				console.log("nnnn=" + shangpin_fenlei_id)
+				var infoArray = [];
+				var item = {};
+				item.shangjia_fenlei_id = shangjia_fenlei_id;
+				item.shangpin_fenlei_id = shangpin_fenlei_id;
+				item.pingtai = pingtai;
+				item.createrid = createrid;
+				console.log("mmmm=" + pingtai)
+				localStorage.info = JSON.stringify(item);
+				mui.openWindow({
+					url: 'jiazheng-list_main.html',
+					id: 'jiazheng-list_main.html',
+					preload: true,
+					show: {
+						aniShow: 'slide-in-right',
+						duration: 300
+					},
+					styles: {
+						popGesture: 'none'
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						shangjia_fenlei_id: shangjia_fenlei_id,
+						shangpin_fenlei_id: shangpin_fenlei_id,
+						//pingtai: 'wuye'
+						pingtai: pingtai
+					}
+
+				}) //openWindow
+			})
+
+			btn.addEventListener("tap", function() {
+				mui.openWindow({
+					url: '../search.html',
+					id: 'search.html',
+					styles: {
+						popGesture: "none"
+					},
+					show: {
+						//	autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						"flag": "3",
+						"shangjia_fenlei_id": shangjia_fenlei_id,
+						"pingtai": pingtai
+					}
+				})
+			});
+		}) //plusReady
+
+		function openDianpu(index, arr) {
+			console.log("oooo=" + JSON.stringify(arr))
+			mui.openWindow({
+				url: 'dianpu.html',
+				id: 'dianpu.html',
+				//preload: true,
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				styles: {
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: false
+				},
+				extras: {
+					"shangjia_id": arr[index].shangjia_id,
+					"shangjia_name": arr[index].shangjia_name,
+					"store_picture": arr[index].village_pic2
+				}
+
+			}) //openWindow
+		}
+
+		function getGeocode() {
+			console.log("获取定位位置信息:");
+			document.getElementById("dingweifail").style.display = "none";
+			document.getElementById("location_info").style.display = "none";
+			document.getElementById("dingwei").style.display = "block";
+			plus.geolocation.getCurrentPosition(geoInf, function(e) {
+				console.log("获取定位位置信息失败：" + e.message);
+				document.getElementById("dingweifail").style.display = "block";
+				document.getElementById("dingwei").style.display = "none";
+			}, {
+				geocode: true
+			}, {
+				provider: 'baidu'
+			});
+		}
+
+		function geoInf(position) {
+			getShangpinRexiao(shangjia_fenlei_id);
+			console.log("position=" + JSON.stringify(position))
+			current.weidu = position.coords.latitude;
+			current.jingdu = position.coords.longitude;
+			console.log("current=" + JSON.stringify(current));
+			document.getElementById("location_info").style.display = "block";
+			document.getElementById("dingwei").style.display = "none";
+			document.getElementById("location").innerText = position.address.district + position.address.street;
+
+			console.log("-----------aaa-----------rexiaodataList.length=" + rexiaodataList.length);
+			for(var i = 0; i < rexiaodataList.length; i++) {
+				var distance = GPS.distance(current.weidu, current.jingdu, rexiaodataList[i].weidu, rexiaodataList[i].jingdu);
+				distance = (distance / 1000).toFixed(1);
+				rexiaodataList[i].distance = distance;
+			}
+			refreshRexiaoListview(rexiaodataList);
+			//	menuFixed('screening');
+		}
+
+		function getShopsubtype() {
+			shopSubArray = [];
+			mui.ajax(SHOP_SUBPAGE_TYPE, {
+				data: {
+					shangjia_fenlei_id: shangjia_fenlei_id,
+					//pingtai: 'wuye'
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("info=" + JSON.stringify(data))
+					var obj = eval(data);
+					if(obj.success = '1') {
+						document.getElementById("net_error").style.display = "none";
+						document.getElementById("gridview").style.display = "block";
+						for(var i = 0; i < obj.shangpin_fenlei.length; i++) {
+							var item = {};
+							item.id = obj.shangpin_fenlei[i].id;
+							item.commodityno = obj.shangpin_fenlei[i].commodityno;
+							item.commodity_name = obj.shangpin_fenlei[i].commodity_name;
+							item.t_picture = obj.shangpin_fenlei[i].type;
+							if(obj.shangpin_fenlei[i].type == '')
+								item.type = "images/g2.png";
+							else {
+								var picstr = obj.shangpin_fenlei[i].t_picture;
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								item.t_picture = SHOP_PICTURE_URL + picstr;
+								//console.log(item.t_picture);
+							}
+							shopSubArray.push(item);
+						}
+						setGridviewHtm(shopSubArray);
+						//	menuFixed('nav');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					document.getElementById("net_error").style.display = "block";
+					console.log("error=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown);
+				}
+			})
+		}
+
+		function getadvert() {
+			advertArray = [];
+			mui.ajax(FENLEI_ADVERT_URL, {
+				data: {
+					shangjia_fenlei_id: shangjia_fenlei_id,
+					//					pingtai: 'wuye'
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("infoSSSS=" + JSON.stringify(data))
+					var obj = eval(data);
+					if(obj.success == '1') {
+						document.getElementById("net_error1").style.display = "none";
+						document.getElementById("news").style.display = "block";
+						for(var i = 0; i < obj.shangpin.length; i++) {
+							dataItem = {};
+							dataItem.shangpin_id = obj.shangpin[i].shangpin_id;
+							dataItem.shangpin_name = obj.shangpin[i].shangpin_name;
+							dataItem.bianhao = obj.shangpin[i].bianhao;
+							dataItem.guige = obj.shangpin[i].guige;
+							dataItem.shangpin_jianjie = obj.shangpin[i].shangpin_jianjie;
+							dataItem.price = obj.shangpin[i].price;
+							dataItem.danwei = obj.shangpin[i].danwei;
+							dataItem.shuliang = obj.shangpin[i].shuliang;
+							dataItem.company = obj.shangpin[i].company;
+							dataItem.shangjia_id = obj.shangpin[i].shangjia_id;
+							if(obj.shangpin[i].header_pic == '')
+								dataItem.picture = '../../images/ic_launcher.png';
+							else {
+								var picstr = obj.shangpin[i].header_pic;
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								dataItem.picture = SHOP_PICTURE_URL + picstr;
+							}
+							advertArray.push(dataItem);
+						}
+						settuijianHtm(advertArray);
+						//	menuFixed('nav');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					document.getElementById("net_error1").style.display = "block";
+					console.log("error=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown);
+				}
+			})
+		}
+
+		function settuijianHtm(list) {
+			var adv = document.getElementById("news");
+			adv.innerHTML = "";
+			var html = '';
+			mui.each(list, function(index, item) {
+				html += '<li id="' + index + '" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">\
+						<div class="bgDiv" style="margin-right: 6;padding-bottom:10px">\
+							<img src="' + item.picture + '" style="width: 100%;vertical-align: middle; border-radius: 5px;" />\
+							<div class="mui-media-body">\
+								<p style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">' + item.shangpin_name + '</p>\
+								<p class="price-one" >¥' + item.price + '</p>\
+							</div>\
+						</div>\
+					</li>';
+			})
+			adv.innerHTML = html;
+		}
+
+		function setGridviewHtm(list) {
+			gridview.innerHTML = '';
+			var html = '';
+			mui.each(list, function(index, item) {
+				html += '<li id="' + item.id + '" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">\
+					<a href="dir_school/tongzhi/tongzhi.html">\
+						<img src="' + item.t_picture + '" class="imgsize_grid" style="height: 60px; width: 60px;border-radius: 30px;" />\
+						<div class="mui-media-body">\
+							<h6>' + item.commodity_name + '</h6>\
+						</div>\
+					</a>\
+				</li>';
+			})
+			gridview.innerHTML = html;
+		}
+		var extras = {};
+		mui('#news').on('tap', 'li', function() {
+			var index = this.getAttribute('id');
+			switchtoDetail(advertArray[index]);
+		});
+
+		mui('#rexiaoshangpin').on('tap', 'li', function() {
+			var index = this.getAttribute('id');
+			switchtoDetail(rexiaodataList[index]);
+		});
+
+		function getAllAdvert() {
+			console.log("llllll=" + shangjia_fenlei_id + " " + pingtai)
+			pictureList = [];
+			mui.ajax(ALL_ADVERT_URL, {
+				data: {
+					leibie: shangjia_fenlei_id,
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("info2211111=" + JSON.stringify(data))
+					var obj = eval(data);
+					if(obj.success = '1') {
+						document.querySelector('#net_error2').style.display = 'none';
+						for(var i = 0; i < obj.advert.length; i++) {
+							var picstr = obj.advert[i].picture_s;
+							var ss = [];
+							ss = picstr.split("/");
+							picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+							obj.advert[i].picture = SHOP_PICTURE_URL + picstr;
+							var headpic = obj.advert[i].village_pic2;
+							var picarr = [];
+							console.log("jjjjjj=" + headpic);
+							picarr = headpic.split("/");
+							headpic = picarr[1] + "/" + picarr[2] + "/" + picarr[3];
+							obj.advert[i].village_pic2 = SHOP_PICTURE_URL + headpic;
+						}
+						pictureList = obj.advert;
+						console.log(JSON.stringify(pictureList))
+						document.getElementById("loading").style.display = "none";
+						document.getElementById("slider").style.display = "block";
+						setPictureAdv(pictureList);
+						mui('.mui-slider').slider({
+							interval: 5000
+						});
+						mui('#slider_pic').on('tap', 'img', function() {
+							var index = this.getAttribute("id");
+							console.log("bianhao=" + index)
+							openDianpu(index, pictureList);
+						})
+					}
+					//	menuFixed('nav');
+				},
+				error: function(xhr, type, errorThrown) {
+					document.getElementById("loading").style.display = "none";
+					document.querySelector('#net_error2').style.display = 'block';
+					console.log("pppkkkk=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown)
+				}
+			})
+		}
+
+		function openDianpu(index, arr) {
+			console.log("ooooss=" + JSON.stringify(arr))
+			mui.openWindow({
+				url: '../store/dianpu.html',
+				id: 'dianpu.html',
+				//preload: true,
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				styles: {
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: false
+				},
+				extras: {
+					"shangjia_id": arr[index].shangjia_id,
+					"shangjia_name": arr[index].shangjia_name,
+					"store_picture": arr[index].village_pic2
+				}
+
+			}) //openWindow
+		}
+
+		function setPictureAdv(pictureList) {
+			var guanggao = document.getElementById("slider_pic");
+			var html = '';
+			html += '<div class="mui-slider-item mui-slider-item-duplicate">\
+			<a href="#"><img id="last" src="' + pictureList[2].picture + '"></a>\
+					</div>'
+			mui.each(pictureList, function(index, item) {
+				html += '<div class="mui-slider-item"><a href="#"><img id="' + index + '" src="' + item.picture + '"></a></div>';
+			});
+			html += '<div class="mui-slider-item mui-slider-item-duplicate">\
+			<a href="#"><img id="first" src="' + pictureList[0].picture + '"></a>\
+					</div>'
+			guanggao.innerHTML = html;
+		}
+
+		function getShangpinRexiao(shangjia_fenlei_id) {
+			console.log("fenlei_id=" + shangjia_fenlei_id)
+
+			mui.ajax(QUERY_FENLEIREXIAO_SHANGPIN, {
+				data: {
+					fenlei_id: shangjia_fenlei_id,
+					pingtai: pingtai
+				},
+				async: false,
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					var info = JSON.stringify(data);
+					//alert(info);
+					console.log("dingdan26666666SSSSS====" + info)
+					var s_obj = eval(data);
+
+					if(s_obj.success == 1) {
+						rexiaodataList = null;
+						rexiaodataList = [];
+						for(var i = 0; i < s_obj.rexiao_tongji.length; i++) {
+							var picstr = s_obj.rexiao_tongji[i].hpic1;
+							var ss = [];
+							ss = picstr.split("/");
+							picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+							s_obj.rexiao_tongji[i].picture = SHOP_PICTURE_URL + picstr;
+							s_obj.rexiao_tongji[i].shangjia_id = s_obj.rexiao_tongji[i].village_id;
+						}
+						console.log("ppppp=" + JSON.stringify(s_obj.rexiao_tongji))
+						rexiaodataList = s_obj.rexiao_tongji;
+						//refreshRexiaoListview(rexiaodataList);
+						//	menuFixed('nav');
+					} else {
+						document.querySelector('#not_message').style.display = 'block';
+						var queryResultMsg = s_obj.errorMsg;
+						//var queryResultMsg = "没有订单信息！";
+						console.log("hhhhhh" + queryResultMsg);
+						if(queryResultMsg == '') {
+							document.getElementById('word1').innerHTML = "获取数据失败";
+						} else {
+							console.log("ppppppp")
+							document.getElementById('word1').innerHTML = queryResultMsg;
+						}
+
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					wait.close();
+					console.log("xhr=" + xhr + " " + "type=" + type + " " + "errorThrown=" + errorThrown)
+					document.querySelector('#not_message').style.display = 'none';
+					document.querySelector('.diangdanItem').style.display = 'none';
+					document.querySelector('#net_error').style.display = 'block';
+				}
+			})
+		}
+
+		function refreshRexiaoListview(dataList) {
+
+			rexiaoshangpin.innerHTML = "";
+			mui.each(dataList, function(index, item) {
+				var distance = GPS.distance(current.weidu, current.jingdu, item.weidu, item.jingdu);
+				distance = (distance / 1000).toFixed(1);
+				var li = document.createElement('li');
+				li.className = 'mui-table-view-cell mui-media';
+				li.style.height = "103px";
+				li.style.padding = "0px";
+				li.id = index;
+				li.innerHTML = '<div id = "' + index + '" ><div class="leftClassCell">\
+					<img src="' + item.picture + '" class="cellImg" />\
+					</div>\
+					<div class="rightClassCell">\
+					<p class="itemName">' + item.shangpin_name + '</p>\
+					<p class="guige">' + item.guige + '</p>\
+					<p class="price" style="color:red">¥' + item.price + '</p>\
+					<p class="price" style="display:inline;float: right;">' + distance + 'km</p>\
+					</div></div>';
+
+				rexiaoshangpin.appendChild(li);
+			});
+		}
+
+		function switchtoDetail(datalist) {
+			extras.goodsDetail = datalist;
+			extras.createrid = createrid;
+			extras.pingtai = pingtai;
+			var webview = plus.webview.create("jiazhengListItemDetail.html", "jiazhengListItemDetail.html", {
+					titleNView: {
+						'backgroundColor': '#f7f7f7', //导航栏背景色
+						'titleText': '商品详情', //导航栏标题
+						'titleColor': '#000000', //文字颜色
+						type: 'transparent', //透明渐变样式
+						autoBackButton: true, //自动绘制返回箭头
+						//						buttons: [{
+						//							fontSrc: "_www/Shoppingmall/fonts/iconfont.ttf",
+						//							text: '\ue698',
+						//							fontSize: '24px',
+						//							float: 'right',
+						//							onclick: switchToCart
+						//						}],
+						splitLine: { //底部分割线
+							color: '#cccccc'
+						}
+					}
+				},
+				extras);
+
+			webview.show("slide-in-right", 300); //直接显示
+		}
+
+		function switchToCart() {
+			var gocart = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+			mui.fire(gocart, 'gocart');
+			var goshop = plus.webview.getWebviewById('tab-index');
+			mui.fire(goshop, 'goshop');
+			gocart.show("pop-in");
+			goshop.show("pop-in");
+		}
+	</script>
+
+</html>

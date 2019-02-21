@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">访客记录</h1>
+			<a href="new_baoxiu.html" class="mui-icon mui-pull-right" style="color: white;">
+			</a>
+		</header>
+		<div class="mui-content">
+			<div id="nodate" style="text-align: center;visibility: hidden;">
+			</div>
+			<div id="list" class="mui-scroll">
+				<!--数据列表-->
+				<ul id="fangke_list" class="mui-table-view mui-table-view-chevron">
+				
+				</ul>
+			</div>
+		</div>		
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能	
+			});
+				
+			$.plusReady(function() {
+				
+				plus.screen.lockOrientation("portrait-primary");
+				var userinfo=eval(app.getDatas(PREFERENCE_USER));
+				var userid = userinfo.id;
+				var xiaoqu = userinfo.xiaoqu;
+				
+				Load_fangkejilu();
+				
+				function addli(ab)
+			    {
+			        var ul=document.getElementById("fangke_list");             
+			        var obj=document.createElement("li");         
+			        obj.innerHTML=ab;           
+			        ul.appendChild(obj);                
+			    }
+			    function showNodate(){
+			    	doc.getElementById("nodate").style.visibility="visible";
+			    	doc.getElementById("nodate").innerHTML="暂无访客记录";
+			    	doc.getElementById("list").style.visibility="hidden";
+			    }
+			    function showBaoxiuList(obj){
+			    	
+			    	doc.getElementById("nodate").style.visibility="hidden";
+			    	doc.getElementById("list").style.visibility="visible";
+
+			    	for (var i = 0; i < obj.fangke.length; i++) {
+			    		var item=obj.fangke[i];
+						
+						var ul=document.getElementById("fangke_list"); 
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.setAttribute('id',item.id);
+						var a=document.createElement('a');
+						a.classList.add('mui-navigate-right');
+						var br=document.createElement('br');
+						br.className='mui-h5';
+						//添加title与内容
+						var div=document.createElement('div');
+//						div.classList.add('mui-media-body');
+						div.style.float="left";
+						div.innerHTML=item.fkname;
+						var span=document.createElement('span');
+						span.className='mui-h5';
+						span.innerHTML=item.fktel;
+						//添加状态与时间
+						var br1=document.createElement('br');
+						br1.className='mui-h5';
+						var div1=document.createElement('div');
+						div1.style.float="right";
+						div1.style.paddingTop="20px";
+						div1.style.color='red';
+						div1.classList.add('mui-media-body');
+						if(item.fk_flag=="1"){
+							div1.innerHTML="已到访";
+						}
+						else{
+							div1.innerHTML="未到访";
+						}
+						
+						var span1=document.createElement('span');
+						span1.className='mui-h5';
+						span1.innerHTML=item.fk_time;
+						div.appendChild(br);
+						div.appendChild(span);
+						div.appendChild(br1);
+						div.appendChild(span1);
+						//a.appendChild(img);
+						a.appendChild(div);
+						a.appendChild(div1);
+						li.appendChild(a);
+						ul.appendChild(li);
+			    	}
+			    }
+				function Load_fangkejilu(){
+					var w=plus.nativeUI.showWaiting("正在加载...");
+					mui.ajax(Query_Fangkejilu_All_URL,{
+						data:{
+							xiaoqu:xiaoqu,
+							myId:userid
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							console.log("---Load_fangkejilu-----="+infor);
+							var obj=eval(data);
+							if (obj.success==1) {
+								//mui.toast("加载成功");
+								if(obj.fangke==""){
+									showNodate();
+								}else{
+									app.setDatas("Fangke_list",data);
+									showBaoxiuList(obj);
+								}								
+							} else{
+								mui.toast(obj.errorMsg);									
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							mui.toast("error type:"+type);
+						}
+					});
+				}
+			
+				//var addlistener=function () {
+					mui("#fangke_list").on('tap', '.mui-table-view-cell', function() {
+						var fangke_id = this.getAttribute("id");
+						mui.openWindow({
+							url: 'detail_fangkejilu.html',
+							id: 'detail_fangkejilu.html',
+//							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								fangke_id:fangke_id
+							}
+						});
+					});
+			});
+		}(mui, document));
+	</script>
+</html>

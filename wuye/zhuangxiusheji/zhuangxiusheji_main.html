@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/css.css">
+				<style type="text/css">
+			.detailcontent{
+				margin-top: 44px;
+			}
+		</style>
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				width: 80%;
+				
+			}
+			.span-title{
+				float: left;
+				line-height: 50px;
+				text-align: center;
+			}
+			.h5-title,h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-btn {
+				
+				padding: 6px;
+				
+			}
+			.mui-h5,
+			h5 {
+				font-size: 16px;
+				font-weight: 400;
+				color: #8f8f94;
+				padding-left: 20px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">装修设计</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div id="slider" class="mui-slider" >
+				  <div class="mui-slider-group mui-slider-loop">
+				    <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				    <div class="mui-slider-item mui-slider-item-duplicate">
+				      <a href="#">
+				        <img id="ad3_first" src="./images/ad5.jpg">
+				      </a>
+				    </div>
+				    <!-- 第一张 -->
+				    <div class="mui-slider-item">
+				      <a href="#">
+				        <img id="ad1" src="./images/ad1.jpg">
+				      </a>
+				    </div>
+				    <!-- 第二张 -->
+				    <div class="mui-slider-item">
+				      <a href="#">
+				        <img id="ad2" src="./images/ad2.jpg">
+				      </a>
+				    </div>
+				    <!-- 第三张 -->
+				    <div class="mui-slider-item">
+				      <a href="#">
+				        <img id="ad3" src="./images/ad3.jpg">
+				      </a>
+				    </div>
+				    <!-- 第四张 -->
+				    <div class="mui-slider-item">
+				      <a href="#">
+				        <img id="ad4" src="./images/ad4.jpg">
+				      </a>
+				    </div>
+				    <div class="mui-slider-item">
+				      <a href="#">
+				        <img id="ad4" src="./images/ad5.jpg">
+				      </a>
+				    </div>
+				    <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				    <div class="mui-slider-item mui-slider-item-duplicate">
+				      <a href="#">
+				        <img id="ad1_end" src="./images/ad1.jpg">
+				      </a>
+				    </div>
+				  </div>
+				  <div class="mui-slider-indicator">
+				    <div class="mui-indicator mui-active"></div>
+				    <div class="mui-indicator"></div>
+				    <div class="mui-indicator"></div>
+				    <div class="mui-indicator"></div>
+				    <div class="mui-indicator"></div>
+				  </div>
+				</div>
+				<div class="mui-content-padded" style="margin: 5px 5px 5px 5px;">
+					<a href="zhuangxiusheji_quanwuzhengzhuang.html">
+	    				<img src="./images/zhuangxiusheji_quanwuzhengzhuang.png" style="width: 100%;"/>
+	    			</a>
+			    </div>
+			    <div style="margin: 5px 5px 5px 5px;">
+			    	<div style="width: 50%;text-align: center;float:left">
+			    		<div style="margin: 0px 5px 5px 0;background-color: #dee7e6">
+			    			<a href="">
+				            	<img src="./images/zhuangxiusheji_kuaisubaojia.png" style="width: 95%;"/>
+				        	</a>
+			    		</div>
+				   	</div>
+				   	<div style="width: 50%;text-align: center;float:left">
+			    		<div style="margin: 0px 5px 5px 0;background-color: #e6e7e6">
+			    			<a href="zhuangxiusheji_shigongxianchang.html">
+				            	<img src="./images/zhuangxiusheji_zhuangxiufuwu.png" style="width: 95%;"/>
+				        	</a>
+			    		</div>
+				   	</div>
+			    </div>
+			</div>
+		</div>    	
+		   <!--<div class="mui-scroll">
+				<div style="margin: 44px 0px 5px 0px;">
+    				<img src="../images/zhuangxiusheji_bg.jpg" style="width: 100%;"/>
+		    	</div>
+				<div class="mui-content-padded" style="margin: 5px 5px 5px 5px;">
+					<a href="zhuangxiusheji_quanwuzhengzhuang.html">
+    					<img src="../images/zhuangxiusheji_quanwuzhengzhuang.png" style="width: 100%;"/>
+    				</a>
+		    	</div>
+		    	<div style="margin: 5px 5px 5px 5px;">
+		    		<div style="width: 50%;text-align: center;float:left">
+		    			<div style="margin: 0px 5px 5px 0;background-color: #dee7e6">
+		    				<a href="">
+				            	<img src="../images/zhuangxiusheji_kuaisubaojia.png" style="width: 95%;"/>
+				        	</a>
+		    			</div>
+			    	</div>
+			    	<div style="width: 50%;text-align: center;float:left">
+		    			<div style="margin: 0px 5px 5px 0;background-color: #e6e7e6">
+		    				<a href="zhuangxiusheji_shigongxianchang.html">
+				            	<img src="../images/zhuangxiusheji_zhuangxiufuwu.png" style="width: 95%;"/>
+				        	</a>
+		    			</div>
+			    	</div>
+		    	</div>-->
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script src="../../js/common.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		mui('.mui-slider').slider({interval:5000});
+
+		mui.plusReady(function() {
+			
+		});
+	</script>
+
+</html>

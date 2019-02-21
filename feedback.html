@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en" class="feedback">
+    
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>问题反馈</title>
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/feedback.css" />
+		<link rel="stylesheet" type="text/css" href="css/css.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" style="color: white;" onclick="submitFeedback()">提交</button>
+			<h1 class="mui-title">意见反馈</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div class="mui-inline">问题和意见</div>
+				<!--<a class="mui-pull-right mui-inline" href="#popover">
+					快捷输入
+					<span class="mui-icon mui-icon-arrowdown"></span>
+				</a>-->
+				<!--快捷输入具体内容，开发者可自己替换常用语-->
+				<!--<div id="popover" class="mui-popover">
+					<div class="mui-popover-arrow"></div>
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view">
+								
+								<li class="mui-table-view-cell stream">
+									<a href="#">桌面快捷方式创建失败</a>
+								</li>
+								<li class="mui-table-view-cell"><a href="#">界面显示错乱</a></li>
+								<li class="mui-table-view-cell"><a href="#">启动缓慢，卡出翔了</a></li>
+								<li class="mui-table-view-cell"><a href="#">偶发性崩溃</a></li>
+								<li class="mui-table-view-cell"><a href="#">UI无法直视，丑哭了</a></li>
+							</ul>
+						</div>
+					</div>
+
+				</div>-->
+			</div>
+			<div class="row mui-input-row">
+				<textarea id='question' class="mui-input-clear question" placeholder="请详细描述您的问题和意见..."></textarea>
+			</div>
+			<p>图片(选填,提供问题截图,总大小10M以下)</p>
+			<div id='image-list' class="row image-list">
+				<img id="feedbackimg" class="image-list" style="width: 85px; display: none;" src="" />
+			</div>
+			<p>电话号码</p>
+			<div class="mui-input-row">
+				<input id='contact' type="number" class="mui-input-clear contact" placeholder="(选填,方便我们联系您 )" onkeyup="onlyNum(this,11)" />
+			</div>
+			<div class="mui-content-padded">
+				<div class="mui-inline">应用评分</div>
+				<div class="icons mui-inline" style="margin-left: 6px;">
+					<i data-index="1" class="mui-icon mui-icon-star"></i>
+					<i data-index="2" class="mui-icon mui-icon-star"></i>
+					<i data-index="3" class="mui-icon mui-icon-star"></i>
+					<i data-index="4" class="mui-icon mui-icon-star"></i>
+					<i data-index="5" class="mui-icon mui-icon-star"></i>
+				</div>
+			</div><br />
+		</div>
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/feedback.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var startIndex = 0; //评分
+			var imageIndexIdNum = 0;
+			var size = 0;
+			var starIndex;
+			var submitButton = document.getElementById('submit');
+			var questionBox = document.getElementById('question');
+			var contactTel = document.getElementById('contact');
+			var imageList = document.getElementById('image-list');
+			var files = [];
+			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+			mui.plusReady(function() {
+				newPlaceholder();
+			});
+			//应用评分
+			mui('.icons').on('tap', 'i', function() {
+				console.log("icons");
+				var index = parseInt(this.getAttribute("data-index"));
+				var parent = this.parentNode;
+				var children = parent.children;
+				if(this.classList.contains("mui-icon-star")) {
+					for(var i = 0; i < index; i++) {
+						children[i].classList.remove('mui-icon-star');
+						children[i].classList.add('mui-icon-star-filled');
+					}
+				} else {
+					for(var i = index; i < 5; i++) {
+						children[i].classList.add('mui-icon-star')
+						children[i].classList.remove('mui-icon-star-filled')
+					}
+				}
+				starIndex = index;
+//				console.log("评分："+starIndex);
+			});
+
+			/**
+			 * 初始化图片域占位
+			 */
+			var newPlaceholder = function() {
+				console.log("newPlaceholder--");
+				var placeholder = document.createElement('div');
+				placeholder.setAttribute('class', 'image-item space');
+				//删除图片
+				var closeButton = document.createElement('div');
+				closeButton.setAttribute('class', 'image-close');
+				closeButton.innerHTML = 'X';
+				//小X的点击事件
+				closeButton.addEventListener('tap', function(event) {
+					setTimeout(function() {
+						imageList.removeChild(placeholder);
+					}, 0);
+					return false;
+				}, false);
+
+				//
+				var fileInput = document.createElement('div');
+				fileInput.setAttribute('class', 'file');
+				fileInput.setAttribute('id', 'image-' + imageIndexIdNum);
+				fileInput.addEventListener('tap', function(event) {
+					var self = this;
+					var index = (this.id).substr(-1);
+
+					plus.gallery.pick(function(e) {
+						console.log("event:" + e);
+						var name = e.substr(e.lastIndexOf('/') + 1);
+						console.log("name:" + name);
+						plus.zip.compressImage({
+							src: e,
+							dst: e,
+							overwrite: true,
+							quality: 50
+						}, function(zip) {
+							console.log("zip success");
+							console.log("---appendFile---");
+							files.push({
+								name: "images",
+								path: e
+							});
+							feedbackimg.src = e;
+							feedbackimg.style.display = 'inline-block';
+//							submitFeedback();
+							//							size += zip.size;
+							//							console.log("filesize:" + zip.size + ",totalsize:" + size);
+							//							if(size > (10 * 1024 * 1024)) {
+							//								return mui.toast('文件超大,请重新选择~');
+							//							}
+							//							if(!self.parentNode.classList.contains('space')) { //已有图片
+							//								files.splice(index - 1, 1, {
+							//									name: "images" + index,
+							//									path: e
+							//								});
+							//							} else { //加号
+							//								placeholder.classList.remove('space');
+							//								files.push({
+							//									name:"images" + index,
+							//									path: e
+							//								});
+							//								newPlaceholder();
+							//							}
+							//							placeholder.style.backgroundImage = 'url(' + zip.target + ')';
+						}, function(zipe) {
+							mui.toast('压缩失败！')
+						});
+
+					}, function(e) {
+						console.log("eeee:" + e.message);
+						mui.toast(e.message);
+					}, {});
+				}, false);
+				placeholder.appendChild(closeButton);
+				placeholder.appendChild(fileInput);
+				imageList.appendChild(placeholder);
+			};
+			
+			function refresh_page () {
+				feedbackimg.src = '';
+				feedbackimg.style.display = 'none';
+				questionBox.value='';
+				contactTel.value='';
+				files.splice(0,files.length);
+				
+				var parent = document.querySelector(".icons");
+				var children = parent.children;
+				console.log(parent.childElementCount);				
+				for(var i = 0; i < parent.childElementCount; i++) {
+					children[i].classList.add('mui-icon-star')
+					children[i].classList.remove('mui-icon-star-filled')
+				}
+			}
+
+			function submitFeedback() {
+				console.log('提交反馈');
+				if (starIndex == null|| starIndex == '' || starIndex == "undefined") {
+					plus.nativeUI.alert('请选择评分，谢谢!');
+				} else{
+					
+					var w = plus.nativeUI.showWaiting("正在提交...");
+					var task = plus.uploader.createUpload(Feedback_URL, {
+							method: "POST",
+							timeout: 10000
+						},
+						function(t, status) { //提交完成
+							console.log("--提交完成---");
+							if(status == 200) {
+								w.close();
+								mui.toast("提交成功");
+								console.log("提交成功：" + t.responseText);	
+								mui.back();
+								//refresh_page();
+								
+							} else {
+								w.close();
+								mui.toast("提交失败");
+								console.log("上传失败：" + status);
+								//refresh_page();
+							}
+						}
+					);
+					task.addData("user_id", user_obj.id);
+					task.addData("xiaoqu", user_obj.xiaoqu);
+					task.addData("content", questionBox.value);
+					task.addData("tel", contactTel.value);
+					task.addData("creater_name", user_obj.realname);
+					task.addData("pingfen", starIndex.toString());
+					console.log("user_id:" + user_obj.id + ",xiaoqu:" + user_obj.xiaoqu+",content："+questionBox.value+"，tel:"+contactTel.value+"，name:"+user_obj.realname+",评分："+starIndex);
+					console.log("files.length----" + files.length);
+					console.log("files----" + JSON.stringify(files));
+					if(files.length > 0) {
+						var f = files[files.length - 1];
+						console.log(JSON.stringify(f.path));
+						task.addFile(f.path, {
+							key: "img"
+						});
+					}
+					task.start();
+				}
+				
+			}
+		</script>
+	</body>
+
+</html>

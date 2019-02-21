@@ -1,0 +1,608 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/style.css"/>
+		<link rel="stylesheet" href="../css/common.css"/>
+		<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+		<style type="text/css">
+			.mui-btn {
+				
+				padding: 6px;
+				
+			}
+			.span{
+				font-size: 18px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">逾期欠费账单</h1>    
+		</header>
+		<div class="mui-content">
+			<ul id="yuqi_list" class="mui-table-view mui-table-view-chevron">
+				<!--<li class="mui-table-view-cell">
+					<span class="body-span">支付金额:</span>
+					<span id="zhifujine" class="mui-pull-right">0.00</span>
+				</li>-->
+
+			</ul>
+			<div id="zhifutype" class="mui-content-padded" style="margin-top: 20px;background-color: white;padding: 10px 10px;">
+				支付方式
+				<ul id="pay_type" class="mui-table-view mui-grid-view mui-grid-9" style="border: none;">
+				<li id="zhifubao_sp" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				    <a href="#">
+				        <img class="zhifufangshi_img" src="../../images/zhifufangshi_zhifubaozhifu.png"/>
+				        <div>				        	
+				        	<img id="zhifubao_img" class="zhifuxuanze_img" src="../../images/gouxuanno.png"/>
+				        </div>
+				    </a>
+				</li>
+				<li id="weixin_sp" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				    <a href="#">
+				        <img class="zhifufangshi_img" src="../../images/zhifufangshi_weixinzhifu.png"/>
+				        <div>				        	
+				        	<img id="weixin_img" class="zhifuxuanze_img" src="../../images/gouxuanno.png"/>
+				        </div>
+				    </a>
+				</li>
+				<li id="yinlian_sp" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				    <a href="#">
+				        <img class="zhifufangshi_img" src="../../images/zhifufangshi_yinlianzhifu.png"/>
+				        <div>				        	
+				        	<img id="yinlian_img" class="zhifuxuanze_img" src="../../images/gouxuanno.png"/>
+				        </div>
+				    </a>
+				</li>
+				</ul>
+				
+			</div>
+			<div id='paybtn' class="paybtn">确认支付</div>
+			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+			var yinlianImg = document.getElementById('yinlian_img');
+			var zhifubaoImg = document.getElementById('zhifubao_img');
+			var weixinImg = document.getElementById('weixin_img');
+			var allfee=0.00;
+			var allfeeid="";
+			var billno="";
+			var paytype="";
+			var pays={};
+			var user = new Object();
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					user=eval(app.getDatas(PREFERENCE_USER));
+					showYuqiList();
+					plus.payment.getChannels(function(channels){
+						//var content=document.getElementById('paybtns');
+				//		var info=document.getElementById('info');
+						var txt='支付通道信息：';
+						for(var i in channels){
+							var channel=channels[i];
+							if(channel.id=='qhpay'||channel.id=='qihoo'){	// 过滤掉不支持的支付通道：暂不支持360相关支付
+								continue;
+							}
+							pays[channel.id]=channel;
+							txt += 'id:'+channel.id+', ';
+							txt += 'description:'+channel.description+', ';
+							txt += 'serviceReady:'+channel.serviceReady+'； ';
+	//						var de=document.createElement('div');
+	//						de.setAttribute('class', 'button');
+	//						de.setAttribute('onclick', 'submitAndPay(this.id)');
+	//						de.id=channel.id;
+	//						de.innerText=channel.description+'支付';
+	//						content.appendChild(de);
+	
+							checkServices(channel);
+							
+						}
+						console.log(txt);
+				//		info.innerText=txt;
+					},function(e){
+						outLine('获取支付通道失败：'+e.message);
+					});
+				});
+				
+				function showYuqiList () {
+					billid=plus.webview.currentWebview().yuqiid;
+					console.log("--yuqi--"+billid);
+					var idlist=billid.split("_");
+//					var id=localStorage.getItem('Notice_id');
+					var obj = eval(app.getDatas('wuyefee_list'));
+					var size=idlist.length;
+					
+					var ul=document.getElementById("yuqi_list"); 
+					for(var j = 0; j < size; j++){
+						for (var i = 0; i < obj.wuyefee.length; i++) {
+							
+							if (idlist[j]===obj.wuyefee[i].id) {
+								
+								billno=obj.wuyefee[i].fee_no;
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								li.setAttribute('id',idlist[j]);
+								
+								var span=document.createElement('span');
+								//span.className='body-span';
+								span.innerHTML=obj.wuyefee[i].startdate;
+								
+								var span1=document.createElement('span');
+								span1.className='mui-pull-right';
+								span1.innerHTML="欠费 "+obj.wuyefee[i].yingshou;
+								
+								li.appendChild(span);
+								li.appendChild(span1);
+								ul.appendChild(li);
+								allfee += parseFloat(obj.wuyefee[i].yingshou);
+							} else{
+								
+							}
+						}
+					}
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					
+					
+					var span=document.createElement('span');
+					//span.className='body-span';
+					span.innerHTML="共计";
+					
+					var span1=document.createElement('span');
+					span1.className='mui-pull-right';
+					span1.innerHTML=allfee;
+					
+					li.appendChild(span);
+					li.appendChild(span1);
+					ul.appendChild(li);
+//					
+				}
+				mui('#pay_type').on('tap','.mui-table-view-cell',function () {
+					var subid = this.getAttribute("id");
+					console.log("subpage id is: " + subid);
+					if (subid=='zhifubao_sp') {
+						paytype="alipay";
+						if(zhifubaoImg.src.indexOf("/images/gouxuanno.png") > 0) {
+							var s = zhifubaoImg.src.replace("gouxuanno.png", "gouxuanok.png");
+							zhifubaoImg.src = s;
+							console.log("支付宝已勾选：" + s);
+							var s1 = zhifubaoImg.src.replace("gouxuanok.png", "gouxuanno.png");
+							yinlianImg.src = s1;
+							weixinImg.src = s1;
+						}
+					} else if (subid=='weixin_sp') {
+						paytype="wxpay";
+						if(weixinImg.src.indexOf("/images/gouxuanno.png") > 0) {
+							var s = weixinImg.src.replace("gouxuanno.png", "gouxuanok.png");
+							weixinImg.src = s;
+							var s1 = weixinImg.src.replace("gouxuanok.png", "gouxuanno.png");
+							zhifubaoImg.src = s1;
+							yinlianImg.src = s1;
+						}
+					} else{
+						paytype="UN_WEB";
+						if(yinlianImg.src.indexOf("/images/gouxuanno.png") > 0) {
+						var s = yinlianImg.src.replace("gouxuanno.png", "gouxuanok.png");
+						yinlianImg.src = s;
+						var s1 = yinlianImg.src.replace("gouxuanok.png", "gouxuanno.png");
+						zhifubaoImg.src = s1;
+						weixinImg.src = s1;
+						}
+					}
+				});
+				doc.getElementById("paybtn").addEventListener('tap', function(event) {
+					if(paytype==""){
+						mui.alert("请选择支付方式！");
+						return;
+					}
+					if(allfee==""||allfee=="0"){
+						mui.alert("无费用产生，无需支付！");
+						return;
+					}
+					allfee=0.01;
+					submitAndPay(paytype);
+//					mui.openWindow({
+//							url: 'payment.html',
+//							id: 'payment.html',
+//							preload: true,
+//							show: {
+//								aniShow: 'pop-in'
+//							},
+//							styles: {
+//								popGesture: 'hide'
+//							},
+//							waiting: {
+//								autoShow: false
+//							},
+//							extras:{
+//								payname:"逾期欠费",
+//								paymoney:allyuqi,
+//								payid:billid
+//							}
+//						});
+
+				});
+				function submitAndPay(pay_id) {
+					console.log("--submitandpay----")
+					var payurl;
+					if(pay_id=='alipay'){
+						payurl=Commit_WUYE_Alipay_URL;
+						Alipay(payurl);
+					}else if(pay_id=='wxpay'){
+						payurl=Commit_WUYE_Wepay_URL;
+						WeixinRequest(pay_id,payurl);
+					}else if(pay_id=='UN_WEB'){
+						payurl=WUYE_UNWEBPAY_URL;
+						UnPay(payurl);
+					}else{
+						alert('暂不支持此支付通道！', null, '缴费');
+					}
+					
+				};
+				function Alipay(payurl){
+					var body=user.xiaoqu+"_"+user.house+"_"+allfeeid;
+					console.log(body);
+					//Math.random().toString(36).substr(2);
+					billno = randomString(8);
+					if(chkNetStatus() == "OK") {
+						mui.ajax(payurl, {
+							data: {
+								subject: "物业费",	
+								out_trade_no:billno,
+								body:body,
+								total:allfee
+							},
+							
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 5000, //超时时间设置为10秒；
+							//		headers:{'Content-Type':'application/json'},
+							error: function(xhr, type, errorThrown){
+								if(xhr.status==200){
+									var order=xhr.responseText;
+									if(xhr.responseText.indexOf('商品支付中') >= 0){
+										plus.nativeUI.alert('支付失败：商品在支付中或已支付完成...',function(){
+											mui.back();
+										},'缴费');
+										return;
+									}
+									plus.payment.request(pays['alipay'],order,function(result){
+										
+										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善。',function(){
+											mui.back();
+										},'缴费');
+									},function(e){
+										
+										var errmsg = e.message.substr(e.message.indexOf("]")+1);
+		//								plus.nativeUI.alert(errmsg,null,"支付失败");
+										payfailback(billno,body);
+			//							plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
+									});
+								}else{
+									plus.nativeUI.alert('获取订单信息失败！', null, '缴费');
+								}
+							}
+		//					
+		
+						});
+		
+					} else {
+						mui.toast("网络异常");
+					}
+				};
+				function WeixinRequest(payid,payurl){
+					var WXPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=1'; 
+					var attach=user.xiaoqu+"_"+user.house+"_"+allfeeid;
+					//var attach=user.xiaoqu+"_"+"10001"+"_"+"297";
+					//Math.random().toString(36).substr(2);
+					billno = randomString(10);
+					//var sign=randomString(32);
+					var ip = returnCitySN["cip"];
+					var wxmoney=allfee*100;
+					console.log(attach);
+					if(chkNetStatus() == "OK") {
+						var w=plus.nativeUI.showWaiting("请稍候...");
+						mui.ajax(payurl, {
+							data: {
+								body: "物业费-缴费",
+								attach:attach,	
+								out_trade_no:billno,
+								total_fee:wxmoney,
+								spbill_create_ip:ip,
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 8000, //超时时间设置为10秒；
+							success:function (data){
+								w.close();								
+								var infor=JSON.stringify(data);
+								var jsonobj=eval(data);
+								var order=JSON.stringify({
+									retcode: 0,
+	                        		retmsg: "ok",
+									appid:jsonobj.appid,
+									noncestr:jsonobj.noncestr,
+									package:jsonobj.package,
+									partnerid:jsonobj.partnerid,
+									prepayid:jsonobj.prepayid,
+									timestamp:jsonobj.timestamp,
+									//sign:"650912A32AB1C74A5B19AEC4B00C4A5D"
+									sign:jsonobj.sign
+								});
+								
+								plus.payment.request(pays['wxpay'],order,function(result){
+									
+									plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善。',function(){
+										mui.back();
+									},'缴费');	
+								},function(e){
+									payfailback(billno,attach);
+									//var errmsg = e.message.substr(e.message.indexOf("]")+1);
+									//plus.nativeUI.alert(errmsg,null,"支付失败");
+									
+		//							plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
+								});
+							},
+							error: function(xhr, type, errorThrown){
+								if(xhr.status==200){
+									w.close();
+									if(xhr.responseText.indexOf('商品支付中') >= 0){
+										plus.nativeUI.alert('支付失败：商品支付中或已支付完成...',function(){
+											mui.back();
+										},'缴费');
+										return;
+									}
+	//							
+								}else{
+									plus.nativeUI.alert('获取订单信息失败！', null, '缴费');
+								}
+							}
+						});
+		
+					} else {
+						mui.toast("网络异常");
+					}
+				};
+	
+				function UnPay(payurl){
+					payurl="http://120.192.167.84/upacp_demo_b2c/Wuye_FrontConsume.php";
+					var mytime=gettime();
+					console.log("---mytime---"+mytime.toString());
+					//var attach=user.xiaoqu+"_"+user.house+"_"+allfeeid;
+					//var attach=user.xiaoqu+"_"+"10001"+"_"+"289";
+					var attach=user.xiaoqu+"_"+user.house+"_288";
+					//Math.random().toString(36).substr(2);
+					billno = randomString(10);
+					console.log(billno+"-----------"+attach);
+					  
+					console.log("location"+window.location.href);
+					var w=plus.nativeUI.showWaiting("正在加载...");
+					if(chkNetStatus() == "OK") {
+						mui.ajax(payurl, {
+							data: {
+								merId:"898053573920001",
+								orderId:billno,
+								txnTime:mytime,
+								reqReserved:attach,
+								txnAmt:allfee*100
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, 
+							success:function (data){
+								w.close();
+								var infor=JSON.stringify(data);
+								var obj=eval(data);
+								console.log("---infor----"+infor);
+								if (obj.success==true) {
+									yinlianpage(mytime,billno,attach,obj.msg);
+	//								var web = plus.webview.create('', "beecloudPay",subpage_style);
+	//								//注入JS，解决银联界面返回的问题
+	//								//web.setJsFile('../js/95516.js');
+	//								//web.appendJsFile('../js/95516.js');
+	//								web.addEventListener('loaded', function() {
+	//									if (!web.isVisible()) {
+	//										web.show();
+	//									}
+	//								});
+	//								web.addEventListener('back', function() {
+	//									mui.back();
+	//									console.log("-------web back------");
+	//								});
+	//								web.loadData(obj.msg);
+									//console.log("-------------");
+									
+									//payfailback(billno,attach);
+								}else{
+									if(obj.msg.indexOf('商品支付中') >= 0){
+										plus.nativeUI.alert('支付失败：商品支付中或已支付完成...',function(){
+											mui.back();
+										},'缴费');
+										return;
+									}
+									payfailback(billno,attach);
+	//							
+								}
+								//resultabj=eval(data);								
+							},								
+							error:function(xhr,type,errorThrown){
+								w.close();
+								console.log("error-------"+xhr.responseText);
+								if(xhr.status==200){
+									w.close();
+									if(xhr.responseText.indexOf('商品支付中') >= 0){
+										plus.nativeUI.alert('支付失败：商品支付中或已支付完成...',function(){
+											mui.back();
+										},'缴费');
+										return;
+									}
+	//							
+								}else{
+									payfailback(billno,attach);
+									plus.nativeUI.alert('获取订单信息失败！', null, '缴费');
+								}
+							}
+						});
+					}else {
+						mui.toast("网络异常");
+					}
+				};
+				function yinlianpage(mytime,billno,attach,htmlurl){
+					mui.openWindow({
+						url: 'yinlianpay.html',
+						id: 'yinlianpay.html',
+						preload: true,
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras:{
+							txnTime:mytime,
+							billno:billno,
+							attach:attach,
+							htmlurl:htmlurl
+						}
+					});
+				};
+				function payfailback(billno,attach){
+					var w=plus.nativeUI.showWaiting("正在取消订单...");
+					if(chkNetStatus() == "OK") {
+						mui.ajax(Commit_WUYE_PayFail_URL, {
+							
+							data: {	
+								out_trade_no:billno,
+								attach:attach,
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000, 
+							success:function (data){
+								w.close();								
+								var infor=JSON.stringify(data);
+								resultabj=eval(data);								
+							},								
+							error:function(xhr,type,errorThrown){
+								w.close();
+								if(xhr.responseText=="success"){
+									mui.alert("支付失败，已取消订单");
+									
+								}
+							}
+						});
+					}else {
+						mui.toast("网络异常");
+					}
+				};
+				
+				function gettime(){
+					var date = new Date();
+	    			var year=date.getFullYear();
+				    var month = date.getMonth() + 1;
+				    var strDate = date.getDate();
+				    var hours=date.getHours();
+				    var min=date.getMinutes();
+				    var ss=date.getSeconds();
+				    if (month >= 1 && month <= 9) {
+				        month = "0" + month.toString();
+				    }
+				    if (strDate >= 0 && strDate <= 9) {
+				        strDate = "0" + strDate.toString();
+				    }
+				    if(hours>= 0 && hours <= 9){
+				    	hours="0"+hours.toString();
+				    }
+				    if(min>= 0 && min <= 9){
+				    	min="0"+min.toString();
+				    }
+				    if(ss>= 0 && ss <= 9){
+				    	ss="0"+ss.toString();
+				    }
+				    return year.toString()+ month.toString()+strDate.toString()+hours.toString()+min.toString()+ss.toString();
+				};
+				function randomString(len) {
+					var date = new Date();
+	    			var year=date.getFullYear();
+				    var month = date.getMonth() + 1;
+				    var strDate = date.getDate();
+				    if (month >= 1 && month <= 9) {
+				        month = "0" + month.toString();
+				    }
+				    if (strDate >= 0 && strDate <= 9) {
+				        strDate = "0" + strDate.toString();
+				    }
+				　　	len = len || 32;
+				　　	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz234567809';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+				　　	var maxPos = $chars.length;
+				　　	var pwd = '';
+				　　	for (i = 0; i < len; i++) {
+				　　　　	pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+				　　	}
+				　　	return year.toString()+ month.toString()+strDate.toString()+pwd;
+				};
+				function GetLocalIPAddress()
+				{
+				    var obj = null;
+				    var rslt = "";
+				    try
+				    {
+				        obj = new ActiveXObject("rcbdyctl.Setting");
+				        rslt = obj.GetIPAddress;
+				        obj = null;
+				    }
+				    catch(e)
+				    {
+				        //异常发生
+				        console.log('----- 获取ip失败 -----');
+				    }
+				    
+				    return rslt;
+				};
+				// 检测是否安装支付服务
+				function checkServices(pc){
+					if(!pc.serviceReady){
+						var txt=null;
+						switch(pc.id){
+							case 'alipay':
+							txt='检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+							break;
+							default:
+							txt='系统未安装“'+pc.description+'”服务，无法完成支付，是否立即安装？';
+							break;
+						}
+						plus.nativeUI.confirm(txt, function(e){
+							if(e.index==0){
+								pc.installService();
+							}
+						}, pc.description);
+					}
+				}
+				$.oldBack = mui.back;
+
+					$.back = function(event) {
+						plus.webview.currentWebview().close();
+				};
+				
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

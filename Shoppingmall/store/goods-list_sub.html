@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+	</head>
+	<style>
+		.mui-table-view:before {
+			height: 0px;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.leftClassCell {
+			width: 30%;
+			float: left;
+			line-height: 100px;
+			display: table-cell;
+		}
+		
+		.rightClassCell {
+			width: 70%;
+			float: left;
+		}
+		
+		.itemName {
+			color: black;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-top: 15px;
+			line-height: 2.0em;
+		}
+		
+		.price {
+			line-height: 1.5em;
+			margin-right: 2px;
+			display: inline;
+		}
+		
+		.guige {
+			line-height: 1.5em;
+			/*margin-top: 15px;*/
+			/*display: inline;*/
+			/*vertical-align: middle;*/
+		}
+		
+		.mui-table-view-cell .mui-media {
+			padding: 0px;
+		}
+		
+		.cellImg {
+			max-width: 70%;
+			vertical-align: middle;
+			margin-left: 15px;
+		}
+		
+		.navgation {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			position: relative;
+		}
+		
+		.navgation li {
+			float: left;
+		}
+		
+		#popsort {
+			display: none;
+			position: absolute;
+			background-color: white;
+			width: 100%;
+			top: 30px;
+		}
+		
+		#popnearby {
+			display: none;
+			position: absolute;
+			background-color: white;
+			width: 100%;
+			top: 30px;
+		}
+		
+		.mui-segmented-control .mui-control-item {
+			z-index: 9999;
+			line-height: 40px;
+			width: 100%;
+			text-align: left;
+			padding-left: 15px;
+		}
+		
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			background-color: #fff;
+		}
+		
+		.mask {
+			color: #C7EDCC;
+			background-color: rgba(200, 200, 200, 0.5);
+			position: relative;
+			top: 30px;
+			left: 0px;
+			right: 0px;
+			height: 100%;
+			filter: Alpha(Opacity=60);
+			z-index: 999;
+		}
+		/*.mask1 {
+			color: #C7EDCC;
+			background-color: rgba(200, 200, 200, 0.5);
+			position: relative;
+			top: 30px;
+			left: 0px;
+			filter: Alpha(Opacity=60);
+			z-index: 999;
+		}*/
+	</style>
+
+	<body>
+
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="homeDiv">
+					<div id="recommend" class="mui-table-view" style="padding-right: 10px;background-color: #efeff4;margin-top: 35px;">
+
+					</div>
+				</div>
+				<!--数据列表-->
+				<!--<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 60px;">
+
+				</ul>-->
+			</div>
+		</div>
+		<div style="background-color: white; position: fixed;top: 0px;left: 0px;right: 0px;">
+			<div style="padding: 0px 0px;border-bottom: 1px solid gainsboro;height: 35px;display: none;">
+				<div id="nearby" style="width: 50%;float: left;text-align: center;">
+					<p id="nearby_title" style="display: inline;vertical-align: middle;line-height: 35px;">附近</p>
+					<span class="mui-icon iconfont icon-downbutton" style="color: darkgrey;"></span>
+				</div>
+				<div id="sort" class="navgation" style="width: 50%;float: left;text-align: center;">
+					<p id="sort_title" style="display: inline;vertical-align: middle;line-height: 35px;">智能排序</p>
+					<span class="mui-icon iconfont icon-downbutton" style="color: darkgrey;"></span>
+				</div>
+			</div>
+
+			<div style="padding: 0px 15px;border-bottom: 1px solid gainsboro;height: 35px;" onclick="getGeocode()">
+				<div id="location_info" style="display: none;line-height: 34px;vertical-align: middle;">
+					<p style="display: inline;">当前位置：</p>
+					<p id="location" id="position" style="display: inline;"></p>
+					<p class="mui-icon iconfont icon-shuaxin mui-pull-right" style="margin-top: 8px;"></p>
+				</div>
+				<div>
+					<p id="dingwei" style="display: block;line-height: 35px;vertical-align: middle;">正在定位...</p>
+				</div>
+				<div id="dingweifail" style="display: none;line-height: 35px;vertical-align: middle;">
+					<p style="display: inline;">定位失败</p>
+					<p class="mui-icon iconfont icon-shuaxin mui-pull-right" style="margin-top: 8px;"></p>
+				</div>
+			</div>
+
+			<div id="popsort" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical" style="z-index: 9999;">
+				<a id="paixu" class="mui-control-item mui-active">
+					<label class="mui-icon mui-icon-checkmarkempty"></label>
+					<label>智能排序</label>
+				</a>
+				<a id="zuijin" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>离我最近</label>
+				</a>
+				<a id="haoping" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>好评优先</label>
+				</a>
+				<a id="renqi" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>人气最高</label>
+				</a>
+			</div>
+			<div id="popnearby" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical" style="z-index: 9999;position: absolute;">
+				<a id="fujin" class="mui-control-item mui-active">
+					<label class="mui-icon mui-icon-checkmarkempty"></label>
+					<label>附近</label>
+				</a>
+				<a id="1km" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>1km</label>
+				</a>
+				<a id="3km" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>3km</label>
+				</a>
+				<a id="5km" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>5km</label>
+				</a>
+				<a id="10km" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>10km</label>
+				</a>
+				<a id="all" class="mui-control-item">
+					<label class="mui-icon mui-icon-checkmarkempty" style="color: transparent;"></label>
+					<label>全部</label>
+				</a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/gps.js"></script>
+		<script src="../js/jquery-1.3.2.min.js"></script>
+		<script src="../js/popup_layer.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentinit: '', //可以上拉提示信息
+						contentdown: '', //上拉结束提示信息
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			var datalist = [];
+			var extras = {};
+			var current = {};
+			var sort_flag = "paixu";
+			var nearby_flag = "fujin";
+			var recommend = document.getElementById("recommend");
+			var createrid = JSON.parse(localStorage.info).createrid;
+			var pingtai;
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					loadListview();
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 100);
+			}
+			var count = 0;
+
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				console.log("oooo")
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					loadListview();
+				}, 100);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 100);
+					getGeocode();
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			mui('#recommend').on('tap', 'li', function() {
+				var index = this.getAttribute('id');
+				extras.goodsDetail = datalist[index];
+				extras.createrid = createrid;
+				extras.pingtai = pingtai;
+				var webview = plus.webview.create("goodsListItemDetail.html", "goodsListItemDetail.html", {
+						titleNView: {
+							'backgroundColor': '#f7f7f7', //导航栏背景色
+							'titleText': '商品详情', //导航栏标题
+							'titleColor': '#000000', //文字颜色
+							type: 'transparent', //透明渐变样式
+							autoBackButton: true, //自动绘制返回箭头
+							buttons: [{
+								fontSrc: "_www/Shoppingmall/fonts/iconfont.ttf",
+								text: '\ue698',
+								fontSize: '24px',
+								float: 'right',
+								onclick: switchToCart
+							}],
+							splitLine: { //底部分割线
+								color: '#cccccc'
+							}
+						}
+					},
+					extras);
+
+				webview.show("slide-in-right", 300); //直接显示
+			});
+
+			function switchToCart() {
+				//var gocart = plus.webview.getLaunchWebview();
+				var gocart = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+				mui.fire(gocart, 'gocart');
+				//var goshop = plus.webview.getWebviewById('tab-index');
+				//mui.fire(goshop, 'goshop');
+			//	gocart.show("pop-in");
+				//goshop.show("pop-in");
+				plus.webview.getWebviewById('goods-needtem.html').close();
+				plus.webview.getWebviewById('goods-list_main.html').close();
+				mui.openWindow({
+					url: 'shop-main.html',
+					id: './Shoppingmall/shop-main.html',
+					styles: {
+						popGesture: "none"
+					},
+					show: {
+						//	autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false
+					},
+				})
+			}
+
+			function loadListview() {
+				var shangjiaId = JSON.parse(localStorage.info).shangjia_fenlei_id;
+				var shangpinId = JSON.parse(localStorage.info).shangpin_fenlei_id;
+				pingtai = JSON.parse(localStorage.info).pingtai;
+				if(chkNetStatus() == "OK") {
+					//					wait = plus.nativeUI.showWaiting("正在加载，请稍候...");
+					loadPrductListview(shangjiaId, shangpinId, pingtai);
+				} else {
+					document.querySelector('#net_error').style.display = 'block';
+				}
+
+			}
+
+			function loadPrductListview(shangjia_fenlei_id, shangpin_fenlei_id, pingtai) {
+				datalist = [];
+				mui.ajax(GOODS_LIST_URL, {
+					data: {
+						pingtai: pingtai,
+						shangjia_fenlei_id: shangjia_fenlei_id,
+						shangpin_fenlei_id: shangpin_fenlei_id
+					},
+					async: false,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var infor = JSON.stringify(data);
+						var obj = eval(data);
+						console.log("product22====" + infor);
+						if(obj.success == 1) {
+							//							document.querySelector('#homeDiv').style.display = 'block';
+							//	document.querySelector('#net_error').style.display = 'none';
+							//	document.querySelector('#not_message').style.display = 'none';
+							for(var i = 0; i < obj.shangpin.length; i++) {
+
+								var picstr = obj.shangpin[i].header_pic;
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								obj.shangpin[i].picture = SHOP_PICTURE_URL + picstr;
+
+							}
+							datalist = obj.shangpin;
+							productlistSuccess(datalist);
+							//							wait.close();
+						} else {
+							//							wait.close();
+							document.querySelector('#homeDiv').style.display = 'none';
+							//							document.querySelector('#net_error').style.display = 'none';
+							//							document.querySelector('#not_message').style.display = 'block';
+							var queryResultMsg = obj.errorMsg;
+							if(queryResultMsg == '') {
+								document.getElementById('word').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word').innerHTML = queryResultMsg;
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//						wait.close();
+						//						document.querySelector('#homeDiv').style.display = 'none';
+						//						document.querySelector('#search-class').style.display = 'none';
+						//						document.querySelector('#net_error').style.display = 'block';
+						//						document.querySelector('#not_message').style.display = 'none';
+						//w.close();
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+
+					}
+
+				});
+			}
+
+			function productlistSuccess(datalist) {
+				for(var i = 0; i < datalist.length; i++) {
+					var distance = GPS.distance(current.weidu, current.jingdu, datalist[i].weidu, datalist[i].jingdu);
+					distance = (distance / 1000).toFixed(1);
+					datalist[i].distance = distance;
+				}
+				recommend.innerHTML = " ";
+				mui.each(datalist, function(index, item) {
+					//					var distance = GPS.distance(current.weidu, current.jingdu, item.weidu, item.jingdu);
+					//					distance = (distance / 1000).toFixed(1);
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media';
+					li.style.height = "103px";
+					li.style.padding = "0px";
+					li.id = index;
+					li.innerHTML = '<div id = "' + index + '" ><div class="leftClassCell">\
+					<img src="' + item.picture + '" class="cellImg" />\
+					</div>\
+					<div class="rightClassCell">\
+					<p class="itemName">' + item.shangpin_name + '</p>\
+					<p class="guige">' + item.guige + '</p>\
+					<p class="price" style="color:red">¥' + item.price + '</p>\
+					<p class="price" style="display:inline;float: right;">' + item.distance + 'km</p>\
+					</div></div>';
+
+					recommend.appendChild(li);
+				});
+			}
+
+			function getGeocode() {
+				console.log("获取定位位置信息:");
+				document.getElementById("dingweifail").style.display = "none";
+				document.getElementById("location_info").style.display = "none";
+				document.getElementById("dingwei").style.display = "block";
+				plus.geolocation.getCurrentPosition(geoInf, function(e) {
+					console.log("获取定位位置信息失败：" + e.message);
+					document.getElementById("dingweifail").style.display = "block";
+					document.getElementById("dingwei").style.display = "none";
+				}, {
+					geocode: true
+				}, {
+					provider: 'baidu'
+				});
+			}
+
+			function geoInf(position) {
+				loadListview();
+				current.weidu = position.coords.latitude;
+				current.jingdu = position.coords.longitude;
+				document.getElementById("location_info").style.display = "block";
+				document.getElementById("dingwei").style.display = "none";
+				document.getElementById("location").innerText = position.address.district + position.address.street;
+				productlistSuccess(datalist);
+			}
+		</script>
+	</body>
+
+</html>

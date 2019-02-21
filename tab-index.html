@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css">	
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.circle{
+				position: fixed;
+				text-align:center;
+				margin-left: 160px;
+				bottom: 0px;
+				width: 65px;
+				height: 65px;
+				border-radius: 50px;
+				background: yellow;
+			}
+			.tab-center{
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav id="footer" class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="tab-main.html">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="./Shoppingmall/shop-main.html">
+				<span class="mui-icon mui-icon-navigate"></span>
+				<span class="mui-tab-label">周边</span>
+			</a>
+			<a class="mui-tab-item" href="tab-phone.html">
+				<span class="mui-icon iconfont icon-dibukefu"></span>
+				<span class="mui-tab-label">一键服务</span>
+			</a>
+			<a class="mui-tab-item" href="./shequ/zhuti/zhuti.html">
+				<span class="mui-icon mui-icon-chatboxes"></span>
+				<span class="mui-tab-label">社区</span>
+			</a>
+			<a class="mui-tab-item" href="tab-setting.html">
+				<span class="mui-icon iconfont icon-gerenzhongxin"></span>
+				<span class="mui-tab-label">我的</span>
+			</a>
+		</nav>
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8"> 
+			 //mui初始化
+			mui.init();
+			var subpages = ['tab-main.html', './Shoppingmall/shop-main.html','tab-phone.html','./shequ/zhuti/zhuti.html', 'tab-setting.html'];
+			var subpage_style = {
+				top: '0px',
+				bottom: '50px'
+			};
+			
+			var subpage_shop_style = {
+				top: '0px',
+				bottom: '0px'
+			};
+			
+			var aniShow = {};
+
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				//chkNetStatus();
+				var self = plus.webview.currentWebview();
+				console.log("首页子页面数量："+subpages.length);
+//				window.addEventListener('show', function() {
+					for (var i = 0; i < subpages.length; i++) {
+						var temp = {};
+						
+						if(i==1){
+							var sub = plus.webview.create(subpages[i], subpages[i], subpage_shop_style);
+						}
+						else{
+							var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+						}
+						
+						if (i > 0) {
+							sub.hide();
+						}else{
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow,temp);
+						}
+						self.append(sub);
+					}				
+//				}, false);							
+			});
+			 //当前激活选项
+			var activeTab = subpages[0];
+//			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+//				title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",100);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+				
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+			document.addEventListener('footer_hide', function() {
+				console.log('隐藏我');
+				document.getElementById("footer").visibility = 'hidden';
+			});
+		</script>
+	</body>
+
+</html>

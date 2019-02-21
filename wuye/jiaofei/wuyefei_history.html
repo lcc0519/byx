@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css"/>
+		<link rel="stylesheet" href="../../css/style.css"/>
+		<script src="../../js/mui.min.js"></script>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8"/>
+		<link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8"/>
+		
+		<style type="text/css">
+			.mui-btn {
+				padding: 6px;
+			}
+			.span{
+				font-size: 18px;
+			}
+			/*.mui-table-view-cell {
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}*/
+			.headerStyle {
+				position: absolute;
+				left: 0px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">缴费历史</h1>  
+		</header>
+		<div  class="mui-content">
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 200px;display: none;">
+				<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">暂无缴费历史</span>
+				<br />
+			</div>
+			<div id="history" style="display: none;">
+				<ul id="history_list" class="mui-table-view mui-table-view-chevron" style="margin-top: 0;">
+				</ul>
+			</div>	
+		</div>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/immersed.js" ></script>
+		<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+		<script type="text/javascript">
+			var resultabj;
+			var xiaoqu;
+			var house;
+							
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+				});
+			
+				$.plusReady(function() {			
+					xiaoqu = eval(app.getDatas(PUBLIC_USER)).xiaoqu_prefix;
+					house = eval(app.getDatas(PUBLIC_USER)).house_no;
+					Load_wuyefeihistory();
+				});
+
+				function showNeterrorView(msg){
+					document.querySelector('#history').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'block';
+					document.querySelector('.neterror_cls span').innerHTML = msg;
+				}
+				
+				function showNulldataView(){
+					document.querySelector('#history').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'block';
+				}
+				
+
+			
+				function Load_wuyefeihistory(){
+					if(house==''||house==null||house=="undefined"){
+						console.log("xiaoqu:"+xiaoqu+"--house:"+house);
+						plus.nativeUI.alert("抱歉，您还没有权限查看物业信息，请先到个人中心绑定用户信息");
+						return;
+					}
+					
+					console.log("xiaoqu:"+xiaoqu+"--house:"+house);
+					var w=plus.nativeUI.showWaiting("正在查询...");
+					mui.ajax(Query_Wuyejiaofei_All_URL,{
+						data:{
+							xiaoqu:xiaoqu,
+							house_no:house
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){	
+							w.close();
+							var infor=JSON.stringify(data);
+							console.log("----Query_Wuyejiaofei_All_URL--------"+infor);
+							resultabj=eval(data);
+							if (resultabj.success==1) {
+								app.setDatas('wuyefee_list',data);
+
+								if(resultabj.wuyefee=="undefined"||resultabj.wuyefee==null||resultabj.wuyefee==''){
+									showNulldataView();	
+								}
+								else{
+									document.querySelector('#nulldata_id').style.display = 'none';
+									document.querySelector('#neterror_id').style.display = 'none';
+									document.querySelector('#history').style.display = 'block';
+									displaydate(resultabj);
+								}
+							} 
+							else{
+								var queryResultMsg = resultabj.errorMsg;
+								if(queryResultMsg==""||queryResultMsg=="undefined"||queryResultMsg==null){
+									showNeterrorView("网络异常");	
+								}
+								else{
+									showNeterrorView(queryResultMsg);	
+								}					
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							showNeterrorView("网络异常");	
+						}	
+						
+					});
+			};
+			
+			function displaydate(obj){
+				for (var i = 0; i < obj.wuyefee.length; i++) {
+					
+					if(obj.wuyefee[i].pay_flag=="1"){
+						
+						var item=obj.wuyefee[i];
+						var ul=document.getElementById("history_list"); 
+						var li = document.createElement('li');
+						li.classList.add('mui-table-view-cell');
+						li.classList.add('mui-collapse');			
+						var a=document.createElement('a');
+						a.setAttribute('href','javascript:;');
+						a.classList.add('mui-navigate-right');
+						a.innerHTML=obj.wuyefee[i].startdate+"至"+obj.wuyefee[i].enddate;
+						var div=document.createElement('div');
+						div.classList.add('mui-collapse-content');
+						var h4=document.createElement('h4');
+						h4.innerHTML="缴费共计："+obj.wuyefee[i].yingshou;
+						var span=document.createElement('span');
+						var shui_f=0.00;
+						var dian_f=0.00;
+						var wuye_f=0.00;
+						if(obj.wuyefee[i].warterfee_total==""||obj.wuyefee[i].warterfee_total==undefined){
+							shui_f=0
+						}
+						else{
+							shui_f = obj.wuyefee[i].warterfee_total;
+						}
+						
+						if(obj.wuyefee[i].electric_total1==""||obj.wuyefee[i].electric_total1==undefined){
+							dian_f=0;
+						}
+						else{
+							dian_f=obj.wuyefee[i].electric_total1;
+						}
+						
+						if(obj.wuyefee[i].wuyefee_total==""||obj.wuyefee[i].wuyefee_total==undefined){
+							wuye_f=0;
+						}
+						else{
+							wuye_f=obj.wuyefee[i].wuyefee_total;
+						}
+						
+						span.innerHTML="水费："+shui_f+"   "+"电费："+dian_f+"   "+"物业费："+wuye_f;
+						div.appendChild(h4);
+						div.appendChild(span);
+						li.appendChild(a);
+						li.appendChild(div);
+						ul.appendChild(li);
+					}
+			    }	
+			};
+			
+		}(mui, document));
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+	</head>
+
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 800px
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">房屋服务</h1>
+		    <a id="my_id" href="tuoguan_mine.html" class="mui-icon mui-pull-right mui-icon-contact" style="color: white;">
+		    </a>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				房屋出租
+			</a>
+					<a class="mui-control-item" href="#item2mobile">
+				房屋出售
+			</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul id="rent_list" class="mui-table-view">
+									<!--<li class="mui-table-view-cell">
+										第一个选项卡子项-1
+									</li>-->
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>-->
+								<ul id="sale_list" class="mui-table-view">
+									<!--<li class="mui-table-view-cell">
+										第二个选项卡子项-1
+									</li>-->
+								</ul>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			jQuery.noConflict();
+			mui.init();
+			mui.plusReady(function () {
+				console.log('plusReady');
+			//获取屏幕分辩率
+				console.log("Height: " + plus.screen.resolutionHeight + " Width: " + plus.screen.resolutionWidth);
+				var height = plus.screen.resolutionHeight;
+				jQuery(document).ready(function() {
+				jQuery('.mui-control-content').height(height-100);
+				});
+				addlistener();
+				
+				var myTuoguan = document.getElementById("my_id");
+				if(app.getDatas(PREFERENCE_USER).accounttype=="1"){
+					myTuoguan.style.display = "inline-block";
+				}
+				else{
+					myTuoguan.style.display = "none";
+				}
+			});
+
+		(function($) {
+		$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				console.log('hereqqq');
+				load_Data(1);//出租
+				load_Data(2);//出售
+				
+//				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+//						item2.querySelector('.mui-scroll').innerHTML = html2;
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+				$.oldBack = mui.back;
+				$.back = function(event) {
+					plus.webview.currentWebview().close();
+				};
+			})(mui);
+
+				var addlistener=function () {
+					mui("#rent_list").on('tap', '.mui-table-view-cell', function() {
+						var tuoguan_id = this.getAttribute("id");
+						console.log('托管id：'+tuoguan_id);
+						mui.openWindow({
+							url: 'detail_tuoguan.html',
+							id: 'detail_tuoguan.html',
+//							preload: true,
+							show: {
+								aniShow: 'slide-in-right',
+								duration:200
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								tuoguan_id:tuoguan_id
+							}
+						});						
+					});
+					mui("#sale_list").on('tap', '.mui-table-view-cell', function() {
+						var tuoguan_id = this.getAttribute("id");
+						console.log('托管id：'+tuoguan_id);
+						mui.openWindow({
+							url: 'detail_tuoguan.html',
+							id: 'detail_tuoguan.html',
+//							preload: true,
+							show: {
+								aniShow: 'slide-in-right',
+								duration:200
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								tuoguan_id:tuoguan_id
+							}
+						});						
+					});					
+				}
+			
+			function load_Data(type) {
+				var user_obj = app.getDatas(PREFERENCE_USER);				
+				mui.ajax(Query_Fangwutuoguan_URL, {
+					data: {
+						xiaoqu: user_obj.xiaoqu,
+						type: type
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					//							headers:{'Content-Type':'application/json'},
+					success: function(data) {
+						var infor = JSON.stringify(data);
+						console.log(infor);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							if(type == 1) {
+								app.setDatas("chuzu_list", data);
+								show_Data(type);
+							} else {
+								app.setDatas("chushou_list", data);
+								show_Data(type);
+//								showBaoxiuList(obj);//			
+							}
+							//								
+						} else {
+							mui.toast(obj.errorMsg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+
+						mui.toast("error type:" + type);
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+				});
+			}
+			
+			function show_Data (type) {
+				switch (type){
+					case 1:
+						var rent_list = document.getElementById("rent_list");
+						var rent_obj = app.getDatas('chuzu_list');
+						for (var i = 0; i < rent_obj.tuoguan.length; i++) {
+							
+							var li=document.createElement('li');
+							li.classList.add('mui-table-view-cell');
+							li.setAttribute('id',rent_obj.tuoguan[i].id);
+							var a=document.createElement('a');
+							a.setAttribute('href','javascript:;');
+							var img=document.createElement('img');
+							//img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+							img.style.width = "90px";
+							img.style.height = "90px";
+							img.style.marginRight = "15px";
+							
+							if(rent_obj.tuoguan[i].pic==null||rent_obj.tuoguan[i].pic==''||rent_obj.tuoguan[i].pic=="undefined"){
+								img.setAttribute('src',"../../images/ic_data_empty.png");
+							}
+							else{
+								var picstr = rent_obj.tuoguan[i].pic[0];
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								img.setAttribute('src',BASE_URL + picstr);	
+							}
+							
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.innerHTML=rent_obj.tuoguan[i].address;
+							var span=document.createElement('span');
+							span.classList.add('mui-pull-right');
+							span.innerHTML=rent_obj.tuoguan[i].cdate.substring(0,10)+'<br />'+rent_obj.tuoguan[i].fee+'/'+rent_obj.tuoguan[i].unit;
+							span.setAttribute('style','font-size: 0.8em;color: gray;padding-top: 20px;');
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=rent_obj.tuoguan[i].area+'平'+ rent_obj.tuoguan[i].shi+'室'+rent_obj.tuoguan[i].ting+'厅'+rent_obj.tuoguan[i].chu+'厨'+rent_obj.tuoguan[i].wei+'卫'+'<br />'+rent_obj.tuoguan[i].houseInfo;
+							p.setAttribute('style','width: 70%;padding-top: 2px;');
+							div.appendChild(span);
+							div.appendChild(p);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							rent_list.appendChild(li);
+						}
+						break;
+					case 2:
+						var sale_list = document.getElementById("sale_list");
+						var sale_obj = app.getDatas('chushou_list');
+						for (var i = 0; i < sale_obj.tuoguan.length; i++) {
+							var li=document.createElement('li');
+							li.classList.add('mui-table-view-cell');
+							li.setAttribute('id',sale_obj.tuoguan[i].id);
+							var a=document.createElement('a');
+							a.setAttribute('href','javascript:;');
+							var img=document.createElement('img');
+							//img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+							img.style.width = "90px";
+							img.style.height = "90px";
+							img.style.marginRight = "15px";
+							
+							if(sale_obj.tuoguan[i].pic==null||sale_obj.tuoguan[i].pic==''||sale_obj.tuoguan[i].pic=="undefined"){
+								img.setAttribute('src',"../../images/ic_data_empty.png");
+							}
+							else{
+								var picstr = sale_obj.tuoguan[i].pic[0];
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								img.setAttribute('src',BASE_URL + picstr);	
+							}
+							
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.innerHTML=sale_obj.tuoguan[i].address;
+							var span=document.createElement('span');
+							span.classList.add('mui-pull-right');
+							span.innerHTML=sale_obj.tuoguan[i].cdate.substring(0,10)+'<br />'+sale_obj.tuoguan[i].fee+'/'+sale_obj.tuoguan[i].unit;
+							span.setAttribute('style','font-size: 0.8em;color: gray;padding-top: 20px;');
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=sale_obj.tuoguan[i].area+'平'+ sale_obj.tuoguan[i].shi+'室'+sale_obj.tuoguan[i].ting+'厅'+sale_obj.tuoguan[i].chu+'厨'+sale_obj.tuoguan[i].wei+'卫'+'<br />'+sale_obj.tuoguan[i].houseInfo;
+							p.setAttribute('style','width: 70%;padding-top: 2px;');
+							div.appendChild(span);
+							div.appendChild(p);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							sale_list.appendChild(li);
+						}
+						break;	
+					default:
+						break;
+				}
+			}
+		</script>
+
+	</body>
+
+</html>

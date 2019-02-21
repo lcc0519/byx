@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css">
+		<style>
+			.headerStyle {
+				position: absolute;
+				left: 0px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">物业报修</h1>
+			<a href="new_baoxiu.html" class="mui-icon mui-icon-plus mui-pull-right" style="color: white;">
+			</a>
+		</header>
+		<div class="mui-content">
+			<div id="header_pic" style="width: 100%;background: url(../images/bg.jpg);">
+				<div id="div_mask" style="position: relative;background: rgba(15, 15, 15, 0.2);">				
+					<div class="headerStyle" style="text-align: center;vertical-align: bottom;background-color: blue;top: 50%;bottom: 50%;">
+						<p id="myXiaoqu" style="font-size: 16px;color: white;">0</p>
+			        	<p id="myAddress" style="font-size: 14px;color: white;">本月有效订单</p>
+					</div>
+				</div>
+			</div>
+			<div id="nodate" style="text-align: center;visibility: hidden;">
+			</div>
+			<div id="list" class="mui-scroll">
+				<!--数据列表-->
+				<ul id="baoxiu_list" class="mui-table-view mui-table-view-chevron">
+				
+				</ul>
+			</div>
+		</div>		
+	</body> 
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7',
+				swipeBack:false //启用右滑关闭功能
+			});
+				
+			var userinfo;
+			var userid;
+			var xiaoqu;
+
+			window.addEventListener('shuaxinbaoxiuliebiao', function() {
+			   	//var lishigongdan111 = plus.webview.getWebviewById('lishigongdan/LishigongdanMain.html');
+			   	//lishigongdan111.reload(true);
+			    console.log("---------shuaxinbaoxiuliebiao------------");
+			    Load_baoxiu();
+			});
+			
+			$.plusReady(function() {
+				
+				var height = plus.screen.resolutionHeight / 4;
+				console.log("height=" + height)
+				document.getElementById("header_pic").style.height = height + "px";
+				document.getElementById("div_mask").style.height = height + "px";
+				getSellerInfor();
+			
+				plus.screen.lockOrientation("portrait-primary");
+				userinfo=eval(app.getDatas(PREFERENCE_USER));
+				userid = userinfo.id;
+				xiaoqu = userinfo.xiaoqu;
+
+				Load_baoxiu();
+			});
+			
+			function getSellerInfor() {
+				var user_obj = eval(app.getDatas(PREFERENCE_USER));
+				var public_obj = eval(app.getDatas(PUBLIC_USER));
+	
+				if(user_obj!="undefined"&&user_obj!=""&&user_obj!=null){
+							
+						if(user_obj.xiaoqu_name!="undefined"&&user_obj.xiaoqu_name!=""&&user_obj.xiaoqu_name!=null&&
+							public_obj.address!="undefined"&&public_obj.address!=""&&public_obj.address!=null){
+								
+							document.getElementById("myXiaoqu").innerHTML = user_obj.xiaoqu_name;	
+							document.getElementById("myAddress").innerHTML = public_obj.address;	
+							return;
+						}
+						document.getElementById("myXiaoqu").innerHTML = "";	
+						document.getElementById("myAddress").innerHTML = "";	
+				}
+			}
+			function addli(ab) {
+			    var ul=document.getElementById("hudong_list");             
+			    var obj=document.createElement("li");         
+			    obj.innerHTML=ab;           
+			    ul.appendChild(obj);                
+			}
+			
+			function showNodate(){
+				doc.getElementById("list").style.visibility="hidden";
+			   	doc.getElementById("nodate").style.visibility="visible";
+			   	doc.getElementById("nodate").innerHTML="暂无报修";
+			}
+			
+			function showBaoxiuList(){
+				var obj = eval(app.getDatas("Baoxiu_list"));
+			   	doc.getElementById("nodate").style.visibility="hidden";
+			   	doc.getElementById("list").style.visibility="visible";
+			   	var listdiv = document.getElementById("list");
+				var child = document.getElementById("baoxiu_list");
+				listdiv.removeChild(child);
+
+				var ul= document.createElement('ul');
+				ul.className = 'mui-table-view';
+				ul.classList.add('mui-table-view-chevron');
+				ul.setAttribute('id',"baoxiu_list");
+				
+			   	for (var i = 0; i < obj.weixiu.length; i++) {
+			   		var item=obj.weixiu[i];
+					var baoxiuinfo = new Object();
+					baoxiuinfo.id=item.id;
+					if(item.maintain_type=="1"){
+						baoxiuinfo.title="公共报修";
+					}
+					else if(item.maintain_type=="2"){
+						baoxiuinfo.title="个人报修";
+					}
+					else{
+						baoxiuinfo.title="未知类型";
+					}
+//					baoxiuinfo.title=item.maintain_type=="1"?"公共维修":"居家维修";
+					baoxiuinfo.content=item.content;
+					if(baoxiuinfo.content.length>10){
+						baoxiuinfo.content=baoxiuinfo.content.substring(0,10)+"..."
+					}
+					if(baoxiuinfo.content=="" || baoxiuinfo.content== null){
+						baoxiuinfo.content="语音报修";
+					}
+					baoxiuinfo.status=item.repair_status;
+					baoxiuinfo.time=item.submit_date;
+					baoxiuinfo.lixiren=item.creater;
+					baoxiuinfo.tel=item.createrTel;
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell';
+					li.setAttribute('id',baoxiuinfo.id);
+					var a=document.createElement('a');
+					a.classList.add('mui-navigate-right');
+					var br=document.createElement('br');
+					br.className='mui-h5';
+					//添加title与内容
+					var div=document.createElement('div');
+//					div.classList.add('mui-media-body');
+					div.style.float="left";
+					div.innerHTML=baoxiuinfo.title;
+					var span=document.createElement('span');
+					span.className='mui-h5';
+					span.innerHTML=baoxiuinfo.content;
+					//添加状态与时间
+					var br1=document.createElement('br');
+					br1.className='mui-h5';
+					var div1=document.createElement('div');
+					div1.style.float="right";
+					div1.style.paddingTop="20px";
+					div1.style.color='red';
+					div1.classList.add('mui-media-body');
+					div1.innerHTML=baoxiuinfo.status;
+					var span1=document.createElement('span');
+					span1.className='mui-h5';
+					span1.innerHTML=baoxiuinfo.time;
+					div.appendChild(br);
+					div.appendChild(span);
+					div.appendChild(br1);
+					div.appendChild(span1);
+					//a.appendChild(img);
+					a.appendChild(div);
+					a.appendChild(div1);
+					li.appendChild(a);
+					ul.appendChild(li);
+			   	}
+			   	listdiv.appendChild(ul);
+			   	mui("#baoxiu_list").on('tap', '.mui-table-view-cell', function() {
+					var baoxiu_id = this.getAttribute("id");
+					mui.openWindow({
+						url: 'detail_baoxiu.html',
+						id: 'detail_baoxiu.html',
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras:{
+							baoxiu_id:baoxiu_id
+						}
+					});
+				});
+			}
+			
+			function Load_baoxiu(){
+				console.log("正在加载..."+Query_Wuyebaoxiu_All_URL);
+				console.log("正在加载..."+xiaoqu);
+				console.log("正在加载..."+userid);
+				
+				var w=plus.nativeUI.showWaiting("正在加载...");
+				mui.ajax(Query_Wuyebaoxiu_All_URL,{
+					data:{
+						xiaoqu:xiaoqu,
+						userid:userid
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function (data){
+						w.close();								
+						var infor=JSON.stringify(data);
+						console.log("---Query_Wuyebaoxiu_All_URL-----="+infor);
+						var obj=eval(data);
+						if (obj.success==1) {
+							if(obj.weixiu==""){
+								showNodate();
+							}
+							else{
+								app.setDatas("Baoxiu_list",data);
+								showBaoxiuList();
+							}								
+						} else{
+							//mui.toast(obj.errorMsg);	
+							mui.toast("网络异常，请稍候重试");
+						}								
+					},							
+					error:function(xhr,type,errorThrown){
+						w.close();
+						mui.toast("网络异常，请检查网络");
+					}
+				});
+			}
+			
+		}(mui, document));
+	</script>
+</html>

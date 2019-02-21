@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+		<style>
+		ul {
+			font-size: 15px;
+			color: #8f8f94;
+		}
+		body {
+			background-color: white;
+		}
+		.imgsize_grid {
+			height: 40px;
+		}
+		.grid_font{
+			font-size: 14px;
+			line-height: 15px;
+			display: block;
+			width: 100%;
+			height: 100%;
+			margin-top: 2px;
+			text-overflow: ellipsis;
+			color: #333333
+		}
+		.mui-table-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 10px;
+			right: 10px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc
+		}
+		.mui-bar-transparent {
+			top: 0;
+			background-color: rgba(247, 247, 247, 0);
+			-webkit-box-shadow: none;
+			box-shadow: none
+		}
+		#search {
+			background-color: rgba(100, 100, 100, 0.3);
+			/*margin-top: 5px;*/
+			line-height: 30px;
+			margin-top: 6px;
+			border-radius: 50px;
+		}
+		.mui-bar-transparent {
+			top: 0;
+			background-color: rgba(0, 191, 255, 0);
+			-webkit-box-shadow: none;
+			box-shadow: none
+		}
+		</style>
+	</head>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav" style="background-color: deepskyblue;">
+		    <h1 class="mui-title" style="color: white;"><span id="xiaoquname_id" class="mui-icon mui-icon-location" style="font-size: 16px;"></span></h1>
+		</header>-->
+		<header id="header" class="mui-bar mui-bar-nav mui-bar-transparent">
+			<div id="search" class="mui-title">
+				<span class="mui-icon mui-icon-location" style="color: white;font-size: 18px;"></span>
+				<label id="xiaoquname_id" style="color: white; font-size: 14px;"></label>
+			</div>
+		</header>
+		  <!-- 主页面容器 -->
+		<div class="">
+		    <div class="mui-scroll">
+			    <!-- 主界面具体展示内容 -->
+			    <div id="slider" class="mui-slider" >
+			        <div class="mui-slider-group mui-slider-loop">
+			            <!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+			            <div class="mui-slider-item mui-slider-item-duplicate">
+			              <a href="#">
+			                <img id="ad3_first" src="images/z6.jpg">
+			              </a>
+			            </div>
+			            <!-- 第一张 -->
+			            <div class="mui-slider-item">
+			              <a href="#">
+			                <img id="ad1" src="images/z4.jpg">
+			              </a>
+			            </div>
+			            <!-- 第二张 -->
+			            <div class="mui-slider-item">
+			              <a href="#">
+			                <img id="ad2" src="images/z5.jpg">
+			              </a>
+			            </div>
+			            <!-- 第三张 -->
+			            <div class="mui-slider-item">
+			              <a href="#">
+			                <img id="ad3" src="images/z6.jpg">
+			              </a>
+			            </div>
+			            <!-- 第四张 -->
+			            <!--<div class="mui-slider-item">
+			              <a href="#">
+			                <img src="images/z3.png">
+			              </a>
+			            </div>-->
+			            <!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+			            <div class="mui-slider-item mui-slider-item-duplicate">
+			              <a href="#">
+			                <img id="ad1_end" src="images/z4.jpg">
+			              </a>
+			            </div>
+			        </div>
+			        <div class="mui-slider-indicator">
+			            <div class="mui-indicator mui-active"></div>
+			            <div class="mui-indicator"></div>
+			            <div class="mui-indicator"></div>
+			            <!--<div class="mui-indicator"></div>-->
+			        </div>
+			    </div>		        	
+		        <ul id="homeSubPages" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;">
+			        
+			        <li id="wuye/jiaofei/wuyefei.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="wuyefee" href="#" class="wuye_module">
+			                <!--<span class="mui-icon mui-icon-email"><span class="mui-badge mui-badge-red">5</span></span>-->
+			                <img src="images/demo_gridview_wyjf.png" class="imgsize_grid"/>
+			                <div class="grid_font">物业缴费</div>
+			            </a>
+			        </li>
+			        <li id="wuye/baoxiu/baoxiu.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="weixiu" href="#" class="wuye_module">
+			                <!--<span class="mui-icon mui-icon-search"></span>-->
+			                <img src="images/demo_gridview_wybx.png" class="imgsize_grid"/>
+			                <div class="grid_font">物业报修</div>
+			            </a>
+			        </li>
+			        <li id="wuye/tuoguan/tuoguan.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="fangwutuoguan" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_fwfw.png" class="imgsize_grid"/>
+			                <div class="grid_font">房屋服务</div>
+			            </a>
+			        </li>
+			        <!--<li id="wuye/bianminxinxi/bianminxinxi_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a href="#">
+			                <img src="images/demo_gridview_bmxx.png" class="imgsize_grid"/>
+			                <div class="grid_font">便民信息</div>
+			            </a>
+			        </li>-->
+			        <li id="wuye/shequjiankong/shequjiankong_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="jiankong" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_sqjk.png" class="imgsize_grid"/>
+			                <div class="grid_font">社区监控</div>
+			            </a>
+			        </li>
+			        <!--<li id="wuye/menjin/menjin.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a href="#">
+			                <img src="images/demo_gridview_xrmj.png" class="imgsize_grid"/>
+			                <div class="grid_font">小区门禁</div>
+			            </a>
+			        </li>
+			        <li id="wuye/diantikaimen/diantikaimen_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a href="#">
+			                <img src="images/demo_gridview_dtkm.png" class="imgsize_grid"/>
+			                <div class="grid_font">电梯开门</div>
+			            </a>
+			        </li>-->
+			        <!--<li id="wuye/zhinengtingche/zhinengtingche_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display: none;">
+			            <a href="#">
+			                <img src="images/demo_gridview_zntc.png" class="imgsize_grid"/>
+			                <div class="grid_font">智能停车</div>
+			            </a>
+			        </li>
+			        <li id="wuye/zhuangxiusheji/zhuangxiusheji_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display: none;">
+			            <a href="#">
+			                <img src="images/demo_gridview_zxsj.png" class="imgsize_grid"/>
+			                <div class="grid_font">装修设计</div>
+			            </a>
+			        </li>-->
+			        <li id="wuye/tingche/tingche.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="cheweifei" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_zntc.png" class="imgsize_grid"/>
+			                <div class="grid_font">小区停车</div>
+			            </a>
+			        </li>					
+			        <li id="wuye/yijianqiuzhu/qiuzhu.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="changyongdianhua" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_yjqz.png" class="imgsize_grid"/>
+			                <div class="grid_font">一键服务</div>
+			            </a>
+			        </li>					
+			        <li id="shequ/zhuti/zhuti_sc.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="luntan" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_sqlt.png" class="imgsize_grid"/>
+			                <div class="grid_font">社区论坛</div>
+			            </a>
+			        </li>
+			        <li id="wuye/tongzhi/tongzhi.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display: none;">
+			            <a id="gongao" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_xqgb.png" class="imgsize_grid"/>
+			                <div class="grid_font">小区公告</div>
+			            </a>
+			        </li>
+			        <li id="wuye/tousujianyi/tousujianyi_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display:none;">
+			            <a id="hudong" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_tsjy.png" class="imgsize_grid"/>
+			                <div class="grid_font">投诉建议</div>
+			            </a>
+			        </li>
+			        <li id="wuye/menjin/menjin.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display:none;">
+			            <a id="menjin" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_xrmj.png" class="imgsize_grid"/>
+			                <div class="grid_font">小区门禁</div>
+			            </a>
+			        </li>
+			        <li id="wuye/diantikaimen/diantikaimen_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display:none;">
+			            <a id="dianti" href="#" class="wuye_module">
+			                <img src="images/demo_gridview_dtkm.png" class="imgsize_grid"/>
+			                <div class="grid_font">电梯开门</div>
+			            </a>
+			        </li>
+			        <!--<li id="wuye/yeweihui/yeweihui_main.html" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="display:none;">
+			            <a href="#">
+			                <img src="images/demo_gridview_ywh.png" class="imgsize_grid"/>
+			                <div class="grid_font">业委会</div>
+			            </a>
+			        </li>-->
+			        <li id="more" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+			            <a id="" href="#" class="wuye_module">
+			                <!--<span class="mui-icon mui-icon-phone"></span>-->
+			                <img src="images/demo_gridview_more.png" class="imgsize_grid"/>
+			                <div class="grid_font">更多功能</div>
+			            </a>
+			        </li>
+		        </ul>
+		        <div style="margin: 5px 0 5px 0;background-color: white;">
+		        	<div style="width: 50%;float:left;background-color: white;padding-left: 10px;">
+		        		<a id="yijiankaimen" href="#">
+			        		<img src="images/demo2_gridview_yjkm.png" style="float:left;height: 60px;"/>
+				            <div style="height:60px; text-align:start; line-height:60px;color: black;">
+								一键开门
+							</div>
+						</a>
+		        	</div>
+		        	<div style="width: 50%;float:left;background-color: white;padding-right: 10px;">
+		        		<a id="diantikaimen" href="#">
+			        		 <img src="images/demo2_gridview_bmfu.png" style="float:left;height: 60px;"/>
+				             <div style="height:60px; text-align:start; line-height:60px;color: black;">
+								电梯开门
+							</div>
+						</a>
+		        	</div>
+		        </div>
+		    	<div class="mui-content-padded" style="margin: 5px 5px 0 5px;">
+    				<img id="qiandao_id" src="images/byx_demo_qiandao_bg.png" style="width: 100%;"/>	
+		    	</div>
+		    	<div class="mui-content-padded" style="margin: auto 5px; padding: 0;">
+					<ul id="notice_view" class="mui-table-view" style="display: none;">
+				    	<li id="notice_more" class="mui-table-view-cell mui-media">
+				        	<a href="javascript:;" class="mui-navigate-right">
+				            	<img class="mui-media-object mui-pull-left" src="images/notice.png" style="height:20px;">
+				            	<div class="mui-media-body" style="height: 20px;line-height: 20px;">
+				         			<span>小区广播</span>				         			                
+				         			<span class="mui-pull-right" style="margin-right: 20px;">更多</span>
+				            	</div>
+				        	</a>
+				    	</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/app.js"></script>
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+		<script src="./js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/ajax.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			(function($) {
+				$.oldBack = mui.back;
+				var backButtonPress = 0;
+				$.back = function(event) {
+					var main = plus.android.runtimeMainActivity()
+					backButtonPress++;
+					if(backButtonPress > 1) {
+						if(mui.os.android) {
+							main.moveTaskToBack(false); //退出到后台			
+						} else {
+							plus.runtime.quit();
+						}
+					} else {
+						plus.nativeUI.toast('再按一次退出百益社区');
+					}
+					setTimeout(function() {
+						backButtonPress = 0;
+					}, 1000);
+					return false;
+				};
+			})(mui);
+
+			var date;
+			var userRole = "";
+			var more_flag = false;
+			jQuery.noConflict();
+			(function($, doc) {
+				$.init();
+				$('.mui-slider').slider({interval:5000});
+
+				window.addEventListener('bindSuccess', function() {
+					console.log("----------tab-main start bindSuccess------");
+					loginwuye();
+				});
+				
+				
+				window.addEventListener('enterinvitedhouse', function() {
+					console.log("--------enterinvitedhouse start refreshmqtt------");
+					parseWuyeLoginData();
+				});
+				
+				window.addEventListener('refreshmqtt', function() {
+					console.log("----------tab-main start refreshmqtt------");
+					reload_notice();
+				});
+				
+				window.addEventListener('show', function() {
+					console.log("----------tab-main  show trigger!!!==============");
+					loginwuye();
+				});
+				
+				window.addEventListener('getInfo_wuye', function() {
+					console.log("t------tab-main-----getInfo_wuye--------show trigger!!!==============");
+					showInvitedUI();
+					loginwuye();
+				});
+				
+				window.addEventListener('refresh', function() {
+					console.log("-------------tab-main refresh trigger!!!==============");
+					loginwuye();
+				});
+
+				$.plusReady(function() {
+					if (mui.os.android) {						
+						main = plus.android.runtimeMainActivity();
+					}
+					plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+						wgtVer = inf.version;
+						console.log("---------当前应用版本----=" + wgtVer);
+					});
+//					mui('.mui-scroll-wrapper').scroll({
+//						deceleration:0.0005
+//					});
+				
+					//设置子页面属性
+//					var subPages_loaded_flag=[];
+//					var subPages = [];
+//					var subPagesArray = ['', ''];
+
+					//获取元素size
+//					var grid9_h=document.getElementById("homeSubPages").clientHeight;
+//					console.log('grid9_view_h :'+grid9_h);
+					
+					//获取屏幕分辩率
+					console.log("Height: "+plus.screen.resolutionHeight+" Width: "+plus.screen.resolutionWidth);
+					var height=plus.screen.resolutionHeight*2/7;
+					jQuery(document).ready(function () {
+						console.log("slider origin height："+jQuery('#slider').height());
+						jQuery('#slider').height(height);//设置轮播高度，屏幕高度的25%
+						jQuery('#ad3_first').height(height);
+						jQuery('#ad1').height(height);
+						jQuery('#ad2').height(height);
+						jQuery('#ad3').height(height);
+						jQuery('#ad1_end').height(height);									
+					});		
+
+//					console.log("延迟2秒加载，start:"+getTimestamp());
+//					setTimeout(function () {
+//						//预加载二级页面
+//						console.log("二级页面开始加载："+getTimestamp());
+//						for (var i = 0; i < subPagesArray.length; i++) {
+//							subPages[i]=$.preload({
+//								"id":subPagesArray[i],
+//								"url":subPagesArray[i]
+//							}); 
+//							console.log(subPagesArray[i]+" preload ok!");
+//						}			
+//						//设置二级页面初始化flag
+//						for (var i = 0; i < subPagesArray.length; i++) {
+//							subPages[i].addEventListener("loaded",function () {
+//								subPages_loaded_flag[i] = true;
+//							})
+//						}
+//					},1000);
+					
+					//设置九宫格点击事件
+					mui("#homeSubPages").on('tap', '.mui-table-view-cell', function() {
+						
+						if(userRole == IS_GUEST_USER){
+							showRegistTips();
+							return;
+						}
+						else{
+							if(userRole == IS_NOTBIND_USER){
+								showBindTips();
+								return;
+							}
+							else{
+								if(userRole == IS_DISABLED_USER){
+									showDisabledTips();
+									return;
+								}
+								else{
+									if(userRole == IS_NOTPERMIT_USER){
+										showPermittionTips();
+										return;
+									}
+								}
+							}
+						}
+						
+						//获取id
+						var subid = this.getAttribute("id");
+						console.log("-----subpage id is-------=" + subid);
+						
+						if (subid == "more") {
+							if (more_flag) {
+								console.log('收起更多功能');
+								document.getElementById("wuye/tongzhi/tongzhi.html").style.display = 'none';
+								document.getElementById("wuye/tousujianyi/tousujianyi_main.html").style.display = 'none';
+								document.getElementById("wuye/menjin/menjin.html").style.display = 'none';
+								document.getElementById("wuye/diantikaimen/diantikaimen_main.html").style.display = 'none';
+								document.getElementById("more").getElementsByClassName("grid_font")[0].innerHTML="更多功能";
+								more_flag = false;
+							} else{
+								console.log("展开更多功能");
+								document.getElementById("wuye/tongzhi/tongzhi.html").style.display = 'inline-block';
+								document.getElementById("wuye/tousujianyi/tousujianyi_main.html").style.display = 'inline-block';
+								document.getElementById("wuye/menjin/menjin.html").style.display = 'inline-block';
+								document.getElementById("wuye/diantikaimen/diantikaimen_main.html").style.display = 'inline-block';
+								document.getElementById("more").getElementsByClassName("grid_font")[0].innerHTML="部分隐藏";
+								more_flag = true;
+							}
+						}
+						else{
+							var aid = this.getElementsByClassName("wuye_module")[0].id;
+							console.log("---------------aid-------="+aid);
+							if(aid==""||aid==null||aid==undefined){
+								showContactTips();
+							}
+							else{		
+								if(checkModule(aid)){
+									$.openWindow({
+										url: subid,
+										id: subid,
+										preload: false,
+										show: {
+											aniShow: 'slide-in-right',
+											duration:300
+										},
+										styles: {
+											popGesture: 'hide'
+										},
+										waiting: {
+											autoShow: false
+										}
+									});		
+								}
+								else{
+									showContactTips();	
+								}
+							}
+						}
+						
+					});
+
+//					document.getElementById('xiaoquname_id').addEventListener('tap',function(){	
+//						mui.openWindow({
+//							url: 'baidumap/current_location.html',
+//							id: 'baidumap/current_location.html',
+//							preload: true,
+//							show: {
+//								aniShow: 'slide-in-right',
+//								duration:100
+//							},
+//							styles: {
+//								popGesture: 'hide'
+//							},
+//							waiting: {
+//								autoShow: false
+//							}
+//						});		
+//					});
+				
+					document.getElementById('yijiankaimen').addEventListener('tap',function(){
+
+						var menjin_obj = app.getDatas(WUYE_DEFAULT_MENJIN);
+						
+						console.log("--------menjin_obj--------="+JSON.stringify(menjin_obj));
+						
+						if(menjin_obj.gate_no==null||menjin_obj.gate_no==""||menjin_obj.gate_no=="undefined"){
+							
+							var btnArray = ['暂不绑定', '立即绑定'];
+							mui.confirm('您尚未绑定一键开门默认门禁设备', '温馨提示', btnArray, function(e) {
+								if(e.index == 1) {
+									$.openWindow({
+										url: "mine/bindmenjin.html",
+										id: "bindmenjin.html",
+										preload: true,
+										show: {
+											aniShow: 'slide-in-right',
+											duration:300
+										},
+										styles: {
+											popGesture: 'hide'
+										},
+										waiting: {
+											autoShow: false
+										}
+									});		
+								} 
+							});
+						}
+						else{
+							document.getElementById('yijiankaimen').disabled = true;
+							var w=plus.nativeUI.showWaiting("正在发送门禁开门请求...");
+							console.log("--------menjin_obj.gate_no---------="+menjin_obj.gate_no);
+							console.log("--------OpenDoor_URL---------="+OpenDoor_URL);
+							var OpenDoor_URL_with_para = OpenDoor_URL+"?deviceIdentifier="+menjin_obj.gate_no+"&control=1";
+							console.log("-----------------="+OpenDoor_URL_with_para);
+							mui.ajax(OpenDoor_URL_with_para,{
+								data:{
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function (data){
+									w.close();								
+									var infor=JSON.stringify(data);
+									var doorobj=eval(data);
+									console.log("--------OpenDoor_URL------infor------="+infor);
+									if(doorobj.code=="1"){
+										console.log("------------doorobj.code==1---------------");
+										mui.toast(menjin_obj.gate_name+"已开门"+"\n"+"15秒之后自动关闭");	
+										
+										setTimeout(function(){
+											console.log("------------setTimeout------------");
+											mui.toast(menjin_obj.gate_name+"已关门");
+			         					},15000);
+										
+									} else{
+										console.log("------------doorobj.code!=1---------------");
+										mui.toast(menjin_obj.gate_name+"开门失败");
+									}	
+									document.getElementById('yijiankaimen').disabled = false;
+								},							
+								error:function(xhr,type,errorThrown){
+									w.close();		
+									mui.toast("网络异常，开门失败");
+									document.getElementById('yijiankaimen').disabled = false;
+								}
+							});
+						}
+					});
+				
+					document.getElementById('diantikaimen').addEventListener('tap',function(){
+						
+						var menjin_obj = app.getDatas(WUYE_DEFAULT_MENJIN);
+						
+						if(menjin_obj.gate_no==null||menjin_obj.gate_no==""||menjin_obj.gate_no=="undefined"){
+							var btnArray = ['暂不绑定', '立即绑定'];
+							mui.confirm('您尚未绑定默认开门电梯设备', '温馨提示', btnArray, function(e) {
+								if(e.index == 1) {
+									$.openWindow({
+										url: "mine/binddianti.html",
+										id: "binddianti.html",
+										preload: true,
+										show: {
+											aniShow: 'slide-in-right',
+											duration:300
+										},
+										styles: {
+											popGesture: 'hide'
+										},
+										waiting: {
+											autoShow: false
+										}
+									});			
+								} 
+							});
+						}
+						else{
+							document.getElementById('diantikaimen').disabled = true;
+							var w=plus.nativeUI.showWaiting("正在发送电梯开门请求...");
+							console.log("--------menjin_obj.gate_no---------="+menjin_obj.gate_no);
+							console.log("--------OpenDoor_URL---------="+OpenDoor_URL);
+							var OpenDoor_URL_with_para = OpenDoor_URL+"?deviceIdentifier="+menjin_obj.gate_no+"&control=1";
+							console.log("-----------------="+OpenDoor_URL_with_para);
+							mui.ajax(OpenDoor_URL_with_para,{
+								data:{
+								},
+								dataType:'json',//服务器返回json格式数据
+								type:'post',//HTTP请求类型
+								timeout:10000,//超时时间设置为10秒；
+								success:function (data){
+									w.close();								
+									var infor=JSON.stringify(data);
+									var doorobj=eval(data);
+									console.log("--------OpenDoor_URL------infor------="+infor);
+									if(doorobj.code=="1"){
+										console.log("------------doorobj.code==1---------------");
+										mui.toast("2号电梯"+"已开门");	
+										
+//										setTimeout(function(){
+//											console.log("------------setTimeout------------");
+//											mui.toast("2号电梯"+"已关门");
+//			         					},15000);
+										
+									} else{
+										console.log("------------doorobj.code!=1---------------");
+										mui.toast("2号电梯"+"开门失败");
+									}	
+									document.getElementById('diantikaimen').disabled = false;
+								},							
+								error:function(xhr,type,errorThrown){
+									w.close();		
+									mui.toast("网络异常，开门失败");
+									document.getElementById('diantikaimen').disabled = false;
+								}
+							});
+						}
+					});
+					
+					document.getElementById('qiandao_id').addEventListener('tap',function(){	
+						var qiandaovalue = plus.storage.getItem("qiandaoFlag");
+						date = new Date();
+						if(qiandaovalue==""||qiandaovalue==null||qiandaovalue=="undefined"){	
+							qiandao();
+							console.log("-----1----scqd-------"+date.getDate()+"_true");
+						}
+						else{
+							var ss1 = qiandaovalue.split("_");
+							if(ss1[1]){
+								if(ss1[0]==date.getDate()){
+									mui.toast("今日已签到，请明天再来");
+								}
+								else{
+									qiandao();
+								}
+							}
+							else{
+								qiandao();
+								console.log("----2-----scqd-------"+date.getDate()+"_true");
+							}
+						}
+					});
+
+					function qiandao(){
+						document.getElementById('qiandao_id').disabled = true;
+						var user_obj = eval(app.getDatas(PREFERENCE_USER))
+						mui.ajax(Insert_Qiandaojifen_URL,{
+							data:JSON.stringify({
+								userid:user_obj.id,
+								xiaoqu:user_obj.xiaoqu
+							}),
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function (data){	
+								var infor=JSON.stringify(data);
+								var obj=eval(data);
+								console.log("------qiandaosuccess+info:"+infor);
+								if (obj.success==1) {
+									if(obj.qiandao_jifen != ""){
+										mui.toast("今日签到成功，当前积分"+obj.qiandao_jifen+"分");
+										plus.storage.setItem("qiandaoFlag",date.getDate()+"_true");
+									}															
+								} else{
+									mui.toast(obj.errorMsg);
+								}
+								document.getElementById('qiandao_id').disabled = false;
+							},							
+							error:function(xhr,type,errorThrown){
+								mui.toast("网络异常");
+								document.getElementById('qiandao_id').disabled = false;
+							}
+						});	
+					}
+					
+					mui("#notice_view").on('tap', '.mui-table-view-cell', function() {
+						//获取id
+						var notice_id = this.getAttribute("id");
+						console.log("notice id is: " + notice_id);
+						if (notice_id=='notice_more') {
+							$.openWindow({
+								url: 'wuye/tongzhi/tongzhi.html',
+								id: 'wuye/tongzhi/tongzhi.html',
+								preload: true,
+								show: {
+									aniShow: 'slide-in-right',
+									duration:100
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						} else{
+							mui.openWindow({
+								url: 'wuye/tongzhi/detail_notice.html',
+								id: 'detail_notice.html',
+								preload: true,
+								show: {
+									aniShow: 'pop-in'
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								},
+								extras:{
+									Notice_id:notice_id
+								}
+							});						
+						}
+					});
+					
+					checkVersion();
+				});
+				
+				function getAndSetDefaultMenjin(){
+					var user_obj = eval(app.getDatas(PREFERENCE_USER));
+					user_obj.damen_default
+					console.log("-------getAndSetDefaultMenjin------"+user_obj.default_damen);
+					if(user_obj.menjin!=""&&user_obj.menjin!="undefined"&&user_obj.menjin!=null){
+						var menjin_obj = user_obj.menjin.damen;
+						if(menjin_obj!=""&&menjin_obj!="undefined"&&menjin_obj!=null){
+							for(var i = 0; i < menjin_obj.length; i++) {
+								if(menjin_obj[i].gate_no==user_obj.default_damen){
+									app.setDatas(WUYE_DEFAULT_MENJIN,menjin_obj[i]);
+									console.log("-------------hgaha-------------");
+								}
+							}
+						}
+					}
+				}
+				
+				function updateAdSlider () {
+					var ad_obj = eval(app.getDatas(PREFERENCE_USER));
+					console.log("广告图片路径："+ad_obj.advert[0].picture_s.substr(2));
+					console.log(JSON.stringify(ad_obj));
+					for(var i = 0; i < ad_obj.advert.length; i++) {
+						if(ad_obj.advert[i].type == 'advert') {
+							var ad_url = BASE_URL + ad_obj.advert[i].picture_s.substr(2);
+							console.log("图片URL："+ad_url);
+							console.log(ad_obj.advert[i].name);
+							if (ad_obj.advert[i].name.substr(-1) == 1) {
+								document.getElementById("ad1").setAttribute("src", ad_url);
+								document.getElementById("ad1_end").setAttribute("src", ad_url);
+							} 
+							else if (ad_obj.advert[i].name.substr(-1) == 2){
+								document.getElementById("ad2").setAttribute("src", ad_url);		
+							} 
+							else if (ad_obj.advert[i].name.substr(-1) == 3){
+								document.getElementById("ad3").setAttribute("src", ad_url);								
+								document.getElementById("ad3_first").setAttribute("src", ad_url);
+							}
+						}
+					}
+				}
+
+				function reload_notice(){
+					
+					var notice=document.getElementById("notice_view");
+					if(notice.style.display == "block"){
+						var notice_obj = eval(app.getDatas("Notice_list"));
+
+						if(notice_obj.notice.length>0){
+							
+							for (var i = notice.childElementCount; i > 1; i--) {
+								var lastNode=notice.lastChild;
+								notice.removeChild(lastNode);
+							}
+							
+							var loop = 0;
+							if(notice_obj.notice.length-3>=0){
+								loop = 3;
+							}
+							else{
+								loop = notice_obj.notice.length-3
+							}
+					
+							for (var i = 0; i < loop; i++) {	//最多显示3条通知
+								var li=document.createElement('li');
+								li.classList.add('mui-table-view-cell');
+								li.classList.add('mui-media');
+								li.setAttribute('id',notice_obj.notice[i].id);
+								var a=document.createElement('a');
+								a.setAttribute('href','javascript:;');
+								var img=document.createElement('img');
+								img.classList.add('mui-media-object');
+								img.classList.add('mui-pull-left');
+	//							img.setAttribute('src','images/notice.png');
+								var div=document.createElement('div');
+								div.classList.add('mui-media-body');
+								div.innerHTML=notice_obj.notice[i].title;
+								var span=document.createElement('span');
+								span.classList.add('mui-pull-right');
+								span.innerHTML=notice_obj.notice[i].cdate.substring(0,10);
+								span.setAttribute('style','font-size: 0.8em;color: gray;');
+								var p=document.createElement('p');
+								p.classList.add('mui-ellipsis');
+								p.innerHTML=notice_obj.notice[i].content;
+								p.setAttribute('style','width: 70%;padding-top: 2px;');
+								div.appendChild(span);
+								div.appendChild(p);
+								a.appendChild(img);
+								a.appendChild(div);
+								li.appendChild(a);
+								notice.appendChild(li);
+							}
+						}
+					}
+				}
+
+				//初始化通知公告Common版本
+				var init_notice=function () {
+					var user_obj = eval(app.getDatas(PREFERENCE_USER));
+					var notice=document.getElementById("notice_view");
+					notice.style.display = "none";
+					
+					if(user_obj.notice.length>0){
+						
+						notice.style.display = "block";
+						for (var i = notice.childElementCount; i > 1; i--) {
+							var lastNode=notice.lastChild;
+							notice.removeChild(lastNode);
+						}
+						
+						var loop = 0;
+						if(user_obj.notice.length-3>=0){
+							loop = 3;
+						}
+						else{
+							loop = user_obj.notice.length-3
+						}
+				
+						for (var i = 0; i < loop; i++) {	//最多显示3条通知
+							var li=document.createElement('li');
+							li.classList.add('mui-table-view-cell');
+							li.classList.add('mui-media');
+							li.setAttribute('id',user_obj.notice[i].id);
+							var a=document.createElement('a');
+							a.setAttribute('href','javascript:;');
+							var img=document.createElement('img');
+							img.classList.add('mui-media-object');
+							img.classList.add('mui-pull-left');
+//							img.setAttribute('src','images/notice.png');
+							var div=document.createElement('div');
+							div.classList.add('mui-media-body');
+							div.innerHTML=user_obj.notice[i].title;
+							var span=document.createElement('span');
+							span.classList.add('mui-pull-right');
+							span.innerHTML=user_obj.notice[i].cdate.substring(0,10);
+							span.setAttribute('style','font-size: 0.8em;color: gray;');
+							var p=document.createElement('p');
+							p.classList.add('mui-ellipsis');
+							p.innerHTML=user_obj.notice[i].content;
+							p.setAttribute('style','width: 70%;padding-top: 2px;');
+							div.appendChild(span);
+							div.appendChild(p);
+							a.appendChild(img);
+							a.appendChild(div);
+							li.appendChild(a);
+							notice.appendChild(li);
+						}
+					}
+				}
+				
+				function loginwuye(){
+					
+					var public_user = eval(app.getDatas(PUBLIC_USER));
+					
+					if(public_user=="" || public_user==null || public_user=="undefined"){
+						return;
+					}
+					else{
+						if(public_user.account=="guest"){
+							userRole = IS_GUEST_USER;
+							app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+							document.getElementById('xiaoquname_id').innerHTML="游客";
+							return;
+						}
+						else{
+							if(public_user.xiaoqu_prefix==""||public_user.xiaoqu_prefix==null||public_user.xiaoqu_prefix=="undefined"){
+								userRole = IS_NOTBIND_USER;
+								app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+								document.getElementById('xiaoquname_id').innerHTML="未绑定信息";
+								return;
+							}
+							else{
+								var public_account = public_user.account;
+								var public_uid = public_user.uid;
+								var public_xiaoquprefix = public_user.xiaoqu_prefix;
+								var public_touxiang = public_user.touxiang;
+								var public_nickname = public_user.nickname;
+								
+								console.log("---------public_account---------"+public_account);
+								console.log("---------public_uid---------"+public_uid);
+								console.log("---------public_xiaoquprefix---------"+public_xiaoquprefix);
+								console.log("---------public_touxiang---------"+public_touxiang);
+								console.log("---------public_nickname---------"+public_nickname);
+								
+								if(public_account == null ||public_account==""||public_account=="undefined"||public_uid==null||public_uid==""||public_uid=="undefined"){
+									console.log("-----------no uid---------");
+									return;
+								}
+								else{
+									console.log("-----------login wuye---------");
+									mui.ajax(LOGIN_WUYE_URL_SC, {
+										data: JSON.stringify({
+											user: public_account,
+											uid: public_uid,
+											xiaoqu: public_xiaoquprefix,
+											touxiang:public_touxiang,
+											nickname:public_nickname
+										}),
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型
+										timeout: 10000, //超时时间设置为10秒；
+										success: function(data) {
+											var infor = JSON.stringify(data);
+											var obj = eval(data);
+											console.log("---------wuye loginsuccess---------=" + infor);
+											console.log("---------wuye mokuai---------=" + obj.mokuai);
+											console.log("---------wuye guanggao---------=" + obj.advert);
+											plus.storage.setItem("Wuye_Active_Module", obj.mokuai);
+											//gongao,wuyefee,cheweifei,weixiu,hudong,menjin,luntan,jiankong,fangwutuoguan,dianti,changyongdianhua at tab-main.html:942
+											if(obj.success == 1) {
+												app.setDatas(PREFERENCE_USER, data);
+												parseWuyeLoginData();
+											} 
+											else {
+												hideNoticeUl();
+											}
+										},
+										error: function(xhr, type, errorThrown) {
+											hideNoticeUl();
+											console.log("error type:" + type);
+											console.log(xhr.status);
+											console.log(xhr.readyState);
+											console.log(xhr.response);
+										}
+									});
+								}
+							}
+						}
+					}
+				}
+				
+				function parseWuyeLoginData () {
+					console.log("--------parseWuyeLoginData parseWuyeLoginData parseWuyeLoginData------");
+					var wuye_obj = eval(app.getDatas(PREFERENCE_USER));
+					document.getElementById('xiaoquname_id').innerHTML=wuye_obj.xiaoqu_name; 
+					 if(wuye_obj.tingyong != "1"){//yijinyong
+					 	userRole = IS_DISABLED_USER;
+					 	app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+					 	return;
+					 }
+					 else if(wuye_obj.tingyong == "1"){//yiqiyong
+					 	
+					 	if(wuye_obj.flag == "1"){//weishenhe
+					 		userRole = IS_NOTPERMIT_USER;
+					 		app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+					 		return;
+					 	}
+					 	else if(wuye_obj.flag == "2"){//yishenhe
+					 		
+					 		if(wuye_obj.accounttype=="1"){
+					 			userRole = IS_YEZHU_USER;
+					 			app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+					 		}
+					 		else if(wuye_obj.accounttype=="3"){
+					 			userRole = IS_ZUKE_USER;
+					 			app.setDatas(WUYE_ACCOUNT_TYPE, userRole);
+					 		}
+					 		
+					 		init_notice();
+					 		updateAdSlider();
+					 		getAndSetDefaultMenjin();
+					 	}
+					 }	
+				}
+				
+				function showInvitedUI(){
+					
+					var localHouseStr = plus.storage.getItem("invite_house");
+					console.log("----localHouseStr--------="+localHouseStr);
+					if(localHouseStr!=""&&localHouseStr!="undefined_undefined"&&localHouseStr!=null&&localHouseStr!=undefined){
+						
+						var btnArray = ['否', '是'];
+						mui.confirm('点击"是"进入邀请列表，点击"否"忽略邀请', '您已获得邀请', btnArray, function(e) {
+							if(e.index == 1) {
+								mui.openWindow({
+									url: 'mine/wodebeiyaoqing.html',
+									id: 'wodebeiyaoqing.html',
+									show: {
+										aniShow: 'slide-in-right',
+										duration: 300
+									},
+									waiting: {
+										autoShow: false,
+										title: "正在加载..."
+									}
+								});
+							}
+							else if(e.index == 0) {
+								plus.storage.removeItem("Wuye_Active_Module");
+								plus.storage.removeItem("invite_house");
+								loginwuye();
+							}
+						});
+					}
+				}
+				
+				function hideNoticeUl(){
+					document.getElementById("notice_view").style.display = "none";
+				}
+				
+				function showRegistTips () {
+					var btnArray = ['暂不注册', '注册用户'];
+					mui.confirm('抱歉，游客模式不能访问物业板块，请先注册用户', '温馨提示', btnArray, function(e) {
+						if(e.index == 1) {
+							mui.openWindow({
+								url: 'register_sc.html',
+								id: 'register_sc.html',
+								show: {
+									aniShow: 'slide-in-right',
+									duration: 300
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						} 
+					});
+				}
+				
+				function showBindTips () {
+					var btnArray = ['暂不绑定', '立即绑定'];
+					mui.confirm('您尚无权限访问物业板块，请先绑定用户信息', '温馨提示', btnArray, function(e) {
+						if(e.index == 1) {
+							mui.openWindow({
+								url: 'bindUserInfo_sc.html',
+								id: 'bindUserInfo_sc.html',
+								show: {
+									aniShow: 'slide-in-right',
+									duration: 300
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						} 
+					});
+				}
+				
+				function showDisabledTips () {
+					
+					mui.alert("当前账号已被停用，请先联系物业启用账号",'温馨提示',"知道了",null);
+				}
+				
+				function showPermittionTips () {
+					
+					mui.alert("当前账号尚未审核，请先联系物业审核账号",'温馨提示',"知道了",null);
+				}
+				
+				function showContactTips () {
+					
+					mui.alert("本小区尚未开通此版块，请先联系物业",'温馨提示',"知道了",null);
+				}
+				
+				function checkModule(msg){
+					
+					var moduleStr = plus.storage.getItem("Wuye_Active_Module");
+					console.log("---------wuye mokuai--moduleStr-------=" + moduleStr);
+					var moduleArray = moduleStr.split(",");
+					var checkModuleSuccess = false;
+					
+					for(var i=0;i<moduleArray.length;i++){
+						if(moduleArray[i]==msg){
+							checkModuleSuccess = true;
+							break;
+						}
+					}
+					return checkModuleSuccess;
+				}
+				
+				function checkVersion() {
+					console.log("---checkVersion");
+					if(mui.os.ios) {
+						console.log(plus.os.name + plus.os.version);
+						//mui.toast('已经是最新版本！');
+						//appStoreCheck();
+					} else {
+						console.log(plus.os.name + plus.os.version);
+						versionCheck();
+					}
+				}
+		
+				//检查更新版本for iOS
+				function appStoreCheck() {
+					var appstore_download_url;
+					mui.ajax(AppStore_URL, {
+						data: {
+							id: AppleID
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						//				headers:{'Content-Type':'application/json'},
+						success: function(data) {
+							var infor = JSON.stringify(data);
+							var obj = eval(data);
+							console.log("info:" + infor);
+							for(var i = 0; i < obj.results.length; i++) {
+								var version = obj.results[i].version;
+								appstore_download_url = obj.results[i].trackViewUrl;
+								console.log("App Version:" + version);
+								console.log("App Store URL: " + appstore_download_url);
+								//								console.log("AppStoreURL:"+obj.results[0].trackViewUrl+" version:"+obj.results[0].version);
+							}
+							if(wgtVer && version && check(wgtVer, version)) {
+								mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新', '暂不更新'], function(e) {
+									if(e.index == 1) {
+										//				    						plus.runtime.quit();
+										return;
+									} else {
+										console.log('开始更新程序');
+										plus.runtime.openURL(appstore_download_url); //进入App Store下载
+									}
+								}, 'div');
+							} else {
+								console.log('已经是最新版本');
+								//										mui.toast('已经是最新版本');
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.toast("网络异常");
+							console.log("error type:" + type);
+							console.log(xhr.status);
+							console.log(xhr.readyState);
+							console.log(xhr.response);
+						}
+		
+					});
+				}
+		
+				//更新版本for Android
+				function versionCheck() {
+					var xhr = new plus.net.XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch(xhr.readyState) {
+							case 0:
+								//						console.log('更新请求已经初始化');
+								break;
+							case 1:
+								//						console.log('更新请求已打开');
+								break;
+							case 2:
+								//						console.log('更新请求已发送');
+								break;
+							case 3:
+								//						console.log('更新请求已响应');
+								break;
+							case 4:
+								//						console.log('更新请求已接收');
+								if(xhr.status == 200) {
+									console.log('xhr返回信息：' + xhr.responseText);
+									var App_info = JSON.parse(xhr.responseText);
+		
+									if(App_info.apk == '' || App_info.apk == null || App_info.apk == "undefined") {
+										//mui.toast('已经是最新版本');
+									} else {
+										var version = App_info.apk[0].version.substr(1);
+										var down_url = BASE_URL + App_info.apk[0].filepath.substr(2);
+										var upgrade_flag = App_info.apk[0].upgrade; //立即升级flag：1，否；2，是
+										console.log('下载地址：' + down_url);
+										console.log('最新版本：' + version + ' 当前版本：' + wgtVer);
+										if(wgtVer && version && check(wgtVer, version)) {
+											if(upgrade_flag == 1) {
+												mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['暂不更新', '立即更新'], function(e) {
+													if(e.index == 0) {
+														//				    						plus.runtime.quit();
+														return;
+													} else {
+														console.log('开始更新程序');
+														downloadPackage(down_url);
+													}
+												}, 'div');
+											} else {
+												mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新'], function(e) {
+													if(e.index == 0) {
+														downloadPackage(down_url);
+													}
+												}, 'div');
+											}
+										} else {
+											console.log('已经是最新版本');
+											//mui.toast('已经是最新版本');
+										}
+									}
+								} else {
+									console.log('xhr请求失败：' + xhr.readyState);
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('GET', UPDATE_APP_URL);
+					xhr.send();
+				}
+				var waiting = null;
+		
+				function downloadPackage(down_URL) {
+					waiting = plus.nativeUI.showWaiting('正在下载安装包...');
+					console.log(down_URL);
+					//删除旧版安装包
+					deletePackage();
+					var task = plus.downloader.createDownload(down_URL, {
+						filename: '_downloads/update/'
+					}, function(d, status) {
+						if(status == 200) {
+							console.log('下载成功' + d.filename);
+							installPackage(d.filename); //安装程序
+						} else {
+							console.log('下载失败');
+							plus.nativeUI.alert('下载安装包失败');
+						}
+						plus.nativeUI.closeWaiting();
+					});
+					task.addEventListener("statechanged", function(download, status) {
+						switch(download.state) {
+							case 2:
+								waiting.setTitle("已连接到服务器");
+								break;
+							case 3:
+								percent = download.downloadedSize / download.totalSize * 100;
+								var mess = "   正在下载： " + parseInt(percent) + "%   ";
+								waiting.setTitle(mess);
+								break;
+							case 4:
+								waiting.setTitle("下载完成");
+								break;
+						}
+					});
+					task.start();
+				}
+		
+				function deletePackage() {
+					plus.io.resolveLocalFileSystemURL("_downloads/update", function(entry) {
+						console.log("下载路径：" + entry.toLocalURL());
+						entry.removeRecursively(function(entry) {
+							console.log("Remove Succeeded");
+						}, function(e) {
+							console.log(e.message);
+						})
+					}, function(e) {
+						console.log("Resolve file URL failed:" + e.message);
+						return;
+					});
+				}
+		
+				function installPackage(filepath) {
+					plus.nativeUI.showWaiting('正在安装百益社区...');
+					plus.runtime.install(filepath, {}, function() {
+						plus.nativeUI.closeWaiting();
+						console.log('安装成功！');
+						localStorage.removeItem(PUBLIC_USER);
+						localStorage.removeItem(PREFERENCE_USER);
+						localStorage.removeItem(WUYE_ACCOUNT_TYPE);
+						localStorage.removeItem(WUYE_DEFAULT_MENJIN);
+						plus.storage.removeItem("Wuye_Active_Module");
+						plus.storage.removeItem("lauchFlag");
+						plus.storage.removeItem("qiandaoFlag");
+						plus.storage.removeItem("invite_house");
+						plus.nativeUI.alert('百益社区更新完成！', function() {
+							plus.runtime.restart();
+						});
+					}, function(e) {
+						plus.nativeUI.closeWaiting();
+						console.log('安装百益社区失败[' + e.code + ']:' + e.message);
+						plus.nativeUI.alert('安装百益社区失败[' + e.code + ']:' + e.message);
+					});
+				}
+		
+				function check(currVer, newVer) {
+					var ss1 = new Array();
+					var ss2 = new Array();
+					ss1 = currVer.split(".");
+					ss2 = newVer.split(".");
+					console.log("check ---" + ss1 + "," + ss2);
+		
+					if(parseInt(ss1[0], 10) < parseInt(ss2[0], 10)) {
+						return true;
+					} else if(parseInt(ss1[0], 10) == parseInt(ss2[0], 10)) {
+						//				console.log(parseInt(ss1[0],10)+parseInt(ss2[0],10));
+						if(parseInt(ss1[1], 10) < parseInt(ss2[1], 10)) {
+							return true;
+						} else if(parseInt(ss1[1], 10) == parseInt(ss2[1], 10)) {
+							//					console.log(parseInt(ss1[1],10)+parseInt(ss2[1],10));
+							if(parseInt(ss1[2], 10) < parseInt(ss2[2], 10)) {
+								return true;
+							}
+							//							else if(parseInt(ss1[2], 10) == parseInt(ss2[2], 10)){
+							//								
+							//								if(parseInt(ss1[3], 10) < parseInt(ss2[3], 10)) {
+							//									return true;
+							//								} 
+							//								else {
+							//									return false;
+							//								}
+							//							}
+							else {
+								return false;
+							}
+						} else {
+							return false;
+						}
+					} else {
+						return false;
+					}
+				}
+		
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

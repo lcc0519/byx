@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/css.css" rel="stylesheet" />
+		<style type="text/css">
+			.span-title{
+				width: 30%;
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.input-style {
+				float: left;
+				line-height: 50px;
+				text-align: start;
+				align-content: flex-end;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-left-nav" style="color: white;"></span>
+			</button>
+			<h1 class="mui-center mui-title">选择房产</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group" style="margin: 5px;">
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">所在小区</span>
+					<div id="" class="input-style" style="width: 60%;">	
+						<input id='xiaoquname' type="text" class="mui-input-clear mui-input" disabled="disabled">
+					</div>	
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">房产地址</span>
+					<div id="" class="input-style" style="margin-left: 12px;">	
+						<select id="addresslist">
+							<option value="choose" disabled="disabled">请选择房产地址</option>
+						</select>
+					</div>
+				</div>
+			</form>
+			<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='bind' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即绑定</button>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			var bindButton = document.getElementById('bind');
+			var xiaoqunameBox = document.getElementById('xiaoquname');
+			var houseid = new Array();
+			var housename = new Array();
+			var houseno = new Array();
+			var addressobj = document.getElementById('addresslist');
+			var self;
+			var xiaoqu_pre;
+			var w = null;
+			var housenoStr;
+			var housePara = "";
+			
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+	
+				xiaoqunameBox.value = self.xiaoquname;
+				xiaoqu_pre = self.xiaoquprefix;
+				
+				loadAddress();
+				
+				bindButton.addEventListener('tap', function(event) {
+					var index = addressobj.selectedIndex;
+					var myHouseNumber = addressobj.options[index].value;
+					var myZhuzhi = addressobj.options[index].text;
+					
+					if(myHouseNumber == "choose") {
+						mui.alert("请选择地址");
+						return;
+					}
+					else{
+						
+						var _uid = self.uid;
+						var _account = self.account;
+						var _tel = self.tel;
+						var _xiaoquprefix= self.xiaoquprefix;
+						var _accounttype = self.accounttype;
+						var _realname = self.real_name;
+						var _cid = self.cid;
+						
+						console.log("-------_uid------="+_uid);
+						console.log("-------_account------="+_account);
+						console.log("---------_tel----="+_tel);
+						console.log("--------_xiaoquprefix-----="+_xiaoquprefix);
+						console.log("---------_accounttype----="+_accounttype);
+						console.log("----------_realname---="+_realname);
+						console.log("----------_cid---="+_cid);
+						console.log("----------myZhuzhi---="+myZhuzhi);
+						console.log("----------myHouseNumber---="+myHouseNumber);
+						
+						var house_obj = app.getDatas('fangchan_list');
+						if(house_obj!=""&&house_obj!=undefined){
+							var index=-1;
+							for(var i=0;i<house_obj.huizong.length;i++){
+								if(house_obj.huizong[i].prefix == _xiaoquprefix){
+									index=i;
+									break;
+								}
+							}
+							
+							if(index==-1){
+								housePara = "";
+								housePara = myHouseNumber;
+							}
+							else{
+								housenoStr = house_obj.huizong[index].house_no;
+		
+								if(housenoStr!=""&&housenoStr!=undefined){
+									
+									if(house_obj.huizong[index].house_no.indexOf("=")<0){
+										console.log("--------no-----=");
+										if(house_obj.huizong[index].house_no==myHouseNumber){
+											console.log("----请勿重复绑定--------");
+											mui.alert("请勿重复绑定");
+											return;
+										}
+										else{
+											housePara = "";
+											housePara=house_obj.huizong[index].house_no+"="+myHouseNumber;
+										}
+									}
+									else{
+										console.log("--------yes-----=");
+										var ss = house_obj.huizong[index].house_no.split("=");
+										var ii = -1;
+										for(var i=0;i<ss.length;i++){
+											if(ss[i]==myHouseNumber){
+												ii=i;
+												console.log("----请勿重复绑定---1-----");
+												break;
+											}
+										}
+										
+										console.log("----请勿重复绑定---0----"+ii);
+										
+										if(ii != -1){
+											console.log("----请勿重复绑定---2-----");
+											mui.alert("请勿重复绑定");
+											return;
+										}
+										else{
+											console.log("---------ii == -1-----");
+											housePara = "";
+											housePara=house_obj.huizong[index].house_no+"="+myHouseNumber;
+										}
+									}
+								}
+							}
+							
+							console.log("----wuye------housePara---&&"+housePara);
+						
+							var w = plus.nativeUI.showWaiting("正在绑定房产...");
+							mui.ajax(BIND_USERINFO_URL_SC, {
+								data: JSON.stringify({
+									uid:_uid,
+									account:_account,
+									tel:_tel,
+									xiaoqu:_xiaoquprefix,
+									accounttype: _accounttype,
+									real_name: _realname,
+									cid: _cid,
+									address: myZhuzhi,
+									house_no: housePara,
+									default_houseno:myHouseNumber									
+								}),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								timeout: 10000, //超时时间设置为10秒；
+								success: function(data) {
+									w.close();
+									var infor = JSON.stringify(data);
+									var obj = eval(data);
+									console.log("----BIND--------="+infor);
+									if(obj.success == 1) {
+										w.close();
+										mui.toast("绑定成功");
+										
+										var data2 = app.getDatas(PUBLIC_USER);
+										data2.xiaoqu_prefix = _xiaoquprefix;
+										data2.house_no = myHouseNumber;
+										data2.address = myZhuzhi;
+										app.setDatas(PUBLIC_USER, data2);
+										console.log("--------eval(app.getDatas(PUBLIC_USER)-------="+eval(app.getDatas(PUBLIC_USER)));
+								
+										var fangchanpage = plus.webview.getWebviewById('wodefangchan.html');
+										mui.fire(fangchanpage, 'refresh');
+										var infopage = plus.webview.getWebviewById('addnewhouse_xiaoqu.html');
+										mui.fire(infopage, 'bindsuccess');
+										var shoppingmall = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+										mui.fire(shoppingmall, 'switch');
+										
+										mui.back();
+									}
+									else{
+										if(obj.errorMsg=="realnameforbidden"){
+											mui.alert("您的真实姓名与开发商登记原始数据不一致，请检查确认");
+											setTimeout(function() {
+												self.close();
+											}, 500);
+										}
+										else if(obj.errorMsg=="cidforbidden"){
+											mui.alert("您的身份证号与开发商登记原始数据不一致，请检查确认");
+											setTimeout(function() {
+												self.close();
+											}, 500);
+										}
+										else{
+											mui.toast("网络异常，请稍候重试");
+										}
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									w.close();
+									mui.toast("网络异常，请先检查网络");	
+								}
+							});
+						}
+					}
+				});
+			});
+			
+			var loadAddress = function() {
+				w = plus.nativeUI.showWaiting("正在获取地址列表，请稍候...");
+				addressID = setInterval(function() {
+					console.log('小区list刷新');
+					if(chkNetStatus() == "OK") {
+						if((addressobj.options.length > 1) && (addressobj.options.length == (housename.length + 1))) {
+							console.log('got xiaoqu list');
+							clearInterval(addressID);
+							w.close();
+						} 
+						else {
+							console.log("refreah address list");
+							getAddressList();
+							console.log('second load address list');	
+						}
+					} 
+					else {
+						w.close();
+						mui.toast("网络异常");
+					}
+				}, 5000);
+			}
+			
+			function getAddressList() {
+				mui.post(Query_Address_URL, {
+					xiaoqu: xiaoqu_pre
+				}, function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("小区列表:" + infor);
+					if(obj.success == 1) {
+						w.close();
+						houseid.splice(0, houseid.length);
+						housename.splice(0, housename.length);
+						houseno.splice(0, houseno.length);
+						for(var i = 0; i < obj.houses.length; i++) {
+							houseid[i] = obj.houses[i].id;
+							housename[i] = obj.houses[i].houseInfo;
+							houseno[i] = obj.houses[i].house_no;
+						}
+						InsertAddress();
+					} else {
+						w.close();
+						mui.toast(infor.errorMsg);
+					}
+				}, 'json');
+			}
+
+			function InsertAddress() { 
+				while(addressobj.length > 1) {
+					addressobj.options.remove(1);
+				}
+				if(housename.length > 0 && addressobj.options.length == 1) {
+					for(var i = 0; i < housename.length; i++) {
+						addressobj.options.add(new Option(housename[i], houseno[i]));
+					}
+				}
+				console.log('address列表数量：' + addressobj.options.length + 'address名字数量：' + housename.length);
+			}
+		</script>
+	</body>
+</html>

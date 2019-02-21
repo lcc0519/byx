@@ -1,0 +1,9 @@
+/*.mui-bar {
+	background-color: deepskyblue;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}*/
+
+.mui-bar a {
+	color: white;
+}

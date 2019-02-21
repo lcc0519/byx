@@ -1,0 +1,421 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.mui-table-view .mui-table-view-cell {
+			background: white;
+			padding: 0px;
+			height: 100px;
+		}
+		
+		.mui-table-view:before {
+			height: 0px;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.leftClassCell {
+			padding: 1%;
+			width: 30%;
+			float: left;
+			line-height: 90px;
+			display: table-cell;
+			/*vertical-align: middle;*/
+			/*background: yellow;*/
+		}
+		
+		.rightClassCell {
+			width: 60%;
+			float: left;
+		}
+		
+		.ClassCell {
+			width: 10%;
+			float: left;
+			line-height: 100px;
+		}
+		
+		.itemName {
+			color: black;
+			margin-top: 10px;
+			line-height: 1.5em;
+		}
+		
+		.price {
+			color: #41CEA9;
+			line-height: 1.5em;
+			margin-right: 2px;
+			display: inline;
+		}
+		
+		.guige {
+			line-height: 1.5em;
+		}
+		
+		.mui-table-view-cell .mui-media {
+			padding: 0px;
+		}
+		
+		.cellImg {
+			max-width: 70%;
+			vertical-align: middle;
+			/*position: relative;*/
+			margin-left: 12px;
+		}
+		
+		.totalPrice {
+			width: 30%;
+			float: left;
+			line-height: 40px;
+			padding-left: 12px;
+			text-align: left;
+		}
+		/*.leftButton {
+			width: 40%;
+			float: left;
+			line-height: 40px;
+			text-align: right;
+		}*/
+		
+		.rightButton {
+			width: 70%;
+			float: left;
+			line-height: 40px;
+			text-align: right;
+			padding-right: 20px;
+		}
+		
+		.button-style {
+			vertical-align: middle;
+			padding: 3px 24px;
+			border-radius: 20px;
+		}
+		
+		.button-cancle {
+			vertical-align: middle;
+			padding: 3px 10px;
+			border-radius: 20px;
+		}
+		
+		.itemTitle {
+			color: black;
+			vertical-align: middle;
+			line-height: 2em;
+			display: inline;
+		}
+		
+		.price-cell {
+			display: inline;
+			color: black;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">待发货</h1>
+		</header>
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>
+		<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word1" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+		<div id="diangdanItem" class="diangdanItem" style="margin-top: 44px;display: none;">
+			<!--<div>
+				<ul class="mui-table-view" style="height: 30px;">
+					<li class="mui-table-view-cell mui-media" style="height: 30px;">
+						<p class="itemTitle" style="padding-left: 7px;">订单编号：</p>
+						<p class="itemTitle">123456</p>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<div class="leftClassCell">
+							<img src="../images/banjin.jpg" class="cellImg" />
+						</div>
+						<div class="rightClassCell">
+							<p class="itemName mui-ellipsis-2">今麦郎方便面108g</p>
+							<p class="price">¥5</p>
+						</div>
+						<div class="ClassCell">
+							<p class="count">x1</p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media" style="padding: 0px;height: 40px;margin: 0px;">
+						<div class="totalPrice">
+							<p class="price-cell">总价:</p>
+							<p class="price-cell">price</p>
+						</div>
+						<div class="rightButton">
+							<button class="button-style" style="border-color: orange;color: orange;">确认收货</button>
+						</div>
+					</li>
+				</ul>
+			</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../../js/app.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var currentWebView;
+			var thisYizhan;
+			var userInfo;
+			var yizhan_info;
+			var wait;
+			var dataList = [];
+			var creater_id;
+			mui.plusReady(function() {
+				currentWebView = plus.webview.currentWebview();
+				creater_id = currentWebView.createrid;
+				thisYizhan = currentWebView.yizhannum;
+				//				userInfo = app.getDatas(PREFERENCE_USER);
+				//userInfo_json = JSON.stringify(userInfo);
+				yizhan_info = eval(userInfo);
+				load_daishouhuo_listview();
+				document.querySelector('.notInfo_error button').addEventListener('tap', function() {
+					load_daishouhuo_listview();
+				}, false);
+			});
+
+			function load_daishouhuo_listview() {
+				if(chkNetStatus() == "OK") {
+					wait = plus.nativeUI.showWaiting("正在加载，请稍候...");
+					load_query_daishouhuo(creater_id, "daifahuo");
+				} else
+					document.querySelector('#net_error').style.display = 'block';
+
+			}
+
+			function load_query_daishouhuo(action) {
+				dataList = [];
+				mui.ajax(QUERY_DINGDAN_URL, {
+					data: {
+						creater_id: creater_id,
+						action: action
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型 
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						console.log("dingdan====" + info)
+						var obj = eval(data);
+						var orderArray = [];
+						var itemArray = [];
+						var orderList = [];
+						if(obj.success == 1) {
+							wait.close();
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'none';
+							document.querySelector('.diangdanItem').style.display = 'block';
+							for(var j = 0; j < obj.dingdan_info.length; j++) {
+								var shangpinInfo = obj.dingdan_info[j].shangpin_info;
+								for(var i = 0; i < shangpinInfo.length; i++) {
+									var picstr = shangpinInfo[i].hpic0;
+									var ss = [];
+									ss = picstr.split("/");
+									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+									shangpinInfo[i].picture = SHOP_PICTURE_URL + picstr;
+								}
+							}
+							dataList = obj.dingdan_info;
+							refreshDaifukuanListview(dataList);
+
+						} else {
+							wait.close();
+							document.querySelector('.diangdanItem').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'block';
+							//	var queryResultMsg = obj.errorMsg;
+							var queryResultMsg = "没有订单信息！";
+							//	console.log("hhhhhh" + queryResultMsg);
+							if(queryResultMsg == '') {
+								document.getElementById('word1').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word1').innerHTML = queryResultMsg;
+							}
+
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						document.querySelector('#not_message').style.display = 'none';
+						document.querySelector('.diangdanItem').style.display = 'none';
+						document.querySelector('#net_error').style.display = 'block';
+					}
+				})
+
+			}
+
+			function refreshDaifukuanListview(items) {
+				console.log("list=" + JSON.stringify(items));
+				var dingdanView = document.getElementById("diangdanItem");
+				var html = '';
+				mui.each(items, function(index, item) {
+
+					var listTitle = '<div id =' + index + ' style="margin-bottom:7px;">';
+					listTitle += '<ul class="mui-table-view">\
+					<li class="mui-table-view-cell mui-media" style="height: 30px;">\
+					<span class="mui-icon iconfont icon-dianpu" style="padding-left: 12px;"></span>\
+					<p class="itemTitle">' + item.shangjia_name + '</p>\
+					</li>';
+					var listItem = '';
+					listItem += listTitle;
+					mui.each(item.shangpin_info, function(index, item) {
+						//						var pic;
+						//						var picstr = item.hpic0;
+						//						var ss = [];
+						//						ss = picstr.split("/");
+						//						picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+						//						pic = SHOP_PICTURE_URL + picstr;
+						listItem += '<li  class="mui-table-view-cell mui-media" onclick="itemButton(this)">\
+					<div class="leftClassCell">\
+					<img src="' + item.picture + '" class="cellImg" />\
+					</div>\
+					<div class="rightClassCell">\
+					<p class="itemName mui-ellipsis-2">' + item.shangpin_name + '</p>\
+					<p class="guige">规格:' + item.shangpin_guige + '</p>\
+					<p class="price" style="color:red">¥' + item.shangpin_jiage + '</p>\
+					</div>\
+					<div class="ClassCell">\
+					<p class="count">x' + item.shangpin_shuliang + '</p>\
+					</div>\
+					</li>';
+					});
+					var leftBottom = '';
+					leftBottom += listItem;
+					leftBottom += '<li class="mui-table-view-cell mui-media" style="padding: 0px;height: 40px;margin: 0px;">\
+					<div class="totalPrice">\
+					<p class="price-cell">总价:</p>\
+					<p class="price-cell" style="color:red">¥' + item.total_price + '</p>\
+					</div>\
+					<div id =' + index + ' class="rightButton">\
+					<p style="color: orange;">待发货</p>\
+					</div>\
+					</li>\
+					</ul>\
+					</div>';
+					html += leftBottom;
+
+				});
+				console.log(html);
+				dingdanView.innerHTML = html;
+			}
+
+			function itemButton(event) {
+				var index = event.parentNode.parentNode.id;
+				//console.log("biaohao====" + shangpinNum);
+				mui.openWindow({
+					url: 'daifahuoDetail.html',
+					id: 'daifahuoDetail.html',
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false,
+						title: '正在加载...'
+					},
+					extras: {
+						"dataArray": dataList[index],
+						"yizhanNum": thisYizhan
+						//						"xiaoqu":yizhan_info.xiaoqu,
+						//						"userId":yizhan_info.id
+					}
+				});
+			}
+
+			function confirmButton(o) {
+				console.log("vvvv===" + o.id)
+				var btnArray = ['否', '是'];
+				mui.confirm('确认收货？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						if(chkNetStatus() == "OK") {
+							//cancleItem(thisYizhan, yizhan_info.xiaoqu, yizhan_info.id, "\'" + dataList[o.parentNode.id].dingdanhao + "\'", o);
+							shouHuo(dataList[o.id].dingdanhao, o);
+						} else
+							mui.toast("网络异常");
+					} else {
+
+					}
+				})
+			}
+
+			function shouHuo(dingdanhao, o) {
+				console.log("vvvv===" + dingdanhao)
+				mui.ajax(Update_Yizhan_Dingdan_URL, {
+					data: JSON.stringify({
+						orderno: dingdanhao,
+						order_status: 5
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						console.log("confirm====" + info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("提交成功");
+							var parent = o.parentNode.parentNode.parentNode.parentNode;
+							console.log("jiedian====" + parent);
+							var child = o.parentNode.parentNode.parentNode;
+							if(dataList.length > 1) {
+								parent.removeChild(child);
+								load_daishouhuo_listview();
+							} else {
+								dataList = [];
+								parent.removeChild(child);
+								load_daishouhuo_listview();
+							}
+							var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+							mui.fire(account, 'refresh_count');
+						} else {
+							var submitResultMsg = obj.errorMsg;
+							if(submitResultMsg == '')
+								mui.toast("提交失败");
+							else
+								mui.toast(submitResultMsg);
+
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常");
+					}
+				})
+			}
+
+			function stopEvt(event) {
+				event.stopPropagation(); //阻止点击事件向上冒泡  
+			}
+
+			window.addEventListener('refresh', function() {
+				console.log("trigger!!!!")
+				load_daishouhuo_listview();
+			});
+		</script>
+	</body>
+
+</html>

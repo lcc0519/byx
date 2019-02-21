@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/shop.css" />
+		<link rel="stylesheet" type="text/css" href="../css/own.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/feedback.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/css.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.shangpin * {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -15px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+				/*border:1px solid blue;*/
+			}
+			
+			.mui-table-view-cell:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			
+			.mui-table-view {
+				margin-bottom: 20px;
+			}
+			
+			.mui-table-view:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			
+			.shangpinimg {
+				width: 35px;
+				height: 35px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">评价</h1>
+			<a id="submit" class="mui-icon-checkmarkempty mui-icon mui-pull-right" style="font-size:45px;margin-top: -12px;margin-right: -15px;color: white;"></a>
+		</header>
+		<div class="mui-content" id="content">
+			<!--<ul class="mui-table-view mui-table-view-chevron" >
+				<li class="mui-table-view-cell shangpin">
+					<img src="../../images/ic_launcher.png" style="width: 30px;height: 30px;" />
+					<span id="shangpin_name" style="margin-left:5px;">爱尚咪咪虾条 </span>
+				</li>
+				<li class="mui-table-view-cell" style="padding:0px;">					
+						<textarea id='comment_0' class="form-control" rows="5" placeholder="请输入您对该商品的评价..." style="margin:0px;border:0;"></textarea>					
+				</li>
+				<li class="mui-table-view-cell ">
+					<div class="form-control">
+						<label style="display: inline;">评分</label>
+						<div id="star_0" class="icons mui-inline" style="margin-left: 6px;display: inline;">
+							<i data-index="1" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="2" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="3" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="4" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="5" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+						</div>
+						<label id="mark_0" style="display: inline;margin-left: 20px;">5分</label>
+					</div>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell shangpin">
+					<img src="../../images/ic_launcher.png" style="width: 30px;height: 30px;" />
+					<span id="shangpin_name">爱尚咪咪虾条 </span>
+				</li>
+				<li class="mui-table-view-cell" style="padding:0px;">					
+						<textarea id='comment_1' class="form-control" rows="5" placeholder="请输入您对该商品的评价..." style="margin:0px;border:0;"></textarea>					
+				</li>
+				<li class="mui-table-view-cell ">
+					<div class="form-control">
+						<label style="display: inline;">评分</label>
+						<div id="star_1" class="icons mui-inline" style="margin-left: 6px;display: inline;">
+							<i data-index="1" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="2" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="3" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="4" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+							<i data-index="5" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>
+						</div>
+						<label id="mark_1" style="display: inline;margin-left: 20px;">5分</label>
+					</div>
+				</li>
+			</ul>-->
+		</div>
+		<!--<form class="form-group" style="margin-top: 44px;padding: 10px;">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell shangpin">
+					<div style="width: 12%;float: left;">
+						<img src="../../images/ic_launcher.png" style="width: 30px;height: 30px;" />
+					</div>
+					<div style="width: 88%;float: left;background: red;">
+						<p id="shangpin_name">爱尚咪咪虾条 </p>
+					</div>
+
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="form-control" style="margin-top: 10px;border:1px solid red;padding:0px;">
+						<textarea id='comment' class="form-control" rows="5" placeholder="请输入您对该商品的评价..." style="margin:0px;"></textarea>
+					</div>
+					<div class="form-control">
+						<label style="display: inline;">评分</label>
+						<div class="icons mui-inline" style="margin-left: 6px;display: inline;">
+							<i data-index="1" class="mui-icon mui-icon-star-filled"></i>
+							<i data-index="2" class="mui-icon mui-icon-star-filled"></i>
+							<i data-index="3" class="mui-icon mui-icon-star-filled"></i>
+							<i data-index="4" class="mui-icon mui-icon-star-filled"></i>
+							<i data-index="5" class="mui-icon mui-icon-star-filled"></i>
+						</div>
+						<label id="mark" style="display: inline;margin-left: 20px;">5分</label>
+					</div>
+				</li>
+			</ul>
+		</form>-->
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/common.js "></script>
+		<script src="../../js/app.js "></script>
+		<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			var index;
+			var self;
+			var yizhanNum, userId, xiaoqu, shangpinItem;
+			var comments;
+			var Content = document.getElementById('content');
+			var bianmaArr = new Array();
+			var pingfenArr = new Array();
+			var commentArr = new Array();
+			var index = 5;
+			var dingdanhao;
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+				dingdanhao = self.dingdanhao;
+				yizhanNum = self.yizhanNum;
+				userId = self.userId;
+				xiaoqu = self.xiaoqu;
+				shangpinItem = self.shangpin;
+				console.log("shangpinItem----" + JSON.stringify(shangpinItem));
+				for(var i = 0; i < shangpinItem.length; i++) {
+					pingfenArr.push(5);
+				}
+				load_pingjiaList(shangpinItem);
+				//应用评分
+				//				mui('.icons').on('tap', 'i', function() {
+				//					index = parseInt(this.getAttribute("data-index"));					
+				//					var parent = this.parentNode;
+				//					var children = parent.children;
+				//					if(this.classList.contains("mui-icon-star")) {
+				//						for(var i = 0; i < index; i++) {
+				//							children[i].classList.remove('mui-icon-star');
+				//							children[i].classList.add('mui-icon-star-filled');
+				//						}
+				//					} else {
+				//						for(var i = index; i < 5; i++) {
+				//							children[i].classList.add('mui-icon-star')
+				//							children[i].classList.remove('mui-icon-star-filled')
+				//						}
+				//					}
+				//					document.getElementById('mark').innerText = index + '分';
+				//				});
+
+			});
+			document.getElementById("submit").addEventListener('tap', function() {
+				console.log("---submit---" + JSON.stringify(pingfenArr));
+				commentArr.splice(0, commentArr.length);
+				for(var i = 0; i < shangpinItem.length; i++) {
+					//						var num=i+1;
+					var comm = "comment_" + i;
+					console.log(comm);
+					var val = document.getElementById(comm).value;
+					console.log("val:" + val);
+					commentArr.push(val);
+
+				}
+				console.log("commentArr:" + JSON.stringify(commentArr) + "," + commentArr.length);
+				console.log("pingfenArr:" + JSON.stringify(pingfenArr) + "," + pingfenArr.length);
+				pingjia(commentArr, pingfenArr);
+			});
+
+			function load_pingjiaList(shangpinItem) {
+				bianmaArr.splice(0, bianmaArr.length);
+				pingfenArr.splice(0, pingfenArr.length);
+				var innerhtml = "";
+				for(var i = 0; i < shangpinItem.length; i++) {
+					//					var num=i+1;
+					var pic = shangpinItem[i].picture;
+					var bianma = shangpinItem[i].c_no;
+					var name = shangpinItem[i].shangpin_name;
+					bianmaArr.push(bianma);
+					pingfenArr.push(5);
+					html = '<ul class="mui-table-view" ><li class="mui-table-view-cell shangpin" ><div style="width: 12%;float: left;">\
+						<img src="' + pic + '" style="width: 30px;height: 30px;" />\
+					</div>\
+					<div style="width: 88%;float: left;">\
+						<p id="shangpin_name" style="color:black;margin-top:5px">' + name + ' </p>\
+					</div>\
+						</li><li class="mui-table-view-cell" style="padding:0px;"><textarea id="comment_' +
+						i + '" class="form-control" rows="5" placeholder="请输入您对该商品的评价,100字以内哦" style="margin:0px;border:0;" maxlength="100"></textarea>' +
+						'</li><li class="mui-table-view-cell "><div class="form-control"><label style="display: inline;">评分</label>' +
+						'<div id="star_' + i + '" class="icons mui-inline" style="margin-left: 6px;display: inline;">\
+							<i data-index="1" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>\
+							<i data-index="2" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>\
+							<i data-index="3" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>\
+							<i data-index="4" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>\
+							<i data-index="5" class="mui-icon mui-icon-star-filled" onclick="pingfen(this);"></i>\
+						</div>\
+						<label id="mark_' + i + '" style="display: inline;margin-left: 20px;">5分</label></div></li></ul>';
+					innerhtml += html;
+				}
+				console.log("bianmaArr---" + JSON.stringify(bianmaArr));
+				console.log(innerhtml);
+				Content.innerHTML = innerhtml;
+			}
+
+			function pingfen(th) {
+				console.log("----pingfen---");
+				console.log(document.getElementById('content').innerHTML);
+				index = parseInt(th.getAttribute("data-index"));
+				var parent = th.parentNode;
+				console.log(parent.id);
+				var ss = parent.id.split("_");
+				var num = ss[1];
+				console.log(ss[1]);
+				var children = parent.children;
+				if(th.classList.contains("mui-icon-star")) {
+					for(var i = 0; i < index; i++) {
+						children[i].classList.remove('mui-icon-star');
+						children[i].classList.add('mui-icon-star-filled');
+					}
+				} else {
+					for(var i = index; i < 5; i++) {
+						children[i].classList.add('mui-icon-star')
+						children[i].classList.remove('mui-icon-star-filled')
+					}
+				}
+				//					var markArr=document.getElementsByClassName('mark');
+				//					console.log("markArr---"+markArr.length);
+				//					for(var i=0;i<markArr.length;i++){
+				//						var markid=markArr[i].id;
+				//						var s=markid.split("_");
+				//						console.log("ss[1]:"+ss[1]+",num:"+num+"index:"+index);
+				//						if(eval(s[1])==eval(num)){
+				//							console.log("s[1]==num");
+				//							markArr[i].innerText=index+"分";							
+				//						}
+				//					}
+				var mark = '"mark_' + num + '"';
+				var mark = "mark_" + num;
+				console.log("mark----" + mark);
+				document.getElementById(mark).innerHTML = index + "分";
+				//					var PinfenBtn=document.getElementById(mark);
+				//					PinfenBtn.innerText=index+"分";
+				//					console.log(PinfenBtn.id);
+				console.log(num + ",index:" + index);
+				pingfenArr[num] = index;
+				//					var comm="comment_"+num;
+				//					commentArr[num-1]=document.getElementById(comm).value;
+				console.log("pingfenArr---" + JSON.stringify(pingfenArr));
+				console.log("commentArr---" + JSON.stringify(commentArr));
+			}
+
+			function stopEvt(event) {
+				event.stopPropagation(); //阻止点击事件向上冒泡  
+			}
+
+			function pingjia(commentArr, pingfenArr) {
+				if(chkNetStatus() == "OK") {
+					sendData(commentArr, pingfenArr);
+				} else {
+					mui.toast("网络异常")
+				}
+			}
+
+			function sendData(commentArr, pingfenArr) {
+				var user_info = app.getDatas(PREFERENCE_USER);
+				var account = user_info.account;
+				var touxiang = user_info.touxiang;
+				var shangpinArr = new Array();
+				for(var i = 0; i < pingfenArr.length; i++) {
+					var item = {};
+					item.c_no = bianmaArr[i];
+					item.c_comment = commentArr[i];
+					item.pingfen = pingfenArr[i].toString();
+					shangpinArr.push(item);
+				}
+				console.log(JSON.stringify(shangpinArr));
+				console.log(JSON.stringify({
+					stationo: yizhanNum,
+					shangpin: shangpinArr,
+					userid: userId,
+					shequ: xiaoqu,
+					orderno: dingdanhao,
+					accountname: account,
+					touxiang: touxiang
+
+				}));
+				mui.ajax(Comment_URL, {
+					data: JSON.stringify({
+						stationo: yizhanNum,
+						shangpin: shangpinArr, //商品编号、评分、内容
+						userid: userId,
+						shequ: xiaoqu,
+						orderno: dingdanhao, //订单号
+						accountname: account,
+						touxiang: touxiang
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						console.log("dingdan====" + info)
+						var obj = eval(data);
+						if(obj.success == 1) {
+							console.log("提交评价成功");
+							//							var close = plus.webview.getWebviewById('daipingjiaDetail.html');
+							//							mui.fire(close, 'close');
+							////							self.close();
+							//							//							var old_back = mui.back;
+							//							//							old_back();
+							//							var listview = plus.webview.getWebviewById('daipingjia.html');
+							//							mui.fire(listview, 'refresh');
+							//							var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+							//							mui.fire(account, 'refresh_count');
+							changeState(dingdanhao);
+						} else {
+							var submitResultMsg = obj.errorMsg;
+							if(submitResultMsg == '') {
+								mui.toast("提交失败");
+							} else {
+								mui.toast(submitResultMsg);
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常")
+						console.log("error===" + xhr + " " + type + " " + errorThrown);
+					}
+				});
+			}
+
+			function changeState(dingdanhao) {
+				if(dingdanhao != "") {
+					mui.ajax(Update_Yizhan_Dingdan_URL, {
+						data: JSON.stringify({
+							orderno: dingdanhao,
+							order_status: "6"
+						}),
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							var info = JSON.stringify(data);
+							console.log("dingdan====" + info)
+							var obj = eval(data);
+							if(obj.success == 1) {
+								mui.toast("评价成功");
+								var close = plus.webview.getWebviewById('daipingjiaDetail.html');
+								mui.fire(close, 'close');
+								//							var old_back = mui.back;
+								//							old_back();
+								var listview = plus.webview.getWebviewById('daipingjia.html');
+								mui.fire(listview, 'refresh');
+								var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+								mui.fire(account, 'refresh');
+								mui.back();
+							} else {
+								var submitResultMsg = obj.errorMsg;
+								if(submitResultMsg == '') {
+									mui.toast("评价失败");
+								} else {
+									mui.toast(submitResultMsg);
+								}
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							mui.toast("网络异常")
+							console.log("error===" + xhr + " " + type + " " + errorThrown)
+						}
+					});
+				} else {
+					mui.toast("单号为空");
+				}
+			}
+		</script>
+	</body>
+
+</html>

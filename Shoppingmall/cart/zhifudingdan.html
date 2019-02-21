@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+	</head>
+	<style>
+		.mui-radio label {
+			display: inline-block;
+			float: none;
+			width: 50%;
+			padding-right: 58px
+		}
+		
+		#paybtn {
+			margin-top: 80px;
+			width: 90%;
+			background-color: deepskyblue;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			color: white;
+		}
+		
+		.mui-radio input[type=radio] {
+			position: absolute;
+			top: 6px;
+			right: 20px;
+			display: inline-block;
+			width: 28px;
+			height: 26px;
+			border: 0;
+			outline: 0!important;
+			background-color: transparent;
+			-webkit-appearance: none
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 支付订单</h1>
+		</header>
+		<ul class="mui-table-view" style="margin-top: 44px;padding: 0px;">
+			<li class="mui-table-view-cell">
+				<div style="width: 20%;float: left;">
+					<span class="mui-icon iconfont icon-iconfontdianpu" style="font-size: 50px;color: lightskyblue;"></span>
+					<!--<img src="../../images/demo_gridview_shjf.png" style="width: 50px;vertical-align: middle;" />-->
+				</div>
+				<div style="width: 80%;float: left;">
+					<p id="money"></p>
+					<p id="dingdanhao">订单号</p>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mui-table-view" style="margin-top: 7px;padding: 0px;">
+			<li class="mui-table-view-cell" style="padding: 0px;">
+				<span class="mui-icon iconfont icon-zhifubao" style="color: deepskyblue;font-size: 20px;padding: 10px 15px;"></span>
+				<label style="margin-left: 10px;">支付宝支付</label>
+				<span id="zhifubao" class="mui-icon iconfont icon-checkedon" style="color: deepskyblue;font-size: 24px;float: right;padding:10px 20px;width: 20%;"></span>
+			</li>
+			<li class="mui-table-view-cell" style="padding: 0px;">
+				<span class="mui-icon iconfont icon-pay-wechat" style="color: green;font-size: 24px;padding: 10px 15px;"></span>
+				<label style="margin-left: 10px;">微信支付</label>
+				<span id="weixin" class="mui-icon iconfont icon-checknormal" style="color: deepskyblue;font-size: 24px;float: right;padding:10px 20px;width: 20%;"></span>
+			</li>
+		</ul>
+		<div style="width: 100%;text-align: center;">
+			<button id="paybtn" type="button"></button>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var danhao;
+			var totalprice;
+			var self;
+			var pays = {};
+			var w = null;
+			var PAYSERVER = ALIPAYSERVER;
+			var flag = "zhifubao";
+			console.log("-----getChannels------");
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+				danhao = self.danhao;
+				totalprice = self.totalprice;
+				document.getElementById("money").innerHTML = totalprice;
+				document.getElementById("dingdanhao").innerHTML = danhao;
+				document.getElementById("paybtn").innerHTML = "确认支付" + totalprice;
+				plus.payment.getChannels(function(channels) {
+					var txt = '支付通道信息：';
+					for(var i in channels) {
+						var channel = channels[i];
+						if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+							continue;
+						}
+						pays[channel.id] = channel;
+						txt += 'id:' + channel.id + ', ';
+						txt += 'description:' + channel.description + ', ';
+						txt += 'serviceReady:' + channel.serviceReady + '； ';
+						//						checkServices(channel);
+					}
+					console.log(txt);
+					//		info.innerText=txt;
+				}, function(e) {
+					mui.alert('获取支付通道失败：' + e.message);
+
+				});
+			})
+			document.getElementById("weixin").addEventListener("tap", function() {
+				var isXuanze = this.classList.contains('icon-checknormal');
+				console.log("oooo=" + isXuanze)
+				if(isXuanze) {
+					flag = "weixin";
+					this.className = "mui-icon iconfont icon-checkedon";
+					document.getElementById("zhifubao").className = "mui-icon iconfont icon-checknormal";
+				}
+			})
+			document.getElementById("zhifubao").addEventListener("tap", function() {
+				var isXuanze = this.classList.contains('icon-checknormal');
+				console.log("oooo=" + isXuanze)
+				if(isXuanze) {
+					flag = "zhifubao";
+					this.className = "mui-icon iconfont icon-checkedon";
+					document.getElementById("weixin").className = "mui-icon iconfont icon-checknormal";
+				}
+			})
+			document.getElementById("paybtn").addEventListener('tap', function() {
+				if(flag == "zhifubao") {
+					pay('alipay', danhao);
+					console.log("zhifubao zhifu")
+				} else
+					pay('wxpay', danhao);
+
+			})
+			// 支付
+			function pay(id, danhao) {
+				if(checkServices(pays[id])) {
+					var url = PAYSERVER;
+					w = plus.nativeUI.showWaiting();
+					// 请求支付订单
+					//var amount = document.getElementById('shijiprice').innerText;
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch(xhr.readyState) {
+							case 4:
+								w.close();
+								w = null;
+								if(xhr.status == 200) {
+									console.log('----- 请求订单成功 -----');
+									console.log(xhr.responseText);
+									var order = xhr.responseText;
+									plus.payment.request(pays[id], order, function(result) {
+										console.log('----- 支付成功 -----');
+										console.log(JSON.stringify(result));
+										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
+											self.close();
+											//	back();
+										}, '支付');
+									}, function(e) {
+										console.log('----- 支付失败 -----');
+										console.log('[' + e.code + ']：' + e.message);
+										plus.nativeUI.alert('请前往待付款中支付！', function() {
+											self.close();
+											//back();
+										}, '支付失败：' + e.code);
+									});
+								} else {
+									console.log('----- 请求订单失败 -----');
+									console.log(xhr.status);
+									plus.nativeUI.alert('获取订单信息失败！', null, '支付');
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('POST', PAYSERVER, true);
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					console.log("huiyuanYuE:" + totalprice);
+					console.log('请求支付订单：' + PAYSERVER);
+					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					xhr.send(args);
+				}
+			}
+
+			function checkServices(pc) {
+				if(!pc.serviceReady) {
+					var txt = null;
+					switch(pc.id) {
+						case 'alipay':
+							txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，请先安装应用';
+							break;
+						default:
+							txt = '系统未安装“' + pc.description + '”服务，无法完成支付，请先安装应用';
+							break;
+					}
+					//					plus.nativeUI.confirm(txt, function(e) {
+					//						if(e.index == 0) {
+					//							console.log("llllll")
+					//							pc.installService();
+					//						}
+					//					}, pc.description);
+					mui.alert(txt);
+					return false;
+				} else {
+					return true;
+				}
+			}
+		</script>
+	</body>
+
+</html>

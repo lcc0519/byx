@@ -1,0 +1,11 @@
+.mui-bar-nav {
+	background-color: DeepSkyBlue;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.mui-bar-nav a,
+.mui-bar-nav h1,
+.mui-bar .mui-btn-link {
+	color: white;
+}

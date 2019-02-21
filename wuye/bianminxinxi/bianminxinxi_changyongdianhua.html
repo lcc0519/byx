@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet"/>
+		<style>
+		body {
+			background-color: white;
+		}
+
+		.mui-table-view-cell {
+			padding: 12px;
+			padding-left: 15px;
+		}
+		
+		.mui-table-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 10px;
+			right: 10px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc
+		}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  style="color: white;"></a>
+		    <h1 id="title" class="mui-title" style="color: white;">常用电话</h1>
+		</header>
+		<div class="mui-scroll-wrapper">
+		    <div class="mui-scroll">
+				<div class="mui-content-padded" style="margin: 44px 0px 0px 0px; padding: 0;">
+					<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+						<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+						<br />
+						<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+						<br />
+						<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+					</div>
+					<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+						<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+						<br />
+						<span id="word" style="color: gray; font-size: 0.9em;">暂无商户</span>
+						<br />
+					</div>
+					<div id="tellist_id" style="display: none;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var obj;
+			mui.init({
+				swipeBack: false
+			});
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration:0.0005
+			});
+			mui.plusReady(function() {
+				load_tel_list();
+				console.log("---------111-------");
+				document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+					load_tel_list();
+				}, false);
+			});
+					
+			function load_tel_list () {
+				console.log("---------load_tel_list-------");
+				if(chkNetStatus() == "OK") {
+					load_query_tels();
+				} else{
+					showNeterrorView("网络异常");
+				}	
+			}
+			
+			function load_query_tels() {
+					console.log("---------load_query_tels-------");
+					var xiaoquprefix = app.getDatas(PREFERENCE_USER).xiaoqu;
+					console.log("----------------------="+xiaoquprefix);
+					//获取商铺列表				
+					mui.ajax(Query_Bianminxinxi_My_URL,{
+						data:{
+							xiaoqu:xiaoquprefix
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){							
+							var infor=JSON.stringify(data);
+							obj=eval(data);
+							console.log("---load_query_tels+info:"+infor);
+							if (obj.success==1) {
+								if(obj.tel=="undefined"||obj.tel==null||obj.tel==''){
+									showNulldataView();	
+								}
+								else{
+									document.querySelector('#nulldata_id').style.display = 'none';
+									document.querySelector('#neterror_id').style.display = 'none';
+									document.querySelector('#tellist_id').style.display = 'block';
+									showTelsInfoFromLocalDatas();
+								}
+							} 
+							else{
+								showNeterrorView("网络异常");						
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							showNeterrorView("网络异常");	
+						}	
+					});					
+				}		
+				
+				function showTelsInfoFromLocalDatas () {
+					var categoryarray = [];
+					for(var i = 0; i < obj.tel.length; i++) {
+						var item = {};		
+						item.id = obj.tel[i].id;
+						item.name = obj.tel[i].name;
+						item.tel = obj.tel[i].tel;
+						categoryarray[i] = item;
+					}						
+					var html = '<ul id="notice_view" class="mui-table-view">';
+
+					mui.each(categoryarray, function(index, item) {
+						html = html + 
+						'<li class="mui-table-view-cell">\
+							<a href="" class="mui-navigate-right">\
+								<div class= "bgDiv" id="' + item.id + '">\
+									<img class="mui-media-object mui-pull-left" src="./images/bianmin_wodeshequ.png" style="height:30px;">\
+									<div class="mui-media-body" style="height: 30px;line-height: 30px;">\
+										<span>' + item.name +'</span>	\
+										<span class="mui-pull-right" style="margin-right: 20px;">' + item.tel + '</span>\
+									</div>\
+								</div>\
+							</a>\
+						</li>';
+					});										
+					html = html + '</ul>';
+					console.log("---html---" + html);
+					document.getElementById('tellist_id').innerHTML = html;
+					
+					
+					mui("#notice_view").on('tap', '.mui-table-view-cell', function() {
+				
+						plus.device.dial(this.getElementsByClassName('mui-pull-right')[0].innerHTML,true);
+					});
+			
+				}
+				
+				function showNeterrorView(msg){
+					document.querySelector('#tellist_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'block';
+					document.querySelector('.neterror_cls span').innerHTML = msg;
+				}
+				
+				function showNulldataView(){
+					document.querySelector('#tellist_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'block';
+				}
+				
+		</script>
+	</body>
+
+</html>

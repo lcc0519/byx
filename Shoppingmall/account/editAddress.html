@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 编辑地址</h1>
+			<a id="save" class=" mui-icon mui-pull-right" style="font-size: 17px;margin-top: 5px;">保存</a>
+		</header>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			input {
+				color: #5C5C5C;
+				font-size: 16px;
+			}
+			
+			.bottom-bar {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				background: red;
+				line-height: 50px;
+				color: #fff;
+				z-index: -1;
+			}
+			
+			.bottom-bar-bottom {
+				width: 100%;
+				float: left;
+				text-align: center;
+				font-size: 16px;
+			}
+			
+			.mui-input-row {
+				font-size: 16px;
+				color: #5C5C5C;
+			}
+			
+			.mui-table-view .mui-table-view-cell {
+				padding: 0px;
+			}
+		</style>
+		<div style="margin-top: 44px;">
+			<ul class="mui-table-view">
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>收货人</label>
+						<input id="shouhuoren" type="text" onkeyup="CNletter(this,20)">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>联系电话</label>
+						<input id="telnum" type="number" onkeyup="onlyNum(this,11)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>小区名称</label>
+						<select id="xiaoqulist" style="font-size: 16px;color: #5C5C5C;">
+							<option id="xiaoqu" value="choose" disabled="disabled">收货人小区</option>
+						</select>
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>楼号</label>
+						<input id="louhao" type="number"onkeyup="onlyNum(this,4)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>单元号</label>
+						<input id="danyuanhao" type="number" onkeyup="onlyNum(this,4)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>门牌号</label>
+						<input id="menpaihao" type="number" onkeyup="onlyNum(this,4)">
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!--<div class="bottom-bar">
+			<label id="save" class="bottom-bar-bottom">保存</label>
+		</div>-->
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var xiaoquname = [];
+			var xiaoquprefix = [];
+			var shouhuoren;
+			var telnum;
+			var louhao;
+			var danyuanhao;
+			var menpaihao;
+			var xiaoqu;
+			var thisYizhan;
+			var yizhan;
+			var userInfo;
+			var yizhan_info = eval(userInfo);
+			var optionlist;
+			var obj = eval(yizhan);
+			var positions;
+			var state, id;
+			var regphone = /^1[0-9]{10}/;
+			mui.plusReady(function() {
+				currentWebView = plus.webview.currentWebview();
+				document.getElementById("shouhuoren").value = currentWebView.f_xingming;
+				document.getElementById("telnum").value = currentWebView.f_dianhua;
+				document.getElementById("louhao").value = currentWebView.f_louhao;
+				document.getElementById("danyuanhao").value = currentWebView.f_danyuanhao;
+				document.getElementById("menpaihao").value = currentWebView.f_menpaihao;
+				state = currentWebView.f_zhuangtai;
+				id = currentWebView.f_id;
+				thisYizhan = currentWebView.yizhannum;
+				yizhan = app.getDatas(YIZHAN);
+				userInfo = app.getDatas(PREFERENCE_USER);
+				yizhan_info = eval(userInfo);
+				optionlist = document.getElementById('xiaoqulist');
+				obj = eval(yizhan);
+				for(var i = 0; i < obj.village.length; i++) {
+					xiaoquname[i] = obj.village[i].name;
+					if(currentWebView.f_xiaoqu == xiaoquname[i])
+						positions = i;
+					xiaoquprefix[i] = obj.village[i].prefix;
+					optionlist.options.add(new Option(xiaoquname[i], xiaoquname[i]));
+				}
+				document.getElementById("xiaoqulist").options[positions + 1].selected = true;
+				document.querySelector('#save').addEventListener('tap', function() {
+
+					shouhuoren = document.getElementById("shouhuoren").value;
+					telnum = document.getElementById("telnum").value;
+					var index = optionlist.selectedIndex;
+					xiaoqu = optionlist.options[index].value;
+					louhao = document.getElementById("louhao").value;
+					danyuanhao = document.getElementById("danyuanhao").value;
+					menpaihao = document.getElementById("menpaihao").value;
+					if(shouhuoren == '')
+						mui.toast("收货人不能为空");
+					else if(telnum == '')
+						mui.toast("联系电话不能为空");
+					else if(telnum.length!=11)
+						mui.toast("手机号码格式不正确");
+					else if(xiaoqu == 'choose')
+						mui.toast("小区名称不能为空");
+					else if(louhao == '')
+						mui.toast("楼号不能为空");
+					else if(danyuanhao == '')
+						mui.toast("单元号不能为空");
+					else if(menpaihao == '')
+						mui.toast("门牌号不能为空");
+					else {
+						var btnArray = ['否', '是'];
+						mui.confirm('确认保存？', '', btnArray, function(e) {
+							if(e.index == 1) {
+								if(chkNetStatus() == "OK") {
+									saveInfo(thisYizhan, state);
+								} else
+									mui.toast("网络异常");
+							} else {}
+						})
+					}
+				})
+			})
+
+			function saveInfo(thisYizhan, state) {
+				mui.ajax(Update_Wode_Dizhi_URL, {
+					data: JSON.stringify({
+						id: id,
+						userid: yizhan_info.id,
+						s_name: shouhuoren,
+						s_phone: telnum,
+						s_xiaoqu: xiaoqu,
+						s_louhao: louhao,
+						s_danyuanhao: danyuanhao,
+						s_menpaihao: menpaihao,
+						s_state: state
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						console.log(info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("保存成功");
+							var old_back = mui.back;
+							old_back();
+							var listview = plus.webview.getWebviewById('shouhuodizhi.html');
+							mui.fire(listview, 'refresh');
+						} else {
+							var submitResultMsg = obj.errorMsg;
+							if(submitResultMsg == '') {
+								mui.toast("保存失败");
+							} else {
+								mui.toast(submitResultMsg);
+							}
+
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常")
+						console.log("error===" + xhr + " " + type + " " + errorThrown)
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>

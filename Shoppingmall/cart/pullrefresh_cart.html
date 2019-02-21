@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.shop-select-all {
+			position: fixed;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: white;
+			height: 44px;
+			line-height: 44px;
+			padding: 0px 140px 0px 15px;
+			color: #fff;
+			font-size: 16px;
+		}
+		
+		.submit-btn {
+			position: absolute;
+			padding: 0px;
+			margin: 0px;
+			width: 75px;
+			background-color: orange;
+			text-align: center;
+			right: 0px;
+			color: #fff;
+		}
+		
+		.cellImg {
+			max-width: 70%;
+			height: auto;
+			vertical-align: middle;
+			position: relative;
+			left: 5px;
+			padding-bottom: 0px;
+		}
+		
+		.mui-table-view .mui-table-view-cell {
+			background: white;
+			padding: 0px;
+			height: 110px;
+			margin-bottom: 7px;
+		}
+		
+		.mui-table-view .mui-table-view-cell:after {
+			left: 0px;
+		}
+		
+		.mui-table-view:before {
+			height: 0px;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.leftClassCell {
+			margin: 0 auto;
+			padding-left: 2%;
+			width: 32%;
+			float: left;
+			display: table-cell;
+			line-height: 110px;
+			vertical-align: middle;
+		}
+		
+		.rightClassCell {
+			/*background: red;*/
+			padding-left: 5px;
+			width: 40%;
+			float: left;
+			line-height: 110px;
+		}
+		
+		.classCell {
+			height: 100%;
+			width: 100%;
+			/*background: greenyellow;*/
+			width: 28%;
+			float: left;
+			line-height: 70px;
+			text-align: center;
+		}
+		
+		.headSelect:visited {
+			background-color: red;
+		}
+		
+		.downDiv {
+			background-color: white;
+			height: 50px;
+			width: 100%;
+			/*网页底部*/
+			position: fixed;
+			bottom: 0;
+		}
+		
+		.changeNum {
+			padding: 0px;
+			width: 30px;
+			height: 30px;
+			font-size: 30px;
+		}
+		
+		.mui-icon.iconfont.icon-xuanze1 {
+			font-size: 1.1em;
+			color: darkgray;
+		}
+		
+		.mui-icon.iconfont.icon-xuanze {
+			font-size: 1.1em;
+			color: orange;
+			/*color: #41CEA9;*/
+		}
+		
+		.head_title {
+			vertical-align: baseline;
+		}
+		
+		.mui-numbox {
+			width: 90%;
+			/*height: 100%;*/
+			padding: 0px;
+			border-width: 0px;
+			line-height: 2em;
+			margin-bottom: 80px;
+			background-color: transparent;
+		}
+		
+		.mui-numbox [class*=mui-numbox-btn] {
+			width: 30%;
+			height: 100%;
+			font-size: 1em;
+			background-color: white;
+			/*padding-bottom: 0.3em;*/
+			/*line-height:1.5em;*/
+		}
+		
+		.itemName {
+			color: black;
+			line-height: 2em;
+			margin-top: 10px;
+		}
+		
+		.itemfeatures {
+			font-size: 0.6em;
+			line-height: 0.5em;
+			padding-top: 3px;
+		}
+		
+		.price {
+			color: red;
+			line-height: 1.0em;
+			display: inline;
+			/*padding-top: 0px;
+				margin-top: 0px;*/
+			/*padding-bottom: 10px;*/
+		}
+		
+		.c_price {
+			color: red;
+			line-height: 1.0em;
+			display: inline;
+			color: #8F8F94;
+			text-decoration: line-through;
+			margin-left: 5px;
+			/*padding-top: 10px;
+				margin-top: 10px;
+				padding-bottom: 10px;*/
+		}
+		
+		.delete {
+			color: orange;
+			padding-top: 0px;
+			margin-top: 0px;
+			vertical-align: middle;
+			/*margin-bottom: 10px;*/
+			padding: 2.5px 12px;
+			border-radius: 5px;
+			border-color: orange;
+		}
+	</style>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view">
+					<li style="border-bottom: 1px solid #f4f4f4;">
+						<span id="productItem_' + index + '" onclick="stopEvt(event)" class="mui-icon iconfont icon-checknormal selectImg" style="padding-left: 12px; padding-top:10px;padding-bottom:10px; font-size: 22px;"></span>
+						<span id="productItem_' + index + '" onclick="stopEvt(event)" class="mui-icon iconfont icon-dianpu selectImg" style="padding: 5px;font-size: 22px;"></span>
+						<label>店铺</label>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<div class="leftClassCell">
+							<p style="display:inline;">
+								<span id="productItem_' + index + '" onclick="stopEvt(event)" class="mui-icon iconfont icon-checknormal selectImg" style="padding: 5px;font-size: 22px;"></span>
+							</p>
+							<img src="../images/bbkc.png" class="cellImg" />
+						</div>
+						<div class="rightClassCell">
+							<p id="name" class="itemName mui-ellipsis-2">' + item.c_name + '</p>
+							<div style="line-height: 1.2em;">
+								<p>规格：' + item.guige + '</p>
+								<p class="price">' + '¥' + item.huiyuanprice + '</p>
+							</div>'
+						</div>
+						<div id=' + index + ' class="classCell"><button class="delete" onclick="deleteButton(this);stopEvt(event)">删除</button>
+							<div id=' + index + ' class="mui-numbox" data-numbox-min=' + 1 + '>
+								<button id="nnn" href="#" onclick="minusButton(this);stopEvt(event)" class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+								<input id="numbox' + index + '" class="mui-numbox-input" readonly="readonly" onclick="stopEvt(event)" type="number" value="1" />
+								<button id="nn" href="#" onclick="addButton(this);stopEvt(event)" class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		<ul class="shop-select-all mui-table-view" style="display: block;padding: 0px;">
+			<!--<p style="display:inline;">-->
+			<a id="selectAll" class="mui-icon iconfont icon-xuanze1 selectImg" style="display:inline;padding: 7px;padding-left: 15px;font-size: 18px;">
+				<p style="display:inline;color: gray;margin-right: 25%;font-size: 16px;">全选</p>
+			</a>
+			<!--</p>-->
+
+			<p style="display:inline;color: #5C5C5C;;font-size: 13px;">合计:</p>
+			<p id="member-price" style="display:inline;color: red;font-size: 13px;">¥0.00</p>
+			<!--<p style="display:inline;color: #5C5C5C;;font-size: 13px;">(原价:</p>
+			<p id="yuanjia" style="display:inline;color: red;font-size: 13px;">¥0.00</p>
+			<p style="display:inline;color: #5C5C5C;;font-size: 13px;">)</p>-->
+			<label class="submit-btn">结算</label>
+		</ul>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for(var i = cells.length, len = i + 5; i < len; i++) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+						table.appendChild(li);
+					}
+				}, 1500);
+			}
+			mui.plusReady(function() {
+
+			});
+		</script>
+	</body>
+
+</html>

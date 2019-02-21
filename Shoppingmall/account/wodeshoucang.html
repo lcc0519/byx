@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+		<link href="../css/iconfont.css" rel="stylesheet" />
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.shop-select-all {
+			position: fixed;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: white;
+			height: 44px;
+			line-height: 44px;
+			padding: 0px 140px 0px 15px;
+			color: #fff;
+			font-size: 16px;
+		}
+		
+		.submit-btn {
+			position: absolute;
+			width: 90px;
+			background-color: orange;
+			text-align: center;
+			right: 0px;
+			color: #fff;
+		}
+		
+		.cellImg {
+			max-width: 70%;
+			height: auto;
+			vertical-align: middle;
+			position: relative;
+			left: 5px;
+			padding-bottom: 0px;
+		}
+		
+		.mui-table-view .mui-table-view-cell {
+			background: white;
+			padding: 0px;
+			height: 110px;
+		}
+		
+		.mui-table-view .mui-table-view-cell:after {
+			left: 0px;
+		}
+		
+		.leftClassCell {
+			margin: 0 auto;
+			/*padding-top: 5%;*/
+			padding-left: 3%;
+			width: 35%;
+			float: left;
+			line-height: 110px;
+			display: table-cell;
+			vertical-align: middle;
+		}
+		
+		.rightClassCell {
+			width: 40%;
+			float: left;
+			padding-left: 10px;
+		}
+		
+		.classCell {
+			height: 100%;
+			width: 100%;
+			width: 25%;
+			float: left;
+			line-height: 110px;
+			text-align: center;
+		}
+		
+		.headSelect:visited {
+			background-color: red;
+		}
+		
+		.downDiv {
+			background-color: white;
+			height: 50px;
+			width: 100%;
+			/*网页底部*/
+			position: fixed;
+			bottom: 0;
+		}
+		
+		.changeNum {
+			padding: 0px;
+			width: 30px;
+			height: 30px;
+			font-size: 30px;
+		}
+		
+		.mui-icon.iconfont.icon-xuanze1 {
+			font-size: 1.1em;
+			color: darkgray;
+		}
+		
+		.mui-icon.iconfont.icon-xuanze {
+			font-size: 1.1em;
+			color: orange;
+			/*color: #41CEA9;*/
+		}
+		
+		.head_title {
+			vertical-align: baseline;
+		}
+		/*.mui-numbox {
+			width: 40%;
+			height: 100%;
+			padding: 0px;
+		}
+		
+		.mui-numbox [class*=mui-numbox-btn] {
+			width: 30%;
+			height: 100%;
+			font-size: 1em;
+			padding-bottom: 0.3em;
+		}*/
+		
+		.itemName {
+			color: black;
+			line-height: 1.5em;
+			margin-top: 15px;
+		}
+		
+		.itemfeatures {
+			font-size: 0.6em;
+			line-height: 0.5em;
+			padding-top: 3px;
+		}
+		
+		.price {
+			color: red;
+			line-height: 1.5em;
+			margin-right: 4px;
+			display: inline;
+			/*margin-top: 20px;*/
+		}
+		
+		.guige {
+			line-height: 1.5em;
+		}
+		
+		.delete {
+			color: orange;
+			padding-top: 0px;
+			margin-top: 0px;
+			vertical-align: middle;
+			/*margin-bottom: 10px;*/
+			padding: 2.5px 12px;
+			border-radius: 5px;
+			border-color: orange;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">我的收藏</h1>
+		</header>
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>
+		<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word1" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+		<div id="collect_item" class="collect_item" style="display: none;margin-bottom: 44px;margin-top: 44px;">
+			<div class="table_head">
+				<ul id="productItem" class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<div class="leftClassCell">
+							<p style="display:inline;">
+								<span class="mui-icon iconfont icon-xuanze1 selectImg"></span>
+							</p>
+							<img src="../images/zanwutupian.png" class="cellImg" />
+
+						</div>
+						<div class="rightClassCell">
+							<p class="itemName mui-ellipsis-2">product.product_name</p>
+							<p class="price">¥5</p>
+							<!--<div class="mui-numbox" data-numbox-min='1'><button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+								<input class="mui-numbox-input" type="number" value="1" />
+								<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+							</div>-->
+						</div>
+						<div class="classCell">
+							<p style="color: white;">取消收藏</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<ul class="shop-select-all mui-table-view" style="display: none;">
+			<!--<p style="display:inline;">-->
+			<span id="selectAll" class="mui-icon iconfont icon-checknormal selectImg" style="padding: 5px;font-size: 18px; color: deepskyblue;"><p style="display:inline;color: gray;font-size: 18px;"> 全选</p></span>
+			<!--</p>-->
+
+			<!--<p style="display:inline;color: white;" id="result"></p>-->
+			<label class="submit-btn">取消收藏</label>
+		</ul>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/own.js"></script>
+		<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js"></script>
+		<script src="../../js/app.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var userInfo;
+			var userInfo_json;
+			var yizhan_info;
+			var dataList = [];
+			var bianhaoStr = [];
+			var wait;
+			var self;
+			var creater_id;
+			//var thisYizhan = localStorage.getItem(SELECTED_YIZHAN_PREFIX);
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+				creater_id = self.creater_id;
+				load_listview(creater_id);
+				mui('.shop-select-all').on('tap', 'span', function() {
+					console.log("i am happy!!!")
+					selectAllItem(this);
+				});
+				mui('.shop-select-all').on('tap', 'label', function() {
+					if(bianhaoStr.length > 0) {
+						//document.getElementById('delete' + o.parentNode.id);
+						var btnArray = ['否', '是'];
+						mui.confirm('确认取消收藏？', '', btnArray, function(e) {
+							if(e.index == 1) {
+								if(chkNetStatus() == "OK") {
+									cancelAll(bianhaoStr);
+								} else
+									mui.toast("网络异常");
+							} else {}
+						})
+					} else
+						mui.toast("请先选择要取消收藏的商品");
+				});
+				document.querySelector('.notInfo_error button').addEventListener('tap', function() {
+					load_listview();
+				});
+			})
+
+			function cancelAll(bianhaostr) {
+				console.log("dfdfd==" + bianhaostr)
+				mui.ajax(DELETE_COLLECTION_URL, {
+					data: JSON.stringify(bianhaostr),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						var obj = eval(data);
+						console.log("shoucang====" + info);
+						if(obj.success == 1) {
+							mui.toast("取消收藏成功");
+							load_listview();
+						} else {
+							var cancelAllResultMsg = obj.errorMsg;
+							if(cancelAllResultMsg == '')
+								mui.toast("删除失败");
+							else
+								mui.toast(cancelAllResultMsg);
+						}
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常");
+					}
+
+				})
+
+			}
+
+			function selectAllItem(obj) {
+				console.log("ccc==" + dataList.length)
+				var isXuanze = obj.classList.contains('icon-checknormal');
+				if(isXuanze) {
+					obj.className = "mui-icon iconfont icon-checkedon selectImg";
+					for(var i = 0; i < dataList.length; i++) {
+						var id = "productItem_" + i;
+						document.querySelector('#' + id).className = "mui-icon iconfont icon-checkedon selectImg";
+					}
+				} else {
+					obj.className = "mui-icon iconfont icon-checknormal selectImg";
+					for(var i = 0; i < dataList.length; i++) {
+						var id = "productItem_" + i;
+						document.querySelector('#' + id).className = "mui-icon iconfont icon-checknormal selectImg";
+					}
+				}
+				refreshPopView();
+			}
+
+			function load_listview(creater_id) {
+				//				wait = plus.nativeUI.showWaiting("正在加载，请稍候...");
+				if(chkNetStatus() == "OK")
+					load_query(creater_id);
+				else
+					document.querySelector('#net_error').style.display = 'block';
+			}
+
+			function load_query(creater_id) {
+				dataList = [];
+				mui.ajax(QUERY_COLLECT_URL, {
+					data: {
+						creater_id: creater_id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						var obj = eval(data);
+						console.log("shoucang====" + info);
+						if(obj.success == 1) {
+							//wait.close();
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'none';
+							document.querySelector('.collect_item').style.display = 'block';
+							if(obj.shoucang_info != "")
+								document.querySelector('.shop-select-all').style.display = 'block';
+							else {
+								document.getElementById('word1').innerHTML = "暂无信息！";
+								document.querySelector('#not_message').style.display = 'block';
+							}
+
+							dataList = obj.shoucang_info.shangpin_info;
+							showListview(obj.shoucang_info.shangpin_info);
+							addTop();
+						} else {
+							wait.close();
+							document.querySelector('.collect_item').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('.shop-select-all').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'block';
+							var queryResultMsg = obj.errorMsg;
+
+							console.log("hhhhhh" + queryResultMsg);
+							if(queryResultMsg == '') {
+								document.getElementById('word1').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word1').innerHTML = queryResultMsg;
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//	wait.close();
+						document.querySelector('#not_message').style.display = 'none';
+						document.querySelector('.cart_item').style.display = 'none';
+						document.querySelector('.shop-select-all').style.display = 'none';
+						document.querySelector('#net_error').style.display = 'block';
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+
+				})
+			}
+
+			function addTop() {
+				mui('.mui-table-view').on('tap', 'span', function() {
+					selectItem(this);
+				});
+			}
+
+			function showListview(dataList) {
+				var loginDiv = document.querySelector('.collect_item');
+				loginDiv.innerHTML = '';
+				var html = '';
+				mui.each(dataList, function(index, item) {
+					if(item.hpic0 == '') {
+						item.picstr = "../../images/ic_launcher.png";
+					} else {
+						var picstr = item.hpic0;
+						var ss = [];
+						ss = picstr.split("/");
+						picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+						picstr = SHOP_PICTURE_URL + picstr;
+					}
+					var listDiv = '';
+					listDiv += '<div  id ="item_' + index + '" class="table_head' + index + '" onclick="itemButton(this.id)">';
+					listDiv += '<ul class="mui-table-view">';
+					var listCellStr = '';
+					listCellStr += '<li class="mui-table-view-cell mui-media">';
+					//左边div
+					var leftCellDiv = '';
+					leftCellDiv += '<div class="leftClassCell">';
+					leftCellDiv += '<p style="display:inline;"><span id="productItem_' + index + '" onclick="stopEvt(event)" class="mui-icon iconfont icon-checknormal selectImg" style="padding: 5px;font-size: 18px;color:deepskyblue;"></span></p>';
+					leftCellDiv += '<img src="' + picstr + '" class="cellImg" />';
+					leftCellDiv += '</div>';
+					listCellStr += leftCellDiv;
+					//右边div
+					var rightCellDiv = '';
+					rightCellDiv += '<div class="rightClassCell">';
+					rightCellDiv += '<p id = "name" class="itemName mui-ellipsis-2">' + item.shangpin_name + '</p>';
+					rightCellDiv += '<p class="guige">规格:' + item.shangpin_guige + '</p><p class="price">' + '¥' + item.shangpin_jiage + '</p>';
+					rightCellDiv += '</div><div id =' + index + ' class="classCell"><button id =delete' + index + ' onclick="deleteButton(this);stopEvt(event)" class="delete">取消收藏</button></div>';
+					listCellStr += rightCellDiv;
+					listCellStr += '</li>';
+
+					listDiv += listCellStr + '</ul>';
+
+					listDiv += '</div>'
+
+					html += listDiv;
+
+				});
+				//console.log(html);
+				loginDiv.innerHTML = html;
+
+			}
+
+			function deleteButton(o) {
+				console.log("hhhhh=" + dataList[o.parentNode.id].shoucang_id)
+				document.getElementById('delete' + o.parentNode.id);
+				var btnArray = ['否', '是'];
+				mui.confirm('确认删除？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						if(chkNetStatus() == "OK") {
+							deleteItem(dataList[o.parentNode.id].shoucang_id);
+						} else
+							mui.toast("网络异常");
+					} else {
+
+					}
+				})
+			}
+
+			function deleteItem(collect_id) {
+				var item = {};
+				var arr = [];
+				item.shoucang_id = collect_id;
+				arr.push(item);
+				//console.log("bianhao===" + index)
+				mui.ajax(DELETE_COLLECTION_URL, {
+					data: JSON.stringify(arr),
+					async: false,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					header: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						var info = JSON.stringify(data);
+						var obj = eval(data);
+						console.log("deleteInfo===" + info);
+						if(obj.success == 1) {
+							mui.toast("删除成功");
+							load_listview();
+							if(dataList.length > 0)
+								document.querySelector('.shop-select-all').style.display = 'none';
+							refreshPopView();
+						} else {
+							deleteResultMsg = obj.errorMsg;
+							if(deleteResultMsg == '')
+								mui.toast("删除失败");
+							else
+								mui.toast(deleteResultMsg);
+
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常");
+					}
+
+				});
+
+			}
+
+			function refreshPopView() {
+				console.log("yyyyyy===" + dataList.length)
+				bianhaoStr = [];
+				for(var i = 0; i < dataList.length; i++) {
+					var id = "productItem_" + i;
+					if($('#' + id).hasClass('icon-checkedon')) {
+						var item = {};
+						item.shoucang_id = dataList[i].shoucang_id;
+						bianhaoStr.push(item);
+						console.log("bnbn===" + JSON.stringify(bianhaoStr))
+					}
+				}
+			}
+
+			function selectItem(obj) {
+				console.log("yyyyyy")
+				//dingdanListArray = [];
+				//var inputNumbox = document.getElementById('numbox' + obj.id.split("_")[1]);
+				//dataListArray[obj.id.split("_")[1]].goumaishuliang = inputNumbox.value;
+				var isXuanze = obj.classList.contains('icon-checknormal');
+				if(isXuanze) {
+					obj.className = "mui-icon iconfont icon-checkedon selectImg";
+				} else {
+					obj.className = "mui-icon iconfont icon-checknormal selectImg";
+				}
+				if(checkItemState(obj)) {
+					document.querySelector('#selectAll').className = "mui-icon iconfont icon-checkedon selectImg";
+				} else
+					document.querySelector('#selectAll').className = "mui-icon iconfont icon-checknormal selectImg";
+				refreshPopView();
+			}
+
+			function stopEvt(event) {
+				event.stopPropagation(); //阻止点击事件向上冒泡  
+			}
+
+			function checkItemState(obj) {
+				for(var i = 0; i < dataList.length; i++) {
+					var id = "productItem_" + i;
+					if($('#' + id).hasClass('icon-checknormal')) {
+						return false;
+					}
+				}
+				return true;
+
+			}
+
+			function itemButton(id) {
+				console.log("id=====" + id);
+				var index = id.split("_")[1]
+				var cuxiaoid = dataList[index].cuxiaoid
+				var shangpinNum = dataList[index].bianhao;
+				console.log("biaohao====" + shangpinNum);
+				if(cuxiaoid == '0')
+					mui.openWindow({
+						url: '../goods/yizhanShangpinListItemDetail.html',
+						id: 'yizhanShangpinListItemDetail.html',
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: 100
+						},
+						waiting: {
+							autoShow: false,
+							title: '正在加载...'
+						},
+						extras: {
+							"bianhao": shangpinNum,
+							"mendianNum": thisYizhan,
+							//	"cuxiaofanganbianhao": cuxiaofanganbianhao
+						}
+					});
+				else
+					mui.openWindow({
+						url: '../goods/yizhanShangpinListItemDetail.html',
+						id: 'yizhanShangpinListItemDetail.html',
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: 100
+						},
+						waiting: {
+							autoShow: false,
+							title: '正在加载...'
+						},
+						extras: {
+							"bianhao": shangpinNum,
+							"mendianNum": thisYizhan,
+							"cuxiaofanganbianhao": cuxiaoid
+						}
+					});
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<!--<script src="../../js/mui.min.js"></script>-->		
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:rgb(252,186,37);">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<h1 id="title" class="mui-title" style="color: white;">银联支付</h1>
+		</header>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//			mui.init()
+			var mainstyle = {
+				top: '44px',
+//				bottom: '50px'
+				//  bounce: 'vertical'
+			};
+
+			mui.init({
+				swipeBack: true,
+				statusBarBackground: '#999999',
+				gestureConfig: {
+					doubletap: true
+				}
+			});
+			var curview;
+			var htmlurl;
+			var orderid;
+			var attach;
+			var txnTime;
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				htmlurl = self.htmlurl;
+				orderid = self.orderId;
+				attach = self.attach;
+				txnTime = self.txnTime;	
+				CeateView();
+
+				mui.back = function(event) {
+					console.log("-----back-------")
+					var w = plus.nativeUI.showWaiting("正在处理订单...");
+					if(chkNetStatus() == "OK") {
+						mui.ajax(VIP_ApplyPay_Query, {
+							data: {
+								merId: "898053573920001",
+								orderId: orderid,
+								txnTime: txnTime,
+								reqReserved: attach,
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型
+							timeout: 10000,
+							success: function(data) {
+								w.close();
+								var infor = JSON.stringify(data);
+								var obj = eval(data);
+								console.log("---query infor----" + infor);
+								//payfailback(billno,attach);
+								//plus.webview.currentWebview().close();
+								if(obj.msg.indexOf('充值成功') >= 0) {
+									var chongzhiPage = plus.webview.getWebviewById('huiyuankashenqing.html');
+									mui.fire(chongzhiPage, 'successback');
+									self.close();
+									mui.toast("付款成功");
+
+								} else if(obj.msg.indexOf('交易处理中') >= 0) {
+									var btnArray = ['稍后再说', '立即退出'];
+									mui.confirm('交易正在处理中,确认退出？', '警告', btnArray, function(e) {
+										if(e.index == 0) {
+											console.log("稍后再说");
+										} else {
+											self.close();
+										}
+									});
+//									mui.toast(obj.msg);
+//									console.log(obj.msg);
+									//								payfailback(billno, attach);
+								} else {
+									mui.toast(obj.msg);
+									console.log(obj.msg);
+									self.close();
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								w.close();
+								console.log("error-------" + xhr.responseText);
+								//payfailback(billno,attach);
+								mui.toast("查询订单失败.（可能原因:服务器异常）,请联系客服");
+							}
+						});
+					} else {
+						w.close();
+						mui.toast("网络异常");
+					}
+
+				}
+			});
+
+			function main() {
+				//alert("初始化完毕");
+				htmlurl = plus.webview.currentWebview().htmlurl;
+				billno = plus.webview.currentWebview().billno;
+				attach = plus.webview.currentWebview().attach;
+				txnTime = plus.webview.currentWebview().txnTime;
+				console.log("-------htmlurl-------" + htmlurl + "--billno---" + billno + "--attach--" + attach);
+				CeateView();
+				//alert(plus.webview.all());
+
+				mui('.mui-bar').on('tap', 'a', function() {
+					console.log("-------aaaaaaaa-------");
+					var ref = this.getAttribute("href");
+
+					//      if (curview == ref) {
+					//          alert("不需要加载");
+					//          return;
+					//      }
+					//      plus.webview.hide(curview, "pop-in");
+					//      curview = ref;
+					//
+					//      plus.webview.show(ref, "pop-out");
+				})
+			}
+
+			function CeateView() {
+				var w=plus.nativeUI.showWaiting("请稍候...");
+				var self = plus.webview.currentWebview();
+				var page = plus.webview.create("", "yinlianpage", mainstyle);
+				// alert("create:" + page);
+				//page.loadURL("http://www.baidu.com");
+				page.loadData(htmlurl);
+				self.append(page);
+				// self.loadData(htmlurl);
+				plus.webview.show("yinlianpage");
+				w.close();
+//				curview = "page1";
+
+				//  var page1 = plus.webview.create("page2.html", "page1", mainstyle);
+				//  alert("create:" + page1);
+				//  self.append(page1);
+				//
+				//  var page2 = plus.webview.create("page1.html", "page2", mainstyle);
+				//  alert("create:" + page2);
+				//  self.append(page2);
+
+			}
+
+
+			function payfailback(billno, attach) {
+				var w = plus.nativeUI.showWaiting("正在取消订单...");
+				if(chkNetStatus() == "OK") {
+					mui.ajax(Commit_WUYE_PayFail_URL, {
+
+						data: {
+							out_trade_no: billno,
+							attach: attach,
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000,
+						success: function(data) {
+							w.close();
+							var infor = JSON.stringify(data);
+							resultabj = eval(data);
+						},
+						error: function(xhr, type, errorThrown) {
+							w.close();
+							if(xhr.responseText == "success") {
+								//								var wobj = plus.webview.getWebviewById("jiaofei/jiaofei.html");//注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder，  
+								//              				wobj.reload(true); 
+								plus.webview.currentWebview().close();
+								mui.alert("支付失败，已取消订单");
+
+							}
+						}
+					});
+				} else {
+					mui.toast("网络异常");
+				}
+			}
+		</script>
+	</body>
+
+</html>

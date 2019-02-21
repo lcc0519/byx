@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.detailcontent{
+				margin-top: 44px;
+			}
+		</style>
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				width: 80%;
+				
+			}
+			.span-title{
+				float: left;
+				line-height: 50px;
+				text-align: center;
+			}
+			.h5-title,h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-btn {
+				
+				padding: 6px;
+				
+			}
+			.mui-h5,
+			h5 {
+				font-size: 16px;
+				font-weight: 400;
+				color: #8f8f94;
+				padding-left: 20px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  style="color: white;"></a>
+		    <h1 id="title" class="mui-title" style="color: white;">房屋详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div id="slider" class="mui-slider" >
+				</div>
+				<form id='login-form' class="mui-input-group">
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">小区：</span>
+						<div id="community" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">地址：</span>
+						<div id="address" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">类型：</span>
+						<div id="type" class="input-style">	
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">户型：</span>
+						<div id="huxing" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">面积：</span>
+						<div id="area" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">价格：</span>
+						<div id="jiage" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">日期：</span>
+						<div id="date" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">房主：</span>
+						<div id="master" class="input-style">
+						</div>
+					</div>
+					<div class="mui-input-row mui-h5" style="height: auto;">
+						<span class="span-title">电话：</span>
+						<div id="tel" class="input-style mui-icon mui-icon-phone" style="font-size: 1em;color: deepskyblue;">
+						</div>
+					</div>
+				</form>
+				<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+					<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+						<button id='del' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;font-size: 1em;">删除</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var userinfo=new Object();
+			var tuoguan_id;
+			var tuoguan_obj;
+			var itemobj;
+			//jQuery.noConflict();
+			(function($, doc) {
+				$.init();
+				//mui('.mui-slider').slider({interval:5000});
+				$.plusReady(function() {
+					//获取屏幕分辩率
+					console.log("Height: "+plus.screen.resolutionHeight+" Width: "+plus.screen.resolutionWidth);
+//					//var height=plus.screen.resolutionHeight/8;
+//					jQuery(document).ready(function () {
+//						console.log("slider origin height："+jQuery('#slider').height());
+//	//					jQuery('#slider').height(height);//设置轮播高度，屏幕高度的25%
+////						jQuery('#ad3_first').height(height);
+////						jQuery('#ad1').height(height);
+////						jQuery('#ad2').height(height);
+////						jQuery('#ad3').height(height);
+////						jQuery('#ad1_end').height(height);	
+//						jQuery('.advert_cls').height(height);
+//					});
+					var user=eval(app.getDatas(PREFERENCE_USER));
+					userinfo.userid = user.id;
+					userinfo.xiaoqu = user.xiaoqu;
+					userinfo.house=user.house;
+					tuoguan_obj = eval(app.getDatas('tuoguan_list_my'));
+					tuoguan_id=plus.webview.currentWebview().tuoguan_id;
+					showBaoxiuPics();
+					showBaoxiuInfo();
+				});
+				document.getElementById("tel").addEventListener('tap',function () {
+					var number = document.getElementById("tel").innerHTML
+					plus.device.dial(number,true);
+				})
+				
+				function showBaoxiuPics () {
+					
+					for (var i = 0; i < tuoguan_obj.tuoguan.length; i++) {
+						
+						itemobj = null;
+						itemobj = tuoguan_obj.tuoguan[i];
+						if (tuoguan_id===itemobj.id) {
+							
+							var categoryarray = [];
+							if(itemobj.pic==null||itemobj.pic==''||itemobj.pic=="undefined"){
+								console.log("========itemobj.pic==null||itemobj.pic==||itemobj.pic==undefined=========");
+								var html = '<div class="mui-slider-group mui-slider-loop">';
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="../../images/z1.jpg"/>\
+											</a>\
+										</div>';
+									html = html + 
+										'<div class="mui-slider-item">\
+											<a href="#">\
+												<img class="advert_cls" src="../../images/z1.jpg"/>\
+											</a>\
+										</div>';
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="../../images/z1.jpg"/>\
+											</a>\
+										</div>';
+									html = html + '</div>';
+								console.log("--1-html---" + html);
+								document.getElementById('slider').innerHTML = html;
+							}
+							else{
+								var categoryarray = [];
+
+								if(itemobj.pic.length==1){
+									var item = {};
+									var picstr = itemobj.pic[0];
+									var ss = [];
+									ss = picstr.split("/");
+									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+									item.picture = BASE_URL + picstr;
+									categoryarray[0] = item;
+									
+									var html = '<div class="mui-slider-group mui-slider-loop">';
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="' + categoryarray[0].picture + '"/>\
+											</a>\
+										</div>';
+									html = html + 
+										'<div class="mui-slider-item">\
+											<a href="#">\
+												<img class="advert_cls" src="' + categoryarray[0].picture + '"/>\
+											</a>\
+										</div>';
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="' + categoryarray[0].picture + '"/>\
+											</a>\
+										</div>';
+									html = html + '</div>';
+									console.log("--1-html---" + html);
+									document.getElementById('slider').innerHTML = html;
+								}
+								else{
+									for(var i = 0; i < itemobj.pic.length; i++) {
+											var item = {};
+											var picstr = itemobj.pic[i];
+											var ss = [];
+											ss = picstr.split("/");
+											picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+											item.picture = BASE_URL + picstr;
+											categoryarray[i] = item;
+									}						
+									var html = '<div class="mui-slider-group mui-slider-loop">';
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="' + categoryarray[categoryarray.length-1].picture + '"/>\
+											</a>\
+										</div>';
+									mui.each(categoryarray, function(index, item) {
+										html = html + 
+										'<div class="mui-slider-item">\
+											<a href="#">\
+												<img class="advert_cls" src="' + item.picture + '"/>\
+											</a>\
+										</div>';
+									});	
+									html = html + 
+										' <div class="mui-slider-item mui-slider-item-duplicate">\
+											<a href="#">\
+												<img class="advert_cls" src="' + categoryarray[0].picture + '"/>\
+											</a>\
+										</div>';
+									html = html + '</div>';
+									html = html + 
+										'<div class="mui-slider-indicator">\
+				    						<div class="mui-indicator mui-active"></div>';
+				    				
+									mui.each(categoryarray, function(index, item) {
+										if(index != 0){
+											html = html + 
+												'<div class="mui-indicator"></div>';
+										}
+									});	
+									html = html + '</div>';
+									console.log("--2-html---" + html);
+									document.getElementById('slider').innerHTML = html;
+									mui('.mui-slider').slider({interval:5000});
+								}
+								
+							}
+							var height=plus.screen.resolutionHeight/2;
+							jQuery('.advert_cls').height(height);
+						}
+					}
+				}
+				
+				function showBaoxiuInfo () {
+					
+					for (var i = 0; i < tuoguan_obj.tuoguan.length; i++) {
+						
+						itemobj = null;
+						itemobj = tuoguan_obj.tuoguan[i];
+						if (tuoguan_id===itemobj.id) {
+							document.getElementById("community").innerHTML = itemobj.address;
+							document.getElementById("address").innerHTML = itemobj.houseInfo;
+							document.getElementById("type").innerHTML = itemobj.title;
+							document.getElementById("huxing").innerHTML = itemobj.shi+'室'+itemobj.ting+'厅'+itemobj.chu+'厨'+itemobj.wei+'卫';
+							document.getElementById("area").innerHTML = itemobj.area+'平';
+							document.getElementById("jiage").innerHTML = '￥'+itemobj.fee+'/'+itemobj.unit;
+							document.getElementById("date").innerHTML = itemobj.cdate;
+							document.getElementById("master").innerHTML = itemobj.contact;
+							document.getElementById("tel").innerHTML = itemobj.tel;
+						}
+					}
+				}
+				
+				doc.getElementById("del").addEventListener("tap",function(){
+					
+					var w=plus.nativeUI.showWaiting("正在删除...");
+					mui.ajax(Delete_Fangwutuoguan_All_URL,{
+						data:{
+							xiaoqu:userinfo.xiaoqu,
+							tuoguanId:tuoguan_id
+						},
+						
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+//							headers:{'Content-Type':'application/json'},
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							resultabj=eval(data);
+							//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+							if (resultabj.success==1) {
+								
+								mui.toast("删除成功！");	
+								var wobj = plus.webview.getWebviewById("wuye/tuoguan/tuoguan.html");//注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder，  
+                    			wobj.reload(true);  
+								mui.back();
+//								gotoBack();
+							} else{
+								mui.toast(resultabj.errorMsg);									
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							//mui.toast("error type:"+type);
+							console.log("error type:"+type);
+							console.log(xhr.status);
+							console.log(xhr.readyState);
+							console.log(xhr.response);
+							mui.toast(xhr.response);
+							
+						}
+						
+					});
+				});
+
+				function gotoBack(){
+					plus.webview.currentWebview().close();
+					mui.openWindow({
+						url: 'baoxiu.html',
+						id: 'baoxiu.html',
+						preload: true,
+						
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+						
+					});
+//					plus.webview.currentWebview().close();
+				}
+//				var old_back = mui.back;  
+//              mui.back = function() {  
+//                  var wobj = plus.webview.getWebviewById("wuye/tuoguan/tuoguan.html");//注意 HBuilder 是   1.html 的 ID  你如果1.html 有ID   要替换掉HBuilder，  
+//                  wobj.reload(true);  
+//                  old_back();
+//              }    
+			}(mui, document));
+				
+		</script>
+	</body>
+</html>

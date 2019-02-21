@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/css.css">
+
+		<style>
+			html,
+			body {
+				background-color: c8c7cc;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+			
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			
+			.oa-contact-content {
+				width: 100%;
+			}
+			
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			
+			.oa-contact-name,
+			oa-contact-position {
+				float: left;
+			}
+			
+			.imgsize_grid {
+				height: 40px;
+			}
+			
+			.headImg {
+				padding: 4% 0px 8% 0px;
+				background: transparent;
+				background-position: center center;
+				background-size: 100% auto;
+			}
+			
+			.touxiang {
+				text-align: center;
+			}
+			
+			.touxiang div {
+				width: 4em;
+				height: 4em;
+				padding: 0px;
+				border-radius: 50%;
+				border: 2px solid white;
+				color: gray;
+				margin: 0px auto;
+				margin-bottom: 5px;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 11px 15px;
+				vertical-align: top;
+				border-right: 0px solid #eee;
+				border-bottom: 0px solid #eee;
+			}
+			/*#detail_img {
+				vertical-align: middle;		
+				width: 60px;
+				height: 60px;	
+			}	*/
+			.mui-table-view-cell {
+				padding: 12px;
+				padding-left: 15px;
+			}
+			
+			.mui-table-view-cell:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" >
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+			<!--<a id="mine" class="mui-btn-link mui-pull-right" style="color: white;">设置</a>-->
+			<h1 class="mui-title" style="color: white;">一键服务</h1>
+			<a id="feedback_id" class="mui-icon mui-icon-chat  mui-pull-right" style="color: white"></a>
+		</header>
+		<div class="mui-content" style="background-color: white;">
+			<div id="verify_id" class="verify_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;"></span>
+				<br />
+			</div>
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="guanjiaLL" class="mui-content mui-scroll" style="display: none;">
+				<div class="headImg" style="background-color: white;">
+					<div align="center">
+						<div>
+							<img src="../../images/home_guanjia_touxiang.png" />
+						</div>
+						<br />
+						<a id="contacter" style="color: #333333;"></a>
+						<a style="color: #333333;">：</a>
+						<a id="phone" style="color: gray;"></a><br />
+						<br />
+						<a style="color: #333333;">服务时间：</a>
+						<a id="time" style="color: gray;"></a>
+					</div>
+				</div>
+				<div align="center" style="background-color: white;">
+					<img id="phonePic" src="../../images/phone3.png" style="height: 120px; padding-top: 20px;padding-bottom: 20px;" />
+				</div>
+				<div id="tellist_id" style="display: none;">
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/app.js"></script>
+	<script src="../../js/common.js"></script>
+	<script>
+		mui.init({
+			swipeBack:false //启用右滑关闭功能
+		});
+		mui.plusReady(function() {
+			console.log("Tab-Phone 进入");
+			//**********
+			var h = plus.screen.resolutionHeight;
+//			jQuery('#phonePic').css({
+//				"margin-top": h / 6
+//			});
+			type = "";
+			flag = "";
+			house = "";
+			var tel_obj = null;
+			
+			phone = document.getElementById('phone');
+			time = document.getElementById('time');
+			contacter = document.getElementById('contacter');
+			resetBtn = document.getElementById('resetBtn');
+			document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+				init('0');
+			}, false);
+			
+			document.getElementById("feedback_id").addEventListener('tap', function() {
+				mui.openWindow({
+					url: '../../feedback.html',
+					id: 'feedback.html',
+					show: {
+						aniShow: 'slide-in-right',
+						duration: 300
+					},
+					waiting: {
+						autoShow: true,
+						title: "正在加载..."
+					}
+
+				});
+			});
+			
+			window.addEventListener('refresh', function() {
+				console.log("trigger!tab-phone!refresh!")
+				init('0');  //预加载调用
+			});
+			
+			var phonePic = document.getElementById('phonePic');
+
+			phonePic.addEventListener('tap', function() {
+				if(phone.innerHTML != "") {
+					console.log("电话" + phone.innerHTML);
+					plus.device.dial(phone.innerHTML, true);
+				} else {
+					console.log("phone is null");
+					mui.toast("电话号码为空");
+				}
+			});
+			
+			init('0');
+		});
+
+		function getUserInfo() {
+			var data = app.getDatas(PREFERENCE_USER);
+			var public_obj = app.getDatas(PUBLIC_USER);
+			type = data.accounttype; //从存在本地原始的整体json中获取
+			flag = data.flag;
+			userId = data.id;
+			xiaoqu = data.xiaoqu;
+			house = public_obj.house_no;
+			console.log("type=" + type + "flag=" + flag + "xiaoqu=" + xiaoqu + "house=" + house+ "userId=" + userId);
+			
+			if(type=="1"||type=="3"){
+				if(flag=="1"){
+					showVerifyView("账号后台审核中，请联系物业");
+				}
+			}
+			else if(type=="2"){
+				showVerifyView("抱歉，您还没有权限查看此版块，请先到个人中心绑定用户信息");
+			}
+			else{
+				showVerifyView("抱歉，游客模式没有权限查看此版块，请先注册用户");
+			}
+		}
+
+		function showVerifyView(msg){
+			document.querySelector('#guanjiaLL').style.display = 'none';
+			document.querySelector('#verify_id').style.display = 'block';
+			document.querySelector('#neterror_id').style.display = 'none';
+			document.querySelector('.verify_cls span').innerHTML = msg;
+		}
+		
+		function init(index) {
+			console.log('tab-phone init');
+			getUserInfo();
+			if(accountThroughAudit()) { //已通过审核
+				//console.log("进入222");
+				load_telephone();
+			} else if(accountWaitAudit()) { //待审核
+				//	console.log("进入333");
+				load_query_audit_status("load_telephone",index);
+			} else if(accountWaitBind()) {
+				//			    	console.log("进入444");
+				//  	     	document.querySelector('#warningLL').style.display = 'block';
+				//  			 warningTV.innerHTML = "尚未绑定详细信息";
+				if(index != '0') {
+					showBindTips();
+				}
+			}else if(accountGuest()) {
+				if(index!='0'){
+					var btnArray = ['暂不注册', '注册用户'];
+					mui.confirm('抱歉，游客模式暂不能查看此模块，请先注册用户', '温馨提示', btnArray, function(e) {
+						if(e.index == 1) {
+							mui.openWindow({
+								url: 'reg.html',
+								id: 'reg.html',
+								show: {
+									aniShow: 'slide-in-right',
+									duration: 300
+								},
+								styles: {
+									popGesture: 'hide'
+								},
+								waiting: {
+									autoShow: true
+								}
+							});
+//							
+						} else {
+							
+						}
+					});
+				}
+			}
+		}
+
+		function accountThroughAudit() {
+			//			     console.log("进入--11-accountThroughAudit");
+			if(type == "1" && flag == "2") {
+				//			     console.log("进入-22-accountThroughAudit");
+				return true;
+			} else if(type == "3" && flag == "2") {
+				//				     console.log("进入--33-accountThroughAudit");
+				return true;
+			} else {
+				//				console.log("进入--44-accountThroughAudit");
+				return false;
+			}
+
+		}
+
+		function accountWaitAudit() {
+			if(type == "1" && flag == "1") {
+				//					 console.log("进入--55-accountWaitAudit");
+				return true;
+			} else if(type == "3" && flag == "1") {
+				//				console.log("进入--66-accountWaitAudit");
+				return true;
+			} else {
+				//				console.log("进入--77-accountWaitAudit");
+				return false;
+			}
+		}
+
+		function accountWaitBind() {
+			if(type == "2") {
+				//				console.log("进入-88-accountWaitAudit");
+				return true;
+			} else {
+				//				console.log("进入--99-accountWaitAudit");
+				return false;
+			}
+		}
+		function accountGuest() {
+//			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			if(flag == 4) { //youke
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		function load_telephone() {
+			if(xiaoqu != "" && house != "") {
+				initNetAndGetTel(xiaoqu, house);
+			} else {
+				initNetAndGetTel("", "");
+			}
+		}
+
+		function load_query_audit_status(classnameStr,index) {
+			if(userId != "" && xiaoqu != "") {
+				initNetAndGetAuditStatus(userId, xiaoqu, classnameStr,index);
+			} else {
+				mui.toast("用户名或小区为空");
+//				initNetAndGetAuditStatus("", "", classnameStr);
+			}
+		}
+
+		function showBindTips() {
+			var btnArray = ['稍后再说', '立即绑定'];
+			mui.confirm('尚未绑定详细信息', '', btnArray, function(e) {
+				if(e.index == 0) {
+					console.log("稍后再说");
+				} else {
+					mui.openWindow({
+						url: 'bindUserInfo.html',
+						id: 'bindUserInfo.html',
+						show: {
+							aniShow: 'pop-in'
+						}
+					});
+				}
+			})
+		}
+
+		function initNetAndGetTel(xiaoqu, house) {
+			if(chkNetStatus() == "OK") {
+				//			 w=plus.nativeUI.showWaiting("正在查询，请稍候...");
+				queryTel(xiaoqu, house);
+			} else {
+				//			document.querySelector('#net_error').style.display = 'block';
+				mui.toast("网络异常");
+			}
+		}
+
+		function queryTel(xiaoqu, house) {
+			mui.ajax({
+				url: Query_Qiuzhu_All_URL,
+				dataType: 'json',
+				type: 'post',
+				data: {
+					xiaoqu: xiaoqu,
+					houseno: house
+				},
+				success: function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("获得infor=" + infor);
+					if(obj.success == 1) {
+						document.querySelector('#verify_id').style.display = 'none';
+						document.querySelector('#neterror_id').style.display = 'none';
+						document.querySelector('#guanjiaLL').style.display = 'block';
+						contacter.innerHTML = obj.contacter;
+						phone.innerHTML = obj.tel;
+						time.innerHTML = obj.shijianduan;
+						tel_obj = obj.jinjitel;
+						showTelsInfoFromLocalDatas ();						
+					} else {
+						showNeterrorView("网络异常");
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					showNeterrorView(type);
+					console.log("error type:" + type);
+					console.log(xhr.status);
+					console.log(xhr.readyState);
+					console.log(xhr.response);
+				}
+			});
+		}
+
+			function showTelsInfoFromLocalDatas () {
+				if(tel_obj.length>0){
+					
+					document.querySelector('#tellist_id').style.display = 'block';
+					var categoryarray = [];
+					for(var i = 0; i < tel_obj.length; i++) {
+						var item = {};		
+						item.id = tel_obj[i].id;
+						item.name = tel_obj[i].name;
+						item.tel = tel_obj[i].tel;
+						categoryarray[i] = item;
+					}						
+					var html = '<ul id="notice_view" class="mui-table-view">';
+
+					mui.each(categoryarray, function(index, item) {
+						html = html + 
+						'<li class="mui-table-view-cell">\
+							<a href="" class="">\
+								<div class= "bgDiv" id="' + item.id + '">\
+									<img class="mui-media-object mui-pull-left" src="../../images/phone.png" style="height:30px;">\
+									<div class="mui-media-body" style="height: 30px;line-height: 30px;">\
+										<span>' + item.name +'</span>	\
+										<span class="mui-pull-right" style="margin-right: 20px;">' + item.tel + '</span>\
+									</div>\
+								</div>\
+							</a>\
+						</li>';
+					});										
+					html = html + '</ul>';
+					console.log("---html---" + html);
+					document.getElementById('tellist_id').innerHTML = html;
+					
+					
+					mui("#notice_view").on('tap', '.mui-table-view-cell', function() {
+				
+						plus.device.dial(this.getElementsByClassName('mui-pull-right')[0].innerHTML,true);
+					});
+			
+				}	
+			}
+
+		function showNeterrorView(msg){
+			document.querySelector('#guanjiaLL').style.display = 'none';
+			document.querySelector('#verify_id').style.display = 'none';
+			document.querySelector('#neterror_id').style.display = 'block';
+			document.querySelector('.neterror_cls span').innerHTML = msg;
+		}
+
+		function initNetAndGetAuditStatus(useId, xiaoqu, classnameStr,index) {
+			if(chkNetStatus() == "OK") {
+
+				queryAuditStatus(useId, xiaoqu, classnameStr,index);
+			} else {
+				mui.toast("网络异常");
+			}
+		}
+
+		function queryAuditStatus(useId, xiaoqu, classnameStr,index) {
+			console.log("queryAuditStatus--" + xiaoqu + "," + house);
+			var w = plus.nativeUI.showWaiting("请稍候...");
+			mui.ajax({
+				url: Query_Audit_All_URL,
+				dataType: 'json',
+				type: 'post',
+				data: {
+					userid: userId,
+					xiaoqu: xiaoqu
+				},
+				success: function(data) {
+					w.close();
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("获得infor=" + infor);
+					if(obj.success == 1) {
+						if(obj.flag == "2") {
+							queryAuditSuccess(classnameStr);
+						} else if(obj.flag == "1") {
+							showPendingToast(classnameStr,index);
+						}
+					} else {
+						auditResultMsg = obj.errorMsg;
+						queryAuditFail(classnameStr,auditResultMsg,index);
+					}
+				},
+				error: function(data) {
+					w.close();
+					//mui.toast("网络异常");
+					console.log("error type:" + type);
+					console.log(xhr.status);
+					console.log(xhr.readyState);
+					console.log(xhr.response);
+					showNetErrorToast(classnameStr,index);
+				}
+			});
+		}
+
+		function queryAuditSuccess(classnameStr) {
+			var data1 = app.getDatas(PREFERENCE_USER);
+			data1.flag = "2";
+			app.setDatas(PREFERENCE_USER, data1);
+			if(classnameStr == "load_telephone") {
+				//			       document.querySelector('#warningLL').style.display = 'none';
+				load_telephone();
+			}
+		}
+
+		function queryAuditFail(classnameStr,auditResultMsg,index) {
+			if(classnameStr == "load_telephone") {
+				//			 document.querySelector('#warningLL').style.display = 'block';
+				if(auditResultMsg == "") {
+					if(index!='0'){
+						mui.toast("获取数据失败");
+					}
+					//           	mui.toast("获取数据失败");
+					//           	 warningTV.innerHTML="获取数据失败";
+				} else {
+					if(index!='0'){
+						mui.toast(auditResultMsg);
+					}
+					//           	mui.toast(auditResultMsg);
+					//           		 warningTV.innerHTML=auditResultMsg;
+				}
+			}
+		}
+
+		function showPendingToast(classnameStr,index) {
+			if(classnameStr == "load_telephone") {
+				if(index!='0'){
+						mui.toast("账户待审核，暂无权限查看此板块");
+					}
+				//			document.querySelector('#warningLL').style.display = 'block';
+				//  		 warningTV.innerHTML = "账户待审核，暂无权限查看此板块";
+			}
+		}
+
+		function showNetErrorToast(classnameStr,index) {
+			if(classnameStr == "load_telephone") {
+				if(index!='0'){
+						mui.toast("网络异常");
+					}
+				//				document.querySelector('#warningLL').style.display = 'block';
+				//  		  warningTV.innerHTML = "网络异常";
+
+			}
+		}
+	</script>
+
+</html>

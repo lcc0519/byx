@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css">
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				align-content: flex-end;
+				
+				
+			}
+			.span-title{
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.h5-title,h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+/*			.msg-play {
+				
+                display: inline-block;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #4CD964;
+                padding: 10px;
+                margin: 10px;
+                visibility: hidden;
+			}*/
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-input-group span {
+				width: 25%;
+			}			
+			.mui-input-row span~div{
+				width: 75%;
+			}
+			.mui-content {
+				height: 100%;
+				padding: 44px 0px 50px 0px;
+				overflow: auto;
+				background-color: #eaeaea;
+				
+			}
+			#msg-list {
+				height: 100%;
+				overflow: auto;
+				-webkit-overflow-scrolling: touch;
+			}
+			.msg-item {
+				padding: 8px;
+				clear: both;
+			}
+			.msg-item .mui-item-clear {
+				clear: both;
+			}
+			.msg-item .msg-user {
+				width: 38px;
+				height: 38px;
+				border: solid 1px #d3d3d3;
+				display: inline-block;
+				background: #fff;
+				border-radius: 3px;
+				vertical-align: top;
+				text-align: center;
+				float: left;
+				padding: 3px;
+				color: #ddd;
+			}
+			
+			.msg-item .msg-user-img{
+				width: 38px;
+				height: 38px;
+				display: inline-block;
+				border-radius: 3px;
+				vertical-align: top;
+				text-align: center;
+				float: left;
+				color: #ddd;
+			}
+			
+			.msg-item .msg-content .msg-content-arrow {
+				position: absolute;
+				border: solid 1px #d3d3d3;
+				border-right: none;
+				border-top: none;
+				background-color: #FFFFFF;
+				width: 10px;
+				height: 10px;
+				left: -5px;
+				top: 12px;
+				-webkit-transform: rotateZ(45deg);
+				transform: rotateZ(45deg);
+			}
+			.msg-item-self .msg-user,
+			.msg-item-self .msg-content {
+				float: right;
+			}
+			.msg-item-self .msg-content .msg-content-arrow {
+				left: auto;
+				right: -5px;
+				-webkit-transform: rotateZ(225deg);
+				transform: rotateZ(225deg);
+			}
+			.msg-item-self .msg-content,
+			.msg-item-self .msg-content .msg-content-arrow {
+				background-color: #4CD964;
+				color: #fff;
+				border-color: #2AC845;
+			}
+
+			#msg-sound {
+				-webkit-user-select: none !important;
+				user-select: none !important;
+				overflow-x:hidden;
+                display: inline-block;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #EEEEEE;
+                padding: 10px;
+                margin-left: 12px;
+                margin-top: 3px;
+			}
+			#msg-play {
+				-webkit-user-select: none !important;
+				user-select: none !important;
+				overflow-x:hidden;
+                display: inline-block;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #EEEEEE;
+                padding: 10px;
+                margin-left: 12px;
+                margin-top: 3px;
+			}			
+		
+			.rprogress {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 140px;
+				height: 140px;
+				margin-left: -70px;
+				margin-top: -70px;
+				background-image: url(../images/arecord.png);
+				background-repeat: no-repeat;
+				background-position: center center;
+				background-size: 30px 30px;
+				background-color: rgba(0, 0, 0, 0.7);
+				border-radius: 5px;
+				display: none;
+				-webkit-transition: .15s;
+			}
+			.rschedule {
+				background-color: rgba(0, 0, 0, 0);
+				border: 5px solid rgba(0, 183, 229, 0.9);
+				opacity: .9;
+				border-left: 5px solid rgba(0, 0, 0, 0);
+				border-right: 5px solid rgba(0, 0, 0, 0);
+				border-radius: 50px;
+				box-shadow: 0 0 15px #2187e7;
+				width: 46px;
+				height: 46px;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin-left: -23px;
+				margin-top: -23px;
+				-webkit-animation: spin 1s infinite linear;
+				animation: spin 1s infinite linear;
+			}
+			.r-sigh{
+				display: none;
+				border-radius: 50px;
+				box-shadow: 0 0 15px #2187e7;
+				width: 46px;
+				height: 46px;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin-left: -23px;
+				margin-top: -23px;
+				text-align: center;
+				line-height: 46px;
+				font-size: 40px;
+				font-weight: bold;
+				color: #2187e7;
+			}
+			.rprogress-sigh{
+				background-image: none !important;
+			}
+			.rprogress-sigh .rschedule{
+				display: none !important;
+			}
+			.rprogress-sigh .r-sigh{
+				display: block !important;
+			}
+			.rsalert {
+				font-size: 12px;
+				color: #bbb;
+				text-align: center;
+				position: absolute;
+				border-radius: 5px;
+				width: 130px;
+				margin: 5px 5px;
+				padding: 5px;
+				left: 0px;
+				bottom: 0px;
+			}
+			@-webkit-keyframes spin {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
+				100% {
+					-webkit-transform: rotate(360deg);
+				}
+			}
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+			#h {
+				background: #fff;
+				border: solid 1px #ddd;
+				padding: 10px !important;
+				font-size: 16px !important;
+				font-family: verdana !important;
+				line-height: 18px !important;
+				overflow: visible;
+				position: absolute;
+				left: -1000px;
+				right: 0px;
+				word-break: break-all;
+				word-wrap: break-word;
+			}
+			.cancel {
+				background-color: darkred;
+			}
+			.input-sound {
+				background-color: #EEEEEE;
+			}
+			.play-sound {
+				background-color: #4CD964;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">新建报修</h1>
+		    <a id="submit" class="mui-icon mui-icon-upload mui-pull-right" style="color: white"></a>	    
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<!--<div class="mui-input-row" style="height: auto;">					
+					<span class="span-title">我的房产:</span>
+					<div id="" class="input-style">
+						<input id='houseno' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>
+				</div>-->
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">联系人:</span>
+					<div id="" class="input-style">
+						<input id='lianxiren' type="text" class="" style="font-size: 1em;" />
+					</div>
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">联系电话：</span>
+					<div id="" class="input-style">	
+						<input id='tel' type="text" class="" style="font-size: 1em;" />
+					</div>
+
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">报修类型:</span>
+					<div id="" class="input-style" style="width: 60%;float: left;">
+						<form action="" method="post">
+							<input type="radio" name="maintype" value="11">公共维修</input>
+							<input type="radio" name="maintype" value="12">居家维修</input>
+						</form>
+					</div>
+				</div>			
+				<h5 id="wenti" class="h5-title mui-pull-left" >问题描述</h5>
+				<div>
+					<textarea id='question' style="height: 120px;" placeholder="请详细描述您遇到的问题"></textarea>
+				</div>
+				<h5  class="h5-title mui-pull-left" >添加图片</h5>
+				<div style="float: left;width: 100%; background: white;padding: 10px; text-align: center;" >
+			    	<a id="picture-btn" > <img id="pic" style="height: 100px;width: 100px;" src="../images/icon_addpic_unfocused.png"></a>
+					<!--<input type="file" id="picture-btn" accept="image/*" ><img id="pic" style="height: 100px;width: 100px;" src="../images/icon_addpic_unfocused.png"></input>-->
+				</div>
+
+				<h5  class="h5-title mui-pull-left" style="margin-top: 10px;">添加语音报修</h5>
+				
+					<!--<span class="span-title" style="margin-left: 10px;" style="height: 80px;width: 80px;">添加语音报修</span>-->
+					<!--<a id="voice-btn" > <img id="voicepic" style="height: 50px;width: 50px;margin-left: 10px;margin-top: 5px" src="../images/icon_record_play.png"></a>-->
+				<div style="float: left;width: 100%;background: white;padding: 10px;">	
+					<button id="msg-sound" type="button" class="input-sound">按住说话</button>
+					<button id="msg-play" type="button" class="input-sound" style="visibility: hidden;">点击播放</button>
+				</div>
+			</form>
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">拍照</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">从相册中选取</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+	 		<div id='sound-alert' class="rprogress">
+				<div class="rschedule"></div>
+				<div class="r-sigh"></div>
+				<div id="audio_tips" class="rsalert">手指上滑，取消发送</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script type="text/javascript" src="../js/common.js"></script>-->
+
+	<script type="text/javascript">
+	
+
+		var files=[];
+		var user=new Object();
+		var audiofilePath = null;
+		mui.init({
+			swipeBack:true ,//启用右滑关闭功能
+			gestureConfig: {
+				tap: true, //默认为true
+				doubletap: true, //默认为false
+				longtap: true, //默认为false
+				swipe: true, //默认为true
+				drag: true, //默认为true
+				hold: true, //默认为false，不监听
+				release: true //默认为false，不监听
+			}
+		});
+//		mui.plusReady({
+//
+//		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		function showWarning(msg){
+			mui.alert(msg, '提示');
+		}
+			
+		function sendBaoxiuInfo(){
+			
+			user.name=document.getElementById("lianxiren").value;
+			user.tel=document.getElementById("tel").value;
+
+			if(user.name=="" || user.name==null){
+				mui.alert("请填写联系人！", '提示');
+//				plus.nativeUI.alert("请填写联系！");
+				return;
+			}
+			if(user.tel=="" || user.tel==null){
+				mui.alert("请填写联系电话", '提示');
+//				plus.nativeUI.alert("请填写联系电话！");
+				return;
+			}
+			var subTypeId=getWeixiuType();
+			if(subTypeId==""){
+				mui.alert("请选择维修类型", '提示');
+//				plus.nativeUI.alert("请选择维修地点！");
+				return;
+			}
+			var content=document.getElementById("question").value;
+			if (audiofilePath=="" || audiofilePath==null )
+			{	if(content=="" || content==null){
+				    mui.alert("请填写问题描述", '提示');
+				    return;
+//				    plus.nativeUI.alert("请填写联系电话！");
+				
+			   }				
+				
+			}
+
+			var w=plus.nativeUI.showWaiting("正在提交...");
+			
+//			var wt=plus.nativeUI.showWaiting();
+			var task=plus.uploader.createUpload(Insert_Wuyebaoxiu_All_URL,
+				{method:"POST"},
+				function(t,status){ //上传完成
+					if(status==200){
+						w.close();
+						console.log("上传成功："+t.responseText);
+						plus.storage.setItem("uploader",t.responseText);
+						
+						mui.back();
+						
+//						var w=plus.webview.create("uploader_ret.html","uploader_ret.html",{scrollIndicator:'none',scalable:false});
+//						w.addEventListener("loaded",function(){
+//							wt.close();
+//							w.show("slide-in-right",300);
+//						},false);
+					}else{
+						console.log("上传失败："+status);
+						w.close();
+					}
+				}
+			);
+
+			task.addData("creater",user.name);
+			task.addData("createrTel",user.tel);
+			task.addData("subTypeId",subTypeId);
+			task.addData("xiaoqu",user.xiaoqu);
+			task.addData("createid",user.id);
+			task.addData("content",content);
+			console.log(files.length);
+			if(files.length>0){
+				var f=files[files.length-1];
+				console.log(f.path);
+				task.addFile(f.path,{key:"img"});
+			}
+			if(audiofilePath != null) {
+				console.log("audiofilePath="+audiofilePath);
+				task.addFile(audiofilePath,{key:"yinpin"});
+			} else {
+				console.log("audiofilePath ====== null null");
+			}
+ 			task.start();
+		}
+		document.getElementById("submit").addEventListener('tap',function(event){
+			sendBaoxiuInfo();
+		});
+		document.getElementById("picture-btn").addEventListener('tap',function () {
+			
+			var btnArray = [{title:"拍照"},{title:"从相册中选取"}];
+			plus.nativeUI.actionSheet( {
+				title:"选择照片",
+				cancel:"取消",
+				buttons:btnArray
+			}, function(e){
+				var index = e.index;
+				var text = "你刚点击了\"";
+				switch (index){
+					case 0:
+						text += "取消";
+						break;
+					case 1:
+						text += "拍照或录像";
+						shareCameraPicture();
+						break;
+					case 2:
+						text += "选取现有的";
+						shareGalleryPicture();
+						break;
+				}
+			} );
+		});
+
+		var recordCancel = false;
+		var recorder = null;
+		var audio_tips = document.getElementById("audio_tips");
+		var boxSoundAlert = document.getElementById("sound-alert");
+		var startTimestamp = null;
+		var stopTimestamp = null;
+		var stopTimer = null;
+		var vociebutton = document.getElementById("msg-sound");
+		var voiceplay = document.getElementById("msg-play");		
+		var MIN_SOUND_TIME = 800;
+		var setSoundAlertVisable=function(show){
+						if(show){
+							console.log("baoxiubaoxiu in FFFFFFF  setSoundAlertVisable in if if if");
+							boxSoundAlert.style.display = 'block';
+							boxSoundAlert.style.opacity = 1;
+						}else{
+							console.log("baoxiubaoxiu in FFFFFFF  setSoundAlertVisable in else else else");
+							boxSoundAlert.style.opacity = 0;
+							//fadeOut 完成再真正隐藏
+							setTimeout(function(){
+							    boxSoundAlert.style.display = 'none';
+							},200);
+						}
+					};
+	    vociebutton.addEventListener("touchstart", function(e) {
+			console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener touchstart");
+			//setSoundAlertVisable(false);
+			vociebutton.style.backgroundColor = "#A9A9A9";
+			vociebutton.innerHTML ="按住说话";
+			if (voiceplay.style.visibility="visible") {
+				voiceplay.style.visibility="hidden";
+			}
+            e.preventDefault();
+		});
+	    vociebutton.addEventListener('hold', function(event) {
+			console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener hold hode");
+						console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener hold hode");
+						recordCancel = false;
+						if(stopTimer)clearTimeout(stopTimer);
+						audio_tips.innerHTML = "手指松开，停止录音";
+						boxSoundAlert.classList.remove('rprogress-sigh');
+						setSoundAlertVisable(true);
+						recorder = plus.audio.getRecorder();
+						if (recorder == null) {
+							console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener hold hode  in if if null null");
+							plus.nativeUI.toast("不能获取录音对象");
+							return;
+						}
+						startTimestamp = (new Date()).getTime();
+						recorder.record({
+							filename: "_doc/audio/"
+						}, function(path) {
+							console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener hold in path="+path);
+							audiofilePath = path;
+							console.log("baoxiubaoxiu in GGGGGG  ui.boxMsgSound.addEventListener hold in audiofilePath="+audiofilePath);
+							if (recordCancel) return;
+
+						}, function(e) {
+							plus.nativeUI.toast("录音时出现异常: " + e.message);
+						});
+
+		}, false);
+
+					vociebutton.addEventListener('release', function(event) {
+						//console.log('release');
+						vociebutton.style.backgroundColor = "#EEEEEE";					
+
+						if (audio_tips.classList.contains("cancel")) {
+							console.log("baoxiubaoxiu in IIIIIIII  ui.boxMsgSound.addEventListener in if if if if");
+							audio_tips.classList.remove("cancel");
+							audio_tips.innerHTML = "手指上划，取消发送";
+						}
+						//
+						stopTimestamp = (new Date()).getTime();
+
+						if (stopTimestamp - startTimestamp < MIN_SOUND_TIME) {
+							console.log("baoxiubaoxiu in IIIIIIII  ui.boxMsgSound.addEventListener in if if if if 2222222");
+							audio_tips.innerHTML = "录音时间太短";
+							boxSoundAlert.classList.add('rprogress-sigh');
+							recordCancel = true;
+							audiofilePath.remove;
+							stopTimer=setTimeout(function(){
+								setSoundAlertVisable(false);
+							},800);
+						}else{
+							console.log("baoxiubaoxiu in IIIIIIII  ui.boxMsgSound.addEventListener in else else 2222222");
+							vociebutton.innerHTML ="录音结束";
+						    voiceplay.style.visibility="visible";
+							setSoundAlertVisable(false);
+						}
+						recorder.stop();
+					}, false);
+
+                    voiceplay.addEventListener('tap', function(event) {
+							player = plus.audio.createPlayer(audiofilePath);//createPlayer: 创建音频播放对象
+							//var playState = msgItem.querySelector('.play-state');
+							voiceplay.innerText = '正在播放...';
+							console.log("chatchatchat in if if msgType == sound");
+							player.play(function() {
+								console.log("chatchatchat in 22222 播放成功");
+								voiceplay.innerText = '点击播放';
+							}, function(e) {
+								console.log("chatchatchat in  33333 播放失败");
+								voiceplay.innerText = '点击播放';
+							});
+					}, false);
+		var shares=null;
+		// H5 plus事件处理
+		function plusReady(){
+			showUI();
+			updateSerivces();
+		}
+		if(window.plus){
+			plusReady();
+		}else{
+			document.addEventListener('plusready', plusReady, false);
+		}
+		function showUI(){
+			var userinfo=eval(app.getDatas(PREFERENCE_USER));
+			user.xiaoqu=userinfo.xiaoqu;
+			user.id = userinfo.id==null?"":userinfo.id;
+			user.name = userinfo.realname==null?"":userinfo.realname;
+			user.tel = userinfo.tel==null?"":userinfo.tel;
+			document.getElementById("lianxiren").value=user.name;
+			document.getElementById("tel").value=user.tel;
+		}
+		/**
+		 * 更新分享服务
+		 */
+		function updateSerivces(){
+			plus.share.getServices(function(s){
+				shares={};
+				for(var i in s){
+					var t=s[i];
+					shares[t.id]=t;
+				}
+			}, function(e){
+//				outSet('获取分享服务列表失败：'+e.message);
+			});
+		}
+
+		// 拍照添加图片分享
+		function shareCameraPicture(){
+			var cmr=plus.camera.getCamera();
+			cmr.captureImage(function(p){
+				
+				plus.io.resolveLocalFileSystemURL(p,function(entry){
+					pic.src=entry.toLocalURL();
+					pic.realUrl=p;
+					appendFile(p);
+				},function(e){
+					console.log('读取拍照文件错误：'+e.message);
+				} );
+			},function(e){
+//				outLine('拍照失败：'+e.message);
+				console.log("拍照失败"+e.message);	
+			});
+		}
+		// 从相册添加图片分享
+		function shareGalleryPicture(){
+			plus.gallery.pick(function(p){
+				// 从相册返回的路径不需要转换可以直接使用
+				pic.src=p;
+				pic.realUrl=pic.src;
+				console.log("baoxiubaoxiu takepicture filepath"+p);
+				appendFile(p);
+		    });
+		}
+		var index=1;
+		function appendFile(p){
+			
+			files.push({name:"uploadkey",path:p});
+
+		}
+		function getWeixiuType(){  
+		   var radio = document.getElementsByName("maintype");    
+		   for (i=0; i<radio.length; i++) {    
+		       if (radio[i].checked) {    
+		           return radio[i].value;  
+		       }    
+		   }
+		   return "";
+		}
+ 
+	</script>
+</html>

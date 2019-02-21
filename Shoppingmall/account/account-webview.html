@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-bar-transparent {
+				top: 0;
+				background-color: rgba(0, 255, 255, 0);
+				-webkit-box-shadow: none;
+				box-shadow: none
+			}
+			
+			.headImg {
+				/*padding: 7% 0px 8% 0px;*/
+				background-color: transparent;
+				/*background: url(../images/wode_bkg.jpg);*/
+				background-position: center center;
+				background-size: 100% auto;
+				height: 150px;
+				/*vertical-align: middle;*/
+			}
+			
+			.touxiang_img {
+				display: block;
+				width: 4em;
+				height: 4em;
+				border-radius: 50%;
+				/*border: 2px solid white;*/
+				color: gray;
+				float: right;
+				margin-right: 5px;
+				margin-top: 40px;
+			}
+			
+			.ClassCell {
+				width: 15%;
+				float: left;
+				padding-left: 15px;
+				display: table-cell;
+				line-height: 60px;
+				/*vertical-align: middle;*/
+			}
+			
+			.leftClassCell {
+				/*margin: 0 auto;
+				padding-top: 5%;
+				padding-left: 2%;*/
+				width: 30%;
+				float: left;
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.rightClassCell {
+				width: 55%;
+				float: left;
+				vertical-align: middle;
+				line-height: 20px;
+			}
+			
+			.rightClassCell p {
+				/*line-height: 25px;*/
+				font-size: 16px;
+				color: #6D6D72;
+			}
+			
+			#account {
+				margin-top: 50px;
+				color: white;
+			}
+			
+			#tel {
+				color: white;
+			}
+			
+			.more {
+				/*font-style: normal;*/
+				color: #999999;
+				margin-right: -25px;
+				font-size: 15px
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell {
+				position: relative;
+				overflow: hidden;
+				padding: 10px 15px;
+				-webkit-touch-callout: none;
+				/*height: 50px;
+				line-height: 50px;*/
+			}
+			
+			.mui-table-view-cell:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 15px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			
+			.mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			
+			.mui-table-view {
+				margin-top: 20px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				/*border: 1px solid #41CEA9;*/
+				display: table-cell;
+				line-height: 25px;
+				vertical-align: middle;
+			}
+			
+			.body-img {
+				position: relative;
+				height: 25px;
+				width: 25px;
+				/*vertical-align: middle;*/
+			}
+			
+			.body-span {
+				padding-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="headImg" style="background-color: DeepSkyBlue;">
+			<div class="ClassCell">
+				<p id="setting" style="color: white;font-size: 16px;"></p>
+			</div>
+			<div id="leftClassCell" class="leftClassCell">
+				<img id="touxiang_img" src="" class="touxiang_img" />
+			</div>
+			<div id="rightClassCell" class="rightClassCell">
+				<p id="account">未登录</p>
+				<p id="tel">tel</p>
+			</div>
+		</div>
+		<ul id="gridview" class="mui-table-view mui-grid-view" style="background-color: white;">
+			<li id="collection" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" style="height: 50px;">
+				<span class="mui-icon iconfont icon-favorite" style="font-size: 25px;color: #a6a6a6;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">收藏</p>
+				</span>
+			</li>
+			<li id="collect_store" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				<span id="shoucang_icon" class="mui-icon iconfont icon-guanzhudianpu" style="font-size: 25px;color: #a6a6a6;"><br />
+					<p id="shoucang" style="font-size: 12px;color: #a6a6a6;">关注店铺</p>
+				</span>
+			</li>
+			<li id="zuji" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+				<span class="mui-icon iconfont icon-liulanjilu" style="font-size: 25px;color: #a6a6a6;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">足迹</p>
+				</span>
+			</li>
+		</ul>
+		<div style="margin-top:5px; ">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li id="all_dingdan" class="mui-table-view-cell" style="border-bottom: 1px solid gainsboro;">
+					<a href="#about" class="mui-navigate-right" style="color: gray;">我的订单
+						<p class="mui-pull-right more" style="font-size: 14px;">查看更多订单</p>
+					</a>
+				</li>
+			</ul>
+			<ul id="gridview" class="mui-table-view mui-grid-view" style="background-color: white;">
+				<li id="daifukuan" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3" style="height: 50px;">
+					<span class="mui-icon iconfont icon-daifukuan2" style="font-size: 25px;color: orange;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">待付款</p>
+				</span>
+				</li>
+				<li id="daifahuo" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<span id="shoucang_icon" class="mui-icon iconfont icon-daifahuo-" style="font-size: 25px;color: orange;"><br />
+					<p id="shoucang" style="font-size: 12px;color: #a6a6a6;">待发货</p>
+				</span>
+				</li>
+				<li id="peisongzhong" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<span class="mui-icon iconfont icon-daishouhuo1" style="font-size: 25px;color: orange;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">配送中</p>
+				</span>
+				</li>
+				<li id="daishouhuo" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<span class="mui-icon iconfont icon-daishouhuo" style="font-size: 25px;color: orange;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">待收货</p>
+				</span>
+				</li>
+				<li id="daipingjia" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<span class="mui-icon iconfont icon-daipingjia1" style="font-size: 25px;color: orange;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">待评价</p>
+				</span>
+				</li>
+				<li id="yiwancheng" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">
+					<span class="mui-icon iconfont icon-yiwancheng" style="font-size: 25px;color: orange;"><br />
+					<p style="font-size: 12px;color: #a6a6a6;">已完成</p>
+				</span>
+				</li>
+			</ul>
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a id="choujiang" href="#" class="mui-navigate-right body-a">
+						<img class="mui-pull-left body-img" src="../../images/home_me_fenxiangyingyong.png">
+						<span class="body-span">幸运抽奖</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="shouhuodizhi" href="#" class="mui-navigate-right body-a" onclick="manageAddress()">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_huiyuanka.png">
+						<span class="body-span">地址管理</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="wodefangchan_id" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_shouhuodizhi.png">
+						<span class="body-span">我的房产</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="wodebeiyaoqing_id" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_tousujianyi.png">
+						<span class="body-span">我的被邀请</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="share" href="#" class="mui-navigate-right body-a">
+						<img class="mui-pull-left body-img" src="../../images/home_me_fenxiangyingyong.png">
+						<span class="body-span">推荐给好友</span>
+					</a>
+				</li>
+				<!--<li class="mui-table-view-cell">
+					<a id="bindUserinfo" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_bangdingxinxi.png">
+						<span class="body-span">绑定用户信息</span>
+					</a>
+				</li>-->
+				<li class="mui-table-view-cell">
+					<a id="bindmenjin" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_bangdingxinxi.png">
+						<span class="body-span">绑定门禁</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="binddianti" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_xiaoxitongzhi.png">
+						<span class="body-span">绑定电梯</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="yijianfankui" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_yijianfankui.png">
+						<span class="body-span">意见反馈</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="bangzhuzhongxin" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_bangzhuzhongxin.png">
+						<span class="body-span">帮助中心</span>
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="about" href="#" class="mui-navigate-right body-a">
+						<img class=" mui-pull-left body-img" src="../../images/home_me_guanyuruanjian.png">
+						<span class="body-span">关于百益社区</span>
+					</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" style="text-align: center;background-color:#DD524D;color: #FFFFFF;">
+					<a id="exit">退出登录</a>
+				</li>
+				<!--<button id='exit' class="mui-table-view-cell mui-btn mui-btn-danger" style="text-align: center;">退出当前账号</button>-->
+			</ul>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		var user_obj = null;
+
+		mui.plusReady(function() {
+			console.log("---------------account-webview-------plusready---------");
+			//getUserInfo();
+		});
+
+		(function($) {
+			$.oldBack = mui.back;
+			$.back = function(event) {
+				if(mui.os.android) {
+					var tabindex = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+					mui.fire(tabindex, 'gohome');
+				} else {
+					plus.runtime.quit();
+				}
+			};
+		})(mui);
+
+		document.getElementById("collection").addEventListener('tap', function() {
+
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "wodeshoucang.html",
+					id: "wodeshoucang.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"creater_id": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("collect_store").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				//			mui.openWindow({
+				//				url: "collectStore.html",
+				//				id: "collectStore.html",
+				//				show: {
+				//					autoShow: true,
+				//					aniShow: "slide-in-right",
+				//					duration: 100
+				//				},
+				//				waiting: {
+				//					autoShow: true,
+				//					title: '正在加载...'
+				//				}
+				//			});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("zuji").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				//			mui.openWindow({
+				//				url: "wodezuji.html",
+				//				id: "wodezuji.html",
+				//				show: {
+				//					autoShow: true,
+				//					aniShow: "slide-in-right",
+				//					duration: 100
+				//				},
+				//				waiting: {
+				//					autoShow: true,
+				//					title: '正在加载...'
+				//				}
+				//			});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("all_dingdan").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "alldingdan.html",
+					id: "alldingdan.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("daifukuan").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "daifukuan.html",
+					id: "daifukuan.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("daifahuo").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "daifahuo.html",
+					id: "daifahuo.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("peisongzhong").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "peisongzhong.html",
+					id: "peisongzhong.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("daishouhuo").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "daishouhuo.html",
+					id: "daishouhuo.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("daipingjia").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "daipingjia.html",
+					id: "daipingjia.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+		document.getElementById("yiwancheng").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "yiwancheng.html",
+					id: "yiwancheng.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		})
+
+		function manageAddress() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "shouhuodizhi.html",
+					id: "shouhuodizhi.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"creater_id": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		}
+
+		window.addEventListener('getInfo_mine', function() {
+
+			getUserInfo();
+		});
+
+		document.getElementById("leftClassCell").addEventListener('tap', function() {
+
+			showUserInfoPage();
+		})
+
+		document.getElementById("rightClassCell").addEventListener('tap', function() {
+
+			showUserInfoPage();
+		})
+
+		function getUserInfo() {
+
+			var data = app.getDatas(SHOPACCOUNT);
+			creater_id = data.type + "_" + data.xiaoqu + "_" + data.id;
+
+			user_obj = eval(app.getDatas(PUBLIC_USER));
+
+			if(user_obj.account == "guest") {
+				document.getElementById('touxiang_img').src = '../../images/ic_launcher.png';
+				document.getElementById("account").innerHTML = "游客模式";
+				document.getElementById("tel").innerHTML = "未登录";
+			} 
+			else {
+				var touxiang = user_obj.touxiang;
+				console.log("getUserInfo  touxiang---" + touxiang);
+				if(touxiang == null || touxiang == "" || touxiang == "undefined") {
+					document.getElementById('touxiang_img').src = '../../images/ic_launcher.png';
+				} else {
+					var s = new Array();
+					console.log(touxiang);
+					s = touxiang.split("/");
+					var touxiangPath = BASE_URL_SC + s[1] + "/" + s[2] + "/" + s[3];
+					console.log("touxiangPath:" + touxiangPath);
+					document.getElementById('touxiang_img').src = BASE_URL_SC + s[1] + "/" + s[2] + "/" + s[3];
+				}
+
+				var nickname = user_obj.nickname;
+				if(nickname == null || nickname == "" || nickname == "undefined") {
+					document.getElementById("account").innerHTML = "未设置昵称";
+				} 
+				else {
+					document.getElementById("account").innerHTML = user_obj.nickname;
+				}
+				document.getElementById("tel").innerHTML = user_obj.tel;
+			}
+		}
+
+		function showUserInfoPage() {
+
+			var touxiangPath = document.getElementById('touxiang_img').src;
+			console.log("touxiangPath---" + touxiangPath);
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: '../../mine/userInfo.html',
+					id: 'userInfo.html',
+					show: {
+						aniShow: 'slide-in-right',
+						duration: 300
+					},
+					waiting: {
+						autoShow: false,
+						title: "正在加载..."
+					},
+					extras: {
+						"touxiang": touxiangPath,
+						"real_name": user_obj.real_name,
+						"tel": user_obj.tel,
+						"nickname": user_obj.nickname,
+						"public_userid": user_obj.public_userid,
+						"xiaoqu_prefix": user_obj.xiaoqu_prefix,
+						"address": user_obj.address
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		}
+
+		document.getElementById('wodefangchan_id').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/wodefangchan.html',
+				id: 'wodefangchan.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+		
+		document.getElementById('wodebeiyaoqing_id').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/wodebeiyaoqing.html',
+				id: 'wodebeiyaoqing.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+		
+		document.getElementById('choujiang').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/wodechoujiang.html',
+				id: 'share.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+		
+		document.getElementById('share').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/share.html',
+				id: 'share.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+
+		document.getElementById('bindmenjin').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/bindmenjin.html',
+				id: 'bindmenjin.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+
+		document.getElementById('binddianti').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/binddianti.html',
+				id: 'binddianti.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+
+		document.getElementById('yijianfankui').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../feedback.html',
+				id: 'feedback.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: true,
+					title: "正在加载..."
+				}
+			});
+		});
+
+		document.getElementById('bangzhuzhongxin').addEventListener('tap', function() {
+			console.log("bangzhuzhongxin");
+			mui.openWindow({
+				url: "../../mine/help.html",
+				id: "help.html",
+				show: {
+					autoShow: true,
+					aniShow: "slide-in-right",
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: '正在加载...'
+				}
+			});
+		});
+
+		document.getElementById('about').addEventListener('tap', function() {
+			mui.openWindow({
+				url: '../../mine/guanyuruanjian.html',
+				id: 'guanyuruanjian.html',
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false,
+					title: "正在加载..."
+				}
+			});
+		});
+
+		document.getElementById('exit').addEventListener('tap', function() {
+
+			var btnArray = ['否', '是'];
+			mui.confirm('确认退出当前用户？', '', btnArray, function(e) {
+				if(e.index == 1) {
+					if(chkNetStatus() == "OK") {
+
+						localStorage.removeItem(PUBLIC_USER);
+						localStorage.removeItem(PREFERENCE_USER);
+						localStorage.removeItem(WUYE_ACCOUNT_TYPE);
+						localStorage.removeItem(WUYE_DEFAULT_MENJIN);
+						plus.storage.removeItem("Wuye_Active_Module");
+						plus.storage.removeItem("qiandaoFlag");
+						plus.storage.removeItem("invite_house");
+
+						console.log("退出");
+						var loginPage = plus.webview.getWebviewById('login_sc.html');
+						if(loginPage!="undefined"&&loginPage!=null&&loginPage!=undefined){
+							//mui.fire(loginPage, 'refreshxiaoqu');
+							console.log("-------close------------");
+							//loginPage.close();
+							//mui.fire(loginPage, 'reload');
+							mui.fire(loginPage, 'closeMqtt');
+							loginPage.reload(true);
+						}
+						else{
+							console.log("-------openWindow------------");
+							mui.openWindow({
+								url: '../../login_sc.html',
+								id: 'login_sc.html',
+								show: {
+									aniShow: 'slide-in-right',
+									duration: 300
+								},
+								waiting: {
+									autoShow: false
+								}
+							});
+						}
+					} 
+					else {
+						mui.toast("网络异常,请检查网络连接");
+					}
+				}
+			})
+
+			return;
+		});
+
+		function showRegistTips() {
+
+			var btnArray = ['暂不注册', '注册用户'];
+			mui.confirm('当前为游客模式，请先注册用户', '温馨提示', btnArray, function(e) {
+				if(e.index == 1) {
+					mui.openWindow({
+						url: '../../register_sc.html',
+						id: 'register_sc.html',
+						//						preload: true,
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+					//				plus.webview.currentWebview().close();
+				}
+			});
+		}
+	</script>
+
+</html>

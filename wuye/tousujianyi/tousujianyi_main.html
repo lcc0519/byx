@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css" />-->
+	</head>
+
+	<body>
+		<style>
+
+			/*.mui-control-content {
+				background-color: white;
+				min-height: 50px;
+			}*/
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">投诉建议</h1>
+		    <a id="addnew_id" href="add_hudong.html" class="mui-icon mui-icon-plus mui-pull-right" style="color: white; display: none;"></a>
+		</header>
+		<div class="mui-content">
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">暂无记录</span>
+				<br />
+			</div>
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+						投诉
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						建议
+					</a>
+					<a class="mui-control-item" href="#item3mobile">
+						表扬
+					</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>-->
+							</div>
+						</div>
+
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!--<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script >
+
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7',
+				swipeBack:false //启用右滑关闭功能	
+			});
+			
+			var xiaoquval;
+			var idval
+			$('.mui-scroll-wrapper').scroll({
+				indicators: false //是否显示滚动条
+			});
+				
+			$.plusReady(function() {
+	
+				var height=plus.screen.resolutionHeight;
+				jQuery('#item1mobile').height(height);	
+				jQuery('#item2mobile').height(height);	
+				jQuery('#item3mobile').height(height);	
+				
+				xiaoquval=app.getDatas(PREFERENCE_USER).xiaoqu;
+				idval=app.getDatas(PREFERENCE_USER).id;
+				console.log("--------小区名-------"+xiaoquval);
+				load_tousujianyi_list();
+				document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+					load_tousujianyi_list();
+				}, false);
+			});
+			
+			function load_query_tousujianyi(){
+				console.log("正在加载..."+Query_Tousujianyi_URL);
+				var w=plus.nativeUI.showWaiting("正在加载...");
+				mui.ajax(Query_Tousujianyi_URL,{
+					data:{
+						xiaoqu:xiaoquval,
+						myId:idval,
+						type:"public"
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+//					headers:{'Content-Type':'application/json'},
+					success:function (data){
+						w.close();								
+						var infor=JSON.stringify(data);
+						var obj=eval(data);
+						//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+						console.log("tousu+info:"+infor);
+						if (obj.success==1) {
+							app.setDatas('Hudong_list',data);
+							console.log("Hudong_list=" + JSON.stringify(eval(app.getDatas("Hudong_list"))));	
+							
+							if(obj.hudong=="undefined"||obj.hudong==null){
+								showNulldataView();	
+							}
+							else{
+								document.querySelector('#nulldata_id').style.display = 'none';
+								document.querySelector('#neterror_id').style.display = 'none';
+								//document.querySelector('#shoplist_id').style.display = 'block';
+								document.querySelector('#addnew_id').style.display = 'block';
+								showInfoFromLocalDatas();
+							}
+						} 
+						else{
+							showNeterrorView("网络异常");						
+						}								
+					},							
+					error:function(xhr,type,errorThrown){
+						showNeterrorView("网络异常");	
+					}	
+				});
+			}
+				
+			function showInfoFromLocalDatas () {
+				var infoobj=eval(app.getDatas("Hudong_list"));
+				var item1 = document.getElementById('item1mobile');
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				
+				var ul1=document.createElement('ul'); 
+				ul1.setAttribute('id',"hudong_list1");
+				ul1.className = 'mui-table-view';
+				ul1.classList.add('mui-table-view-chevron');
+				var ul2=document.createElement('ul'); 
+				ul2.setAttribute('id',"hudong_list2");
+				ul2.className = 'mui-table-view';
+				ul2.classList.add('mui-table-view-chevron');
+				var ul3=document.createElement('ul'); 
+				ul3.setAttribute('id',"hudong_list3");
+				ul3.className = 'mui-table-view';
+				ul3.classList.add('mui-table-view-chevron');
+				
+				for (var i = 0; i < infoobj.hudong.length; i++) {
+					
+					console.log(i+"----"+infoobj.hudong[i].title);		
+					var typeid = infoobj.hudong[i].interact_type_id;
+					if(typeid=="1"){
+	
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.setAttribute('id',infoobj.hudong[i].id);
+						var a=document.createElement('a');
+						a.classList.add('mui-navigate-right');
+						var br=document.createElement('br');
+						br.className='mui-h5';
+						var div=document.createElement('div');
+						div.classList.add('mui-media-body');
+						div.innerHTML=infoobj.hudong[i].title;
+						var span=document.createElement('span');
+						span.className='mui-h5';
+						span.innerHTML=infoobj.hudong[i].submit_date;
+						div.appendChild(br);
+						div.appendChild(span);
+						a.appendChild(div);
+						li.appendChild(a);
+						ul1.appendChild(li);
+					}
+					else if(typeid=="2"){
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.setAttribute('id',infoobj.hudong[i].id);
+						var a=document.createElement('a');
+						a.classList.add('mui-navigate-right');
+						var br=document.createElement('br');
+						br.className='mui-h5';
+						var div=document.createElement('div');
+						div.classList.add('mui-media-body');
+						div.innerHTML=infoobj.hudong[i].title;
+						var span=document.createElement('span');
+						span.className='mui-h5';
+						span.innerHTML=infoobj.hudong[i].submit_date;
+						div.appendChild(br);
+						div.appendChild(span);
+						a.appendChild(div);
+						li.appendChild(a);
+						ul2.appendChild(li);		
+					}
+					else if(typeid=="3"){
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.setAttribute('id',infoobj.hudong[i].id);
+						var a=document.createElement('a');
+						a.classList.add('mui-navigate-right');
+						var br=document.createElement('br');
+						br.className='mui-h5';
+						var div=document.createElement('div');
+						div.classList.add('mui-media-body');
+						div.innerHTML=infoobj.hudong[i].title;
+						var span=document.createElement('span');
+						span.className='mui-h5';
+						span.innerHTML=infoobj.hudong[i].submit_date;
+						div.appendChild(br);
+						div.appendChild(span);
+						a.appendChild(div);
+						li.appendChild(a);
+						ul3.appendChild(li);		
+					}
+				}
+					
+				item1.querySelector('.mui-scroll').appendChild(ul1);
+				item2.querySelector('.mui-scroll').appendChild(ul2);
+				item3.querySelector('.mui-scroll').appendChild(ul3);
+					
+					
+//					document.getElementById('slider').addEventListener('slide', function(e) {
+//						if (e.detail.slideNumber === 1) {
+//							if (item2.querySelector('.mui-loading')) {
+//								setTimeout(function() {
+//									item2.querySelector('.mui-scroll').appendChild(ul2);
+//									
+//									mui("#hudong_list").on('tap', '.mui-table-view-cell', function() {
+//						
+//						console.log("-----------------tap-----------");
+//						var hudong_id = this.getAttribute("id");
+//					
+//						console.log("hudong_id id is: " + hudong_id);
+//						mui.openWindow({
+//							url: 'detail_hudong.html',
+//							id: 'detail_hudong.html',
+//							preload: true,
+//							show: {
+//								aniShow: 'pop-in'
+//							},
+//							styles: {
+//								popGesture: 'hide'
+//							},
+//							waiting: {
+//								autoShow: false
+//							},
+//							extras:{
+//								Hudong_id:hudong_id
+//							}
+//						});
+//					});
+//					
+//								}, 500);
+//							}
+//						} else if (e.detail.slideNumber === 2) {
+//							if (item3.querySelector('.mui-loading')) {
+//								setTimeout(function() {
+//									item3.querySelector('.mui-scroll').appendChild(ul3);
+//									//item3.querySelector('.mui-scroll').innerHTML = html3;
+//								}, 500);
+//							}
+//						}
+//					});
+
+				mui("#hudong_list1").on('tap', '.mui-table-view-cell', function() {
+						
+					console.log("-----------------tap-----------");
+					var hudong_id = this.getAttribute("id");
+				
+					console.log("hudong_id id is: " + hudong_id);
+					mui.openWindow({
+						url: 'detail_hudong.html',
+						id: 'detail_hudong.html',
+						preload: true,
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras:{
+							Hudong_id:hudong_id
+						}
+					});
+				});
+				
+				mui("#hudong_list2").on('tap', '.mui-table-view-cell', function() {
+					
+					console.log("-----------------tap-----------");
+					var hudong_id = this.getAttribute("id");
+					
+					console.log("hudong_id id is: " + hudong_id);
+					mui.openWindow({
+						url: 'detail_hudong.html',
+						id: 'detail_hudong.html',
+						preload: true,
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras:{
+							Hudong_id:hudong_id
+						}
+					});
+				});
+	
+				mui("#hudong_list3").on('tap', '.mui-table-view-cell', function() {
+					
+					console.log("-----------------tap-----------");
+					var hudong_id = this.getAttribute("id");
+				
+					console.log("hudong_id id is: " + hudong_id);
+					mui.openWindow({
+						url: 'detail_hudong.html',
+						id: 'detail_hudong.html',
+						preload: true,
+						show: {
+							aniShow: 'pop-in'
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						},
+						extras:{
+							Hudong_id:hudong_id
+						}
+					});
+				});				
+			}
+				
+			function load_tousujianyi_list () {
+				console.log("---------load_shop_list-------");
+//				document.querySelector('#shoplist_id').style.display = 'none';
+//				document.querySelector('#nulldata_id').style.display = 'none';
+//				document.querySelector('#neterror_id').style.display = 'none';
+				if(chkNetStatus() == "OK") {
+					load_query_tousujianyi();
+				} else{
+					showNeterrorView("网络异常");
+				}	
+			}
+			
+			function showNeterrorView(msg){
+				document.querySelector('#slider').style.display = 'none';
+				document.querySelector('#addnew_id').style.display = 'none';
+				document.querySelector('#nulldata_id').style.display = 'none';
+				document.querySelector('#neterror_id').style.display = 'block';
+				document.querySelector('.neterror_cls span').innerHTML = msg;
+			}
+				
+			function showNulldataView(){
+				document.querySelector('#slider').style.display = 'none';
+				document.querySelector('#addnew_id').style.display = 'none';
+				document.querySelector('#neterror_id').style.display = 'none';
+				document.querySelector('#nulldata_id').style.display = 'block';
+			}
+
+			window.addEventListener('refreshmqtt', function() {
+				console.log("----------tousujianyi_main start refreshmqtt------");
+				load_tousujianyi_list();
+			});
+			
+		}(mui, document));
+		</script>
+	</body>
+
+</html>

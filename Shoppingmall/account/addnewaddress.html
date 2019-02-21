@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		input {
+			/*color: #5C5C5C;*/
+			font-size: 16px;
+		}
+		
+		.mui-input-row {
+			font-size: 16px;
+			color: #5C5C5C;
+		}
+		
+		.mui-table-view .mui-table-view-cell {
+			padding: 0px;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 添加新地址</h1>
+			<a id="save" class=" mui-icon mui-pull-right" style="font-size: 17px;margin-top: 5px;">保存</a>
+		</header>
+		<style>
+			.bottom-bar {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				background: red;
+				line-height: 50px;
+				color: #fff;
+				z-index: -1;
+			}
+			
+			.bottom-bar-bottom {
+				width: 100%;
+				float: left;
+				text-align: center;
+				font-size: 16px;
+			}
+		</style>
+		<div style="margin-top: 44px;">
+			<ul class="mui-table-view">
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>收货人</label>
+						<input id="shouhuoren" type="text" placeholder="收货人姓名" onkeyup="CNletter(this,20)">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>联系电话</label>
+						<input id="telnum" type="number" placeholder="收货人联系电话" onkeyup="onlyNum(this,11)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>收货地址</label>
+						<input id="louhao" type="text" placeholder="收货地址">
+						<!--<select id="xiaoqulist" style="font-size: 16px;">
+							<option value="choose" disabled="disabled">收货人小区名称</option>
+						</select>-->
+					</div>
+				</li>
+				<!--<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>楼号</label>
+						<input id="louhao" type="number" placeholder="收货人楼号" onkeyup="onlyNum(this,4)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>单元号</label>
+						<input id="danyuanhao" type="number" placeholder="收货人单元号" onkeyup="onlyNum(this,4)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>门牌号</label>
+						<input id="menpaihao" type="number" placeholder="收货人门牌号" onkeyup="onlyNum(this,4)">
+					</div>
+				</li>-->
+			</ul>
+		</div>
+		<!--<div class="bottom-bar">
+			<label id="save" class="bottom-bar-bottom">保存</label>
+		</div>-->
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/jquery-1.11.0.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var xiaoquname = [];
+			var xiaoquprefix = [];
+			var shouhuoren;
+			var telnum;
+			var louhao;
+			var danyuanhao;
+			var menpaihao;
+			var xiaoqu;
+			var thisYizhan;
+			var yizhan;
+			//			var userInfo = app.getDatas(PREFERENCE_USER);;
+			//			var yizhan_info = eval(userInfo);
+			var regphone = /^1[0-9]{10}/;
+			var optionlist;
+			var obj = eval(yizhan);
+			var creater_id;
+			mui.plusReady(function() {
+				currentWebView = plus.webview.currentWebview();
+				creater_id = currentWebView.creater_id;
+				//					console.log("ccccccssss:" + thisYizhan);
+				//				yizhan = app.getDatas(YIZHAN);
+				//				userInfo = app.getDatas(PREFERENCE_USER);
+				//				yizhan_info = eval(userInfo);
+				//				document.getElementById("shouhuoren").value = yizhan_info.realname;
+				//				document.getElementById("telnum").value = yizhan_info.tel;
+				//	telnum = document.getElementById("telnum").value;
+				//	console.log("ccccccssss" + JSON.stringify(yizhan));
+				//				optionlist = document.getElementById('xiaoqulist');
+				//				obj = eval(yizhan);
+				//				for(var i = 0; i < obj.village.length; i++) {
+				//					xiaoquname[i] = obj.village[i].name;
+				//					xiaoquprefix[i] = obj.village[i].prefix;
+				//					optionlist.options.add(new Option(xiaoquname[i], xiaoquname[i]));
+				//				}
+				$('#shouhuoren').blur(function() {
+					shouhuoren = document.getElementById("shouhuoren").value;
+					if(shouhuoren.length <= 0)
+						mui.toast("收货人不能为空");
+				});
+				$('#telnum').blur(function() {
+					//var regphone = /^1[0-9]{10}/;
+					telnum = document.getElementById("telnum").value;
+					console.log("telnum length:" + telnum.length);
+					if(telnum.length <= 0)
+						mui.toast("联系电话不能为空");
+					//					else if(!regphone.test(telnum) || telnum.length > 11)
+					//						mui.toast("手机号码格式不正确");
+					else if(telnum.length != 11)
+						mui.toast("手机号码格式不正确");
+				})
+				$('#louhao').blur(function() {
+					louhao = document.getElementById("louhao").value;
+					if(louhao.length <= 0)
+						mui.toast("地址不能为空");
+				});
+				//				$('#danyuanhao').blur(function() {
+				//					danyuanhao = document.getElementById("danyuanhao").value;
+				//					if(danyuanhao.length <= 0)
+				//						mui.toast("单元号不能为空");
+				//				});
+				//				$('#menpaihao').blur(function() {
+				//					menpaihao = document.getElementById("menpaihao").value;
+				//					if(menpaihao.length <= 0)
+				//						mui.toast("门牌号不能为空");
+				//				});
+				document.querySelector('#save').addEventListener('tap', function() {
+					document.getElementById("shouhuoren").blur();
+					document.getElementById("telnum").blur();
+					document.getElementById("louhao").blur();
+					//					document.getElementById("danyuanhao").blur();
+					//					document.getElementById("menpaihao").blur();
+					//					var index = optionlist.selectedIndex;
+					shouhuoren = document.getElementById("shouhuoren").value;
+					dizhi = document.getElementById("louhao").value;
+					//					xiaoqu = optionlist.options[index].value;
+					telnum = document.getElementById("telnum").value;
+					if(shouhuoren == '')
+						mui.toast("收货人不能为空");
+					else if(telnum.length <= 0)
+						mui.toast("联系电话不能为空");
+					else if(telnum.length != 11)
+						mui.toast("手机号码格式不正确");
+					//					else if(xiaoqu == 'choose')
+					//						mui.toast("小区名称不能为空");
+					//					else if(louhao == '')
+					//						mui.toast("楼号不能为空");
+					//					else if(danyuanhao == '')
+					//						mui.toast("单元号不能为空");
+					//					else if(menpaihao == '')
+					//						mui.toast("门牌号不能为空");
+					else {
+						var btnArray = ['否', '是'];
+						mui.confirm('确认保存？', '', btnArray, function(e) {
+							if(e.index == 1) {
+								if(chkNetStatus() == "OK") {
+									saveInfo(shouhuoren, telnum, dizhi);
+								} else
+									mui.toast("网络异常");
+							} else {}
+						})
+					}
+				})
+			})
+
+			function saveInfo(name, tel, address) {
+				//	console.log("address==" + thisYizhan + " " + yizhan_info.xiaoqu + " " + yizhan_info.id + " " + shouhuoren + " " + telnum + " " + xiaoqu + " " + danyuanhao + " " + menpaihao)
+				var wait = plus.nativeUI.showWaiting("正在保存地址信息，请稍后...");
+				mui.ajax(ADD_ADDRESS_URL, {
+					data: JSON.stringify({
+						shouhuoren_name: name,
+						shouhuoren_tel: tel,
+						shouhuoren_address: address,
+						youbian: "264000",
+						creater_id: creater_id
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log(info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("保存成功");
+							var listview = plus.webview.getWebviewById('shouhuodizhi.html');
+							mui.fire(listview, 'refresh');
+							var jiesuanPage = plus.webview.getWebviewById('gouwucheShangpinJiesuan.html');
+							mui.fire(jiesuanPage, 'addresslist');
+							mui.back();
+						} 
+						else {
+							var submitResultMsg = obj.errorMsg;
+							if(submitResultMsg == '') {
+								//mui.toast("保存失败");
+								mui.toast("网络异常，请稍候重试");
+							} else {
+								//mui.toast(submitResultMsg);
+								mui.toast("网络异常，请稍候重试");
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						mui.toast("网络异常，请检查网络连接");
+						console.log("error===" + xhr + " " + type + " " + errorThrown)
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

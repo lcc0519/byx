@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/css.css" rel="stylesheet" />
+
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 30%;
+				/*border: 1px solid red;*/
+				/*padding-right: 0px;*/
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+				/*border: 1px solid;*/
+				/*padding-left: 0px;*/
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			.tip {
+				background-image: url(images/tip.jpg);
+				background-size: cover;
+				padding: 80px 30px;
+				/*padding-left:30px;
+				padding-bottom: 80px;*/
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册账号</h1>
+		</header>
+		<div class="mui-content">
+			<div id="content" class="mui-scroll-wrapper" style=" height:100%;background-color: white; background-size: cover;">
+				<div id="aaa" class="mui-scroll" style="text-align: start;margin-bottom: 20%;margin-top: 15%;">
+					<div style="text-align: center;">
+						<img id="login_bk" src="images/byx_login_userlogo.png" style="width:96%;"/>
+					</div>
+					<form class="mui-input-group" style="margin: 10px;">
+						<div class="mui-input-row">
+							<label>账号</label>
+							<input id="account" type="text" maxlength="20" class="mui-input-clear mui-input " oninput="OnInput(event)" onpropertychange="OnPropChanged (event)" placeholder="用户名最多20个字符">
+							<!--<input id='account' type="text" class="mui-input-clear mui-input" placeholder="用户名最多20个字符" maxlength="20" oninput="checkInput(this)" onpropertychange="OnPropChanged (event)"/>-->
+						</div>
+						<div class="mui-input-row">
+							<label>小区</label>
+							<!--<input id='xiaoqu' type="text" class="mui-input-clear mui-input" placeholder="选择所在小区">-->
+							<select id="xiaoqulist">
+								<option value="choose" disabled="disabled">请选择所在小区</option>
+							</select>
+						</div>
+						<div class="mui-input-row mui-password">
+							<!--<label style="width: 30%;">密码</label>
+							<input style="width: 60%;float: left;" id='password' type="password"  placeholder="密码最少6位" >
+							<label class="mui-icon iconfont icon-pwd-show" style="width: 5%;float: left;"></label>-->
+							<label>密码</label>
+							<input id='password' type="password" class="mui-input-password mui-input " placeholder="密码最少6位">
+							<!--<label class="mui-icon iconfont icon-pwd-show" style="width: 5%;float: left;"></label>-->
+		
+						</div>
+						<div class="mui-input-row">
+							<label>确认密码</label>
+							<input id='password_confirm' type="password" class="mui-input-password mui-input" placeholder="需与密码输入一致">
+						</div>
+						<!--<div class="mui-input-row">
+							<label>手机</label>
+							<input id='tel' type="text" onkeypress="return event.keyCode>=48&&event.keyCode<=57" class="mui-input-clear mui-input" placeholder="请填写手机号码" maxlength="11">
+						</div>-->
+					</form>
+					<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+						<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+							<button id='reg' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;">立即注册</button>
+						</div>
+					</div>
+			<!--<div class="tip" style="background-image: url(images/tip.jpg); background-size: cover;padding-top:70px;padding-left:30px;padding-bottom: 20px;margin-top:10px;">
+
+				<span style="margin-top:10px;">(1) 用户名建议英文字母、数字</span>
+				<br />
+				<br />
+				<span>(2) 密码仅限英文字母、数字、特殊字符，不能输入汉字及中文标点符号</span>
+
+			</div>-->
+
+			<!--<div class="mui-content-padded">
+				<p>注册真实可用，注册成功后的用户可用于登录，但是示例程序并未和服务端交互，用户相关数据仅存储于本地。</p>
+			</div>-->
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/common.js"></script>
+		<script>
+			var xiaoquname = new Array();
+			var xiaoquprefix = new Array();
+			var xiaoquobj = document.getElementById('xiaoqulist');
+
+			mui.init({
+				swipeBack: false //启用右滑关闭功能
+			});
+			mui.plusReady(function() {
+
+				function getxiaoquList() {
+					//获取小区列表
+					//mui.toast(Query_Xiaoquliebiao_URL);
+
+					mui.post(Query_Xiaoquliebiao_URL, JSON.stringify({
+						xiaoqu: ""
+					}), function(data) {
+						var infor = JSON.stringify(data);
+						var obj = eval(data);
+						//("结果："+obj.success+"\n小区名称："+obj.village[0].name+"\n小区代码："+obj.village[0].prefix+"\n驿站："+obj.village[0].stationname);
+						console.log("小区列表:" + infor);
+						if(obj.success == 1) {
+							//mui.toast(obj.village.length);
+							app.setDatas(YIZHAN, data);
+							console.log("YIZHAN==" + JSON.stringify(eval(app.getDatas(YIZHAN))));
+							//var store = plus.webview.getWebviewById('shop/tab-yizhan-main.html');
+							//mui.fire(store, 'switch');
+							xiaoquname.splice(0, xiaoquname.length);
+							xiaoquprefix.splice(0, xiaoquprefix.length);
+							for(var i = 0; i < obj.village.length; i++) {
+								xiaoquname[i] = obj.village[i].name;
+								xiaoquprefix[i] = obj.village[i].prefix;
+								//									console.log("append option start");
+								//									xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+								//									console.log("append option end");
+							}
+							InsertXiaoqu(); //add by rocky on 20170717
+						} else {
+							mui.toast(infor);
+						}
+					}, 'json');
+				}
+
+				function InsertXiaoqu() { //插入小区列表
+					while(xiaoquobj.length > 1) {
+						xiaoquobj.options.remove(1);
+					}
+					if(xiaoquname.length > 0 && xiaoquobj.options.length == 1) {
+						for(var i = 0; i < xiaoquname.length; i++) {
+							xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+							//								console.log("小区名称："+xiaoquname[i]);
+						}
+					}
+					console.log('小区列表数量：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+				}
+
+				//					InsertXiaoqu(); //remark by rocky on 20170717
+				console.log('first load xiaoqu list');
+				getxiaoquList();
+
+				var netID = setInterval(function() {
+					console.log('小区list刷新');
+					if(chkNetStatus() == "OK") {
+						console.log('小区列表数量2222：' + xiaoquobj.options.length + '小区名字数量：' + xiaoquname.length);
+						if((xiaoquobj.options.length > 1) && (xiaoquobj.options.length == (xiaoquname.length + 1))) {
+							console.log('got xiaoqu list');
+							clearInterval(netID);
+						} else {
+							console.log("refreah xiaoqu list");
+							getxiaoquList();
+							//								InsertXiaoqu();
+							console.log('second load xiaoqu list');
+							//								mui.toast("重新加载数据");
+						}
+					} else {
+						mui.toast("网络异常");
+					}
+				}, 5000);
+
+				//				var netID = setInterval(function() {
+				//					//					console.log("chkNetStatus():"+chkNetStatus());
+				//					if(chkNetStatus() == "OK") {
+				//						//获取小区列表
+				//						mui.post(Query_Xiaoquliebiao_URL, JSON.stringify({
+				//							xiaoqu: ""
+				//						}), function(data) {
+				//							var infor = JSON.stringify(data);
+				//							var obj = eval(data);
+				//							//alert("结果："+obj.success+"\n小区名称："+obj.village[0].name+"\n小区代码："+obj.village[0].prefix+"\n驿站："+obj.village[0].stationname);
+				//							//console.log(infor);
+				//							if(obj.success == 1) {
+				//								//mui.toast(obj.village.length);
+				//
+				//								for(var i = 0; i < obj.village.length; i++) {
+				//									xiaoquname[i] = obj.village[i].name;
+				//									xiaoquprefix[i] = obj.village[i].prefix;
+				//									console.log("reg.html:append option start");
+				//									//$("#xiaoqulist").append("<option value='"+xiaoquprefix[i]+"'>"+xiaoquname[i]+"</option>");
+				//									xiaoquobj.options.add(new Option(xiaoquname[i], xiaoquprefix[i]));
+				//									console.log("reg.html:append option end");
+				//
+				//								}
+				//							} else {
+				//								mui.toast(obj.errorMsg);
+				//							}
+				//						}, 'json');
+				//						clearInterval(netID);
+				//					}
+				//				}, 5000);
+				//				var settings = app.getSettings();
+				var regButton = document.getElementById('reg');
+				accountBox = document.getElementById('account'); //不加var，是全局变量
+				passwordBox = document.getElementById('password');
+				passwordConfirmBox = document.getElementById('password_confirm');
+				//var telBox=doc.getElementById('tel');
+				xiaoquBox = document.getElementById('xiaoqu');
+				//var logBox = document.getElementById('reglogin');
+
+				regButton.addEventListener('tap', function(event) {
+					console.log("reg---" + chkpwd(passwordBox.value));
+					if(chkstr(accountBox.value) && chkpwd(passwordBox.value) && chkpwd(passwordConfirmBox.value)) {
+						//获取选择的小区代码
+						index = xiaoquobj.selectedIndex;
+						xiaoquvalue = xiaoquobj.options[index].value;
+						xiaoquName = xiaoquobj.options[index].text;
+						console.log("-----1---------="+xiaoquobj.options[index].value);
+						console.log("-----2---------="+xiaoquobj.options[index].text);
+						if(xiaoquvalue == "choose") {
+							mui.alert("请选择小区");
+							return;
+						}
+						if(accountBox.value == "" || xiaoquvalue == "" || passwordBox.value == "" || passwordConfirmBox.value == "") {
+							mui.toast("信息填写不全，请检查");
+						} else {
+
+							if(chkNetStatus() == "OK") {
+								if(passwordBox.value == passwordConfirmBox.value) {
+									if(passwordBox.value.length >= 6) {
+										//若启动页不是登录页，则需通过如下方式打开登录页
+																				mui.openWindow({
+																					url: 'phoneCodeVerify.html',
+																					id: 'phoneCodeVerify.html',
+																					show: {
+																						aniShow: 'pop-in'
+																					},
+																					extras: {
+																						sms_template_code: 'SMS_71360453',
+																						backPage: 'reg.html'
+																					}
+																				});
+										//modify by xinmei on 20170823
+//										mui.openWindow({
+//											url: 'phoneCodeMAS.html',
+//											id: 'phoneCodeMAS.html',
+//											show: {
+//												aniShow: 'slide-in-right',
+//												duration: 300
+//											},
+//											extras: {
+//												templateId: '46199b8ec87d4e89bf87622949465ddd', //短信模板id-用户注册
+//												backPage: 'reg.html'
+//											}
+//										});
+
+									} else {
+										mui.toast("密码不够六位，请重新输入");
+									}
+								} else {
+									plus.nativeUI.toast('两次密码输入不一致，请检查');
+									return;
+								}
+
+							} else {
+								mui.toast("网络异常");
+							}
+						}
+					} else {
+						mui.toast("用户名或密码中包含不允许的特殊字符，请检查后重新输入");
+					}
+
+				});
+
+//				logBox.addEventListener('tap', function() {
+//					loginPage = plus.webview.getWebviewById('login');
+//					mui.fire(loginPage, 'refreshxiaoqu');
+//					mui.openWindow({
+//						id: 'login.html',
+//						url: 'login.html',
+//						styles: {
+//							popGesture: "none"
+//						},
+//						show: {
+//							aniShow: 'none'
+//						},
+//						waiting: {
+//							autoShow: false
+//						}
+//					});
+//				});
+				window.addEventListener('phoneverify_success', function(event) {
+					console.log("phoneverify_success验证成功");
+					//    var phone=event.detail.rec_num;
+					phone = localStorage.getItem("phone");
+					console.log("vphoneverify_success验证--" + "phone=" + phone);
+					if(chkNetStatus() == "OK") {
+						console.log("account=" + accountBox.value + "xiaoqu=" + xiaoquvalue + "pwd=" + passwordBox.value+"tel="+phone);
+						postDataToServer();
+					} else {
+						mui.toast("网络异常");
+					}
+				}, false);
+
+			});
+
+			//    实时监听用户名输入    //
+			function OnInput(event) {
+				console.log("OnInput The new content: " + event.target.value);
+				console.log("OnInput The new content length: " + event.target.value.length);
+				var length = event.target.value.length;
+				if(length > 20) {
+					event.target.value = event.target.value.substr(0, 20);
+					mui.toast("字数超过限制");
+					console.log("th.value:" + event.target.value);
+
+				}
+			}
+			// Internet Explorer
+			function OnPropChanged(event) {
+				if(event.propertyName.toLowerCase() == "value") {
+					console.log("OnPropChanged The new content: " + event.srcElement.value);
+				}
+			}
+
+			function postDataToServer() {
+				var w = plus.nativeUI.showWaiting("正在注册，请稍候...");
+				mui.ajax(REGIST_URL, {
+					data: JSON.stringify({
+						account: accountBox.value,
+						psw: passwordBox.value,
+						tel: phone,
+						xiaoqu: xiaoquvalue,
+						accounttype: '2'
+					}),
+					//contentType:"application/x-www-form-urlencoded; charset=utf-8",
+					dataType: 'json', //服务器返回json格式数据
+					type: 'POST', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						w.close();
+						var infor = JSON.stringify(data);
+						var obj = eval(data);
+						//mui.alert("zhanghao");
+						//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+						console.log("reg.html:infor" + infor);
+						if(obj.success == 1) {
+							//									mui.alert("注册成功");
+							plus.nativeUI.toast('注册成功');
+							app.setDatas(PREFERENCE_USER, data); //这一句就可以把整个信息存下了
+							var data1 = app.getDatas(PREFERENCE_USER);
+							data1.id = data1.userId;
+							data1.realname = "";
+							data1.xiaoqu_name = xiaoquName;
+							data1.password = passwordBox.value;
+							data1.flag = 2;
+							app.setDatas(PREFERENCE_USER, data1);
+							
+							var tabsetting = plus.webview.getWebviewById('tab-setting.html');
+							mui.fire(tabsetting, 'switch');
+							//					var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+							//					mui.fire(account, 'refresh');
+//							var store = plus.webview.getWebviewById('shop/tab-yizhan-main.html'); //add by rocky on 20170816
+//							mui.fire(store, 'switch');
+							var tabmain = plus.webview.getWebviewById('tab-main.html'); //add by xinmei on 20170817
+							mui.fire(tabmain, 'show');
+//							var minsheng = plus.webview.getWebviewById('minsheng/minsheng.html');
+//							mui.fire(minsheng, 'switch');
+//							var jiankang = plus.webview.getWebviewById('jiankang/jiankang.html');
+//							mui.fire(jiankang, 'switch');
+//							var jinrong = plus.webview.getWebviewById('jinrong/jinrong.html');
+//							mui.fire(jinrong, 'switch');
+//							var o2o = plus.webview.getWebviewById('o2o/o2o.html');
+//							mui.fire(o2o, 'switch');
+							var phonepage = plus.webview.getWebviewById('tab-phone.html');
+							mui.fire(phonepage, 'refresh');
+
+							//									var data2=app.getDatas(PREFERENCE_USER);
+							//									var info2=JSON.stringify(data2);
+							//									console.log("reg data1:"+info2);
+							//							mui.openWindow({
+							//								url: 'bindUserInfo.html',
+							//								id: 'bindUserInfo',
+							//								show: {
+							//									aniShow: 'pop-in'
+							//								}
+							//							});
+							var self = plus.webview.currentWebview();
+
+							var main_page = plus.webview.getWebviewById('tab-index'); //add by rocky on 20170816
+							mui.fire(main_page, 'gohome');
+							main_page.show("slide-in-right", 1000);
+							setTimeout(function() {
+								self.close();
+							}, 2000);
+							//							mui.openWindow({                   //remarked by rocky on 20170816
+							//								url: 'tab-index.html',
+							//								id: 'tab-index',
+							//								show: {
+							//									aniShow: 'pop-in'
+							//								},
+							//								waiting: {
+							//									autoShow: true
+							//								}
+							//							});
+							//								plus.webview.currentWebview().close(); //关闭当前页面
+						} else {
+							if(obj.errorMsg == "") {
+								mui.alert("注册失败");
+							} else {
+								mui.alert(obj.errorMsg);
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						w.close();
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

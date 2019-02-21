@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" class="feedback">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/feedback.css" />
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				align-content: flex-end;
+				
+			}
+			.span-title{
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.h5-title,
+			h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-input-group span {
+				width: 25%;
+			}			
+			.mui-input-row span~div{
+				width: 75%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">新建托管</h1>
+		    <a id="submit" class="mui-icon mui-icon-upload mui-pull-right" style="color: white"></a>	    
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">	
+				<form id='login-form' class="mui-input-group">
+					<div class="mui-input-row" style="height: auto;">					
+						<span class="span-title">我的房产</span>
+						<div id="" class="input-style">
+							<input id='house' type="text" class="" placeholder="请输入房产" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">价格</span>
+						<div id="" class="input-style">
+							<input id='jiage' type="text" class="" placeholder="请输入价格" style="font-size: 1em;"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">联系人</span>
+						<div id="" class="input-style">	
+							<input id='contact' type="text" class="" placeholder="请输入联系人" style="font-size: 1em;"/>
+						</div>
+	
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">联系电话</span>
+						<div id="" class="input-style">
+							<input id='tel' type="text" class="" placeholder="请输入联系电话" style="font-size: 1em;"/>
+						</div>
+	
+					</div>			
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">托管方式</span>
+						<!--<div id="" class="input-style" style="width: 65%;float: left;">-->
+							<div id="" class="input-style" style="text-align: start;">
+							<form action="" method="post">							
+								<input type="radio" name="maintype" value="1">房屋出租</input>
+								<input type="radio" name="maintype" value="2">房屋出售</input>
+							</form>
+							
+						</div>
+	
+					</div>
+					
+					<!--<div style="width: 100%;">
+						<h5  class="h5-title mui-pull-left" >图片展示</h5>
+					</div>
+					
+					<div style="float: left;width: 100%; background: white;padding: 10px; text-align: center;" >
+						<a id="picture-btn" > <img id="pic" style="height: 100px;width: 100px;" src="../images/icon_addpic_unfocused.png"></a>
+						<a id="picture-btn" > <img id="pic" style="height: 100px;width: 100px;" src="../images/icon_addpic_unfocused.png"></a>
+			    		<a id="picture-btn" > <img id="pic" style="height: 100px;width: 100px;" src="../images/icon_addpic_unfocused.png"></a>
+					</div>-->
+					
+				</form>
+				<p>房屋图片(选填,总大小10M以下)</p>
+				<div id='image-list' class="row image-list"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/addnew_tuoguan.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var user_obj=eval(app.getDatas(PREFERENCE_USER));
+			var public_obj = eval(app.getDatas(PUBLIC_USER));
+			mui.init();
+			mui.plusReady(function() {
+				document.getElementById('house').value = user_obj.xiaoqu_name+public_obj.address;
+			});
+			//mui('.mui-scroll-wrapper').scroll();
+		</script>
+</html>

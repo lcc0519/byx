@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/common.css">
+		<style>
+			.mui-table-view-cell {
+				margin-top: 20px;
+				margin-bottom: 20px;
+			}
+			.headerStyle {
+				position: absolute;
+				left: 0px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">物业缴费</h1>
+		</header>
+		<div class="mui-content">
+			<div id="header_pic" style="width: 100%;background: url(../images/bg.jpg);">
+				<div id="div_mask" style="position: relative;background: rgba(15, 15, 15, 0.2);">				
+					<div class="headerStyle" style="text-align: center;vertical-align: bottom;background-color: blue;top: 50%;bottom: 50%;">
+						<p id="myXiaoqu" style="font-size: 16px;color: white;">0</p>
+			        	<p id="myAddress" style="font-size: 14px;color: white;">本月有效订单</p>
+					</div>
+				</div>
+			</div>
+			<div class="mui-scroll" style="background-color: white;">
+			 	<ul id="jiaofeiitems" class="mui-table-view mui-grid-view mui-grid-4" style="margin-top: 0;">
+		            <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="background-color: white;">
+		            	<a id="" href="#" class="itemclass" onclick="showwuyefeipage()">
+		                    <img src="../../images/wuye_wuyefei.png" class="imgsize_grid"/>
+		                    <div class="mui-media-body">物业费</div>
+		            	</a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="background-color: white;">
+		            	<a id="" href="#" class="itemclass" onclick="showZujin()">
+		                    <img src="../../images/demo2_gridview_yzsc.png" class="imgsize_grid"/>
+		                    <div class="mui-media-body">租金</div>
+		            	</a>
+		            </li>
+		            <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="background-color: white;">
+		            	<a id="" href="#" class="itemclass" onclick="showZhuangxiuyajin()">
+		                    <img src="../../images/wuye_zhuangxiuyajin.png" class="imgsize_grid"/>
+		                    <div class="mui-media-body">装修押金</div>
+		            	</a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="background-color: white;">
+		            	<a id="" href="#" class="itemclass" onclick="showCheweifei()">
+		                    <img src="../../images/wuye_cheweifei.png" class="imgsize_grid"/>
+		                    <div class="mui-media-body">车位费</div>
+		            	</a>
+		            </li>
+		            <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6" style="background-color: white;">
+		            	<a id="" href="#" class="itemclass" onclick="showCheweiguanlifei()">
+		                    <img src="../../images/wuye_cheweiguanlifei.png" class="imgsize_grid"/>
+		                    <div class="mui-media-body">车位管理费</div>
+		            	</a>
+		            </li>-->
+		        </ul> 
+		    </div>
+		</div>
+				<!--显示详细信息-->
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack: false //启用右滑关闭功能
+		});
+		
+		mui.plusReady(function() {
+			
+			var height = plus.screen.resolutionHeight / 4;
+			console.log("height=" + height);
+			document.getElementById("header_pic").style.height = height + "px";
+			document.getElementById("div_mask").style.height = height + "px";
+			getSellerInfor();
+		});
+		
+		function getSellerInfor() {
+			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			var public_obj = eval(app.getDatas(PUBLIC_USER));
+
+			if(user_obj!="undefined"&&user_obj!=""&&user_obj!=null){
+					console.log("--------1--------------");
+					console.log("--------1-----user_obj.xiaoqu_name---------="+user_obj.xiaoqu_name);
+					console.log("--------1-----public_obj.address---------="+public_obj.address);
+					if(user_obj.xiaoqu_name!="undefined"&&user_obj.xiaoqu_name!=""&&user_obj.xiaoqu_name!=null&&
+						public_obj.address!="undefined"&&public_obj.address!=""&&public_obj.address!=null){
+						
+						console.log("--------2--------------");	
+						document.getElementById("myXiaoqu").innerHTML = user_obj.xiaoqu_name;	
+						document.getElementById("myAddress").innerHTML = public_obj.address;	
+						return;
+					}
+						
+					console.log("--------3--------------");
+					document.getElementById("myXiaoqu").innerHTML = "";	
+					document.getElementById("myAddress").innerHTML = "";	
+			}
+		}
+		
+		function showwuyefeipage(){
+			
+			mui.openWindow({
+				url: "wuyefei.html",
+				id: "wuyefei.html",
+				preload: false,
+				show: {
+					aniShow: 'slide-in-right',
+					duration:300
+				},
+				styles: {
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: false
+				}
+			});		
+		}
+		
+		function showZhuangxiuyajin(){
+			mui.alert("装修押金板块试用中，敬请期待");
+		}
+		
+		function showCheweifei(){
+			mui.alert("车位费板块试用中，敬请期待");
+		}
+		
+		function showCheweiguanlifei(){
+			mui.alert("车位管理费板块试用中，敬请期待");
+		}
+		
+		function showZujin(){
+			mui.alert("租金板块开发中，敬请期待");
+		}
+		
+	</script>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 50px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" ></span>
+			</button>
+			<!--<button id="apply" type="button" class="mui-btn mui-btn-blue mui-btn-outlined mui-pull-right">申请</button>-->
+			<h1 class="mui-center mui-title">会员卡查询</h1>
+		</header>
+		
+	</body>
+	<script src="../js/mui.min.js "></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		var user_obj = eval(app.getDatas(PREFERENCE_USER));
+		var self;
+		var w;
+		mui.init({
+//			swipeBack: true //启用右滑关闭功能
+		});
+
+		mui.plusReady(function() {
+			self = plus.webview.currentWebview();
+			initView();
+			
+		});
+
+		function initView() {
+			console.log('打开会员卡查询！');
+//			user_obj = eval(app.getDatas(PREFERENCE_USER));
+			user_obj = app.getDatas(PREFERENCE_USER);
+			console.log("----user_obj:"+JSON.stringify(user_obj));
+			var id = user_obj.id;
+			var huiyuanka = user_obj.huiyuanka;
+			if(id != null && id != "" && huiyuanka != null && huiyuanka != "") {
+				mui.openWindow({
+					url: '../shop/mine/huiyuanka.html',
+					id: 'huiyuanka.html',
+					show: {
+						aniShow: 'pop-in'
+					},
+					waiting: {
+						autoShow: true,
+						title: "正在加载..."
+					}
+				});
+			} else {
+				load_listview();
+			}
+		}
+
+		function load_listview() {
+			var stationno = user_obj.stationno;
+			console.log(stationno+"----"+user_obj.tel);
+			if(stationno != null && stationno != "") {
+				console.log(stationno+"----"+user_obj.tel);
+				initNetAndData(stationno, user_obj.tel);
+			} else {
+				mui.alert("该小区还未绑定驿站，请联系管理员修改");
+//				initNetAndData("", "");
+			}
+		}
+
+		function initNetAndData(argstr1, argstr2) {
+			if(chkNetStatus() == "OK") {
+				load_query(argstr1, argstr2);
+			} else {
+				mui.toast("网络异常");
+			}
+		}
+
+		function load_query(argstr1, argstr2) {
+			var w = plus.nativeUI.showWaiting("正在查询,请稍候...");
+			console.log("load_query--"+argstr1+","+argstr2);
+			mui.ajax(Select_Huiyuanka_URL, {
+				data: {
+					station_no: argstr1,
+					MoblePhone: argstr2
+				},
+				//contentType:"application/x-www-form-urlencoded; charset=utf-8",
+				dataType: 'json', //服务器返回json格式数据
+				type: 'get', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					w.close();
+					var infor = JSON.stringify(data);
+					console.log("chanxun infor---"+infor);
+					var queryResultOBJ = eval(data);
+					if(queryResultOBJ.success == 1) {
+						chaxunSuccess(queryResultOBJ.ReturnMsg);
+					} else {
+						if(queryResultOBJ.vipcard_left==1){
+							var infoStr = user_obj.tel + " 尚未注册会员卡";
+						var btnArray = ['稍后再说', '立即申请'];
+						mui.confirm(infoStr, '', btnArray, function(e) {
+							if(e.index == 1) {
+								mui.openWindow({
+									url: 'huiyuankashenqing.html',
+									id: 'huiyuankashenqing.html',
+									show: {
+										aniShow: 'pop-in'
+									},
+									waiting: {
+										autoShow: true,
+										title: "正在加载..."
+									},
+									extras: {
+										"phonenumber": user_obj.tel
+									}
+								});
+//								self.hide();
+//								setTimeout(function () {   //add by rocky on 20170729
+//									console.log('关闭会员卡查询');
+//									self.close();									
+//								},500);
+							} else {
+								self.close();
+							}
+						});
+						}else if(queryResultOBJ.vipcard_left==0){
+							mui.alert("抱歉，您来晚了，线上会员卡已经发完,请您到线下门店办理会员卡",'','',function(){
+								self.close();
+							});							
+						}
+						
+
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					w.close();
+					mui.toast("网络异常");
+					console.log("error type:" + type);
+					console.log(xhr.status);
+					console.log(xhr.readyState);
+					console.log(xhr.response);
+				}
+			});
+
+		}
+
+		function chaxunSuccess(strArr) {
+			var jArr = new Array();
+			jArr = strArr;
+			var cardStr = "";
+			for(var i = 0; i < jArr.length; i++) {
+				cardStr += jArr[i].FCardNumber + ",";
+			}
+			mui.openWindow({
+				url: 'huiyuankabangding.html',
+				id: 'huiyuankabangding.html',
+				show: {
+					aniShow: 'pop-in'
+				},
+				waiting: {
+					autoShow: true,
+					title: "正在加载..."
+				},
+				extras: {
+					"phonenumber": user_obj.tel,
+					"huiyuannumber": cardStr
+				}
+			});
+
+		}
+	</script>
+
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+				/*border:1px solid red;*/
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+			
+			.detail_tupian img {
+				width: 200px;
+				height: 200px;
+				/*vertical-align: middle;*/
+			}
+			
+			.help_img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left">
+					<span class="mui-icon mui-icon-left-nav" ></span>
+				</button>
+			<h1 class="mui-center mui-title">帮助中心</h1>
+		</header>
+		<div class="mui-content">
+			<div id="helpimgDiv">
+				<!--<img src="../images/bangzhuzhongxin/img_1.png" class="help_img" data-preview-src="" data-preview-group="1"/>
+					<img src="../images/bangzhuzhongxin/img_2.png" class="help_img" data-preview-src="" data-preview-group="1"/>
+					<img src="../images/bangzhuzhongxin/img_3.png" class="help_img" data-preview-src="" data-preview-group="1"/>
+					<img src="../images/bangzhuzhongxin/img_4.png" class="help_img" data-preview-src="" data-preview-group="1"/>-->
+			</div>
+
+			<!--<span style="margin-top:10px;">暂无数据...</span>-->
+
+		</div>
+	</body>
+	<script src="../js/mui.min.js "></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.zoom.js"></script>
+	<script>
+		mui.init({
+			swipeBack: false //启用右滑关闭功能
+		});
+//		mui.previewImage();
+		mui.plusReady(function() {
+
+			var helpImgdiv = document.getElementById('helpimgDiv');
+			var innerhtml="";
+			for(var i = 1; i < 15; i++) {
+				var img='<img src="./images/bangzhuzhongxin/img_'+i+'.jpg" class="help_img" data-preview-src="" data-preview-group="1"/>';
+				innerhtml+=img;
+//			helpImgdiv.innerHTML+=img;
+//				var img='<img src="../images/bangzhuzhongxin/img_1.png" class="help_img" data-preview-src="" data-preview-group="1"/>"
+//				var img = document.createElement("img");
+//				img.setAttribute('class', 'help_img');
+////				img.data-preview-group="1";
+////				img.setAttribute('data-preview-group', '1');
+//				img.src = "../images/bangzhuzhongxin/img_" + i + '.png';
+//				helpImgdiv.appendChild(img);
+			}
+			helpImgdiv.innerHTML=innerhtml;
+			mui.previewImage();
+
+		});
+	</script>
+
+</html>

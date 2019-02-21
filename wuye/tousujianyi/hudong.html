@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+			<style type="text/css">
+				.mui-h5-right,
+				h5 {
+					font-size: 14px;
+					font-weight: 400;
+					color: #8f8f94
+					margin-left: 20px;
+					
+				}
+			</style>
+		<script language="JavaScript">
+            function getParameter(param) {
+                var query = window.location.search; //获取URL地址中？后的所有字符  
+                var iLen = param.length; //获取你的参数名称长度  
+                var iStart = query.indexOf(param); //获取你该参数名称的其实索引  
+                if(iStart == -1) //-1为没有该参数  
+                    return "";
+                iStart += iLen + 1;
+                var iEnd = query.indexOf("&", iStart); //获取第二个参数的其实索引  
+                if(iEnd == -1) //只有一个参数  
+                    return query.substring(iStart); //获取单个参数的参数值  
+                return query.substring(iStart, iEnd); //获取第二个参数的值  
+            }
+            function getHudongName(id) {
+                switch(id){
+                	case "1":
+                	return "投诉";
+                	case "2":
+                	return "建议";
+                	case "3":
+                	return "表扬";
+                	case "4":
+                	return "";
+                	default:
+                	return "";
+                }
+            }
+        </script>
+	</head>
+	<body>
+		<header id="head" class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>-->
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 id="headtitle" class="mui-title mui-center" style="color: white;"></h1>
+		    <!--<a href="add_hudong.html"><img class=" mui-pull-right imgsize_title mui-icon-plus"  src="../images/actionbar_icon_add.png"></a>-->
+		    <!--<a href="add_hudong.html" class="mui-icon mui-icon-plusempty mui-pull-right" style="color: white;font-size: 2.5em;padding-top: 0;">--></a>
+			<a href="add_hudong.html" class="mui-icon mui-icon-plus mui-pull-right" style="color: white;"></a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul id="hudong_list" class="mui-table-view mui-table-view-chevron">
+				
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		var hudongtitle=new Array();
+		var hudongcontent=new Array();
+		var hudong_typeid=getParameter("hudong_typeid");
+		var hudong_name=getHudongName(hudong_typeid);
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:true //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+				var header=document.getElementById("head");
+				var h1=document.getElementById("headtitle");
+				h1.className = 'mui-title mui-center';
+				h1.innerHTML=hudong_name;
+				header.appendChild(h1);
+				console.log("投诉 加载");
+				plus.screen.lockOrientation("portrait-primary");
+				var xiaoquval=app.getDatas(PREFERENCE_USER).xiaoqu;
+				console.log("--------小区名-------"+xiaoquval);
+				Load_Tousu(xiaoquval);
+				
+				function addli(ab)
+			    {
+			        var ul=document.getElementById("hudong_list");             
+			        var obj=document.createElement("li");         
+			        obj.innerHTML=ab;           
+			        ul.appendChild(obj);                
+			    }
+			    
+				function Load_Tousu(xiaoquval){
+					console.log("正在加载..."+Query_Tousujianyi_URL);
+					var w=plus.nativeUI.showWaiting("正在加载...");
+					mui.ajax(Query_Tousujianyi_URL,{
+						data:{
+							xiaoqu:xiaoquval
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+//							headers:{'Content-Type':'application/json'},
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+							//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+							console.log("tousu+info:"+infor);
+							if (obj.success==1) {
+								console.log("加载 success");
+								//mui.toast("加载成功");	
+								app.setDatas('Hudong_list',data);
+								for (var i = 0; i < obj.hudong.length; i++) {
+									
+									console.log(i+"----"+obj.hudong[i].title);
+									
+									var typeid = obj.hudong[i].interact_type_id;
+									console.log(i+"----"+obj.hudong[i].interact_type_id);
+									if(hudong_typeid == typeid){
+										console.log(i+"--====--"+obj.hudong[i].interact_type_id);
+										hudongtitle[i]=obj.hudong[i].title;
+										hudongcontent[i]=obj.hudong[i].content;
+										var ul=document.getElementById("hudong_list"); 
+										var li = document.createElement('li');
+										li.className = 'mui-table-view-cell';
+				//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+										li.setAttribute('id',obj.hudong[i].id);
+										var a=document.createElement('a');
+//										a.setAttribute('href','#detailTousu');
+										a.classList.add('mui-navigate-right');
+//										var img=document.createElement('img');
+//										img.classList.add('mui-media-object');
+//										img.classList.add('mui-pull-left');
+//										img.setAttribute('src','../../images/notice.png');
+										var br=document.createElement('br');
+										br.className='mui-h5';
+										var div=document.createElement('div');
+										div.classList.add('mui-media-body');
+										div.innerHTML=obj.hudong[i].title;
+//										var p=document.createElement('p');
+//										p.classList.add('mui-ellipsis');
+//										p.innerHTML=notice_obj.notice[i-1].content;
+										
+//										span.classList.add('mui-navigate-right');
+										
+										var span=document.createElement('span');
+										span.className='mui-h5';
+//										span.classList.add('mui-navigate-right');
+										span.innerHTML=obj.hudong[i].submit_date;
+										div.appendChild(br);
+										div.appendChild(span);
+										//a.appendChild(img);
+										a.appendChild(div);
+										li.appendChild(a);
+										ul.appendChild(li);
+									}
+//									
+//									console.log("append option start");
+//									xiaoquobj.options.add(new Option(xiaoquname[i],xiaoquprefix[i]));
+//									console.log("append option end");
+							
+								}
+							} else{
+								mui.toast(obj.errorMsg);									
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							mui.toast("error type:"+type);
+							console.log("error type:"+type);
+							console.log(xhr.status);
+							console.log(xhr.readyState);
+							console.log(xhr.response);
+							mui.alert(xhr.response);
+							
+						}
+						
+					});
+				}
+			
+				var addlistener=function () {
+					mui("#hudong_list").on('tap', '.mui-table-view-cell', function() {
+						var hudong_id = this.getAttribute("id");
+					
+						console.log("hudong_id id is: " + hudong_id);
+						mui.openWindow({
+							url: 'detail_hudong.html',
+							id: 'detail_hudong.html',
+							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								Hudong_id:hudong_id
+							}
+						});
+					});
+				}
+				if (mui.os.plus) {
+					mui.plusReady(function() {
+						setTimeout(function() {
+							//mui('#pullrefresh').pullRefresh().pullupLoading();
+						}, 1000);
+					console.log("mui plus Ready!");
+//					initNotice();
+					addlistener();
+					});
+				} else {
+					mui.ready(function() {
+						console.log('mui Ready00');
+//						mui('#pullrefresh').pullRefresh().pullupLoading();
+						console.log('mui Ready');
+	//					getNotice(xiaoqu,'');
+					});
+				}
+			});
+		}(mui, document));
+	</script>
+</html>

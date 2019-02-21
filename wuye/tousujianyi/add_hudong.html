@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			
+			.h5-title,h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			#into { 
+                bottom: 11%; 
+                position: absolute; 
+                width: 40%; 
+                height: 35px; 
+                text-align: right; 
+                left: 30%; 
+                padding: 0; 
+                border: 0; 
+                background: transparent; 
+                z-index: 100; 
+            } 
+			
+		</style>
+		<script type="text/javascript">
+			function OnInput(id,event,limitstr) {
+				
+		        var nownum=event.target.value.length;
+//		        int limitnum = [limitstr intvaluel];
+				var h5=document.getElementById(limitstr);
+		        if(nownum<=limitstr){
+		        	console.log("正在写入000。。。000---");
+			        h5.innerHTML=nownum+"/"+limitstr;
+//			        event.tips({side:3, msg:'达到最大字数限制', bg:'#AE81FF', time:2});
+		        }else{
+		        	console.log("正在写入000。。。111---"+id);
+		        	h5.innerHTML=limitstr+"/"+limitstr;
+		        	var val = event.target.value.substring(0,limitstr);
+		        	console.log("正在写入000。。。111---"+val);
+		        	var textarea = document.getElementById(id)
+		        	
+		        	textarea.value = val;
+		        	alert("字数超出限制，请重新输入！");
+		        }
+		    }
+		        
+		    // Internet Explorer
+	        function OnPropChanged (event) {
+	        	console.log("正在写入111。。。");
+//	            if (event.propertyName.toLowerCase () == "value") {
+//	            	
+//	                alert ("The new content: " + event.srcElement.value);
+//	            }
+	            var nownum=event.srcElement.value.length;
+//		        int limitnum = [limitstr intvaluel];
+				var h5=document.getElementById(limitstr);
+		        if(nownum<=limitstr){
+			        h5.innerHTML=nownum+"/"+limitstr;
+//			        event.tips({side:3, msg:'达到最大字数限制', bg:'#AE81FF', time:2});
+		        }else{
+		        	h5.innerHTML=limitstr+"/"+limitstr;
+		        	var val = event.srcElement.value.substring(0,limitstr);
+		        	var textarea = document.getElementById(id)
+		        	textarea.innerHTML = val;
+		        }
+	        }
+	        
+		        function getHudongType(){  
+				   var radio = document.getElementsByName("hudongType");    
+				   for (i=0; i<radio.length; i++) {    
+				       if (radio[i].checked) {    
+				           return radio[i].value;  
+				       }    
+				   }
+				   return "";
+				}  
+		</script>
+	</head>
+	
+	<body>
+		<header id="head" class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 id="headtitle" class="mui-title mui-center" style="color: white;">新建</h1>
+		     <!--<a id="info" class="mui-icon mui-icon-ok-filled mui-pull-right" style="color: #999;"></a>-->
+			
+		    <!--<a id="tijiao"  ><img class=" mui-pull-right imgsize_title"  src="../images/cab_done.png"> </a><!--onclick="sendData()"-->
+		    <!--<a id="tijiao" class="mui-icon mui-icon-checkmarkempty mui-pull-right" style="color: white;font-size: 2.5em;padding-top: 0;"></a>-->
+		    <a id="tijiao" class="mui-icon mui-icon-upload mui-pull-right" style="color: white;"></a>
+		</header>
+		<div class="mui-content">
+			<div>
+				<h5 id="biaoti" class="h5-title mui-pull-left" >标题</h5>
+				<h5 class=" mui-pull-right" id="10" class="h5-title" >0/10</h5>
+			</div>
+			
+			<div class="row mui-input-row">
+				<textarea id='questiontitle'  oninput="OnInput('questiontitle',event,'10')" onpropertychange="OnPropChanged ('questiontitle',event,'10')" class="mui-input-clear question" placeholder="标题请勿超过十个字。"></textarea>
+			</div>
+			
+			<div>
+				<h5 id="wenti" class="h5-title mui-pull-left" >详细描述</h5>
+				<h5 class=" mui-pull-right" id="100" class="h5-title" >0/100</h5>
+			</div>
+			<div class="row mui-input-row">
+				<textarea id='question' oninput="OnInput('question',event,'100')" onpropertychange="OnPropChanged ('question',event,'100')" class="mui-input-clear question" style="height:200px" placeholder="请详细描述你的问题或意见..."></textarea>
+			</div>
+			<div>
+				<h5 id="leixing" class="h5-title mui-pull-left" >选择类型</h5>
+				
+			</div>
+			<div class="row mui-input-row" style="background: white;height:40px;  text-align: center; line-height: 40px">
+				
+				<input type="radio" name="hudongType" value="1"/>投诉
+				<input type="radio" name="hudongType" value="2"/>建议
+				<input type="radio" name="hudongType" value="3"/>表扬
+			</div>
+			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		(function($, doc) {
+			$.init({
+				gestureConfig:{
+				},
+				statusBarBackground: '#f7f7f7',
+				swipeBack:false //启用右滑关闭功能
+				
+			});
+				
+			$.plusReady(function() {
+				console.log("---plusReady-----1..");
+				var aa = doc.getElementById('tijiao');
+				aa.addEventListener('tap', function(event) {
+					console.log("正在发送.111..");
+					sendData();
+				});
+//				$('#tijiao').on('tap',function(){
+//  				console.log("正在发送..000.");
+//				})
+				function sendData(){
+					console.log("正在发送...2222");
+					var user_obj = eval(app.getDatas(PREFERENCE_USER));
+					var xiaoqu=user_obj.xiaoqu;
+					var userid=user_obj.id;
+					var username=user_obj.account;
+					
+					var title=document.getElementById("questiontitle").value;
+					if(title==""){
+						alert("请输入标题！");
+						return;
+					}
+					var content=document.getElementById("question").value;
+					if(typeid==""){
+						alert("请输入详细描述！");
+						return;
+					}
+					var typeid=getHudongType();
+					console.log("小区："+xiaoqu+"---username"+username+"---typeid:"+typeid+"---title:"+title+"---content:"+content);
+					if(typeid==""){
+						alert("请选择类型！");
+						return;
+					}
+					
+//					console.log("小区："+xiaoqu+"---username"+username+"---typeid:"+typeid+"---title:"+title+"---content:"+content);
+					var w=plus.nativeUI.showWaiting("正在发送...");
+					mui.ajax(Insert_Tousujianyi_URL,{
+						data:JSON.stringify({
+							xiaoqu:xiaoqu,
+							typeId:typeid,
+							title:title,
+							content:content,
+							creatername:username,
+							creater:userid
+						}),
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+//							headers:{'Content-Type':'application/json'},
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+							//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+							console.log("loginsuccess+info:"+infor);
+							console.log("loginsuccess+data:"+data.xiaoqu_name);
+							if (obj.success==1) {
+								console.log("login success");
+								mui.toast("发送成功");									
+								mui.back();							
+							} else{
+								mui.toast(obj.errorMsg);									
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							mui.toast("error type:"+type);	
+						}
+						
+					});	
+				}
+			});
+
+//			$.oldBack = mui.back;
+//
+//			$.back = function(event) {
+//				plus.webview.currentWebview().close();
+//			};
+			
+		}(mui, document));
+			
+		
+	</script>
+	</body>
+	
+</html>

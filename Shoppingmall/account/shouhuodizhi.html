@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<style type="text/css">
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.bottom-bar {
+			position: fixed;
+			/*width: 100%;*/
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
+			background: #808080;
+			height: 44px;
+			line-height: 44px;
+			/*padding: 0px 140px 0px 15px;*/
+			color: #fff;
+			font-size: 16px;
+		}
+		
+		.bottom-bar-bottom {
+			width: 100%;
+			background: orange;
+			float: left;
+			text-align: center;
+			font-size: 16px;
+		}
+		
+		.leftView {
+			width: 60%;
+			float: left;
+			color: #5C5C5C;
+			vertical-align: middle;
+		}
+		
+		.rightView {
+			width: 40%;
+			float: left;
+			color: #5C5C5C;
+			text-align: center;
+		}
+		
+		.address {
+			width: 100%;
+			float: left;
+			display: table-cell;
+			vertical-align: middle;
+			color: #5C5C5C;
+			word-wrap: break-word;
+		}
+		
+		.topView {
+			/*height: 40px;*/
+			padding-left: 2%;
+			line-height: 1.2em;
+			height: 50%;
+		}
+		
+		.bottomView {
+			height: 50%;
+			padding-left: 2%;
+			line-height: 1.2em;
+		}
+		
+		.leftColumn {
+			padding-left: 2%;
+			padding-top: 1%;
+			width: 50%;
+			color: #5C5C5C;
+			float: left;
+			display: table-cell;
+		}
+		
+		.centerColumn {
+			width: 25%;
+			padding-top: 1%;
+			color: #5C5C5C;
+			float: left;
+			height: 30px;
+			text-align: center;
+		}
+		
+		.rightColumn {
+			padding-top: 1%;
+			width: 25%;
+			color: #5C5C5C;
+			float: left;
+			text-align: center;
+		}
+		
+		.checkbox {
+			height: 15px;
+			width: 15px;
+			vertical-align: middle;
+			/*margin: auto 0;*/
+		}
+		
+		.mui-table-view-cell .mui-media .mui-table-view {
+			height: auto;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.table-line:before {
+			height: 0px;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">收货地址</h1>
+		</header>
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>
+		<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word1" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+		<div id="addressItem" class="addressItem" style="display: none;margin-top: 44px;margin-bottom: 44px;">
+			<div>
+				<ul class="mui-table-view" style="height: 100px;">
+					<li id="topItem" class="mui-table-view-cell mui-media" style="padding: 0px;height: 100%;">
+						<div class="topView" style="height: 50%;">
+							<p class="leftView">测试开发区天地一品</p>
+							<p class="rightView">17862823879</p>
+						</div>
+						<div class="bottomView" style="height: 50%;">
+							<p class="address">17862823879</p>
+						</div>
+
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" style="padding:0px;">
+						<div class="leftColumn">
+							<input id="checkbox" class="checkbox" type="checkbox" style="margin-left: 10px;" />
+							<span>设为默认地址</span>
+						</div>
+						<div class="centerColumn">
+							<span class="mui-icon mui-icon-compose edit-icon"></span>
+							<span>编辑</span>
+						</div>
+						<div class="rightColumn">
+							<span class="mui-icon mui-icon mui-icon-trash"></span>
+							<span>删除</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="bottom-bar">
+			<label id="add_address" class="bottom-bar-bottom">添加新地址</label>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var currentWebView;
+			var thisYizhan;
+			var userInfo;
+			var wait;
+			var dataList = [];
+			var creater_id;
+
+			mui.plusReady(function() {
+				currentWebView = plus.webview.currentWebview();
+				//thisYizhan = currentWebView.yizhannum;
+				thisYizhan = "";
+				creater_id = currentWebView.creater_id;
+				console.log("creater_id=" + creater_id);
+				
+				load_listview();
+				document.querySelector('.notInfo_error button').addEventListener('tap', function() {
+					load_listview();
+				});
+				document.querySelector('#add_address').addEventListener('tap', function() {
+					mui.openWindow({
+						url: "addnewaddress.html",
+						id: "addnewaddress.html",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right ",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+							"creater_id": creater_id
+						}
+					});
+				})
+			})
+
+			function load_listview() {
+				
+				if(chkNetStatus() == "OK"){
+					load_query(creater_id);
+				}
+				else {
+					showNeterrorView();
+				}
+			}
+
+			function showNeterrorView(){
+				document.querySelector('#not_message').style.display = 'none';
+				document.querySelector('.addressItem').style.display = 'none';
+				document.querySelector('#net_error').style.display = 'block';
+			}
+			
+			function load_query(creater_id) {
+				dataList = [];
+				wait = plus.nativeUI.showWaiting("正在加载，请稍后...");
+				mui.ajax(QUERY_ADDRESS_URL, {
+					data: {
+						creater_id: creater_id
+					},
+					async: false,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log("dingdan====" + info)
+						var obj = eval(data);
+						if(obj.success == 1) {
+							if(obj.address_info==""){
+								document.querySelector('.addressItem').style.display = 'none';
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'block';
+								document.getElementById('word1').innerHTML = "尚未保存收货地址";
+							}
+							else{
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'none';
+								document.querySelector('.addressItem').style.display = 'block';
+								for(var i = 0; i < obj.address_info.length; i++) {
+									item = {};
+									item.shouhuoid = obj.address_info[i].address_id;
+									item.shouhuoren_name = obj.address_info[i].shouhuoren_name;
+									item.shouhuoren_tel = obj.address_info[i].shouhuoren_tel;
+									item.shouhuoren_address = obj.address_info[i].shouhuoren_address;
+									item.youbian = obj.address_info[i].youbian;
+									item.morenzhuangtai = obj.address_info[i].moren;
+									dataList.push(item);
+								}
+								console.log("dizhi=" + JSON.stringify(dataList))
+								refreshListview(dataList);
+							}
+						} 
+						else {
+							document.querySelector('.addressItem').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'block';
+							if(obj.errorMsg == '') {
+								document.getElementById('word1').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word1').innerHTML = "网络异常，请稍候重试";
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						showNeterrorView();
+					}
+				})
+			}
+
+			function refreshListview(dataList) {
+
+				var loginDiv = document.querySelector('.addressItem');
+				document.getElementById('addressItem');
+				loginDiv.innerHTML = ' ';
+				var html = '';
+				mui.each(dataList, function(index, item) {
+					var listDiv = '';
+					listDiv += '<div>\
+						<ul class="mui-table-view table-line" style="padding-left:10px;padding-right:10px;padding-top:5px;padding-bottom:5px">\
+							<li id="topItem_' + index + '" onclick="editInfo(this)" class="mui-table-view-cell mui-media" style="padding: 0px;height:100%">\
+								<div class="topView" >\
+									<p class="leftView">' + item.shouhuoren_name + '</p>\
+									<p class="rightView">' + item.shouhuoren_tel + '</p>\
+								</div>\
+								<div class="bottomView">\
+									<p class="address">' + item.shouhuoren_address + '</p>\
+								</div>\
+							</li>\
+						</ul>\
+						<ul class="mui-table-view" style="margin-bottom:7px;padding-left:10px">\
+							<li class="mui-table-view-cell mui-media" style="padding:0px;">\
+								<div  class="leftColumn"  >\
+									<input style="display:inline;" id=' + index + ' onclick="checkboxButton(this)" class="checkbox" type="checkbox" style="margin-left: 10px;" />\
+									<p id="text' + index + '" style="display:inline">设为默认地址</p>\
+								</div>\
+								<div id ="edit_' + index + '" class="centerColumn" onclick="editInfo(this)">\
+									<p class="mui-icon mui-icon-compose edit-icon" style="display:inline"></p>\
+									<p style="display:inline">编辑</p>\
+								</div>\
+								<div id =' + index + ' class="rightColumn" onclick="deleteButton(this)">\
+									<p class="mui-icon mui-icon mui-icon-trash" style="display:inline"></p>\
+									<p style="display:inline">删除</p>\
+								</div>\
+							</li>\
+						</ul>\
+					</div>'
+
+					html += listDiv;
+				});
+				//console.log(html);
+				loginDiv.innerHTML = html;
+				for(var i = 0; i < dataList.length; i++) {
+					if(dataList[i].morenzhuangtai == '1') {
+						document.getElementById(i).checked = true;
+						document.getElementById('text' + i).style.color = "red";
+					}
+				}
+			}
+
+			function deleteButton(event) {
+				console.log(dataList[event.id].shouhuoid)
+				//menpaihao = document.getElementById("menpaihao").value;
+				var btnArray = ['否', '是'];
+				mui.confirm('确认删除？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						if(chkNetStatus() == "OK") {
+							deleteThis(dataList[event.id].shouhuoid);
+						} 
+						else{
+							mui.toast("网络异常，请检查网络连接");
+						}
+					}
+				})
+			}
+
+			function deleteThis(address_id) {
+				var item = {};
+				var arr = [];
+				item.address_id = address_id;
+				arr.push(item)
+				console.log(JSON.stringify(arr));
+				var wait = plus.nativeUI.showWaiting("正在删除地址信息，请稍后...");
+				mui.ajax(DELETE_ADDRESS_URL, {
+					data: JSON.stringify(arr),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log("address====" + info)
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("删除成功");
+							//							var parent = o.parentNode.parentNode.parentNode.parentNode;
+							//							var child = o.parentNode.parentNode.parentNode;
+							//							if(dataList.length > 1) {
+							//								parent.removeChild(child);
+							//								if(dataList[o.id].morenzhuangtai == '1') {
+							//									load_listview();
+							//									setAsDefault(0);
+							//								} else
+							load_listview();
+							//refreshPopView();
+							//							} else {
+							//								//	parent.removeChild(child);
+							//								load_listview();
+							//							}
+						} 
+						else {
+							var deleteResultMsg = obj.errorMsg;
+							if(deleteResultMsg == ''){
+								//mui.toast("删除失败");
+								mui.toast("网络异常，请稍候重试");
+							}
+							else{
+								mui.toast("网络异常，请稍候重试");
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						mui.toast("网络异常，请检查网络连接");
+					}
+				})
+			}
+
+			function editInfo(event) {
+				var index = event.id.split("_")[1];
+				mui.openWindow({
+					url: "editAddress_sc.html",
+					id: "editAddress_sc.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right ",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"creater_id": creater_id,
+						"f_id": dataList[index].shouhuoid,
+						"f_xingming": dataList[index].shouhuoren_name,
+						"f_dianhua": dataList[index].shouhuoren_tel,
+						"f_address": dataList[index].shouhuoren_address,
+						"f_youbian": dataList[index].youbian,
+						"f_zhuangtai": dataList[index].morenzhuangtai
+					}
+				});
+			}
+
+			function checkboxButton(event) {
+				if(dataList[event.id].morenzhuangtai == '0'){
+					if(chkNetStatus() == "OK")
+						setAsDefault(event.id,"1");
+					else{
+						mui.toast("网络异常，请检查网络连接");
+					}
+				}
+				else if(dataList[event.id].morenzhuangtai == '1'){
+					if(chkNetStatus() == "OK")
+						setAsDefault(event.id,"0");
+					else{
+						mui.toast("网络异常，请检查网络连接");
+					}
+				}
+			}
+
+			function setAsDefault(setposition,morenstatus) {
+				var wait = plus.nativeUI.showWaiting("正在保存地址信息，请稍后...");
+				mui.ajax(UPDATE_ADDRESS_URL, {
+					data: JSON.stringify({
+						id: dataList[setposition].shouhuoid,
+						creater_id: creater_id,
+						shouhuoren_name: dataList[setposition].shouhuoren_name,
+						shouhuoren_tel: dataList[setposition].shouhuoren_tel,
+						shouhuoren_address: dataList[setposition].shouhuoren_address,
+						youbian: dataList[setposition].youbian,
+						moren: morenstatus
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log("dingdan====" + info)
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("设置成功");
+							load_listview();
+						}
+						else{
+							mui.toast("网络异常，请稍候重试");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						mui.toast("网络异常，请检查网络连接");
+					}
+				})
+
+			}
+			window.addEventListener('refresh', function() {
+				console.log("trigger!!!!")
+				load_listview();
+
+			});
+			var old_back = mui.back;
+			mui.back = function() {
+				var adressList = plus.webview.getWebviewById('chooseAddress.html');
+				mui.fire(adressList, 'address');
+				var jiesuanPage = plus.webview.getWebviewById('gouwucheShangpinJiesuan.html');
+				mui.fire(jiesuanPage, 'addresslist');
+				old_back();
+			}
+		</script>
+	</body>
+
+</html>

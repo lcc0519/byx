@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+			<style type="text/css">
+				.div-style{
+					height: 60px;
+					text-align: left;
+					padding: 6px;
+				}
+				.fitem {
+					width: 96%;
+					overflow: hidden;
+					padding: 10px 2%;
+					border-bottom: 1px solid #c6c6c6;
+					text-align: left;
+					
+				}
+			</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">车位申请</h1>
+			
+		</header>
+		<div class="mui-content">
+			<div  class="fitem" >
+				<b>车位信息:</b>
+			</div>
+			<form style="background: white;" action="" method="post">
+			
+			<div class="fitem" style="background: white;padding-left: 10%;" >
+				<label>车位号:</label>&nbsp;&nbsp;<span id="cheweihao">110</span>
+				<br /><br />
+				<label>位置:</label>&nbsp;&nbsp;<span id="weizhi">地上</span>
+				<br /><br />
+				<label></label>面积:</b>&nbsp;&nbsp;<span id="mianji">20</span>
+			</div>
+			</form>
+			
+			<div id="_doc" class="fitem" >
+				<b>方式:</b>
+			</div>
+			<form style="background: white;" action="" method="post">
+			<div id="_doc" class="fitem">
+				<input  style="margin-left: 10%;"  type="radio" name="chewei_type" value="1"/>买
+				
+			</div>
+			<div id="_doc" class="fitem" >
+				
+				<input style="margin-left: 10%;" type="radio" name="chewei_type" value="2"/>租
+			</div>
+			</form>
+			<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='apply' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;padding:10px;">申请办理</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		var xiaoqu;
+		(function($, doc) {
+			
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+//				var doorname = "damen";
+//				var userinfo=eval(app.getDatas(PREFERENCE_USER));
+//				var userid=userinfo.id;
+//				xiaoqu=userinfo.xiaoqu;
+				
+				var index = plus.webview.currentWebview().cheweiid;
+				var chewei_obj = eval(app.getDatas("IdleChewei_list"));
+				
+				for(var i=0;i<chewei_obj.parks.length;i++){
+					if(chewei_obj.parks[i].id == index){
+						document.getElementById("cheweihao").innerHTML = chewei_obj.parks[i].park_no;
+						document.getElementById("weizhi").innerHTML = chewei_obj.parks[i].park_area;
+						document.getElementById("mianji").innerHTML = chewei_obj.parks[i].area;
+					}
+				}
+				
+			});
+			doc.getElementById("apply").addEventListener('tap',function(){
+				
+				applyChewei();
+			});
+			
+			
+			function applyChewei(){
+				//URL？
+				mui.toast("车位申请试用中，敬请期待");
+//				console.log("正在加载..."+Query_Idle_Tingchewei_URL);
+//				var w=plus.nativeUI.showWaiting("正在加载...");
+//				mui.ajax(Query_Idle_Tingchewei_URL,{
+//					data:{
+//						xiaoqu:xiaoqu
+//						
+//					},
+//					dataType:'json',//服务器返回json格式数据
+//					type:'post',//HTTP请求类型
+//					timeout:10000,//超时时间设置为10秒；
+////							headers:{'Content-Type':'application/json'},
+//					success:function (data){
+//						w.close();								
+//						var infor=JSON.stringify(data);
+//						var obj=eval(data);
+//						//alert("账号："+obj.realname+"\n电话："+obj.tel+"\n小区："+obj.xiaoqu_name+"\n驿站："+obj.stationname);
+//						console.log("baoxiu+info:"+infor);
+//						if (obj.success==1) {
+//							console.log("加载 success");
+//							mui.toast("加载成功");
+//							if(obj.parks==""){
+//								showNodate();
+//							}else{
+//								app.setDatas("IdleChewei_list",data);
+//								showCheweiList(obj);
+//
+//							}
+////								
+//						} else{
+//							mui.toast(obj.errorMsg);									
+//						}								
+//					},							
+//					error:function(xhr,type,errorThrown){
+//						w.close();
+//						mui.toast("error type:"+type);
+//						console.log("error type:"+type);
+//						console.log(xhr.status);
+//						console.log(xhr.readyState);
+//						console.log(xhr.response);
+//						mui.alert(xhr.response);
+//						
+//					}
+//					
+//				});
+			}
+		}(mui, document));
+	</script>
+</html>

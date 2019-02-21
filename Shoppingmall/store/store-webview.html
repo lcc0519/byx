@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/head.css">
+		<link rel="stylesheet" href="../css/iconfont.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			/*图片显示的时候设置为自动 因为 从服务器来的图片大小相同*/
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object {
+				line-height: auto;
+				max-width: auto;
+				height: auto;
+				max-height: 160px;
+				min-height: 160px;
+				border-top-right-radius: 4px;
+				border-top-left-radius: 4px;
+			}
+			
+			#search {
+				background-color: #FDFDFD;
+				/*margin-top: 5px;*/
+				line-height: 30px;
+				margin-top: 6px;
+				border-radius: 50px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 0px 15px;
+				vertical-align: top;
+				border-right: 0px;
+				border-bottom: 0px;
+			}
+			
+			h6 {
+				line-height: 0.2em;
+			}
+			
+			.mui-bar-transparent {
+				top: 0;
+				background-color: rgba(0, 191, 255, 0);
+				-webkit-box-shadow: none;
+				box-shadow: none
+			}
+			
+			#gridview_adv li {
+				margin: 0;
+				padding: 0px 15px;
+				vertical-align: top;
+				border-right: 1px solid #eee;
+				border-bottom: 1px solid #eee;
+			}
+			
+			#news li {
+				margin: 0;
+				padding-right: 6px;
+				/*vertical-align: top;*/
+				/*border-right: 1px solid #eee;
+				border-bottom: 1px solid #eee;*/
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				margin-top: 2px;
+				/*margin-bottom: 5px;*/
+				height: auto;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body p {
+				white-space: pre;
+				color: black;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body p.mui-ellipsis-2 {
+				height: 30px;
+				/*text-align: left;*/
+				margin-left: 7%;
+				margin-right: 7%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav mui-bar-transparent">
+			<a id="return_id" class="mui-action-back mui-icon mui-pull-left"></a>
+			<div id="search" class="mui-title">
+				<span class="mui-icon mui-icon-search" style="color: #AAAAAA;font-size: 20px;"></span>
+				<label href="search.html" style="color: #AAAAAA; font-size: 14px;">请输入商家名、品类或商圈</label>
+			</div>
+		</header>
+		<div id="net_error_main" class="notInfo_error" style="text-align: center; margin-top: 200px;display: none;">
+			<img id="image_view_adv" src="../images/error.png" style="height: 30px;" />
+			<br />
+			<span id="word_adv" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+		</div>
+		<div id="main" style="display: none;">
+
+			<div id="loading" style="text-align: center;">
+				<span class="mui-spinner" style="margin-top: 70px;"></span>
+			</div>
+			<div id="net_error2" class="notInfo_error" style="text-align: center; margin-top: 70px;display: none;">
+				<img id="image_view_adv" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word_adv" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+			<div id="slider" class="mui-slider" style="display: none;">
+				<div id="slider_pic" class="mui-slider-group mui-slider-loop">
+
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 10px;display: none;">
+				<img id="image_view" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+
+			<ul id="gridview" class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white;display: none;">
+
+			</ul>
+			<div style="width: 100%;background:white; text-align: center;margin-top: 7px;border-bottom: 1px solid #ddd;padding: 5px 0px;">
+				<label class="mui-icon iconfont icon-dianpu" style="color: #ff5000; font-size: 18px;font-weight: bold;"></label>
+				<label style="color: #ff5000;font-size: 16px;">发现好店</label>
+			</div>
+			<div id="net_error1" class="notInfo_error" style="text-align: center; margin-top: 10px;display: none;">
+				<img id="image_view1" src="../images/error.png" style="height: 30px;" />
+				<br />
+				<span id="word1" style="color: #ddd; font-size: 0.9em;">点击图片刷新</span>
+			</div>
+			<div id="news" class="mui-table-view mui-grid-view" style="padding-left: 6px;display: none;">
+				<!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+				<img src="../images/g2.png" style="width: 100%;vertical-align: middle;" />
+				<div class="mui-media-body">
+					<p class="mui-ellipsis-2" style="word-wrap: break-word;">' + item.productName + '</p>
+				</div>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6">
+				<img src="../images/g3.png" style="width: 100%;vertical-align: middle;" />
+			</li>-->
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/app.js"></script>
+	<script src="../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		var shopArray = [];
+		var allAdvArray = [];
+		var tuijieAdvArray = [];
+		var pingtai;
+		var createrid;
+		var btn = document.getElementById("search");
+		var gridview = document.getElementById('gridview');
+		var news = document.getElementById('news');
+		mui.plusReady(function() {
+			if(mui.os.android) {
+				main = plus.android.runtimeMainActivity();
+			}
+			plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+				wgtVer = inf.version;
+				console.log("当前应用版本：" + wgtVer);
+			});
+			var height = plus.screen.resolutionHeight / 4;
+			jQuery('#slider').height(height);
+			jQuery('#loading').height(height);
+			var self = plus.webview.currentWebview();
+			var data = app.getDatas(SHOPACCOUNT);
+			pingtai = data.type;
+			createrid = data.type + "_" + data.xiaoqu + "_" + data.id;
+			if(chkNetStatus() == "OK") {
+				document.getElementById("main").style.display = "block";
+				getShoptype();
+				getTuijieAdvert();
+				getAllAdvert();
+				//checkVersion();
+			} else {
+				document.getElementById("net_error_main").style.display = "block";
+			}
+			document.getElementById("net_error_main").addEventListener('tap', function() {
+				console.log("tap")
+				if(chkNetStatus() == "OK") {
+					document.getElementById("main").style.display = "block";
+					document.getElementById("net_error_main").style.display = "none";
+					getShoptype();
+					getTuijieAdvert();
+					getAllAdvert();
+					//checkVersion();
+				} 
+				else {
+					document.getElementById("net_error_main").style.display = "block";
+				}
+			}, false);
+			document.getElementById("net_error2").addEventListener('tap', function() {
+				console.log("tap")
+				getAllAdvert();
+			}, false);
+			document.getElementById("net_error").addEventListener('tap', function() {
+				console.log("tap")
+				getShoptype();
+			}, false);
+			document.getElementById("net_error1").addEventListener('tap', function() {
+				console.log("tap")
+				getTuijieAdvert();
+			}, false);
+
+			document.getElementById("return_id").addEventListener('tap', function() {
+				console.log("----return_id--------");
+				if(mui.os.ios) {
+					console.log("----mui.os.ios-------");
+					var tabindex = plus.webview.getWebviewById('tab-index');
+					mui.fire(tabindex, 'gohome');
+				}
+			}, false);
+
+			mui('#gridview').on('tap', 'li', function() {
+				var shangjia_fenlei_id = this.getAttribute('id');
+				var url;
+				console.log("idssssssssss=" + $(this).find("h6").html());
+				if($(this).find("h6").html() == "家政" || $(this).find("h6").html() == "美容美发")
+					url = "../service/jiazheng-needtem.html";
+				else
+					url = "goods-needtem.html";
+				mui.openWindow({
+					url: url,
+					id: url,
+					//preload: true,
+					show: {
+						aniShow: 'slide-in-right',
+						duration: 300
+					},
+					styles: {
+						popGesture: 'hide'
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						"shangjia_fenlei_id": shangjia_fenlei_id,
+						//"pingtai": 'wuye'
+						"pingtai": pingtai,
+						"createrid": createrid
+					}
+
+				}) //openWindow
+			})
+			mui('#news').on('tap', 'li a', function() {
+				var index = this.getAttribute('id');
+				console.log("id=" + index)
+				openDianpu(index, tuijieAdvArray);
+			})
+			btn.addEventListener("tap", function() {
+				mui.openWindow({
+					url: '../search.html',
+					id: 'search.html',
+					styles: {
+						popGesture: "none"
+					},
+					show: {
+						//	autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						"pingtai": pingtai,
+						"flag": "1"
+					}
+				})
+			});
+
+		}) //plusReady
+
+		function openDianpu(index, arr) {
+			console.log("oooo=" + JSON.stringify(arr))
+			mui.openWindow({
+				url: 'dianpu.html',
+				id: 'dianpu.html',
+				//preload: true,
+				show: {
+					aniShow: 'slide-in-right',
+					duration: 300
+				},
+				styles: {
+					popGesture: 'hide'
+				},
+				waiting: {
+					autoShow: false
+				},
+				extras: {
+					"shangjia_id": arr[index].shangjia_id,
+					"shangjia_name": arr[index].shangjia_name,
+					"store_picture": arr[index].village_pic2
+				}
+
+			}) //openWindow
+		}
+
+		function getShoptype() {
+
+			mui.ajax(SHOP_TYPE, {
+				data: {
+					//pingtai: 'wuye'
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("shangdianfenlei=" + JSON.stringify(data))
+					var shoptype_obj = eval(data);
+					if(shoptype_obj.success == "1") {
+						document.querySelector('#net_error').style.display = 'none';
+						document.querySelector('#gridview').style.display = 'block';
+						shopArray = [];
+						for(var i = 0; i < shoptype_obj.shangjia_fenlei.length; i++) {
+							var item = {};
+							item.id = shoptype_obj.shangjia_fenlei[i].id;
+							item.commodityno = shoptype_obj.shangjia_fenlei[i].commodityno;
+							item.commodity_name = shoptype_obj.shangjia_fenlei[i].commodity_name;
+							item.t_picture = shoptype_obj.shangjia_fenlei[i].type;
+							if(shoptype_obj.shangjia_fenlei[i].type == ''){
+								item.type = "../images/g2.png";
+							}
+							else {
+//								var picstr = shoptype_obj.shangjia_fenlei[i].t_picture;
+//								var ss = [];
+//								ss = picstr.split("/");
+//								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+//								item.t_picture = SHOP_PICTURE_URL + picstr;
+								item.t_picture = "../images/type"+i+".png";
+								console.log(item.t_picture);
+							}
+							shopArray.push(item);
+						}
+						setGridviewHtm(shopArray);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					document.querySelector('#net_error').style.display = 'block';
+					console.log("pppkkkk=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown)
+				}
+			})
+		}
+
+		function setGridviewHtm(list) {
+			console.log("---list.length----------=" + list.length);
+			gridview.innerHTML = ' ';
+			var html = '';
+			mui.each(list, function(index, item) {
+				html += '<li id="' + item.id + '" class="mui-table-view-cell mui-media mui-col-xs-3 mui-col-sm-3">\
+					<a href="dir_school/tongzhi/tongzhi.html">\
+						<img src="' + item.t_picture + '" class="imgsize_grid" style="height: 60px; width: 60px;border-radius: 30px;" />\
+						<div class="mui-media-body">\
+							<h6>' + item.commodity_name + '</h6>\
+						</div>\
+					</a>\
+				</li>';
+			})
+			gridview.innerHTML = html;
+		}
+
+		function getAllAdvert() {
+			console.log("mine")
+
+			mui.ajax(ALL_ADVERT_URL, {
+				data: {
+					leibie: '0',
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("infopic=" + JSON.stringify(data));
+					var alladvert_obj = eval(data);
+					if(alladvert_obj.success == "1") {
+						document.querySelector('#net_error2').style.display = 'none';
+						allAdvArray = [];
+						for(var i = 0; i < alladvert_obj.advert.length; i++) {
+							
+							var picstr1 = alladvert_obj.advert[i].picture_s;
+							var picstr2 = (String)(alladvert_obj.advert[i].village_pic2);
+							var ss = [];
+							var tt = [];
+							
+							console.log("------gsagga-------picstr1-----="+picstr1);
+							ss = picstr1.split("/");
+							picstr1 = ss[1] + "/" + ss[2] + "/" + ss[3];
+							alladvert_obj.advert[i].picture = SHOP_PICTURE_URL + picstr1;
+														
+							console.log("------gsagga-------picstr2-----="+picstr2);
+							tt = picstr2.split("/");
+							picstr2 = tt[1] + "/" + tt[2] + "/" + tt[3];
+							alladvert_obj.advert[i].village_pic2 = SHOP_PICTURE_URL + picstr2;
+						}
+						pictureList = alladvert_obj.advert;
+						console.log(JSON.stringify(pictureList))
+						document.getElementById("loading").style.display = "none";
+						document.getElementById("slider").style.display = "block";
+						setPictureAdv(pictureList);
+						mui('.mui-slider').slider({
+							interval: 5000
+						});
+						mui('#slider_pic').on('tap', 'img', function() {
+							var index = this.getAttribute("id");
+							console.log("bianhao=" + index)
+							openDianpu(index, pictureList);
+						})
+
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					document.getElementById("loading").style.display = "none";
+					document.querySelector('#net_error2').style.display = 'block';
+					console.log("pppkkkk=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown)
+				}
+			})
+		}
+
+		function setPictureAdv(pictureList) {
+			var guanggao = document.getElementById("slider_pic");
+			var html = '';
+			html += '<div class="mui-slider-item mui-slider-item-duplicate">\
+			<a href="#"><img id="last" src="' + pictureList[2].picture + '"></a>\
+					</div>'
+			mui.each(pictureList, function(index, item) {
+				html += '<div class="mui-slider-item"><a href="#"><img id="' + index + '" src="' + item.picture + '"></a></div>';
+			});
+			html += '<div class="mui-slider-item mui-slider-item-duplicate">\
+			<a href="#"><img id="first" src="' + pictureList[0].picture + '"></a>\
+					</div>'
+			guanggao.innerHTML = html;
+		}
+
+		function getTuijieAdvert() {
+			console.log("mine111")
+
+			mui.ajax(TUIJIE_ADVERT_URL, {
+				data: {
+					//pingtai: 'wuye'
+					pingtai: pingtai
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					console.log("info=" + JSON.stringify(data))
+					var tuijieadvert_obj = eval(data);
+					if(tuijieadvert_obj.success == "1") {
+						document.querySelector('#net_error1').style.display = 'none';
+						document.querySelector('#news').style.display = 'block';
+						tuijieAdvArray = [];
+						for(var i = 0; i < tuijieadvert_obj.shops.length; i++) {
+							var item = {};
+							item.shangjia_id = tuijieadvert_obj.shops[i].id;
+							item.shangjia_name = tuijieadvert_obj.shops[i].village_name;
+							item.village_addr = tuijieadvert_obj.shops[i].village_addr;
+							item.charge_person = tuijieadvert_obj.shops[i].charge_person;
+							item.village_addr = tuijieadvert_obj.shops[i].village_addr;
+							item.tel = tuijieadvert_obj.shops[i].tel;
+							item.prefix = tuijieadvert_obj.shops[i].prefix;
+							item.flag = tuijieadvert_obj.shops[i].flag;
+							item.cdate = tuijieadvert_obj.shops[i].cdate;
+							if(tuijieadvert_obj.shops[i].village_pic2 == '')
+								item.village_pic2 = "../images/g2.png";
+							else {
+								var picstr = tuijieadvert_obj.shops[i].village_pic2;
+								var ss = [];
+								ss = picstr.split("/");
+								picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+								item.village_pic2 = SHOP_PICTURE_URL + picstr;
+							}
+							tuijieAdvArray.push(item);
+						}
+						settuijieHtm(tuijieAdvArray);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					document.querySelector('#net_error1').style.display = 'block';
+					console.log("pppkkkk=" + xhr.status + " " + xhr.readyState + " " + type + " " + errorThrown)
+				}
+			})
+		}
+
+		function settuijieHtm(list) {
+			news.innerHTML = '';
+			mui.each(list, function(index, item) {
+				var li = document.createElement('li');
+				li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
+				li.innerHTML = '<a id="' + index + '">\
+					<div class= "bgDiv">\
+						<img class="mui-media-object" src="' + item.village_pic2 + '"/>\
+						<div class="mui-media-body" style="margin-top:5px">\
+							<p class="mui-ellipsis-2">' + item.shangjia_name + '</p>\
+						</div>\
+					</div>\
+				</a>';
+				news.appendChild(li);
+			});
+		}
+		window.addEventListener('getInfo_store', function() {
+			console.log("lllll")
+			var data = app.getDatas(SHOPACCOUNT);
+			pingtai = data.type;
+			createrid = data.type + "_" + data.xiaoqu + "_" + data.id;
+			if(chkNetStatus() == "OK") {
+				getShoptype();
+				getTuijieAdvert();
+				getAllAdvert();
+				//checkVersion();
+			} 
+			else {
+				document.querySelector('#net_error').style.display = 'block';
+				document.querySelector('#net_error1').style.display = 'block';
+				document.querySelector('#net_error2').style.display = 'block';
+			}
+
+		})
+		window.addEventListener('refresh_slider', function() {
+			console.log("slider")
+			mui('.mui-slider').slider({
+				interval: 5000
+			}).refresh();
+		})
+
+		function checkVersion() {
+			console.log("---checkVersion");
+			if(mui.os.ios) {
+				console.log(plus.os.name + plus.os.version);
+				//mui.toast('已经是最新版本！');
+				//appStoreCheck();
+			} else {
+				console.log(plus.os.name + plus.os.version);
+				versionCheck();
+			}
+		}
+
+		//检查更新版本for iOS
+		function appStoreCheck() {
+			var appstore_download_url;
+			mui.ajax(AppStore_URL, {
+				data: {
+					id: AppleID
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				//				headers:{'Content-Type':'application/json'},
+				success: function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("info:" + infor);
+					for(var i = 0; i < obj.results.length; i++) {
+						var version = obj.results[i].version;
+						appstore_download_url = obj.results[i].trackViewUrl;
+						console.log("App Version:" + version);
+						console.log("App Store URL: " + appstore_download_url);
+						//								console.log("AppStoreURL:"+obj.results[0].trackViewUrl+" version:"+obj.results[0].version);
+					}
+					if(wgtVer && version && check(wgtVer, version)) {
+						mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新', '暂不更新'], function(e) {
+							if(e.index == 1) {
+								//				    						plus.runtime.quit();
+								return;
+							} else {
+								console.log('开始更新程序');
+								plus.runtime.openURL(appstore_download_url); //进入App Store下载
+							}
+						}, 'div');
+					} else {
+						console.log('已经是最新版本');
+						//										mui.toast('已经是最新版本');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("网络异常");
+					console.log("error type:" + type);
+					console.log(xhr.status);
+					console.log(xhr.readyState);
+					console.log(xhr.response);
+				}
+
+			});
+		}
+
+		//更新版本for Android
+		function versionCheck() {
+			var xhr = new plus.net.XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				switch(xhr.readyState) {
+					case 0:
+						//						console.log('更新请求已经初始化');
+						break;
+					case 1:
+						//						console.log('更新请求已打开');
+						break;
+					case 2:
+						//						console.log('更新请求已发送');
+						break;
+					case 3:
+						//						console.log('更新请求已响应');
+						break;
+					case 4:
+						//						console.log('更新请求已接收');
+						if(xhr.status == 200) {
+							console.log('xhr返回信息：' + xhr.responseText);
+							var App_info = JSON.parse(xhr.responseText);
+
+							if(App_info.apk == '' || App_info.apk == null || App_info.apk == "undefined") {
+								//mui.toast('已经是最新版本');
+							} else {
+								var version = App_info.apk[0].version.substr(1);
+								var down_url = BASE_URL + App_info.apk[0].filepath.substr(2);
+								var upgrade_flag = App_info.apk[0].upgrade; //立即升级flag：1，否；2，是
+								console.log('下载地址：' + down_url);
+								console.log('最新版本：' + version + ' 当前版本：' + wgtVer);
+								if(wgtVer && version && check(wgtVer, version)) {
+									if(upgrade_flag == 1) {
+										mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['暂不更新', '立即更新'], function(e) {
+											if(e.index == 0) {
+												//				    						plus.runtime.quit();
+												return;
+											} else {
+												console.log('开始更新程序');
+												downloadPackage(down_url);
+											}
+										}, 'div');
+									} else {
+										mui.confirm('当前版本：' + wgtVer, ' 最新版本：' + version, ['立即更新'], function(e) {
+											if(e.index == 0) {
+												downloadPackage(down_url);
+											}
+										}, 'div');
+									}
+								} else {
+									console.log('已经是最新版本');
+									//mui.toast('已经是最新版本');
+								}
+							}
+						} else {
+							console.log('xhr请求失败：' + xhr.readyState);
+						}
+						break;
+					default:
+						break;
+				}
+			}
+			xhr.open('GET', UPDATE_APP_URL);
+			xhr.send();
+		}
+		var waiting = null;
+
+		function downloadPackage(down_URL) {
+			waiting = plus.nativeUI.showWaiting('正在下载安装包...');
+			console.log(down_URL);
+			//删除旧版安装包
+			deletePackage();
+			var task = plus.downloader.createDownload(down_URL, {
+				filename: '_downloads/update/'
+			}, function(d, status) {
+				if(status == 200) {
+					console.log('下载成功' + d.filename);
+					installPackage(d.filename); //安装程序
+				} else {
+					console.log('下载失败');
+					plus.nativeUI.alert('下载安装包失败');
+				}
+				plus.nativeUI.closeWaiting();
+			});
+			task.addEventListener("statechanged", function(download, status) {
+				switch(download.state) {
+					case 2:
+						waiting.setTitle("已连接到服务器");
+						break;
+					case 3:
+						percent = download.downloadedSize / download.totalSize * 100;
+						var mess = "   正在下载： " + parseInt(percent) + "%   ";
+						waiting.setTitle(mess);
+						break;
+					case 4:
+						waiting.setTitle("下载完成");
+						break;
+				}
+			});
+			task.start();
+		}
+
+		function deletePackage() {
+			plus.io.resolveLocalFileSystemURL("_downloads/update", function(entry) {
+				console.log("下载路径：" + entry.toLocalURL());
+				entry.removeRecursively(function(entry) {
+					console.log("Remove Succeeded");
+				}, function(e) {
+					console.log(e.message);
+				})
+			}, function(e) {
+				console.log("Resolve file URL failed:" + e.message);
+				return;
+			});
+		}
+
+		function installPackage(filepath) {
+			plus.nativeUI.showWaiting('正在安装百益社区...');
+			plus.runtime.install(filepath, {}, function() {
+				plus.nativeUI.closeWaiting();
+				console.log('安装成功！');
+				localStorage.removeItem(PUBLIC_USER);
+				localStorage.removeItem(PREFERENCE_USER);
+				localStorage.removeItem(WUYE_ACCOUNT_TYPE);
+				localStorage.removeItem(WUYE_DEFAULT_MENJIN);
+				plus.storage.removeItem("Wuye_Active_Module");
+				plus.storage.removeItem("lauchFlag");
+				plus.storage.removeItem("qiandaoFlag");
+				plus.storage.removeItem("invite_house");
+				plus.nativeUI.alert('百益社区更新完成！', function() {
+					plus.runtime.restart();
+				});
+			}, function(e) {
+				plus.nativeUI.closeWaiting();
+				console.log('安装百益社区失败[' + e.code + ']:' + e.message);
+				plus.nativeUI.alert('安装百益社区失败[' + e.code + ']:' + e.message);
+			});
+		}
+
+		function check(currVer, newVer) {
+			var ss1 = new Array();
+			var ss2 = new Array();
+			ss1 = currVer.split(".");
+			ss2 = newVer.split(".");
+			console.log("check ---" + ss1 + "," + ss2);
+
+			if(parseInt(ss1[0], 10) < parseInt(ss2[0], 10)) {
+				return true;
+			} else if(parseInt(ss1[0], 10) == parseInt(ss2[0], 10)) {
+				//				console.log(parseInt(ss1[0],10)+parseInt(ss2[0],10));
+				if(parseInt(ss1[1], 10) < parseInt(ss2[1], 10)) {
+					return true;
+				} else if(parseInt(ss1[1], 10) == parseInt(ss2[1], 10)) {
+					//					console.log(parseInt(ss1[1],10)+parseInt(ss2[1],10));
+					if(parseInt(ss1[2], 10) < parseInt(ss2[2], 10)) {
+						return true;
+					}
+					//							else if(parseInt(ss1[2], 10) == parseInt(ss2[2], 10)){
+					//								
+					//								if(parseInt(ss1[3], 10) < parseInt(ss2[3], 10)) {
+					//									return true;
+					//								} 
+					//								else {
+					//									return false;
+					//								}
+					//							}
+					else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
+
+		(function($) {
+			$.oldBack = mui.back;
+			$.back = function(event) {
+				if(mui.os.android) {
+					var tabindex = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+					mui.fire(tabindex, 'gohome');
+				} else {
+					plus.runtime.quit();
+				}
+			};
+		})(mui);
+	</script>
+
+</html>

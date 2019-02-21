@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			.headImg {
+				padding: 0px;
+				background-color: rgb(62,192,248);
+				/*background-image: url(images/bj4_head.jpg);*/
+				background-position: center center;
+				background-size: 100% 100%;
+				width: 100%;
+				/*height: 400px;*/
+				/*margin-top: -40px;*/
+				
+			}
+			.zhutilist{
+				/*clear:both;*/
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="zpullrefresh" class="mui-content mui-scroll-wrapper">
+			<!--<div class="headImg" id="headImg">
+				<ul class="mui-table-view">
+		            <li id="detail_pic" class="mui-table-view-cell" style="display: block;">
+		            	<div style="height:150px; overflow: hidden; border-radius: 10px;">
+		            		<img id="notice_pic" src="../images/czyj1.png" width="100%" style="border-radius: 10px;"/>
+		            	</div>
+		            	<p class="mui-ellipsis" style='font-size:16px;'><span style='font-size:16px; color:black;'>主题：</span>记录宝宝的点滴成长</p>
+		            </li>
+		        </ul>
+			</div>-->
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">暂无内容</span>
+				<br />
+			</div>
+			<div id="list" class="mui-scroll" style="display: none;">
+				<!--数据列表-->
+				<ul id="zhuti_list" class="zhutilist mui-table-view mui-table-view-chevron">
+				</ul>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			(function($, doc) {
+				$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false, //启用右滑关闭功能
+					gestureConfig: {
+						tap: true, //默认为true
+						longtap: true //默认为false				
+					},
+					pullRefresh: {
+						container: '#zpullrefresh',
+						down: {
+							callback: zpulldownRefresh
+//						},
+//						up: {
+//							contentrefresh: '已经到底了...',
+//							callback: zpullupRefresh
+						}
+					}
+				});
+
+				var parent_node = null;
+				var childe_node = null;	
+				var user_obj = null;
+				var userxiaoquid = "";
+				var useraccount = "";
+				var userxiaoqu = "";
+
+				$.plusReady(function() {
+					plus.screen.lockOrientation("portrait-primary");
+					load_zhuti_list();
+					document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+						load_zhuti_list();
+					}, false);
+					
+					addlistener();	
+					addlistener_del();
+				});
+		
+				function load_zhuti_list () {
+					
+					user_obj = eval(app.getDatas(PREFERENCE_USER));
+					console.log("---------plusReady-----------="+user_obj.role);
+
+					userxiaoquid = user_obj.xiaoqu_id;
+					useraccount = user_obj.account;
+					userxiaoqu = user_obj.xiaoqu;
+				
+					console.log("---------load_zhuti_list-------="+userxiaoquid+useraccount);
+					if(chkNetStatus() == "OK") {
+						load_query_zhuti();
+					} else{
+						showNeterrorView("网络异常");
+					}	
+				}
+				
+				
+				//初始化通知列表
+			    function showNodate(msg){
+			    	doc.getElementById("nodate").style.visibility="visible";
+			    	doc.getElementById("nodate").innerHTML=msg;
+			    	doc.getElementById("list").style.visibility="hidden";
+			    }
+			    
+			    function load_query_zhuti(){
+					console.log("正在为您加载主题列表");
+					console.log("---------load_query_zhuti-------="+userxiaoquid);
+					mui.ajax(GETALLZHUTI_URL,{
+						data:{
+							school_id:userxiaoquid,
+							xiaoqu:userxiaoqu
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){							
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+							console.log("load_query_zhuti+info:"+infor);
+							if (obj.success==1) {
+								console.log("主题列表加载成功: ");						
+								app.setDatas('ZhutiList',data);
+								if(obj.zhuti=="undefined"||obj.zhuti==null||obj.zhuti==''){
+									showNulldataView();	
+								}
+								else{
+									document.querySelector('#nulldata_id').style.display = 'none';
+									document.querySelector('#neterror_id').style.display = 'none';
+									document.querySelector('#list').style.display = 'block';
+									showZhutiInfoFromLocalDatas();
+								}
+							} 
+							else{
+								showNeterrorView("网络异常");						
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							showNeterrorView("网络异常");	
+						}	
+					});					
+				}
+			    
+			    function showZhutiInfoFromLocalDatas () {
+					console.log("---------showZhutiInfoFromLocalDatas-------");
+					var obj = eval(app.getDatas('ZhutiList'));
+			    	var table = document.body.querySelector('.zhutilist');
+			    	for (var i = 0; i < obj.zhuti.length; i++) {
+
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.setAttribute('id',obj.zhuti[i].zid);
+						li.setAttribute('school_id',obj.zhuti[i].school_id);						
+						li.setAttribute('publicer_name',obj.zhuti[i].created_username);
+	//					var a=document.createElement('a');
+	//					a.setAttribute('href','#detailNotice');
+	//					a.classList.add('mui-navigate-right');
+	//					var img=document.createElement('img');
+	//					img.classList.add('mui-media-object');
+	//					img.classList.add('mui-pull-left');
+	//					img.setAttribute('src','../images/notice.png');
+						var div=document.createElement('div');
+						div.classList.add('mui-media-body');
+
+						var p=document.createElement('p');
+						p.classList.add('mui-ellipsis');
+						p.style.color = "darkgrey";
+						p.style.fontSize='16px';
+						p.style.margin='10px';
+						p.innerHTML="<span style='font-size:18px; color:black;'>"+obj.zhuti[i].content+"</span>"+" - "+obj.zhuti[i].subject;
+						
+						if ('pic' in obj.zhuti[i]){
+							var div_img=document.createElement('div');
+							div_img.classList.add('mui-media-body');
+							div_img.style.width = "100%";
+							div_img.style.height = "150px";
+							div_img.style.overflow = "hidden";
+							div_img.style.borderRadius = "10px";
+	//						var br_s=document.createElement('br');
+	//						br_s.className='mui-h5';
+							var bigImg = document.createElement("img");
+							bigImg.style.width="100%";
+	//						bigImg.style.height="150px";
+							bigImg.style.borderRadius = "10px";
+							bigImg.src=BASE_URL+obj.zhuti[i].pic[0].path.substr(3);
+	//						var br_e=document.createElement('br');
+	//						br_e.className='mui-h5';
+						}
+//						var publicer=document.createElement('span');
+//						publicer.className='mui-h5';
+//						publicer.innerHTML=obj.zhuti[i].created_username;
+//						var span=document.createElement('span');
+//						span.className='mui-h5';
+//						span.style.float='right';
+//						span.innerHTML=obj.zhuti[i].created_time;
+						if ('pic' in obj.zhuti[i]){
+	//						div_img.appendChild(br_s);
+							div_img.appendChild(bigImg);
+	//						div_img.appendChild(br_e);
+							div.appendChild(div_img);
+						}	
+						div.appendChild(p);
+//						div.appendChild(publicer);
+//						div.appendChild(span);
+	//					a.appendChild(img);
+	//					a.appendChild(div);
+						li.appendChild(div);
+						table.appendChild(li);
+					}
+			    	
+			    	
+				}
+				
+				function showNeterrorView(msg){
+					document.querySelector('#list').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'block';
+					document.querySelector('.neterror_cls span').innerHTML = msg;
+				}
+				
+				function showNulldataView(){
+					document.querySelector('#list').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'block';
+				}
+				
+
+				/**
+				 * 下拉刷新具体业务实现
+				 */
+				function zpulldownRefresh() {
+					console.log("您正在下拉更新主题");
+					
+					user_obj = eval(app.getDatas(PREFERENCE_USER));
+					console.log("---------plusReady-----------="+user_obj.role);
+
+					userxiaoquid = user_obj.xiaoqu_id;
+					useraccount = user_obj.account;
+					
+					if(chkNetStatus() == "OK") {
+						load_query_pulldown_zhuti();
+					} else{
+						mui.toast("网络异常");
+						return;
+					}	
+				}
+				
+				function load_query_pulldown_zhuti(){
+					console.log("正在为您加载主题列表");
+					mui.ajax(GETALLZHUTI_URL,{
+						data:{
+							school_id:userxiaoquid,
+							xiaoqu:userxiaoqu
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){							
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+							console.log("load_query_zhuti+info:"+infor);
+							if (obj.success==1) {
+								console.log("主题列表加载成功: ");
+								app.setDatas('ZhutiList','');
+								app.setDatas('ZhutiList',data);
+								if(obj.zhuti=="undefined"||obj.zhuti==null||obj.zhuti==''){
+									mui('#zpullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed	
+									showNulldataView();	
+								}
+								else{
+									document.querySelector('#nulldata_id').style.display = 'none';
+									document.querySelector('#neterror_id').style.display = 'none';
+									document.querySelector('#list').style.display = 'block';
+									showZhutiInfoFromLocalDatas_refresh();
+								}
+							} 
+							else{
+								mui('#zpullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed	
+								showNeterrorView("网络异常");						
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							showNeterrorView("网络异常");	
+						}	
+					});					
+				}
+				
+				function showZhutiInfoFromLocalDatas_refresh(){
+	
+						var user_obj=eval(app.getDatas(PREFERENCE_USER));
+						var table = document.body.querySelector('.zhutilist');
+						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+						var obj = eval(app.getDatas('ZhutiList'));
+						var content_temp;
+						console.log("###zhuti pull down cell length:" + cells.length);
+						console.log("###zhuti pull down obj zhuti length:" + obj.zhuti.length);
+
+						if(cells.length>=obj.zhuti.length){
+							var cell_first_id= cells[0].getAttribute("id");
+							if ((cells.length==obj.zhuti.length)&&(obj.zhuti[0].zid==cell_first_id)) {
+									mui.toast('已经是最新');
+							}else{
+								doc.getElementById("zhuti_list").innerHTML="";
+							}
+							console.log("更新前第一条帖子ID：" + cell_first_id);
+							for (var j = 0; j < obj.zhuti.length; j++) {
+								if ((cells.length==obj.zhuti.length)&&(obj.zhuti[0].zid==cell_first_id)) {
+									break;
+								}
+								console.log('有帖子被删除');
+								//权限
+								if (obj.zhuti.allow_visit == '3'){
+									if(user_obj.class_id != obj.zhuti[j].class_id){
+										continue;
+									}
+								}
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								li.setAttribute('id',obj.zhuti[j].zid);
+								li.setAttribute('school_id',obj.zhuti[j].school_id);				
+								li.setAttribute('publicer_name',obj.zhuti[j].created_username);
+	//							var a=document.createElement('a');
+	//							a.setAttribute('href','#detailNotice');
+	//							a.classList.add('mui-navigate-right');
+	//							var img=document.createElement('img');
+	//							img.classList.add('mui-media-object');
+	//							img.classList.add('mui-pull-left');
+	//							img.setAttribute('src','../images/notice.png');
+								var div=document.createElement('div');
+								div.classList.add('mui-media-body');
+								var p=document.createElement('p');
+								p.classList.add('mui-ellipsis');
+								p.style.fontSize='16px';
+								p.style.margin='10px';
+								p.innerHTML="<span style='font-size:18px; color:black;'>"+obj.zhuti[i].content+"</span>"+"-"+obj.zhuti[i].subject;
+						
+								if ('pic' in obj.zhuti[j]){
+									var div_img=document.createElement('div');
+									div_img.classList.add('mui-media-body');
+									div_img.style.width = "100%";
+									div_img.style.height = "150px";
+									div_img.style.overflow = "hidden";
+									div_img.style.borderRadius = "10px";
+	//								var br_s=document.createElement('br');
+	//								br_s.className='mui-h5';
+									var bigImg = document.createElement("img");
+									bigImg.style.width="100%";
+	//								bigImg.style.height="150px";
+									bigImg.style.borderRadius = "10px";
+									bigImg.src=BASE_URL+obj.zhuti[j].pic[0].path.substr(3);
+	//								var br_e=document.createElement('br');
+	//								br_e.className='mui-h5';
+								}
+								var publicer=document.createElement('span');
+								publicer.className='mui-h5';
+								publicer.innerHTML=obj.zhuti[j].created_username;
+	//							console.log('**************publicer:' + obj.zhuti[j].created_username);
+								var span=document.createElement('span');
+								span.className='mui-h5';
+								span.style.float='right';
+								span.innerHTML=obj.zhuti[j].created_time;
+								if ('pic' in obj.zhuti[j]){
+	//								div_img.appendChild(br_s);
+									div_img.appendChild(bigImg);
+	//								div_img.appendChild(br_e);
+									div.appendChild(div_img);
+								}	
+								div.appendChild(p);
+								div.appendChild(publicer);
+								div.appendChild(span);
+	//							a.appendChild(img);
+	//							a.appendChild(div);
+								li.appendChild(div);
+								table.appendChild(li);
+					    	}
+						}else{
+//							if ((cells.length-1)==obj.zhuti.length) {
+//									mui.toast('已经是最新');
+//								}
+							for (var i = obj.zhuti.length-cells.length; i > 0 ;i--) {
+								if (cells.length==obj.zhuti.length) {
+									console.log('pull down to update,no newer zhuti');
+									break;
+								}
+								else if (cells.length<obj.zhuti.length){
+									
+									console.log('正在为您加载新主题：' + obj.zhuti[i-1].content);
+									var li = document.createElement('li');
+									li.className = 'mui-table-view-cell';
+									li.setAttribute('id',obj.zhuti[i-1].zid);
+									li.setAttribute('school_id',obj.zhuti[i-1].school_id);				
+									li.setAttribute('publicer_name',obj.zhuti[i-1].created_username);
+		//							var a=document.createElement('a');
+		//							a.setAttribute('href','#detailNotice');
+		//							a.classList.add('mui-navigate-right');
+		//							var img=document.createElement('img');
+		//							img.classList.add('mui-media-object');
+		//							img.classList.add('mui-pull-left');
+		//							img.setAttribute('src','../images/notice.png');
+									var div=document.createElement('div');
+									div.classList.add('mui-media-body');
+									var p=document.createElement('p');
+									p.classList.add('mui-ellipsis');
+									p.style.fontSize='16px';
+									p.style.margin='10px';
+									p.innerHTML="<span style='font-size:18px; color:black;'>"+obj.zhuti[i].content+"</span>"+"-"+obj.zhuti[i].subject;
+						
+									if ('pic' in obj.zhuti[i-1]){
+										var div_img=document.createElement('div');
+										div_img.classList.add('mui-media-body');
+										div_img.style.width = "100%";
+										div_img.style.height = "150px";
+										div_img.style.overflow = "hidden";
+										div_img.style.borderRadius = "10px";
+		//								var br_s=document.createElement('br');
+		//								br_s.className='mui-h5';
+										var bigImg = document.createElement("img");
+										bigImg.style.width="100%";
+		//								bigImg.style.height="150px";
+										bigImg.style.borderRadius = "10px";
+										bigImg.src=BASE_URL+obj.zhuti[i-1].pic[0].path.substr(3);
+		//								var br_e=document.createElement('br');
+		//								br_e.className='mui-h5';
+									}
+//									var publicer=document.createElement('span');
+//									publicer.className='mui-h5';
+//									publicer.innerHTML=obj.zhuti[i-1].created_username;
+//									var span=document.createElement('span');
+//									span.className='mui-h5';
+//									span.style.float='right';
+//									span.innerHTML=obj.zhuti[i-1].created_time;
+									if ('pic' in obj.zhuti[i-1]){
+		//								div_img.appendChild(br_s);
+										div_img.appendChild(bigImg);
+		//								div_img.appendChild(br_e);
+										div.appendChild(div_img);
+									}	
+									div.appendChild(p);
+//									div.appendChild(publicer);
+//									div.appendChild(span);
+		//							a.appendChild(img);
+		//							a.appendChild(div);
+									li.appendChild(div);
+									//下拉刷新，新纪录插到最前面；
+									table.insertBefore(li, table.firstChild);
+								}
+							}
+						}
+						//console.log("^^^^^^^pull down zhuti then update kinder main:" + to_main);
+						//mui.fire(to_main, 'reload');
+						mui('#zpullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed		
+				}
+				
+//				var count = 0;
+				/**
+				 * 上拉加载具体业务实现
+				 */
+				function zpullupRefresh() {
+//					Load_zhuti();
+//					setTimeout(function() {
+//						mui('#zpullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+//						var table = document.body.querySelector('.mui-table-view');
+//						var cells = document.body.querySelectorAll('.mui-table-view-cell');
+//						var obj = eval(app.getDatas('TongzhiList'));
+//						var content_temp;
+//						for (var i = cells.length, len = i + 5; i < len; i++) {
+//									content_temp = obj.notice[i].content;
+//									content_temp=content_temp.replace('||||||'," ");
+//				//					console.log("22222" + content_temp);
+//									do{
+//										content_temp=content_temp.replace('|||'," ");
+//				//						console.log("33333" + content_temp);
+//									}while((content_temp.indexOf('|||') > 0));
+//									
+//									var li = document.createElement('li');
+//									li.className = 'mui-table-view-cell';
+//									li.setAttribute('id',obj.notice[i].id);
+//									var a=document.createElement('a');
+//									a.setAttribute('href','#detailNotice');
+//									a.classList.add('mui-navigate-right');
+//									var img=document.createElement('img');
+//									img.classList.add('mui-media-object');
+//									img.classList.add('mui-pull-left');
+//									img.setAttribute('src','../images/notice.png');
+//									var div=document.createElement('div');
+//									div.classList.add('mui-media-body');
+//									div.innerHTML=obj.notice[i].title;
+//									var p=document.createElement('p');
+//									p.classList.add('mui-ellipsis');
+//									p.style.marginTop = '5px';
+//									p.innerHTML='<b>' + content_temp + '<\b>';
+//									var br_s=document.createElement('br');
+//									br_s.className='mui-h5';
+//									var bigImg = document.createElement("img");
+//									bigImg.style.width='100%';
+//		//							bigImg.height='100';
+//									bigImg.src=BASE_URL+obj.notice[i].picture;
+//									var br_e=document.createElement('br');
+//									br_e.className='mui-h5';
+//									var publicer=document.createElement('span');
+//									publicer.className='mui-h5';
+//									publicer.innerHTML=obj.notice[i].publicer_name;
+//		//							console.log('**************publicer:' + obj.notice[i].publicer_name);
+//									var span=document.createElement('span');
+//									span.className='mui-h5';
+//									span.style.float='right';
+//									span.innerHTML=obj.notice[i].cdate;
+//									div.appendChild(p);
+//									if(obj.notice[i].picture!="" && obj.notice[i].picture!=null){
+//										div.appendChild(br_s);
+//										div.appendChild(bigImg);
+//										div.appendChild(br_e);
+//									}							
+//									div.appendChild(publicer);
+//									div.appendChild(span);
+//									a.appendChild(img);
+//									a.appendChild(div);
+//									li.appendChild(a);
+//							table.appendChild(li);
+//						}
+//					}, 1500);
+				}
+
+				var addlistener=function () {
+					mui("#zhuti_list").on('tap', '.mui-table-view-cell', function() {
+						var zhuti_id = this.getAttribute("id");
+						var schoolid = this.getAttribute("school_id");
+						console.log("您点击了第" + zhuti_id +"条主题");
+						mui.openWindow({
+							url: 'detail_zhuti.html',
+							id: 'detail_zhuti.html',
+//							preload: true,
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							},
+							extras:{
+								"zhuti_id":zhuti_id,
+								"school_id":schoolid
+							}
+						});
+						
+					});
+				}
+
+				//长按删除主题帖
+				function del_comment (zid) {
+					
+					var w=plus.nativeUI.showWaiting("正在删除...");	
+					mui.ajax(DELZHUTI_URL,{
+						data:{
+							zid:zid,
+							xiaoqu:userxiaoqu
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+		//				headers:{'Content-Type':'application/json'},
+						success:function (data){
+							
+							var infor=JSON.stringify(data);
+							var obj=eval(data);
+		//					console.log("info:"+infor);
+							if (obj.success==1) {
+								parent_node.removeChild(childe_node);
+		//						console.log('new PID：'+obj.pid);
+								//var ztgomain = plus.webview.getWebviewById('kinder_main.html');
+								//console.log("^^^^^^^delete zhuti then update kinder main:" + ztgomain);
+								//mui.fire(ztgomain, 'reload');
+							} else{
+								console.log("******network error");
+								mui.toast(obj.errorMsg);									
+							}		
+							w.close();
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							mui.toast("网络异常");
+							console.log("******network error");
+							//mui.toast("error type:"+type);
+							console.log("error type:"+type);
+							console.log(xhr.status);
+							console.log(xhr.readyState);
+							console.log(xhr.response);
+						}
+					});
+				}
+				var addlistener_del=function () {
+					console.log("init long tab zhuti list");
+					mui("#zhuti_list").on('longtap', '.mui-table-view-cell', function (e) {
+						
+					var roleArray = user_obj.role.split(",");
+					var hasZhutiAuthority = false;
+			
+					for(var i=0;i<roleArray.length;i++){
+						if(roleArray[i]=="13"){
+							hasZhutiAuthority = true;
+							break;
+						}
+					}
+			
+			    	if(hasZhutiAuthority){
+						console.log("long tab zhuti list");
+						var temp_zid = this.getAttribute("id");
+						var publicername = this.getAttribute("publicer_name");
+						console.log("----publicername--------="+publicername);
+			    		if(publicername == useraccount){
+				//			plus.nativeUI.alert("长按OK");
+							var el = e.srcElement;
+				//			console.log("###delid"+el.parentNode.parentNode.parentNode.title);
+				//			var btnArray = [{title:"删除"},{title:"复制"}];
+							var btnArray = [{title:"删除板块"}];
+							plus.nativeUI.actionSheet( {
+								title:"选择操作",
+								cancel:"取消",
+								buttons:btnArray
+							}, function(e){
+								var index = e.index;
+				//				var text = '你刚点击了,';
+								switch (index){
+									case 0:
+										break;
+									case 1:
+										parent_node = el.parentNode.parentNode.parentNode.parentNode;
+										childe_node = el.parentNode.parentNode.parentNode;					
+										del_comment(temp_zid);
+										//parent_node.removeChild(childe_node);
+										break;
+									case 2:
+										break;
+								}
+							});
+						}else{
+							mui.toast("仅支持删除本人创建的板块");
+						}
+					}else{
+						mui.toast("账号暂无权限删除板块");
+					}
+					});
+				};
+							
+				//	自定义事件，模拟点击“首页选项卡”
+				window.addEventListener('gosubzhuti', function() {
+			    	doc.getElementById("zhuti_list").innerHTML="";
+//					Load_notice();
+					console.log('*****************fire subtongzhinow');
+					load_zhuti_list();
+				});				
+				
+
+//				if (mui.os.plus) {
+//					mui.plusReady(function() {
+////						setTimeout(function() {
+////							//mui('#zpullrefresh').pullRefresh().pullupLoading();
+////						}, 10);
+//					console.log('mui plus load zhuti#############');
+//					//addlistener();	
+//					//addlistener_del();
+//					});
+//				} else {
+//					mui.ready(function() {
+//						//mui('#zpullrefresh').pullRefresh().pullupLoading();
+//					});
+//				}	
+				
+				
+//				(function($) {
+//					$.oldBack = mui.back;
+//					$.back = function(event) {
+//						if (mui.os.android) {
+//							var tabindex=plus.webview.getWebviewById('tab-index');
+//							mui.fire(tabindex,'gohome');
+//						} else{
+//							plus.runtime.quit();
+//						}
+//					};
+//				})(mui);
+			}(mui, document));
+
+		</script>
+	</body>
+
+</html>

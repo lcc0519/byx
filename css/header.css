@@ -1,0 +1,35 @@
+.mui-bar-nav {
+	/*background-color: rgb(252, 186, 37);*/
+	background-color: deepskyblue;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.mui-bar-nav a,
+.mui-bar .mui-btn-link {
+	color: white;
+}
+
+.mui-table-view-cell .mui-media .mui-col-xs-4 .mui-col-sm-4 {
+	padding: 0px;
+}
+
+.mui-icon-back:before,
+.mui-icon-left-nav:before,
+.mui-bar-nav .mui-title,
+#rightBar:before {
+	color: white;
+}
+
+.own-btn-green {
+	color: #fff;
+	border: 1px solid #41cea9;
+	background-color: #41cea9;
+}
+
+.own-btn-green.mui-active:enabled,
+.own-btn-green:enabled:active {
+	color: #fff;
+	border: 1px solid #41dfa9;
+	background-color: #41dfa9;
+}

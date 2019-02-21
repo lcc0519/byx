@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/style.css">
+		<title></title>
+		<style>
+			.touxiang_img {
+				display: block;
+				vertical-align: middle;
+				width: 3.8em;
+				height: 3.8em;
+				border-radius: 50%;
+				/*border: 2px solid white;*/
+				color: gray;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">电梯开门</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll">
+				<div class="headImg">
+					<div class="touxiang">
+						<div>
+							<img id="touxiang_img" src="" class="touxiang_img" style="display: none;"/>
+							<span id="default_touxiangimg" class="mui-icon mui-icon-contact" style="font-size: 3.8em; color: cornflowerblue;"></span>
+						</div>
+						<span id="touxiangid"></span>
+					</div>
+				</div>
+				<div id="">
+					<h5>可控设备:</h5>
+				</div>
+				<div>
+					<ul id="shebei_list" class="mui-table-view mui-table-view-chevron">
+						<li id="1" class="mui-table-view-cell">
+							<a  href="#" class="body-a">
+								<img class=" mui-pull-left body-img"  src="../images/door_close.png">
+								<span class="body-span">2号楼西电梯</span>
+								<img id="door_1" class=" mui-pull-right body-img"  src="../images/opendoor_close.png">
+							</a>
+						</li>
+						<li id="2" class="mui-table-view-cell">
+							<a  href="#" class="body-a">
+								<img class=" mui-pull-left body-img"  src="../images/door_close.png">
+								<span class="body-span">2号楼东电梯</span>
+								<img id="door_2" class=" mui-pull-right body-img" src="../images/opendoor_close.png">
+							</a>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="mui-control-content mui-table-view  mui-active">
+									<ul class="mui-table-view mui-grid-view">
+										<li class="mui-table-view-cell mui-col-xs-6">
+											<a href="。。/../../shequjiankong/demo_dahua_tdyp3.html">
+												<div class= "bgDiv">
+													<img class="mui-media-object" src="../shequjiankong/images/xiaoqujiankong_xidamen.png"/>
+														<div class="mui-media-body">
+															<p class="mui-ellipsis-2" style="word-wrap: break-word;">2号楼西电梯</p>
+														</div>
+												</div>
+											</a>
+										</li>
+										<li class="mui-table-view-cell mui-col-xs-6">
+											<a href="。。/../../shequjiankong/demo_dahua_tdyp4.html">
+												<div class= "bgDiv">
+													<img class="mui-media-object" src="../shequjiankong/images/xiaoqujiankong_dongdamen.png"/>
+														<div class="mui-media-body">
+															<p class="mui-ellipsis-2" style="word-wrap: break-word;">2号楼东电梯</p>
+														</div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+								
+			</div>
+		</div>		
+	</body>
+	<script src="https://open.ys7.com/sdk/js/1.0/ezuikit.js"></script> 
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+				
+				getUserInfor();
+
+				function getUserInfor() {
+					var user_obj=eval(app.getDatas(PREFERENCE_USER));
+					var userid=user_obj.id;
+					var touxiang = user_obj.touxiang;
+					doc.getElementById("touxiangid").innerHTML="ID:"+userid;
+				
+					if(touxiang == null || touxiang == "") {
+						document.getElementById('default_touxiangimg').style.display='block';
+						document.getElementById("touxiang_img").style.display='none';
+					} 
+					else {
+						document.getElementById('touxiang_img').style.display='block';
+						document.getElementById("default_touxiangimg").style.display='none';
+						var s = new Array();
+						console.log(touxiang);
+						s = touxiang.split("/");
+						var touxiangPath = BASE_URL + s[1] + "/" + s[2] + "/" + s[3];
+						console.log("touxiangPath:" + touxiangPath);
+						document.getElementById('touxiang_img').src = touxiangPath;
+					}
+				}
+
+			});
+
+			mui("#shebei_list").on('tap', 'li', function() {
+				
+				var thisdoor = this;
+				
+				if(thisdoor.classList.contains('mui-active')){
+					console.log("------------thisdoor.classList.contains('mui-active')------------");
+					return;
+				}
+				
+				
+				var imgs = this.getElementsByClassName('body-img');
+
+				var diantiname = this.getElementsByClassName('body-span')[0].innerHTML;
+				var w=plus.nativeUI.showWaiting("正在发送电梯开门请求...");
+				
+//				var OpenDianti_URL_with_para = OpenDianti_URL+"?id=23&tele=13805353402";
+//				console.log("-------OpenDianti_URL_with_para----------="+OpenDianti_URL_with_para);
+				
+				var OpenDoor_URL_with_para = OpenDoor_URL+"?deviceIdentifier="+thisdoor.getAttribute("id")+"&control=1";
+				console.log("-----------------="+OpenDoor_URL_with_para);
+						
+				//mui.ajax(OpenDianti_URL_with_para,{
+				mui.ajax(OpenDoor_URL_with_para,{
+					data:{
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function (data){
+						w.close();								
+						var infor=JSON.stringify(data);
+						console.log("------OpenDianti_URL--------"+infor);
+						var obj=eval(data);
+						if (obj.success==1) {
+							imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_open.png";
+							imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_open.png";
+							thisdoor.classList.add('mui-active');
+							mui.toast(diantiname+"已开门");	
+						} else{
+							console.log("------------obj.success==!1---------------");
+							imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+							imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+							thisdoor.classList.remove('mui-active');
+							mui.toast(diantiname+"开门失败");
+						}								
+					},							
+					error:function(xhr,type,errorThrown){						
+						
+//						if(thisdoor.id == "1"||thisdoor.id == "2"){
+//							w.close();
+//							imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_open.png";
+//							imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_open.png";
+//							thisdoor.classList.add('mui-active');
+//							mui.toast(diantiname+"已开门");		
+//							
+//							setTimeout(function(){
+//								console.log("------------setTimeout------------");
+//            					imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+//								imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+//								thisdoor.classList.remove('mui-active');
+//								mui.toast(diantiname+"已关门");
+//       					},10000);
+//							
+//							return;
+//						}
+						
+						w.close();
+						imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+						imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+						thisdoor.classList.remove('mui-active');
+						mui.toast(diantiname+"开门失败");
+					}
+				});
+			});
+			
+		}(mui, document));
+	</script>
+</html>

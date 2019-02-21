@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+			<link rel="stylesheet" href="../css/style.css">
+		<title></title>
+		<style>
+			.touxiang_img {
+				display: block;
+				vertical-align: middle;
+				width: 3.8em;
+				height: 3.8em;
+				border-radius: 50%;
+				/*border: 2px solid white;*/
+				color: gray;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">小区门禁</h1>
+		</header>
+		<div class="mui-content">
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">暂无可控设备</span>
+				<br />
+			</div>
+			<div  id="menjinview_id" class="mui-scroll">
+				<div class="headImg">
+					<div class="touxiang">
+						<div>
+							<img id="touxiang_img" src="" class="touxiang_img" style="display: none;"/>
+							<span id="default_touxiangimg" class="mui-icon mui-icon-contact" style="font-size: 3.8em; color: cornflowerblue;"></span>
+						</div>
+						<span id="touxiangid"></span>
+					</div>
+				</div>
+				<div id="">
+					<h5  style="margin: 10px;">可控门禁:</h5>
+				</div>
+				<ul id="shebei_list" class="mui-table-view mui-table-view-chevron">
+					<!--<li id="1" class="mui-table-view-cell">
+						<a  href="#" class="body-a">
+							<img class=" mui-pull-left body-img"  src="../images/door_close.png">
+							<span class="body-span">单元门</span>
+							<img id="door_1" class=" mui-pull-right body-img"  src="../images/opendoor_close.png">
+						</a>
+					</li>
+					<li id="2" class="mui-table-view-cell">
+						<a  href="#" class="body-a">
+							<img class=" mui-pull-left body-img"  src="../images/door_close.png">
+							<span class="body-span">东门</span>
+							<img id="door_2" class=" mui-pull-right body-img" src="../images/opendoor_close.png">
+						</a>
+					</li>
+					<li id="3" class="mui-table-view-cell">
+						<a  href="#" class="body-a">
+							<img class=" mui-pull-left body-img"  src="../images/door_close.png">
+							<span class="body-span">南门</span>
+							<img id="door_3" class=" mui-pull-right body-img" src="../images/opendoor_close.png">
+						</a>
+					</li>-->
+				</ul>
+				<div id="">
+					<h5  style="margin: 10px;">访客模式:</h5>
+				</div>
+				<div id="">
+					<ul id="fangke_list" class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell">
+							<a  href="fangkema.html" class="mui-navigate-right body-a">
+							<img class=" mui-pull-left body-img"  src="../images/little_qrcode.png">
+							<span class="body-span">访客邀请码</span></a>
+						</li>
+					</ul>
+					<ul id="fangke_list" class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell">
+							<a  href="../menjin/fangkejilu.html" class="mui-navigate-right body-a">
+							<img class=" mui-pull-left body-img"  src="../images/home_me_xiaoxitongzhi.png">
+							<span class="body-span">访客记录</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>	
+		</div>			
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		var user_obj = null;
+		var obj = null;
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+				
+				console.log("------plusReady-----------");
+				getUserInfor();
+				get_device_list();
+				document.querySelector('.neterror_cls button').addEventListener('tap', function() {
+					getUserInfor();
+					get_device_list();
+				}, false);
+			});
+
+			function getUserInfor() {
+				console.log("------getUserInfor-----------");
+				user_obj=eval(app.getDatas(PREFERENCE_USER));
+				var userid=user_obj.id;
+				var touxiang = user_obj.touxiang;
+				doc.getElementById("touxiangid").innerHTML="ID:"+userid;
+			
+				if(touxiang == null || touxiang == "") {
+					document.getElementById('default_touxiangimg').style.display='block';
+					document.getElementById("touxiang_img").style.display='none';
+				} 
+				else {
+					document.getElementById('touxiang_img').style.display='block';
+					document.getElementById("default_touxiangimg").style.display='none';
+					var s = new Array();
+					console.log(touxiang);
+					s = touxiang.split("/");
+					var touxiangPath = BASE_URL + s[1] + "/" + s[2] + "/" + s[3];
+					console.log("touxiangPath:" + touxiangPath);
+					document.getElementById('touxiang_img').src = touxiangPath;
+				}
+			}
+
+			function get_device_list() {
+				console.log("------get_device_list-----------");
+				if(chkNetStatus() != "OK") {
+					showNeterrorView("网络异常");
+					return;
+				}	
+
+				var w=plus.nativeUI.showWaiting("正在获取门禁列表...");
+				
+				console.log("-------get_device_list------="+Query_Device_List_URL);
+				
+					mui.ajax(Query_Device_List_URL,{
+						data:JSON.stringify({
+							user_id:user_obj.id,
+							xiaoqu:user_obj.xiaoqu
+						}),
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){
+							w.close();	
+							var infor=JSON.stringify(data);
+							obj=eval(data);
+							console.log("-------get_device_list--------="+infor);
+							if (obj.success==1) {
+								
+								if(obj.menjin=="undefined"||obj.menjin==null){
+									showNulldataView();	
+								}
+								else{
+									
+									if(obj.menjin.damen=="undefined"||obj.menjin.damen==null){
+										showNulldataView();	
+									}
+									else{
+										document.querySelector('#nulldata_id').style.display = 'none';
+										document.querySelector('#neterror_id').style.display = 'none';
+										document.querySelector('#menjinview_id').style.display = 'block';
+										showDevidesView();
+									}
+								}
+							} 
+							else{
+								showNeterrorView("网络异常");						
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							showNeterrorView("网络异常");	
+						}	
+					});						
+			}
+
+				function showNeterrorView(msg){
+					document.querySelector('#menjinview_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'block';
+					document.querySelector('.neterror_cls span').innerHTML = msg;
+				}
+				
+				function showNulldataView(){
+					document.querySelector('#menjinview_id').style.display = 'none';
+					document.querySelector('#neterror_id').style.display = 'none';
+					document.querySelector('#nulldata_id').style.display = 'block';
+				}
+				
+				function showDevidesView() {
+				
+					var categoryarray = [];
+					for(var i = 0; i < obj.menjin.damen.length; i++) {
+							var item = {};		
+							item.name = obj.menjin.damen[i].gate_name;
+							item.id = obj.menjin.damen[i].gate_no;
+							categoryarray[i] = item;
+					}	
+					
+					var html = "";
+					mui.each(categoryarray, function(index, item) {
+						html = html + 
+						'<li class="mui-table-view-cell" id="' +item.id + '">\
+							<a  href="#" class="body-a">\
+								<img class=" mui-pull-left body-img"  src="../images/door_close.png">\
+								<span class="body-span">' + item.name + '</span>\
+								<img class=" mui-pull-right body-img"  src="../images/opendoor_close.png">\
+							</a>\
+						</li>';
+					});		
+	
+					console.log("---html---" + html);
+					document.getElementById('shebei_list').innerHTML = html;
+					
+					mui("#shebei_list").on('tap', 'li', function() {
+				
+						var thisdoor = this;
+						
+						if(thisdoor.classList.contains('mui-active')){
+							console.log("------------thisdoor.classList.contains('mui-active')------------");
+							return;
+						}
+
+						var imgs = this.getElementsByClassName('body-img');
+		
+						var diantiname = this.getElementsByClassName('body-span')[0].innerHTML;
+						var w=plus.nativeUI.showWaiting("正在发送开门请求...");
+						
+						console.log("-----------------="+thisdoor.getAttribute("id"));
+						console.log("-----------------="+OpenDoor_URL);
+						
+						var OpenDoor_URL_with_para = OpenDoor_URL+"?deviceIdentifier="+thisdoor.getAttribute("id")+"&control=1";
+						console.log("-----------------="+OpenDoor_URL_with_para);
+						mui.ajax(OpenDoor_URL_with_para,{
+							data:{
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function (data){
+								w.close();								
+								var infor=JSON.stringify(data);
+								var doorobj=eval(data);
+								console.log("--------OpenDoor_URL------------="+infor);
+
+								if(doorobj.code=="1"){
+									console.log("------------doorobj.code==1---------------");
+									imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_open.png";
+									imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_open.png";
+									thisdoor.classList.add('mui-active');
+									mui.toast(diantiname+"已开门"+"\n"+"15秒之后自动关闭");	
+									
+									setTimeout(function(){
+										console.log("------------setTimeout------------");
+		              					imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+										imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+										thisdoor.classList.remove('mui-active');
+										mui.toast(diantiname+"已关门");
+		         					},15000);
+									
+								} else{
+									console.log("------------doorobj.code!=1---------------");
+									imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+									imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+									thisdoor.classList.remove('mui-active');
+									mui.toast(diantiname+"开门失败");
+								}								
+							},							
+							error:function(xhr,type,errorThrown){
+
+								w.close();
+								imgs[0].src = imgs[0].src.substr(0,imgs[0].src.indexOf("_"))+"_close.png";
+								imgs[1].src = imgs[1].src.substr(0,imgs[1].src.indexOf("_"))+"_close.png";
+								thisdoor.classList.remove('mui-active');
+								mui.toast(diantiname+"开门失败");
+								console.log("error type:"+type);
+								console.log(xhr.status);
+								console.log(xhr.readyState);
+								console.log(xhr.response);
+								//mui.alert(xhr.response);
+							}
+						});
+					});
+			
+				}
+		
+		}(mui, document));
+	</script>
+</html>

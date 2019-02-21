@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 10px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+			
+			/*.mui-input-group label {
+				border:1px solid #099FDE;
+				width: 30%;
+				padding-right: 0px;
+			}
+			
+			.mui-input-row label~input {
+				border: 1px solid #099FDE;
+				width: 45%;
+				float: left;
+				padding-right: 0px;
+			}*/
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left ">
+						<span class="mui-icon mui-icon-left-nav mui-icon"></span>
+					</button>
+			<h1 class="mui-center mui-title">修改密码</h1>
+			<a id="pwdsubmit" class="mui-icon mui-icon-upload mui-pull-right"  style="color: white"></a>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>当前密码</label>
+					<input id='oldpwd' type="password" autofocus class="mui-input-password mui-input" placeholder="请输入当前密码">
+				</div>
+				<div class="mui-input-row">
+					<label>新密码</label>
+					<input id='newpwd' type="password" class="mui-input-password mui-input" placeholder="密码最少6位">
+				</div>
+				<div class="mui-input-row">
+					<label>确认新密码</label>
+					<input id='conpwd' type="password" class="mui-input-password mui-input" placeholder="需与新密码输入一致">
+				</div>
+				<!--<div class="mui-input-row">
+					<label>验证码</label>
+					<input id='code' type="text" class="mui-input-clear mui-input" placeholder="请输入验证码">
+					<button id="btnSendCode" type="button" class="mui-btn mui-btn-primary mui-btn-outlined" style="width: 25%;float: left;text-align: center;">获取验证码</button>
+
+				</div>-->
+			</form>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+//		var verifyFlag=false;
+		mui.init({
+			swipeBack: false //启用右滑关闭功能
+		});
+
+		//初始化单页的区域滚动
+		//		mui('.mui-scroll-wrapper').scroll();
+		//分享操作
+
+		mui.plusReady(function() {
+			console.log(" changePwd  PlusReady");
+			
+			// 修改密码
+			document.getElementById('pwdsubmit').addEventListener('tap', function() {
+								
+				var user_obj = eval(app.getDatas(PUBLIC_USER));
+				var old_pwd = document.getElementById('oldpwd').value;
+				var new_pwd = document.getElementById('newpwd').value;
+				var con_pwd = document.getElementById('conpwd').value;
+
+				if(old_pwd == null || old_pwd == "" || new_pwd == null || new_pwd == "" || con_pwd == null || con_pwd == "") {
+					mui.toast("信息填写不全，请检查");
+					console.log("信息填写不全，请检查");
+				}
+				else{
+					if(chkpwd(old_pwd) &&chkpwd(new_pwd) && chkpwd(con_pwd) ){
+		
+						console.log("chkpwd ok msg is ok");
+						if(con_pwd == new_pwd) {
+							if(con_pwd.length > 5 && new_pwd.length > 5) {
+								var btnArray = ['否', '是'];
+								mui.confirm('确认提交？', '', btnArray, function(e) {
+									if(e.index == 1) {
+										mui.ajax(Change_Password_URL_SC, {
+											data: {
+												account: user_obj.account,
+												oldPwd: old_pwd,
+												newPwd: new_pwd
+											},
+											dataType: 'json', //服务器返回json格式数据
+											type: 'get', //HTTP请求类型
+											timeout: 10000, //超时时间设置为10秒；
+											//									headers:{'Content-Type':'application/json'},
+											success: function(data) {
+												var infor = JSON.stringify(data);
+												var obj = eval(data);
+												console.log("changePwd+info:" + infor);
+												if(obj.success == 1) {
+													console.log("submit success");
+													mui.toast("密码修改成功!");
+													var data1 = eval(app.getDatas(PUBLIC_USER));
+													data1.password = new_pwd;
+													app.setDatas(PUBLIC_USER, data1);
+													mui.back();
+												} else {
+													mui.toast(obj.errorMsg);
+												}
+											},
+											error: function(xhr, type, errorThrown) {
+												mui.toast("网络异常");
+												console.log("error type:" + type);
+											}
+										});
+									} 
+								});
+							} else {
+								mui.toast("密码不够六位，请重新输入");
+							}
+						} else {
+							mui.toast("两次密码输入不一致，请检查");
+						}
+					}else{
+						mui.toast("输入信息中包含不允许的特殊字符，请检查后重新输入");
+					}
+				}				
+			});
+		});
+
+	</script>
+
+</html>

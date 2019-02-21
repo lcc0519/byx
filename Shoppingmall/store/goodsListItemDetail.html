@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css">
+		<style>
+			body {
+				/*overflow: hidden;*/
+				background-color: #F8F8F8;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+				height: 50%;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.lazy-img {
+				width: 100%;
+				height: 50%;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			.mui-input-group:last-child {
+				border: 0;
+			}
+			
+			.mui-input-group label:first-child {
+				width: 30%;
+			}
+			
+			.mui-input-group label:last-child {
+				width: 70%;
+			}
+			
+			.mui-input-group .mui-input-row {
+				height: 40px;
+				/*background-color: #007AFF;*/
+			}
+			
+			.mui-input-group label {
+				height: 40px;
+				line-height: 20px;
+				/*font-size: 15px;*/
+			}
+			
+			.detail_tupian {
+				/*position: fixed;*/
+				height: 50%;
+				width: 100%;
+				text-align: center;
+				padding-bottom: 0;
+				/*border: 2px solid red;*/
+				background-color: #FFFFFF;
+			}
+			
+			.detail_tupian img {
+				vertical-align: middle;
+				width: 100%;
+				height: 50%;
+				padding-bottom: 0px;
+				margin-bottom: 0px;
+			}
+			
+			.detail_footer {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 50px;
+				line-height: 50px;
+				color: #fff;
+				font-size: 16px;
+			}
+			
+			.detail_footer div {
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				float: left;
+			}
+			
+			#favr_img {
+				/*position: fixed;
+				left: 8px;
+				bottom: 12px;*/
+				vertical-align: middle;
+				height: 25px;
+				width: 25px;
+			}
+			
+			#cart_img {
+				float: right;
+			}
+			
+			#shangpincanshu {
+				position: fixed;
+				width: 100%;
+				height: 400px;
+				/*bottom: 0px;*/
+				/*right:50%;*/
+			}
+			
+			#addtocart {
+				position: fixed;
+				width: 100%;
+				height: 300px;
+			}
+			
+			#canshu_end {
+				position: fixed;
+				width: 100%;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 40px;
+				line-height: 30px;
+				color: #fff;
+				font-size: 16px;
+				background-color: #FF5809;
+			}
+			
+			#cart_end {
+				position: fixed;
+				width: 100%;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				height: 40px;
+				text-align: center;
+				/*line-height: 40px;*/
+				color: #FFFFFF;
+				font-size: 16px;
+				background-color: #FF5809;
+			}
+			
+			.canshu_header {
+				position: fixed;
+				bottom: 400px;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				background-color: #FFFFFF;
+				margin-bottom: 0px;
+				text-align: center;
+			}
+			
+			.mui-input-row label:first-child {
+				color: black;
+				font-size: 15px;
+			}
+			
+			.mui-input-row label:last-child {
+				color: #666666;
+				font-size: 15px;
+			}
+			
+			.xiangqing_img {
+				width: 100%;
+				height: 100%;
+				margin-bottom: -6px;
+			}
+			
+			.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+				margin: 0;
+				padding: 4px 0px;
+				vertical-align: top;
+				border-right: 0px;
+				border-bottom: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 0px;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-content ">
+			<div id="network-bad" class="network-bad" style="text-align: center; margin-top: 200px;height:100%;width:100%; display: none;">
+				<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button id="reload" type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="loading" style="text-align: center; margin-top: 200px;height:100%;width:100%; ">
+				<span class="mui-spinner"></span>
+			</div>
+			<div id="network-good" class="network-good" style="display: none;">
+				<div class="swiper-container detail_tupian" style="width: 100%; display: none;">
+					<!--swiper容器[可以随意更改该容器的样式-->
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><img data-src="http://120.192.167.84/wuye/attach/1497346080398.png" class="swiper-lazy"></div>
+						<div class="swiper-slide"><img data-src="http://120.192.167.84/wuye/attach/1492073780957.png" class="swiper-lazy"></div>
+						<div class="swiper-slide"><img data-src="http://120.192.167.84/wuye/attach/1492073748806.png" class="swiper-lazy"></div>
+					</div>
+					<div class="swiper-pagination" style="width: 100px;float: left"></div>
+					<!--分页器-->
+				</div>
+				<div id="slider" class="mui-slider detail_tupian">
+					<div id="slider-img" class="mui-slider-group mui-slider-loop">
+					</div>
+					<div id="slider-indicator" class="mui-slider-indicator">
+					</div>
+				</div>
+				<div style="background-color: #FFFFFF;padding:0px">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-disabled" style="padding: 0px 5px;border: 0px;">
+							<div style="width: 80%;float: left;padding-top: 10px;padding-left: 5px;">
+								<label id="shangpinmiaoshu" style="width:100%;line-height: 20px; font-size: 1.1em;color: #575757;">商品描述商品描述商品描述</label>
+							</div>
+							<div style="width: 20%;float: left;padding-top: 5px;">
+								<img src="../images/map_icon.png" style="height: 32px;width: 52px;float:right;" />
+							</div>
+						</li>
+						<li class="mui-table-view-cell mui-disabled">
+							<div style="margin-bottom: 10px;">
+								<label style="text-align: center;">
+									<span id="shangpinprice" style="font-size: 1.1em;color: #FF5809; margin-right: 10px;vertical-align: bottom;">rrr</span>
+									<span style="border: 1px solid #FF5809; border-radius: 4px;color: #FF5809;font-size: 11px;padding: 1px;vertical-align: bottom;">会员专享</span>
+								</label>
+							</div>
+							<div style="color: #8F8F94; font-size: 14px;">
+								<span id="youfei" style="float: left; padding-left: 5px;">快递：0.00</span>
+								<span style="margin-left: 100px;">月销232笔</span>
+								<span style="float: right; padding-right: 5px;">芝罘区—幸福路</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<ul class="mui-table-view mui-table-view-chevron" style="border-top: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;background-color: #f4f4f4;">
+					<li class="mui-table-view-cell" style="border-bottom: 1px solid #EEEEEE;">
+						<a href="#privacy" class="mui-navigate-right">
+							<label class="mui-icon iconfont icon-check" style="color: #ff5000;font-weight:bold"></label>
+							<p style="display: inline;margin-right: 5px;">预约体验 </p>
+							<label class="mui-icon iconfont icon-check" style="color: #ff5000;font-weight:bold"></label>
+							<p style="display: inline;margin-right: 5px;">免费安装</p>
+							<label class="mui-icon iconfont icon-check" style="color: #ff5000;font-weight:bold"></label>
+							<p style="display: inline;margin-right: 5px;">三年质保</p>
+							<label class="mui-icon iconfont icon-check" style="color: #ff5000;font-weight:bold"></label>
+							<p style="display: inline;">分期购</p>
+						</a>
+					</li>
+					<li class="mui-table-view-cell" style="border-bottom: 1px solid #EEEEEE;">
+
+						<a href="#privacy" class="mui-navigate-right">
+							<label style="border: 1px solid red; border-radius: 4px;color: #ff5000;width:40px;text-align: center;margin-right: 10px;padding:2px auto; font-size: 12px;">
+							积分
+						</label>
+							<label style="font-size: 14px;color: #8F8F94;">购买可得<span id="shangpinjifen">0</span>积分</label>
+						</a>
+					</li>
+				</ul>
+				<div style="margin-top:5px;">
+					<ul class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell">
+							<a href="#shangpincanshu" class="mui-navigate-right">
+								<span style="font-size:15px;color: #575757;">产品参数</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!--<div id="pingjia">
+				<div style="height: 50px;vertical-align: middle;text-align: center;border: 1px solid navajowhite;line-height: 50px;">
+					<img src="../images/yizhan_xiaozizhongxin.png" style="height: 30px;width: 30px;vertical-align: middle;" />
+					<span >评价</span>
+				</div>
+				<div style="background: #FFFFFF;padding:15px;">
+					<span id="pingjia_num" style="font-size: 15px;">宝贝评价(1000)</span>
+					<br />
+					<div id="pingjia_content" style="margin-top:10px;margin-bottom: 10px;">
+						<div style="height:25px;border:1px solid royalblue;vertical-align: middle;line-height: 20px;">
+							<img src="../../images/logo_zhejiayizhan.png" style="position: relative;height: 20px;width: 20px;" />
+							<span id="user_name" style="height:50px;border: 1px solid brown;">lixinmei</span>
+						</div>
+						
+					</div>
+					<div style="text-align: center;">
+						<button style="text-align: center;border-color: #FF5809;color: #FF5809;vertical-align: middle;padding: 2px 10px;border-radius: 20px;font-size: 12px;">查看全部评价</button>
+					</div>
+					
+				</div>
+				</div>-->
+				<div id="xiangqing" style="margin-top: 5px;margin-bottom: 44px;">
+				</div>
+				<div class="detail_footer">
+					<div id="add_favr" style="background-color: red;width: 44%;border-top: 1px solid gainsboro;">
+						<ul id="gridview" class="mui-table-view mui-grid-view mui-grid-9">
+							<li id="dianpu" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" style="height: 50px;">
+								<span class="mui-icon iconfont icon-dianpu" style="font-size: 25px;color: #a6a6a6;"><br />
+									<p style="font-size: 12px;color: #a6a6a6;">店铺</p>
+								</span>
+							</li>
+							<li id="collection" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+								<span id="shoucang_icon" class="mui-icon iconfont icon-favorite" style="font-size: 25px;color: #a6a6a6;"><br />
+									<p id="shoucang" style="font-size: 12px;color: #a6a6a6;">收藏</p>
+								</span>
+							</li>
+							<li id="bbkc" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+								<span class="mui-icon iconfont icon-yuyue" style="font-size: 25px;color: #a6a6a6;"><br />
+									<p style="font-size: 12px;color: #a6a6a6;">预约</p>
+								</span>
+							</li>
+						</ul>
+					</div>
+					<div id="add_cart" style="background-color: #ffa601;width: 27%;">
+						<a id="cart_sp" style="color: #FFFFFF;padding: 13px;" href="#addtocart">加入购物车</a>
+					</div>
+					<div id="buy_now" style="background-color: #fe5a01;width: 29%;">
+						<a id="buy_sp" style="color: #FFFFFF;">立即购买</a>
+					</div>
+				</div>
+
+				<!--二级页面 -->
+				<!-- 产品参数-->
+				<div id="shangpincanshu" class="mui-popover mui-popover-bottom mui-popover-action">
+					<div class="canshu_header">
+						<span style="color: #333333; font-size: 1em;"> 产品参数</span>
+					</div>
+					<div class="mui-scroll-wrapper canshu_scroll" style="margin-bottom: 40px;margin-top: 0px;border-radius: 0;">
+						<div class="mui-scroll mui-input-group">
+							<div class="mui-input-row">
+								<label>商品名称:</label>
+								<label id="mingcheng"></label>
+							</div>
+							<div class="mui-input-row">
+								<label>商品简介:</label>
+								<label id="jianjie"></label>
+							</div>
+							<div class="mui-input-row">
+								<label>商品编号:</label>
+								<label id="bianhao">null</label>
+							</div>
+							<div class="mui-input-row">
+								<label>商品规格:</label>
+								<label id="guige"></label>
+							</div>
+							<div class="mui-input-row">
+								<label>商品原价:</label>
+								<label id="yuanjia">null</label>
+							</div>
+							<div class="mui-input-row">
+								<label>会员价格:</label>
+								<label id="huiyuanjia">null</label>
+							</div>
+							<div class="mui-input-row">
+								<label>库存数量:</label>
+								<label id="kucun">null</label>
+							</div>
+							<div class="mui-input-row">
+								<label>商品单位:</label>
+								<label id="danwei">null</label>
+							</div>
+							<div class="mui-input-row">
+								<label>生产厂家:</label>
+								<label id="changjia">null</label>
+							</div>
+						</div>
+					</div>
+					<div class="detail_footer">
+						<input id="canshu_end" type="button" value="完  成" />
+					</div>
+				</div>
+
+				<!-- 加入购物车参数-->
+				<div id="addtocart" class="mui-popover mui-popover-bottom mui-popover-action">
+					<div id="gouwuche_head" style="background-color: #FFFFFF; height: 120px;">
+						<div style="float:left;width: 40%; text-align: center;">
+							<div style="width: 100px; height: 100px; text-align: center; border: 1px solid #C0C0C0;margin: 10px;border-radius: 5px;">
+								<img id="addcart_img" src="" style="width: 90px;height: 90px; vertical-align: middle;margin: 5px;" />
+							</div>
+
+						</div>
+						<div style="float:left;width:50%;line-height: 40px;font-size: 16px;">
+							<span id="cart_price" style="color: red ;font-size: 16px;">¥100000.00</span>
+							<br />
+							<span>库存:<span id="cart_kucun" style="margin-left:10px;">000</span>件</span>
+						</div>
+						<div style="float:left;width:10%;">
+							<span id="close_addcart" class="mui-icon mui-icon-close" style="width: 40px;height: 40px;margin: 5px;color: #d6d6d6;font-weight:bold"></span>
+						</div>
+					</div>
+					<div style="background-color: #FFFFFF; height: 140px;padding: 50px;border: solid 1px #C0C0C0;">
+						<div style="float: left; width: 40%; margin-left: 10px; vertical-align: middle;height: 35px;line-height: 35px;">
+							<label>购买数量：</label>
+						</div>
+						<div class="buy_no " style="float: left;width: 50%;">
+							<div id="mui-number" class="mui-numbox " data-numbox-step='1' data-numbox-min='1' style="line-height: 30px;">
+								<button id="reduce_quantity" class="mui-btn-numbox-minus" type="button">-</button>
+								<input id="buy_quantity" class="mui-input-numbox" type="number" />
+								<button id="add_quantity" class="mui-btn-numbox-plus" type="button">+</button>
+							</div>
+						</div>
+					</div>
+					<!--<div style="height: 10px;background-color: red;">oooooo</div>-->
+					<div class="detail_footer">
+						<input id="cart_end" type="button" value="确    定" />
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<!--<script type="text/javascript" src="../js/ajax.js"></script>-->
+		<script type="text/javascript" src="../js/mui.zoom.js"></script>
+		<script type="text/javascript" src="../js/mui.previewimage.js"></script>
+		<script src="../js/swiper-3.4.2.min.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+
+		<script>
+			var mySwiper = new Swiper(".swiper-container", {
+				direction: "horizontal",
+				/*横向滑动*/
+				loop: true,
+				/*形成环路（即：可以从最后一张图跳转到第一张图*/
+				pagination: ".swiper-pagination",
+				/*分页器*/
+				lazyLoading: true, //启动延迟加载
+				　　lazyLoadingInPrevNext: true, //延迟加载应用到最接近的slide的图片
+				　　lazyLoadingInPrevNextAmount: 1, //加载下一个slide
+				　　lazyLoadingOnTransitionStart: true, //过渡到slide一开始就加载，设置为true
+			});
+			mui.previewImage();
+			//			var user_obj = eval(app.getDatas(PREFERENCE_USER));
+			var shoucangStatus = "";
+			var SliderImg = document.getElementById('slider-img');
+			var SliderInd = document.getElementById('slider-indicator');
+			var numberBox = document.getElementById('mui-number');
+			var buyNo = document.getElementById('buy_quantity');
+			var AddQuantityButton = document.getElementById('add_quantity');
+			var ReduceQuantityButton = document.getElementById('reduce_quantity');
+			var favrImg = document.getElementById('favr_img');
+			var favrSp = document.getElementById('favr_sp');
+			var cartSp = document.getElementById('cart_sp');
+			var buySp = document.getElementById('buy_sp');
+			var favrBox = document.getElementById('add_favr');
+			var cartBox = document.getElementById('add_cart');
+			var buyNowBox = document.getElementById('buy_now');
+			var mingchengLab = document.getElementById('mingcheng');
+			var jianjieLab = document.getElementById('jianjie');
+			var bianhaoLab = document.getElementById('bianhao');
+			var guigeLab = document.getElementById('guige');
+			var yuanjiaLab = document.getElementById('yuanjia');
+			var huiyuanjiaLab = document.getElementById('huiyuanjia');
+			var kucunLab = document.getElementById('kucun');
+			var kucunSp = document.getElementById('kucun_head');
+			var danweiLab = document.getElementById('danwei');
+			var changjiaLab = document.getElementById('changjia');
+			var cartImg = document.getElementById('cart_img');
+			var EndcanshuButton = document.getElementById('canshu_end');
+			var EndcartButton = document.getElementById('cart_end');
+			var shangpinmiaoshuLab = document.getElementById('shangpinmiaoshu');
+			var shoucang_icon = document.getElementById('shoucang_icon');
+			var shoucang = document.getElementById('shoucang');
+			var shangpinprice = document.getElementById('shangpinprice');
+			var shangpinItem = {};
+			var queryResultOBJ;
+			var shangpintupianStr = "";
+			var Filedownload;
+			var kucunArr = new Array();
+			var screenHeight = window.screen.height;
+			var screenWidth = window.screen.width;
+			var goodsDetail;
+			var creater_id;
+			var shoucang_id;
+			var goodsArray = [];
+			var pingtai;
+			mui.init();
+			mui(".mui-scroll-wrapper").scroll({
+				startY: 0,
+				deceleration: 0.0005,
+				bounce: false
+			});
+			mui('.mui-slider-item').imageLazyload({
+				placeholder: '../../images/ic_launcher.png',
+				autoDestroy: false
+			});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				goodsDetail = self.goodsDetail;
+				creater_id = self.createrid;
+				pingtai = self.pingtai;
+				console.log("商品参数:" + pingtai + JSON.stringify(goodsDetail))
+
+				if(chkNetStatus() == "OK") {
+					load_listview();
+				} else {
+					document.getElementById('network-bad').style.display = "";
+					document.getElementById('network-good').style.display = "none";
+					document.getElementById('loading').style.display = "none";
+				}
+				//				load_listview();
+				document.getElementById('reload').addEventListener('tap', function() {
+					console.log("reload");
+					if(chkNetStatus() == "OK") {
+						document.getElementById('network-bad').style.display = "none";
+						document.getElementById('network-good').style.display = "none";
+						document.getElementById('loading').style.display = "";
+						load_listview();
+					} else {
+						document.getElementById('network-bad').style.display = "";
+						document.getElementById('network-good').style.display = "none";
+						document.getElementById('loading').style.display = "none";
+						mui.toast("请检查网络");
+						console.log("请检查网络");
+					}
+				});
+				var oImg = document.getElementsByClassName('mui-slider-item');
+				for(var i = 0; i < oImg.length; i++) {
+					oImg[i].style.width = "100%";
+					oImg[i].style.height = screenHeight / 2 + "px";
+					console.log("style.width:" + oImg[i].style.width + ",style.height:" + oImg[i].style.height);
+				}
+				EndcanshuButton.addEventListener('tap', function() {
+					console.log("----close canshu");
+					mui('#shangpincanshu').popover('toggle');
+				});
+
+				cartSp.addEventListener('tap', function() {
+					//					if(user_obj.flag != 4) {
+					//console.log("huiyuan1---");
+					//						mui('#addtocart').popover('toggle');
+					this.setAttribute('href', '#addtocart');
+					//console.log("---huiyuan2----");
+
+					//					} else {
+					//						console.log("----youke1---");
+					//						document.getElementById('addtocart').style.display = "none";
+					//						mui('#addtocart').popover('toggle');
+					//						this.setAttribute('href', "#");
+					//						mui.alert("抱歉，游客模式不能购买商品，请先注册会员");
+					//						console.log("----youke2---");
+					//						mui('#addtocart').popover('toggle');
+					//
+					//					}
+				});
+
+				EndcartButton.addEventListener('tap', function() {
+					//if(user_obj.flag != 4) {
+					//AddQuantityButton.disabled = false;
+					console.log("点击加入购物车");
+					if(chkNetStatus() == "OK") {
+						if(eval(buyNo.value) <= eval(kucunLab.innerHTML)) {
+							//	console.log('init add购物车参数---' + thisYizhan + ',' + user_obj.xiaoqu + ',' + user_obj.id + ',' + thisBianhao + ',' + buyNo.value);
+							mui.ajax(ADD_CART_URL, {
+								data: JSON.stringify({
+									"shangpin_id": queryResultOBJ.shangpin_detail.shangpin_id,
+									"shangpin_bianhao": goodsDetail.bianhao,
+									"shangjia_id": goodsDetail.shangjia_id,
+									"product_name": queryResultOBJ.shangpin_detail.shangpin_name,
+									"shuliang": buyNo.value,
+									"creater": creater_id,
+									"signal_price": queryResultOBJ.shangpin_detail.price
+								}),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型
+								timeout: 10000, //超时时间设置为10秒；
+								//		headers:{'Content-Type':'application/json'},
+								success: function(data) {
+									var infor = JSON.stringify(data);
+									console.log("购物车:" + infor);
+									cartResultOBJ = eval(data);
+									if(cartResultOBJ.success == 1) {
+										//								mui.toast("添加购物车成功");
+										console.log("添加购物车成功");
+										var cartPage = plus.webview.getWebviewById('cart/cart-webview.html');
+										console.log("cartPage:" + cartPage);
+										mui.fire(cartPage, 'addsuccess');
+										//											mui.alert("添加成功");
+										mui.toast("商品已添加到购物车");
+									} else {
+										mui.toast("添加购物车失败：" + cartResultOBJ.errorMsg);
+										console.log("添加购物车失败：" + cartResultOBJ.errorMsg);
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									mui.toast("网络异常:添加购物车失败");
+									//			mui.toast("error type:" + type);
+									console.log("error type:" + type);
+									console.log(xhr.status);
+									console.log(xhr.readyState);
+									console.log(xhr.response);
+								}
+							});
+
+						} else {
+							mui.alert("超过库存数量");
+						}
+
+					} else {
+						mui.toast("网络异常");
+					}
+					console.log("----close gouwuche canshu");
+					mui('#addtocart').popover('toggle');
+					buyNo.value = 1;
+					//					} else {
+					//						mui.alert("抱歉，游客模式不能添加商品到购物车，请先注册会员");
+					//					}
+				});
+				document.getElementById('close_addcart').addEventListener('tap', function() {
+					mui('#addtocart').popover('toggle');
+				})
+				//跳转到购物车页面
+				//				cartImg.addEventListener('tap', function() {
+				//					var mainPage = plus.webview.getWebviewById('shop/tab-yizhan-main.html');
+				//					mui.fire(mainPage, 'gocart', {});
+				//					mui.openWindow({
+				//						url: "../tab-yizhan-main.html",
+				//						id: "shop/tab-yizhan-main.html",
+				//						show: {
+				//							autoShow: true,
+				//							aniShow: "slide-in-right",
+				//							duration: 100
+				//						},
+				//						waiting: {
+				//							autoShow: true,
+				//							title: '正在加载...'
+				//						}
+				//					});
+				//				});
+				//收藏
+				document.getElementById("collection").addEventListener('tap', function() {
+					//if(user_obj.flag != 4) {
+					if(shoucangStatus == '1') {
+						console.log("cccclick取消收藏");
+						cancelToFavorite();
+					} else if(shoucangStatus == '0') {
+						console.log("cccclick添加收藏");
+						addToFavorite();
+					}
+					//					} else {
+					//						mui.alert("抱歉，游客模式不能添加收藏，请先注册会员");
+					//					}
+				});
+				document.getElementById("dianpu").addEventListener('tap', function() {
+					var picstr = queryResultOBJ.shangpin_detail.shangjia_touxiang;
+					var ss = [];
+					var ss = picstr.split("/");
+					picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+					var picpath = SHOP_PICTURE_URL + picstr;
+					mui.openWindow({
+						url: "dianpu.html",
+						id: "dianpu",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+							"shangjia_id": goodsDetail.shangjia_id,
+							"shangjia_name": queryResultOBJ.shangpin_detail.village_name,
+							"store_picture": picpath
+						}
+					});
+				});
+
+				//增加购买数量
+				//var buynumadd = buyNo.value;
+				AddQuantityButton.addEventListener('tap', function() {
+					//	console.log("CCCCCC:" + numberBox.getAttribute('data-numbox-max') + "," + buyNo.value);
+					var buyno = buyNo.value;
+					var maxval = numberBox.getAttribute('data-numbox-max');
+					if(eval(maxval) <= 0) {
+						mui.toast("库存不足");
+						buyNo.value = numberBox.getAttribute('data-numbox-min');
+						AddQuantityButton.disabled = true;
+					} else if(eval(buyno) > eval(maxval)) {
+						mui.toast("购买数量超出库存");
+						buyNo.value = numberBox.getAttribute('data-numbox-max');
+						AddQuantityButton.disabled = true;
+					}
+				});
+
+				//******立即购买
+				buyNowBox.addEventListener('tap', function() {
+					goodsArray = [];
+					var arr = [];
+					var dataItem = {};
+					dataItem.shangpin_name = queryResultOBJ.shangpin_detail.shangpin_name;
+					dataItem.shangpin_jiage = queryResultOBJ.shangpin_detail.price;
+					dataItem.shangpin_shuliang = "1";
+					dataItem.shangpin_guige = queryResultOBJ.shangpin_detail.guige;
+					dataItem.shangpin_bianhao = queryResultOBJ.shangpin_detail.bianhao;
+					dataItem.shangpin_id = queryResultOBJ.shangpin_detail.shangpin_id;
+					dataItem.pic = queryResultOBJ.shangpin_detail.picture;
+					dataItem.kuaidifei = queryResultOBJ.shangpin_detail.youfei;
+					arr.push(dataItem)
+					var item = {};
+					item.shangjia_id = goodsDetail.shangjia_id;
+					item.shangjia_name = queryResultOBJ.shangpin_detail.village_name;
+					item.goodslist = arr;
+					goodsArray.push(item);
+					console.log("ooooo==" + JSON.stringify(goodsArray))
+					//	if(user_obj.flag != 4) {
+					if(kucunLab.innerHTML != 0) {
+						if(mingchengLab.innerHTML != null && mingchengLab.innerHTML != "") {
+							mui.openWindow({
+								url: "../cart/cartquerendingdan.html",
+								id: "cartquerendingdan.html",
+								show: {
+									autoShow: true,
+									aniShow: "slide-in-right",
+									duration: 100
+								},
+								waiting: {
+									autoShow: true,
+									title: '正在加载...'
+								},
+								extras: {
+									"goodsDetail": goodsArray,
+									"creater_id": creater_id,
+									"order_flag": '1',
+									"total_price": goodsDetail.price,
+									"pingtai": pingtai
+									//										"mendianNum": thisYizhan,
+									//										"quzhifu": serializableArray,
+									//										"yuanshimoney": yuanshijiage.toFixed(2),
+									//										"youhuimoney": youhuijiage.toFixed(2),
+									//										"thisHtml": "shangpinxiangqing"
+								}
+							});
+						}
+					} else {
+						mui.toast("库存不足");
+						console.log("库存不足");
+					}
+					//					} else {
+					//						var btnArray = ['暂不注册', '注册会员'];
+					//						mui.confirm('抱歉，游客模式没有购买权限，请注册会员', '温馨提示', btnArray, function(e) {
+					//							if(e.index == 1) {
+					//								mui.openWindow({
+					//									url: '../../reg.html',
+					//									id: 'reg.html',
+					//									show: {
+					//										aniShow: 'slide-in-right',
+					//										duration: 300
+					//									},
+					//									styles: {
+					//										popGesture: 'hide'
+					//									},
+					//									waiting: {
+					//										autoShow: true
+					//									}
+					//								});
+					//
+					//							} else {
+					//
+					//							}
+					//						});
+					//					}
+
+				}); //***End buyNowBox**//
+
+			}); //***End Plusready**//
+
+			function load_listview() {
+				initNetAndData(goodsDetail.shangjia_id, goodsDetail.bianhao, creater_id);
+			}
+
+			function initNetAndData(shangjia_id, bianhao, creater_id) {
+				console.log(shangjia_id + " " + bianhao + " " + creater_id)
+				mui.ajax(GOODS_DETAIL_URL, {
+					data: {
+						shangjia_id: shangjia_id, //商家id
+						shangpin_bianhao: bianhao, //商品编号
+						creater_id: creater_id //登录人的id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'get', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var picstrArr = [];
+						var picDetailArr = [];
+						var infor = JSON.stringify(data);
+						console.log("ffffff:" + infor);
+						queryResultOBJ = eval(data);
+						var pictstr = queryResultOBJ.shangpin_detail.hpic1;
+						var sarr = [];
+						var sarr = pictstr.split("/");
+						picstr = sarr[1] + "/" + sarr[2] + "/" + sarr[3];
+						var pictpath = SHOP_PICTURE_URL + pictstr;
+						queryResultOBJ.shangpin_detail.picture = pictpath;
+						if(queryResultOBJ.success == 1) {
+							document.getElementById("network-good").style.display = "block";
+							document.getElementById('network-bad').style.display = "none";
+							var detail = queryResultOBJ.shangpin_detail;
+							document.getElementById('youfei').innerHTML = "快递：¥" + detail.youfei;
+							shoucang_id = detail.shoucang_id;
+							if(detail.shoucang == '0') {
+								shoucangStatus = detail.shoucang;
+								setWeishoucang();
+							} else {
+								shoucangStatus = detail.shoucang;
+								setYishoucang();
+							}
+
+							for(var j = 1; j < 6; j++) {
+								var c_pic = "hpic" + j;
+								if(detail[c_pic] == null || detail[c_pic] == "") {
+									picstrArr.push(detail[c_pic]);
+								} else {
+									var picstr = detail[c_pic];
+									var ss = [];
+									var ss = picstr.split("/");
+									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+									var picpath = SHOP_PICTURE_URL + picstr;
+									picstrArr.push(picpath);
+								}
+							}
+							for(var j = 1; j < 11; j++) {
+								var c_pic = "dpic" + j;
+								if(detail[c_pic] == null || detail[c_pic] == "") {
+									picDetailArr.push(detail[c_pic]);
+								} else {
+									var picstr = detail[c_pic];
+									var ss = [];
+									ss = picstr.split("/");
+									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+									var picpath = SHOP_PICTURE_URL + picstr;
+									picDetailArr.push(picpath);
+								}
+							}
+							loadingPicture(picstrArr, picDetailArr);
+							numberBox.setAttribute('data-numbox-max', detail.shuliang);
+							shangpinmiaoshuLab.innerText = detail.shangpin_name;
+							shangpinprice.innerText = "￥" + detail.price;
+							mingchengLab.innerHTML = detail.shangpin_name;
+							jianjieLab.innerHTML = detail.shangpin_jianjie;
+							bianhaoLab.innerHTML = detail.bianhao;
+							guigeLab.innerHTML = detail.guige;
+							yuanjiaLab.innerHTML = detail.price;
+							huiyuanjiaLab.innerHTML = '';
+							kucunLab.innerHTML = detail.shuliang;
+							//kucunSp.innerHTML = detail.shuliang;
+							danweiLab.innerHTML = detail.danwei;
+							changjiaLab.innerHTML = detail.company;
+							document.getElementById('cart_price').innerHTML = "¥" + detail.price;
+							document.getElementById('cart_kucun').innerHTML = detail.shuliang;
+
+						} else {
+							mui.toast("FAIL:" + queryResultOBJ.errorMsg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常:" + type);
+						//			mui.toast("error type:" + type);
+						document.getElementById("network-good").style.display = "none";
+						document.getElementById('network-bad').style.display = "block";
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+				});
+			}
+
+			function loadingPicture(picstrArr, picDetailArr) {
+				var picSlider = new Array();
+				for(var i = 0; i < 5; i++) {
+					if(picstrArr[i] != "") {
+						picSlider.push(picstrArr[i]);
+					}
+				}
+				if(picstrArr[0] != "") {
+					document.getElementById('addcart_img').src = picstrArr[0];
+				} else {
+					document.getElementById('addcart_img').src = "images/g2.png";
+				}
+				console.log("picSlider.length:" + picSlider.length);
+				if(picSlider.length == 0) {
+					var Div = document.createElement('div');
+					Div.className = 'mui-slider-item mui-slider-item-duplicate';
+					Div.style.width = "100%";
+					Div.style.height = screenHeight / 2 + "px";
+					Div.innerHTML = '<a href="#"><img class="lazy-img" data-preview-src="" data-preview-group="1" src="images/g2.png"></a>';
+					SliderImg.appendChild(Div);
+				} else if(picSlider.length == 1) {
+					console.log("picSlider[0]:" + picSlider[0]);
+					var Div = document.createElement('div');
+					Div.className = 'mui-slider-item mui-slider-item-duplicate';
+					Div.style.width = "100%";
+					Div.style.height = screenHeight / 2 + "px";
+					Div.innerHTML = '<a href="#"><img class="lazy-img" data-preview-src="" data-preview-group="1" src="' + picSlider[0] + '"></a>';
+					console.log(Div.innerHTML);
+					SliderImg.appendChild(Div);
+				} else {
+					var len = picSlider.length;
+					console.log("-----len:" + len + "picSlider----" + JSON.stringify(picSlider));
+					var headDiv = document.createElement('div');
+					headDiv.className = 'mui-slider-item mui-slider-item-duplicate';
+					headDiv.style.width = "100%";
+					headDiv.style.height = screenHeight / 2 + "px";
+					headDiv.innerHTML = '<a href="#"><img class="lazy-img" src="' + picSlider[len - 1] + '"></a>';
+					SliderImg.appendChild(headDiv);
+					for(var j = 0; j < len; j++) {
+						var dotDiv = document.createElement('div');
+						if(j == 0) {
+							dotDiv.className = "mui-indicator mui-active";
+						} else {
+							dotDiv.className = "mui-indicator ";
+						}
+						SliderInd.appendChild(dotDiv);
+
+						var innerDiv = document.createElement('div');
+						innerDiv.className = 'mui-slider-item mui-slider-item-duplicate';
+						innerDiv.style.width = "100%";
+						innerDiv.style.height = screenHeight / 2 + "px";
+						innerDiv.innerHTML = '<a href="#"><img class="lazy-img" data-preview-src="" data-preview-group="1" src="' + picSlider[j] + '"></a>';
+						SliderImg.appendChild(innerDiv);
+					}
+					var endDiv = document.createElement('div');
+					endDiv.className = 'mui-slider-item mui-slider-item-duplicate';
+					endDiv.style.width = "100%";
+					endDiv.style.height = screenHeight / 2 + "px";
+					endDiv.innerHTML = '<a href="#"><img class="lazy-img" src="' + picSlider[0] + '"></a>';
+					SliderImg.appendChild(endDiv);
+				}
+				if(chkNetStatus() == "OK") {
+					document.getElementById('network-bad').style.display = "none";
+					document.getElementById('network-good').style.display = "";
+					document.getElementById('loading').style.display = "none";
+					//console.log("picSlider111---" + picSlider.length);
+					if(picSlider.length != 0 && picSlider.length != 1) {
+						//	console.log("picSlider222---" + picSlider.length);
+						mui('#slider').slider();
+					} else {
+						//	console.log("picSlider333---" + picSlider.length);
+						mui('#slider').slider().setStopped(true); //禁止轮播图片左右滑动
+					}
+
+				} else {
+					document.getElementById('network-bad').style.display = "";
+					document.getElementById('network-good').style.display = "none";
+					document.getElementById('loading').style.display = "none";
+				}
+				var xqImgdiv = document.getElementById('xiangqing');
+				for(var i = 0; i < picDetailArr.length; i++) {
+					if(picDetailArr[i] != null && picDetailArr[i] != "") {
+						var img = document.createElement("img");
+						img.setAttribute('class', 'xiangqing_img');
+						img.src = picDetailArr[i];
+						xqImgdiv.appendChild(img);
+					}
+				}
+
+				//document.getElementById('shangpinhuiyuanjia').innerHTML = "¥" + _dataitem.huiyuanprice;
+				//				var jifen;
+				//				if(_dataitem.jifenbeilv != 0) {
+				//					jifen = eval(_dataitem.huiyuanprice) / eval(_dataitem.jifenbeilv);
+				//					jifen = jifen.toFixed(2);
+				//				} else {
+				//					jifen = 0;
+				//				}
+				//				document.getElementById('shangpinjifen').innerHTML = jifen;
+				//				document.getElementById('cart_kucun').innerHTML = _dataitem.kucun;
+				//				document.getElementById('cart_price').innerHTML = "¥" + _dataitem.huiyuanprice;
+
+			}
+
+			function setYishoucang() {
+				shoucang_icon.className = "mui-icon iconfont icon-shoucang";
+				shoucang_icon.style.color = "#ff5000";
+				shoucang.innerText = "已收藏";
+			}
+
+			function setWeishoucang() {
+				shoucang_icon.className = "mui-icon iconfont icon-favorite";
+				shoucang_icon.style.color = "#a6a6a6";
+				shoucang.innerText = "收藏";
+			}
+
+			function addToFavorite() {
+				// 	var user_obj = eval(app.getDatas(PREFERENCE_USER));
+				//console.log("userid:" + user_obj.id);
+				mui.ajax(ADD_COLLECTION_URL, {
+					data: JSON.stringify({
+						"shangpin_id": queryResultOBJ.shangpin_detail.shangpin_id,
+						"shangpin_bianhao": goodsDetail.bianhao,
+						"shangjia_id": goodsDetail.shangjia_id,
+						"product_name": queryResultOBJ.shangpin_detail.shangpin_name,
+						"creater": creater_id
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var infor = JSON.stringify(data);
+						console.log("iiiiiiiii:" + infor);
+						var obj = eval(data);
+						//				console.log("shoucang+info:" + infor);
+						if(obj.success == 1) {
+							shoucangStatus = 1;
+							shoucang_id = obj.shoucang_id;
+							mui.toast("收藏成功");
+							setYishoucang();
+						} else {
+							mui.toast(obj.errorMsg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+				});
+			}
+
+			function cancelToFavorite() {
+				console.log("sjoucang_id=" + shoucang_id)
+				var arr = [];
+				var item = {};
+				item.shoucang_id = shoucang_id;
+				arr.push(item);
+				mui.ajax(DELETE_COLLECTION_URL, { //get形式URL
+					data: JSON.stringify(arr),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var infor = JSON.stringify(data);
+						console.log("kkk=" + infor)
+						var cancelresult = eval(data);
+						if(cancelresult.success == 1) {
+							shoucangStatus = 0;
+							mui.toast("取消收藏成功");
+							setWeishoucang();
+						} else {
+							console.log("取消收藏失败");
+							mui.toast(cancelresult.errorMsg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+
+					}
+
+				});
+			}
+
+			function checkNum(th) {
+				th.value = th.value.replace(/[^0-9-]+/, '');
+				console.log("----购买数量输入-----" + th.value);
+				if(eval(th.value) > eval(shangpinItem.kucun)) {
+					mui.alert("超出库存数量");
+					th.value = shangpinItem.kucun;
+				}
+				if(eval(th.value) <= 0) {
+					mui.alert("购买数量不能为0");
+					th.value = 1;
+				}
+			}
+		</script>
+	</body>
+
+</html>

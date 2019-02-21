@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/app.css"/>
+		<link rel="stylesheet" href="../css/style.css"/>
+		<!--<script src="slidetounlock.js"></script>-->
+		<style type="text/css">
+			.mui-h5-right,
+			h5 {
+				font-size: 14px;
+				font-weight: 400;
+				color: #8f8f94
+				margin-left: 20px;
+				
+			}
+			.div-style{
+				float: left;
+				width: 50%; height: 40px; text-align:center;line-height: 40px 	
+			}
+		   	#page-wrap { width: 50%; margin: auto; padding-right:20px; height: 80%;}
+
+			#well {
+				padding: 2px 2px 2px 2px;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				
+				background: -moz-linear-gradient(top, #010101, #181818);
+				background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #010101),color-stop(1, #181818));
+				
+				border: 0px solid #454545; 
+				overflow: hidden; 
+				
+				-webkit-user-select: none;
+			}
+			
+			h2 {
+				
+			  background: -moz-linear-gradient(left, #4d4d4d, 0.4, #4d4d4d, 0.5, white, 0.6, #4d4d4d, #4d4d4d); 
+			  background: -webkit-gradient(linear,left top,right top,color-stop(0, #4d4d4d),color-stop(0.4, #4d4d4d),color-stop(0.5, white),color-stop(0.6, #4d4d4d),color-stop(1, #4d4d4d)); 
+			  
+			  -moz-background-clip: text;
+			  -webkit-background-clip: text;
+			  
+			  -moz-text-fill-color: transparent;
+			  -webkit-text-fill-color: transparent;
+			  
+			  -webkit-animation: slidetounlock 10s infinite;
+			  
+			  font-size: 16px;
+			  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			  font-weight: 300;
+			  
+			  padding: 0;
+			  width: 200%;
+			  
+			  -webkit-text-size-adjust: none;
+			}
+			#slider {
+				background: url(../images/arrow.png) no-repeat;
+				width: 46px;
+				height: 30px;
+				display: inline-block;
+				vertical-align: middle;
+				line-height: 1;
+			}
+			
+			@-webkit-keyframes slidetounlock {
+				0% {
+					background-position: -720px 0;
+				}
+				100%{
+					background-position: 720px 0;
+				}
+			}
+		</style>
+		<script language="JavaScript">
+            function getParameter(param) {
+                var query = window.location.search; //获取URL地址中？后的所有字符  
+                var iLen = param.length; //获取你的参数名称长度  
+                var iStart = query.indexOf(param); //获取你该参数名称的其实索引  
+                if(iStart == -1) //-1为没有该参数  
+                    return "";
+                iStart += iLen + 1;
+                var iEnd = query.indexOf("&", iStart); //获取第二个参数的其实索引  
+                if(iEnd == -1) //只有一个参数  
+                    return query.substring(iStart); //获取单个参数的参数值  
+                return query.substring(iStart, iEnd); //获取第二个参数的值  
+            }
+            function getDoorName(id) {
+                switch(id){
+                	case "1":
+                	return "单元门";
+                	case "2":
+                	return "东门";
+                	case "3":
+                	return "南门";
+                	
+                	default:
+                	return "";
+                }
+            }
+        </script>
+	</head>
+
+	<body>
+
+		<header id="head" class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 id="headtitle" class="mui-title mui-center" style="color: white;"><b></b></h1>
+		    
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" >
+				<li class="mui-table-view-cell" style="padding-top: 20px;padding-bottom: 20px" >
+					<img class=" mui-pull-left imgsize_title"  src="../images/lock_on.png"/>
+					
+					<div id="page-wrap" >
+						<div id="well" >
+							<h2 id="he2"><strong id="slider"></strong> <span id="bgopendoor">滑动开门</span></h2>
+						</div>
+					</div>
+					<!--<div class="div-style" >
+						<span >滑动开门</span>
+					</div>-->
+					<div class="mui-switch mui-active" >
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" style="height: auto;padding-top: 20px;padding-bottom: 20px">
+					<img class=" mui-pull-left imgsize_title"  src="../images/shake_off.png"/>
+					<div class="div-style" >
+						<span >摇一摇开门</span>
+					</div>
+					
+					<div class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell" style="padding-top: 20px;padding-bottom: 20px">
+					<img class=" mui-pull-left imgsize_title"  src="../images/vibe_off.png"/>
+					<div class="div-style" >
+						<span >蓝牙开门</span>
+					</div>
+					<div class="mui-switch">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</li>
+				
+			</ul>
+		</div>
+		<!--<div id="page-wrap" >
+			<div id="well" >
+				<h2><strong id="slider"></strong> 滑动开门</h2>
+			</div>
+		</div>-->
+		<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			
+			mui.init({
+//				swipeBack:true //启用右滑关闭功能
+			});
+			mui.plusReady(function() {
+				
+				var doorid=getParameter("doorid");
+				var doorname=getDoorName(doorid);
+				var header=document.getElementById("head");
+				var h1=document.getElementById("headtitle");
+				h1.className = 'mui-title mui-center';
+				h1.innerHTML=doorname;
+				header.appendChild(h1);			
+	
+	// The following credit: http://www.evanblack.com/blog/touch-slide-to-unlock/
+	
+	
+			});
+			mui('.mui-content .mui-switch').each(function() { //循环所有toggle
+				//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+//				this.parentNode.querySelector('span').innerText = '状态：' + (this.classList.contains('mui-active') ? 'true' : 'false');
+				/**
+				 * toggle 事件监听
+				 */
+				this.addEventListener('toggle', function(event) {
+					//event.detail.isActive 可直接获取当前状态
+					var res=this.parentNode.querySelector('img').src;
+					
+					res=res.substr(0,res.indexOf("_"));
+					
+					var status=(this.classList.contains('mui-active') ? '_on.png' : '_off.png');
+					
+					this.parentNode.querySelector('img').src = res+status;
+				});
+			});
+			mui('#slider')[0].addEventListener('touchmove', function(event) {
+			    event.preventDefault();
+			    
+			    var width=mui('#page-wrap').width;
+			    var el = event.target;
+			    var touch = event.touches[0];
+			    curX = touch.pageX - this.offsetLeft - 23;
+			    if(curX <= 0) return;
+			    if(curX > 100){
+			    	el.style.webkitTransform = 'translateX(200%)';
+
+			    }else{
+			    	el.style.webkitTransform = 'translateX(' + curX + 'px)';
+			    }
+//			   	 
+			}, false);
+			
+			mui('#slider')[0].addEventListener('touchend', function(event) {
+			    this.style.webkitTransition = '-webkit-transform 0.3s ease-in';
+			    this.addEventListener( 'webkitTransitionEnd', function( event ) { this.style.webkitTransition = 'none'; }, false );
+			    var curX=this.style.webkitTransform;
+			    if(curX.indexOf("%") >= 0||curX.substr(11,2)>40){
+//			    if(curX>40){			    	
+			    	controlDoor();
+			    }else{
+			    	this.style.webkitTransform = 'translateX(0px)';
+			    	document.getElementById("bgopendoor").innerHTML="滑动开门";
+			    	document.getElementById("he2").style.width="300%";
+			    	
+			    }
+			    
+			    
+		//	   	el.style.webkitTransform = 'translateX(' + curX + 'px)'; 
+		//	    this.style.webkitTransform = 'translateX()';
+			}, false);
+			function controlDoor(){
+				var w=plus.nativeUI.showWaiting("正在发送开门请求...");
+				mui.ajax(OpenDoor_URL,{
+					data:{
+						deviceIdentifier:"001",
+						control:"1"
+					},
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+//							headers:{'Content-Type':'application/json'},
+					success:function (data){
+						w.close();								
+						var infor=JSON.stringify(data);
+						var obj=eval(data);
+						if (obj.success==1) {
+							mui.toast("成功开门");	
+							mui('#slider')[0].style.webkitTransform = 'translateX(200%)';
+							document.getElementById("bgopendoor").innerHTML="已开门";
+						} else{
+							mui.toast("开门失败");
+							mui('#slider')[0].style.webkitTransform = 'translateX(0px)';
+							document.getElementById("bgopendoor").innerHTML="滑动开门";
+//mui.toast(obj.errorMsg);
+						}								
+					},							
+					error:function(xhr,type,errorThrown){
+						w.close();
+						mui.toast("开门失败");
+						mui('#slider')[0].style.webkitTransform = 'translateX(0px)';
+						document.getElementById("bgopendoor").innerHTML="滑动开门";
+//						mui.toast("error type:"+type);
+						console.log("error type:"+type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+						mui.alert(xhr.response);
+						
+					}
+					
+				});
+			
+			}
+			
+		</script>
+	</body>
+</html>

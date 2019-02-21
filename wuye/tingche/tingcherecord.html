@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/style.css">
+			<style type="text/css">
+				.table-c table{
+					border-right:1px solid gainsboro;
+					border-bottom:1px solid gainsboro
+				}
+				.table-c table td{
+					height: 30px;
+					text-align: center;
+					border-left:1px solid gainsboro;
+					border-top:1px solid gainsboro
+				}
+				.table-c table th{
+					height: 50px;
+					border-left:1px solid gainsboro;
+					border-top:1px solid gainsboro
+				}
+			</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">停车记录</h1>
+		    <a id="add" class="mui-icon mui-icon-plus mui-pull-right" style="color: white;display: none;"></a>
+		</header>
+		<div class="mui-content">
+			<div id="" class="table-c">
+				<table id="table" border="" cellspacing="" cellpadding="" style="width: 100%;">
+					<tr><th style="width: 40%;">时间</th><th style="width: 30%;">车牌</th><th style="width: 30%;">状态</th></tr>
+					<tr><td>2017-10-12 08:00</td><td>鲁Y:123456</td><td>出</td></tr>
+					<tr><td>2017-10-12 17:00</td><td>鲁Y:123456</td><td>进</td></tr>
+					<tr><td>2017-10-15 08:00</td><td>鲁Y:123456</td><td>出</td></tr>
+					<tr><td>2017-10-18 18:00</td><td>鲁Y:123456</td><td>进</td></tr>
+				</table>
+			</div>
+			
+			
+		</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		(function($, doc) {
+			$.init({
+					statusBarBackground: '#f7f7f7',
+					swipeBack:false //启用右滑关闭功能
+					
+			});
+				
+			$.plusReady(function() {
+				
+				var doorname = "damen";
+				var userinfo=eval(app.getDatas(PREFERENCE_USER));
+				var userid=userinfo.id;
+				doc.getElementById("add").addEventListener('tap',function(event){
+					
+					addRow(1,2,3);
+				})
+				
+			});
+			
+			function addRow(date1,date2,date3){
+			    var oTable = document.getElementById("table");
+			    var tBodies = oTable.tBodies;
+			    var tbody = tBodies[0];
+			    var tr = tbody.insertRow(tbody.rows.length);
+			    var td_0 = tr.insertCell(0);
+			    td_0.innerHTML = "<div contenteditable='true'>"+date1+"</div>";
+			    var td_1 = tr.insertCell(1);
+			    td_1.innerHTML = "<div contenteditable='true'>"+date2+"</div>";
+			    var td_2 = tr.insertCell(2);
+			    td_2.innerHTML = "<div contenteditable='true'>"+date3+"</div>";
+		    }
+			
+		}(mui, document));
+	</script>
+	</body>
+</html>

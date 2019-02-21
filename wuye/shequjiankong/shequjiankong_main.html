@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../css/style.css">
+		<title></title>
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">社区监控</h1>
+		</header>
+		<div class="mui-content">
+			<div id="neterror_id" class="neterror_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_wifi_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+				<br />
+				<button type="button" class="mui-btn mui-btn-warning" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+			</div>
+			<div id="nulldata_id" class="nulldata_cls" style="text-align: center; margin-top: 150px;display: none;">
+				<img src="../../images/ic_data_empty.png" style="height: 100px;" />
+				<br />
+				<span id="word" style="color: gray; font-size: 0.9em;">暂无摄像头设备</span>
+			</div>
+			<div  id="cameraview_id" class="mui-scroll">
+				<ul id="camera_list" class="mui-table-view mui-table-view-chevron">
+				</ul>
+			</div>	
+		</div>			
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script >
+		var user_obj = null;
+		var obj = null;
+		(function($, doc) {
+			$.init({
+				statusBarBackground: '#f7f7f7',
+				swipeBack:false //启用右滑关闭功能
+			});
+				
+			$.plusReady(function() {
+				console.log("------plusReady-----------");
+				user_obj=eval(app.getDatas(PREFERENCE_USER));
+				get_device_list();
+			});
+			
+			function get_device_list() {
+				console.log("------get_device_list-----------");
+				if(chkNetStatus() != "OK") {
+					showNeterrorView("网络异常");
+					return;
+				}	
+
+				var w=plus.nativeUI.showWaiting("正在获取摄像头列表...");
+				
+				console.log("-------Query_Camera_Device_List_URL------="+Query_Camera_Device_List_URL);
+				
+					mui.ajax(Query_Camera_Device_List_URL,{
+						data:JSON.stringify({
+							user_id:user_obj.id,
+							xiaoqu:user_obj.xiaoqu
+						}),
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function (data){
+							w.close();	
+							var infor=JSON.stringify(data);
+							obj=eval(data);
+							console.log("-------Query_Camera_Device_List_URL--------="+infor);
+							
+							if (obj.success==1) {
+								if(obj.shexiangtou=="undefined"||obj.shexiangtou==null||obj.shexiangtou==""){
+									showNulldataView();	
+								}
+								else{
+									if(obj.shexiangtou.camera=="undefined"||obj.shexiangtou.camera==null||obj.shexiangtou.camera==""){
+										showNulldataView();	
+									}
+									else{
+										document.querySelector('#nulldata_id').style.display = 'none';
+										document.querySelector('#neterror_id').style.display = 'none';
+										document.querySelector('#cameraview_id').style.display = 'block';
+										showCameraView();
+									}
+								}
+							} 
+							else{
+								if(obj.errorMsg==""||obj.errorMsg=="undefined"||obj.errorMsg==null){
+									showNeterrorView("网络异常");
+								}
+								else{
+									showNeterrorView(obj.errorMsg);		
+								}				
+							}								
+						},							
+						error:function(xhr,type,errorThrown){
+							w.close();
+							showNeterrorView("网络异常");	
+						}	
+					});						
+			}
+
+			function showNeterrorView(msg){
+				document.querySelector('#cameraview_id').style.display = 'none';
+				document.querySelector('#nulldata_id').style.display = 'none';
+				document.querySelector('#neterror_id').style.display = 'block';
+				document.querySelector('.neterror_cls span').innerHTML = msg;
+			}
+			
+			function showNulldataView(){
+				document.querySelector('#cameraview_id').style.display = 'none';
+				document.querySelector('#neterror_id').style.display = 'none';
+				document.querySelector('#nulldata_id').style.display = 'block';
+			}
+				
+			function showCameraView() {
+		
+				var categoryarray = [];
+				for(var i = 0; i < obj.shexiangtou.camera.length; i++) {
+					var item = {};		
+					item.name = obj.shexiangtou.camera[i].camera_name;
+					item.no = obj.shexiangtou.camera[i].camera_no;
+					item.url = obj.shexiangtou.camera[i].camera_url;
+					categoryarray[i] = item;
+				}	
+					
+				var html = "";
+				mui.each(categoryarray, function(index, item) {
+					html = html + 
+					'<li class="mui-table-view-cell" id="' +item.name + '">\
+						<a id="' + item.url + '" href="#" class="body-a mui-navigate-right">\
+							<img class=" mui-pull-left body-img"  src="../../images/demo_gridview_sqjk.png">\
+							<span class="body-span">' + item.name + '</span>\
+						</a>\
+					</li>';
+				});		
+				console.log("---html---" + html);
+				document.getElementById('camera_list').innerHTML = html;
+					
+				mui("#camera_list").on('tap', 'li', function() {
+			
+					var thisdoor = this;
+				
+					var cameraurl = this.getElementsByClassName('body-a')[0].id;		
+					var cameraname = this.getElementsByClassName('body-span')[0].innerHTML;
+					
+					mui.openWindow({
+						url: 'shequjiankong_detail.html',
+						id: 'shequjiankong_detail.html',
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						extras: {
+							"camera_url": cameraurl,
+							"camera_name": cameraname
+						}
+					});
+				});
+			}
+		}(mui, document));
+	</script>
+</html>

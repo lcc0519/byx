@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/common.css">
+		<style type="text/css">
+			.detailcontent{
+				margin-top: 45px;
+			}
+		</style>
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				align-content: flex-end;
+				
+			}
+			.span-title{
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.h5-title,
+			h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-input-group span {
+				width: 25%;
+			}			
+			.mui-input-row span~div{
+				width: 75%;
+			}
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			#msg-play {
+				-webkit-user-select: none !important;
+				user-select: none !important;
+				overflow-x:hidden;
+                display: inline-block;
+                width: 200px;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #EEEEEE;
+                margin-top: 3px;
+                margin-bottom: 5px;
+			}						
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 id="title" class="mui-title mui-center" style="color: white;">报修详情</h1>
+		    <a id="del" class="mui-icon mui-icon-close mui-pull-right" style="color: white"></a>
+		</header>
+		<div class="mui-content">
+			<div style="margin-top: 10px;">
+			    <span style="margin: 5px;" >报修详情:</span>
+				<form id='login-form' class="mui-input-group">
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">联系人:</span>
+						<div id="" class="input-style">
+							<input id='lianxiren' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">联系电话：</span>
+						<div id="" class="input-style">	
+							<input id='tel' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">报修类型:</span>
+						<div id="" class="input-style">
+							<input id='buwei' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">维修状态:</span>
+						<div id="" class="input-style">
+							<input id='weixiuzhuangtai' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+				    <div class="mui-input-row" style="height: auto;">
+						<span class="span-title">问题描述:</span>
+						<div id="" class="input-style">
+							<input id='question' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+		                <div style="text-align: center;width: 100%;"><!--没有这个div，图片和语音是水平布局-->
+		                  	<img id="picsource" src="" data-preview-src="" data-preview-group="1"style="display:none;height: 100px;width:100px;margin-left: 10px;"/>
+		               	</div>
+		               	<div style="text-align: center;width: 100%;"><!--没有这个div，图片和语音是水平布局-->
+		                   	<button id="msg-play" type="button" class="input-sound" style="display:none;">播放语音报修</button> 
+		               	</div>                    
+					</div>				
+				</form>
+			<div>
+			<div id="wangongxiangqingdiv_id" style="margin-top: 10px;display:none;">
+				<span style="margin: 5px;" >维修详情:</span>	
+				<form id='login-form' class="mui-input-group">
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">维修说明</span>
+						<div id="" class="input-style">
+							<input id='weixiushuoming' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<span class="span-title">完成时间</span>
+						<div id="" class="input-style">
+							<input id='wanchengshijian' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+						</div>
+					</div>
+				</form>
+			<div>
+			<div id="wangongtupiandiv_id" style="margin-top: 10px;display:none;">
+				<span  id="weixiuxiangqing" style="margin: 5px;" >完工图片:</span>	
+				<form id='login-form' class="mui-input-group">
+					<div class="mui-input-row" style="height: auto;">
+						<div style="text-align: center;width: 100%;">
+	                    	<img id="wangongpicsource" src="" data-preview-src="" data-preview-group="1" style="height: 100px;width: 100px;margin-top: 5px;"/>
+	                   </div>
+					</div>
+				</form>
+			<div>
+
+			<!--<div id="deletediv_id" class="mui-content-padded mui-row" style="margin-top: 20px;display: none;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='del' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;font-size: 1em;">删除</button>
+				</div>
+			</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+	    <script src="../js/mui.zoom.js"></script>
+	    <script src="../js/mui.previewimage.js"></script>		
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var userinfo=new Object();
+			var weixiuid;
+			mui.previewImage();
+		    var voiceplay;
+		    var finalpath2;			
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					
+					var user=eval(app.getDatas(PREFERENCE_USER));
+					userinfo.userid = user.id;
+					userinfo.xiaoqu = user.xiaoqu;
+					console.log("---plusReady----"+userinfo.id);
+					voiceplay = document.getElementById("msg-play");
+					showBaoxiuInfo();
+				});
+				
+				function showBaoxiuInfo () {
+					weixiuid=plus.webview.currentWebview().baoxiu_id;
+//					var id=localStorage.getItem('Notice_id');
+					var baoxiu_obj = eval(app.getDatas('Baoxiu_list'));
+					for (var i = 0; i < baoxiu_obj.weixiu.length; i++) {
+						
+						var itemobj=baoxiu_obj.weixiu[i];
+						if (weixiuid===itemobj.id) {
+							document.getElementById("lianxiren").value=itemobj.creater;
+							document.getElementById("tel").value=itemobj.createrTel;
+							
+							var buwei ="";
+
+							if(itemobj.maintain_type=="1"){
+								buwei="公共报修";
+							}
+							else if(itemobj.maintain_type=="2"){
+								buwei="个人报修";
+							}
+							else{
+								buwei="未知类型";
+							}
+							
+							document.getElementById("buwei").value=buwei;
+							document.getElementById("question").value=itemobj.content;
+							document.getElementById("weixiuzhuangtai").value=itemobj.repair_status;
+							
+							var picstr = itemobj.pic;
+							var ss = [];
+							var wangongss=[];
+							var finalpic;
+							var wangongpic;
+							var audiostr =  itemobj.yuyin;
+                            console.log("audiostr==="+audiostr);
+                            console.log("picstr==="+picstr);
+							if (picstr == "./image/photo.jpg" || picstr == "./attach/weixiu/photo.jpg"|| picstr == "") {
+								console.log("detail_baoxiu 没有图片");
+							} 
+							else {
+								console.log("detail_baoxiu 图片存在");
+
+							    ss = picstr.split("/");
+							    picstr = ss[1] + "/" + ss[2]+ "/"+ ss[3];
+							    finalpic = BASE_URL + picstr;
+							    console.log("detail_baoxiu 图片存在 finalpic="+finalpic);
+							    document.getElementById("picsource").style.display = 'inline-block';
+							    document.getElementById("picsource").src = finalpic;
+							}
+							if (audiostr=="" || audiostr== undefined) {
+								console.log("没有语音文件");
+							} 
+							else {
+								var ss2 = audiostr.split("/");
+								audiostr = ss2[1] + "/" + ss2[2]+ "/"+ ss2[3];
+								finalpath2 = BASE_URL + audiostr;
+								console.log("detail_baoxiu ss2="+ss2);
+								console.log("detail_baoxiu audiostr="+audiostr);
+								console.log("detail_baoxiu finalpath2="+finalpath2);
+                                voiceplay.style.display = 'inline-block';
+							}
+							
+							var wangongpicstr = itemobj.finish_pic;
+							if (wangongpicstr==undefined||wangongpicstr==""||wangongpicstr == "./image/photo.jpg" || wangongpicstr == "./attach/weixiu/photo.jpg") {
+								console.log(" 没有wangong图片");
+								document.getElementById("wangongtupiandiv_id").style.display = 'none';
+							} 
+							else{
+								console.log("wangong 图片存在");
+							    wangongss = wangongpicstr.split("/");
+							    wangongpic = BASE_URL + wangongss[1] + "/" + wangongss[2]+ "/"+ wangongss[3];
+							    console.log("wangong 图片存在 wangongpic="+wangongpic);
+							    document.getElementById("wangongtupiandiv_id").style.display = 'block';
+							    document.getElementById("wangongpicsource").src = wangongpic;
+							}
+							
+							if(itemobj.repair_status=="已完成"){
+								document.getElementById("wangongxiangqingdiv_id").style.display = 'block';
+								document.getElementById("weixiushuoming").value=itemobj.evaluate;
+								document.getElementById("wanchengshijian").value=itemobj.finish_date;
+								document.getElementById("del").style.display = 'block';
+								console.log("-------已完成---------------");
+							}
+							else if(itemobj.repair_status=="维修中"){
+								document.getElementById("wangongxiangqingdiv_id").style.display = 'none';
+								document.getElementById("del").style.display = 'none';
+								console.log("-------维修中---------------");
+							}
+							else{
+								document.getElementById("wangongxiangqingdiv_id").style.display = 'none';
+								document.getElementById("del").style.display = 'block';
+								console.log("-------else---------------");
+							}
+						}							
+					}
+				}
+				
+				doc.getElementById("msg-play").addEventListener("tap",function(){
+				   
+					player = plus.audio.createPlayer(finalpath2);//createPlayer: 创建音频播放对象
+					//var playState = msgItem.querySelector('.play-state');
+					voiceplay.innerText = '正在播放语音报修...';
+					console.log("chatchatchat in if if msgType == sound");
+					player.play(function() {
+						console.log("chatchatchat in 22222 播放成功");
+						voiceplay.innerText = '播放语音报修';
+					}, function(e) {
+						console.log("chatchatchat in  33333 播放失败");
+						voiceplay.innerText = '播放异常';
+					});
+				});			
+				
+				doc.getElementById("del").addEventListener("tap",function(){
+					
+					var btnArray = ['否', '是'];
+					mui.confirm('确认删除？', '', btnArray, function(e) {
+						if(e.index == 1) {
+							if(chkNetStatus() == "OK") {
+								var w=plus.nativeUI.showWaiting("正在删除...");
+								mui.ajax(Delete_Wuyebaoxiu_All_URL,{
+									data:{
+										xiaoqu:userinfo.xiaoqu,
+										weixiuId:weixiuid
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function (data){
+										w.close();								
+										var infor=JSON.stringify(data);
+										resultabj=eval(data);
+										console.log("-----------t.infor="+infor);
+										if (resultabj.success==1) {
+											mui.toast("删除成功");	
+							                var shuaxinPage = plus.webview.getWebviewById('wuye/baoxiu/baoxiu.html');	
+			                                mui.fire(shuaxinPage, 'shuaxinbaoxiuliebiao');	
+											mui.back();
+										} 
+										else{
+											//mui.toast(resultabj.errorMsg);	
+											mui.toast("网络异常，请稍候重试");
+										}								
+									},							
+									error:function(xhr,type,errorThrown){
+										w.close();
+										mui.toast("网络异常，请检查网络");
+									}
+								});
+							} 
+							else{
+								mui.toast("网络异常，请检查网络连接");
+							}
+						}
+					});
+				});
+				  
+			}(mui, document));
+		</script>
+	</body>
+</html>

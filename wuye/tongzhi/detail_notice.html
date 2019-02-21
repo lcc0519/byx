@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/common.css">
+		<style type="text/css">
+			.detailcontent{
+				margin-top: 44px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"  style="color: white;"></a>
+		    <h1 id="title" class="mui-title" style="color: white;">通知信息</h1>
+		</header>
+
+		<div class="detailcontent">
+		    <ul class="mui-table-view">
+		    	<li class="mui-table-view-cell">
+		    		<span id="cdate" class="mui-h5"></span>
+		    		<span id="creater" class="mui-h5"></span>							
+		        </li>
+		        <li id="detail" class="mui-table-view-cell">
+				</li>
+		    </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					//console.log("detail notice ---111------");
+					showNotice();
+				});
+				
+				window.addEventListener('refreshmqtt', function(e) {
+					
+					var id=e.detail.idd;
+					console.log("---------detail_notice start refreshmqtt------id="+id);
+					
+					var notice_obj = eval(app.getDatas('Notice_list'));
+					var find_flag = false;
+					
+					if(notice_obj.notice!=undefined){
+	
+						for (var i = 0; i < notice_obj.notice.length; i++) {
+							console.log("show notice ---111------");
+							if (id==notice_obj.notice[i].id) {
+								document.getElementById("detail").innerHTML=notice_obj.notice[i].content;
+								document.getElementById("title").innerHTML=notice_obj.notice[i].title;
+								document.getElementById("cdate").innerHTML=notice_obj.notice[i].cdate;
+								document.getElementById("creater").innerHTML=notice_obj.notice[i].creater;
+								find_flag = true;
+								break;
+							}
+						}
+					}
+					
+					if(!find_flag){
+						var userobj = eval(app.getDatas(PREFERENCE_USER));
+						
+						for (var i = 0; i < userobj.notice.length; i++) {
+							console.log("show notice ---PREFERENCE_USER------");
+							if (id==userobj.notice[i].id) {
+								document.getElementById("detail").innerHTML=userobj.notice[i].content;
+								document.getElementById("title").innerHTML=userobj.notice[i].title;
+								document.getElementById("cdate").innerHTML=userobj.notice[i].cdate;
+								document.getElementById("creater").innerHTML=userobj.notice[i].creater;
+								break;
+							}
+						}
+					}
+					
+				});
+				
+				function showNotice () {
+					var id=plus.webview.currentWebview().Notice_id;
+					var notice_obj = eval(app.getDatas('Notice_list'));
+					var find_flag = false;
+					
+					console.log("show notice --------"+notice_obj.notice);
+					
+					if(notice_obj.notice!=undefined){
+
+						for (var i = 0; i < notice_obj.notice.length; i++) {
+							console.log("show notice ---111------"+i+"---id---="+id);
+							if (id==notice_obj.notice[i].id) {
+								console.log("show notice ---222------"+i+"---id---="+id);
+								document.getElementById("detail").innerHTML=notice_obj.notice[i].content;
+								document.getElementById("title").innerHTML=notice_obj.notice[i].title;
+								document.getElementById("cdate").innerHTML=notice_obj.notice[i].cdate;
+								document.getElementById("creater").innerHTML=notice_obj.notice[i].creater;
+								find_flag = true;
+								break;
+							}
+						}
+					}
+					
+					if(!find_flag){
+						var userobj = eval(app.getDatas(PREFERENCE_USER));
+						
+						for (var i = 0; i < userobj.notice.length; i++) {
+							console.log("show notice ---PREFERENCE_USER------");
+							if (id==userobj.notice[i].id) {
+								document.getElementById("detail").innerHTML=userobj.notice[i].content;
+								document.getElementById("title").innerHTML=userobj.notice[i].title;
+								document.getElementById("cdate").innerHTML=userobj.notice[i].cdate;
+								document.getElementById("creater").innerHTML=userobj.notice[i].creater;
+								break;
+							}
+						}
+					}
+				}
+				
+				$.oldBack = mui.back;
+				$.back = function(event) {
+					plus.webview.currentWebview().close();
+				};
+				
+			}(mui, document));
+				
+		</script>
+	</body>
+
+</html>

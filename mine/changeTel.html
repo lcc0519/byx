@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/css.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.mui-content {
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 50px;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #efeff4;
+			}
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			
+			.head {
+				height: 40px;
+			}
+			
+			#head {
+				line-height: 40px;
+			}
+			
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			
+			.body-a {
+				/*text-align: center;*/
+				line-height: 20px;
+				vertical-align: center;
+			}
+			
+			.mui-icon-checkmarkempty {
+				color: white;
+			}
+			
+			.about-img {
+				margin-top: 30%;
+				width: 120px;
+				height: 120px;
+				vertical-align: middle;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<button type="button" class="mui-left mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left ">
+				<span class="mui-icon mui-icon-left-nav mui-icon"></span>
+			</button>
+			<h1 class="mui-center mui-title">更改电话</h1>
+			<a id="telsubmit" class="mui-icon mui-icon-upload mui-pull-right"  style="color: white"></a>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--<input id="newtel" onkeypress="return event.keyCode>=48&&event.keyCode<=57" type="text" maxlength="11" class="mui-input-clear mui-input "/>-->
+					<input id="newtel" onkeyup="onlyNum(this,11)" type="number" maxlength="11" class="mui-input-clear mui-input " />
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../js/mui.min.js "></script>
+	<script src="../js/app.js"></script>
+	<script src="../js/common.js"></script>
+	<script>
+		var old_tel;
+		var new_tel;
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		var user_obj = eval(app.getDatas(PREFERENCE_USER));
+
+		//初始化单页的区域滚动
+		mui('.mui-scroll-wrapper').scroll();
+		//分享操作
+
+		mui.plusReady(function() {
+
+			var self = plus.webview.currentWebview();
+			old_tel = self.tel;
+			document.getElementById('newtel').value = self.tel;
+		});
+
+		// 更新电话号码
+		document.getElementById('telsubmit').addEventListener('tap', function() {
+			old_tel = user_obj.tel;
+			new_tel = document.getElementById('newtel').value;
+			if(new_tel == null || new_tel == "") {
+				mui.toast("电话号码不能为空");
+			} else {				
+				if(new_tel == old_tel) {
+					console.log("电话号码没有更改");
+					mui.back();
+				} else if(new_tel.length!=11){
+					mui.toast("手机号不合法");
+				}else {
+					var btnArray = ['否', '是'];
+					mui.confirm('确认提交？', '', btnArray, function(e) {
+						if(e.index == 1) {
+							mui.openWindow({
+								url: '../phoneCodeVerify.html',
+								id: 'phoneCodeVerify.html',
+								show: {
+									aniShow: 'pop-in'
+								},
+								extras: {
+									sms_template_code: 'SMS_71360450',
+									backPage: 'changeTel.html'
+								}
+							});
+
+							//modify by xinmei on 20170823
+//							mui.openWindow({
+//								url: '../phoneCodeMAS.html',
+//								id: 'phoneCodeMAS.html',
+//								show: {
+//									aniShow: 'slide-in-right',
+//									duration: 300
+//								},
+//								extras: {
+//									templateId: '519f5f9fc9294def8537dcceae99f826', //短信模板id-用户注册
+//									backPage: 'changeTel.html'
+//								}
+//							});
+
+						} else {}
+					});
+				}
+			}
+		});
+
+		window.addEventListener('phoneverify_success', function(event) {
+			console.log("phoneverify_success验证成功");
+			//    var phone=event.detail.rec_num;
+			phone = localStorage.getItem("phone");
+			console.log("vphoneverify_success验证--" + "phone=" + phone);
+			if(chkNetStatus() == "OK") {
+				console.log("changeTel:"+phone+","+old_tel);
+				if(phone==old_tel){
+					postDataToServer();
+				}else {
+					mui.alert("接收验证码的手机号不是绑定的手机号，请输入绑定的手机号");
+				}
+				
+			} else {
+				mui.toast("网络异常");
+			}
+		}, false);
+
+		function postDataToServer() {
+			console.log("new_tel:" + new_tel);
+			mui.ajax(Update_myinfo_URL, {
+				data: JSON.stringify({
+					myid: user_obj.id,
+					xiaoqu: user_obj.xiaoqu,
+					tel: new_tel
+				}),
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				timeout: 10000, //超时时间设置为10秒；
+				success: function(data) {
+					var infor = JSON.stringify(data);
+					var obj = eval(data);
+					console.log("change_tel info:" + infor);
+					if(obj.success == 1) {
+						console.log("submit success");
+						mui.toast("提交成功");
+						var data1 = eval(app.getDatas(PREFERENCE_USER));
+						data1.tel = new_tel;
+						app.setDatas(PREFERENCE_USER, data1);
+						//通知用户信息界面修改电话
+						var userInfoPage = plus.webview.getWebviewById('userInfo.html');
+						console.log("userInfoPage:" + userInfoPage);
+						mui.fire(userInfoPage, 'change', {});
+						//通知setting页面修改电话
+						var settingPage = plus.webview.getWebviewById('tab-setting.html');
+						console.log("settingPage:" + settingPage);
+						mui.fire(settingPage, 'change', {});
+//						var tabsetting = plus.webview.getWebviewById('tab-setting.html');
+//						mui.fire(tabsetting, 'switch');
+						var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+						mui.fire(account, 'refresh');
+						var minsheng = plus.webview.getWebviewById('minsheng/minsheng.html');
+						mui.fire(minsheng, 'switch');
+						var jiankang = plus.webview.getWebviewById('jiankang/jiankang.html');
+						mui.fire(jiankang, 'switch');
+						mui.back();
+						//									
+					} else {
+						mui.toast(obj.errorMsg);
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast("网络异常");
+					//					mui.toast("error type:" + type);
+					console.log("error type:" + type);
+				}
+			});
+		}
+	</script>
+
+</html>

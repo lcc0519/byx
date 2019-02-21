@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 编辑地址</h1>
+			<a id="save" class=" mui-icon mui-pull-right" style="font-size: 17px;margin-top: 5px;">保存</a>
+		</header>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			input {
+				color: #5C5C5C;
+				font-size: 16px;
+			}
+			
+			.bottom-bar {
+				position: fixed;
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				background: red;
+				line-height: 50px;
+				color: #fff;
+				z-index: -1;
+			}
+			
+			.bottom-bar-bottom {
+				width: 100%;
+				float: left;
+				text-align: center;
+				font-size: 16px;
+			}
+			
+			.mui-input-row {
+				font-size: 16px;
+				color: #5C5C5C;
+			}
+			
+			.mui-table-view .mui-table-view-cell {
+				padding: 0px;
+			}
+		</style>
+		<div style="margin-top: 44px;">
+			<ul class="mui-table-view">
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>收货人</label>
+						<input id="shouhuoren" type="text" onkeyup="CNletter(this,20)">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>联系电话</label>
+						<input id="telnum" type="number" onkeyup="onlyNum(this,11)">
+					</div>
+				</li>
+				<li class=" mui-table-view-cell">
+					<div class="mui-input-row">
+						<label>收货地址</label>
+						<input id="louhao" type="text">
+						<!--<select id="xiaoqulist" style="font-size: 16px;">
+							<option value="choose" disabled="disabled">收货人小区名称</option>
+						</select>-->
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var shouhuoren;
+			var telnum;
+			var louhao;
+			var state;
+			var id;
+			var createrid
+			var youbian;
+			var regphone = /^1[0-9]{10}/;
+			mui.plusReady(function() {
+				currentWebView = plus.webview.currentWebview();
+				document.getElementById("shouhuoren").value = currentWebView.f_xingming;
+				document.getElementById("telnum").value = currentWebView.f_dianhua;
+				document.getElementById("louhao").value = currentWebView.f_address;
+				createrid = currentWebView.creater_id;
+				state = currentWebView.f_zhuangtai;
+				id = currentWebView.f_id;
+				youbian = currentWebView.f_youbian;
+				
+				document.querySelector('#save').addEventListener('tap', function() {
+
+					shouhuoren = document.getElementById("shouhuoren").value;
+					telnum = document.getElementById("telnum").value;
+					louhao = document.getElementById("louhao").value;
+					if(shouhuoren == ''){
+						mui.toast("收货人不能为空");
+					}
+					else if(telnum == ''){
+						mui.toast("联系电话不能为空");
+					}
+					else if(telnum.length!=11){
+						mui.toast("手机号码格式不正确");
+					}
+					else if(louhao == ''){
+						mui.toast("地址不能为空");
+					}
+					else {
+						var btnArray = ['否', '是'];
+						mui.confirm('确认保存？', '', btnArray, function(e) {
+							if(e.index == 1) {
+								if(chkNetStatus() == "OK") {
+									saveInfo();
+								} 
+								else{
+									mui.toast("网络异常，请稍候重试");
+								}
+							} 
+						});
+					}
+				});
+			});
+
+			function saveInfo() {
+				var wait = plus.nativeUI.showWaiting("正在更新地址信息，请稍后...");
+				mui.ajax(UPDATE_ADDRESS_URL, {
+					data: JSON.stringify({
+						id: id,
+						creater_id: createrid,
+						shouhuoren_name: shouhuoren,
+						shouhuoren_tel: telnum,
+						shouhuoren_address: louhao,
+						youbian: youbian,
+						moren: state
+					}),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						wait.close();
+						var info = JSON.stringify(data);
+						console.log(info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("更新地址信息成功");
+							var listview = plus.webview.getWebviewById('shouhuodizhi.html');
+							mui.fire(listview, 'refresh');
+							mui.back();
+						} 
+						else {
+							var submitResultMsg = obj.errorMsg;
+							if(submitResultMsg == '') {
+								mui.toast("网络异常，请稍候重试");
+							} else {
+								//mui.toast(submitResultMsg);
+								mui.toast("网络异常，请稍候重试");
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						wait.close();
+						mui.toast("网络异常，请检查网络连接")
+						console.log("error===" + xhr + " " + type + " " + errorThrown)
+					}
+				})
+			}
+		</script>
+	</body>
+
+</html>

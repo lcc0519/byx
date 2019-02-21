@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				height: auto;
+				float: left;
+				line-height: auto;
+				text-align: left;			
+				width: 100%;	
+			}
+			.span-title{
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.h5-title,
+			h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-input-group span {
+				width: 25%;
+			}			
+			.mui-input-row span~div{
+				width: 75%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">发帖</h1>
+		    <a id="submit" class="mui-icon mui-icon-upload mui-pull-right" style="color: white;"></a>	    
+		</header>
+		<div class="mui-content">
+			
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row" style="height: auto;">	
+					<div id="" class="input-style">
+						<textarea id='content' type="text" class="" rows="5" placeholder="这一刻的想法..." style="font-size: 0.9em;"></textarea>
+					</div>
+				</div>		
+				<!--<div class="mui-input-row">
+				<label>可见范围</label>
+					<select id="list">
+					  <option value="none">仅自己可见</option>
+					  <option value="garden" selected="selected">全校可见</option>
+					  <option value="grade">年级可见</option>
+					  <option value="class">班级可见</option>
+					</select>
+				</div>-->
+				<div style="width: 100%;">
+					<h5  class="h5-title mui-pull-left">添加图片</h5>
+				</div>
+				
+				<div id="picture_box" style="float: left;width: 100%; background: white;padding: 10px; text-align: center;" >
+					<a id="picture-btn" ><img id="pic_option" style="height: 100px;width: 100px;padding: 5px;" src="../images/icon_addpic_unfocused.png"></a>
+				</div>
+				
+			</form>
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#">拍照</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="#">从相册中选取</a>
+				</li>
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#picture"><b>取消</b></a>
+					
+				</li>
+			</ul>
+		</div>
+		</div>
+		<!--<div class="imgbox">
+  <img class="goodsimg" src="../images/icon_addpic_unfocused.png">
+  <input id="file" type="file" class="fileupload" accept="image/*" multiple capture="camera" @change="viewimg()"/>
+</div> -->
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript">
+		var files=[];
+		var zhutiid;
+		var schoolid;
+		var userinfo
+		var user=new Object();
+		mui.init({
+			swipeBack:false //启用右滑关闭功能
+		});
+		mui.plusReady(function () {
+			var self = plus.webview.currentWebview();
+			zhutiid = self.zid;  //获取板块id
+			schoolid = self.sid; //获取板块被创建时候创建者所在小区的小区id
+			console.log("^^^^^^^addtizi get id:" + zhutiid);
+			console.log("^^^^^^^addtizi get id:" + schoolid);
+			userinfo=eval(app.getDatas(PREFERENCE_USER));
+		});
+		(function($) {
+			$.oldBack = mui.back;
+			$.back = function(event) {
+				plus.webview.currentWebview().close();
+			};
+		})(mui);
+
+		function sendCommentInfo(){
+			
+//			user.fid = bankuai;  //板块fid
+//			user.xiaoqu = 6;  //6
+//			user.created_xiaoqu = userinfo.xiaoqu; //kfqtdy
+//			user.created_userid = userinfo.id;  //20
+			//var listvalue = document.getElementById("list").value;
+			//console.log("************begin:");
+//			switch(listvalue){
+//				case 'none':
+//					user.allow_visit = '0';
+//					break;
+//				case 'garden':
+//					user.allow_visit = '1';
+//					break;
+//				case 'grade':
+//					user.allow_visit = '2';
+//					break;
+//				case 'class':
+//					user.allow_visit = '3';
+//					break;
+//				default:
+//					user.allow_visit = '1';
+//					break;
+//			}
+			//console.log("************list:" + user.allow_visit);
+			user.content = document.getElementById("content").value;   //留言内容
+//			user.created_username = userinfo.account;   //account
+			
+			console.log("传送内容："+JSON.stringify(user));
+			
+			if(user.content=="" || user.content==null||user.content=="undefined"){
+//				mui.alert("请填写留言！", '警告');
+				plus.nativeUI.alert("请填写发帖内容");
+				return;
+			}
+						
+//         上传留言
+			var w=plus.nativeUI.showWaiting("正在提交...");			
+			var task=plus.uploader.createUpload(DYNAMICSTATEADD_URL,
+				{
+					method:"POST",
+					timeout:10000
+				},
+				function(t,status){ //上传完成
+					if(status==200){
+						w.close();
+						mui.toast("提交成功");
+						console.log("上传成功："+t.responseText);
+						plus.storage.setItem("uploader",t.responseText);	
+						var zhuti_main = plus.webview.getWebviewById('detail_zhuti.html');
+						console.log("*******************detail_zhuti:" +zhuti_main);
+						mui.fire(zhuti_main, 'updateView');
+						setTimeout(function () {
+							mui.back();							
+						},100);
+					}else{
+						console.log("上传失败："+status);						
+						w.close();
+						mui.toast("网络异常，提交失败");
+					}
+				}
+			);
+			
+			console.log("---schoolid-="+schoolid);
+			task.addData("school_id",schoolid);
+			console.log("---userinfo.xiaoqu-="+userinfo.xiaoqu);
+			task.addData("xiaoqu_prefix",userinfo.xiaoqu);
+			task.addData("allow_visit","1");
+			console.log("---user.content-="+user.content);
+			task.addData("content",user.content);
+			console.log("---userinfo.account-="+userinfo.account);
+			task.addData("username",userinfo.account);
+			console.log("---userinfo.id-="+userinfo.id);
+			task.addData("userid",userinfo.id);
+			console.log("---zhutiid-="+zhutiid);
+			task.addData("zid",zhutiid);
+
+			var filearray = new Array;
+			if(files.length > 0){
+				for (var i = 0; i < files.length; i++) {
+					filearray[i]=files[i].path;
+					console.log("图片路径："+filearray[i]);
+					var keyName = "file["+i+"]";
+//					console.log(keyName+": "+filearray[i]);
+					task.addFile(filearray[i],{key:keyName});
+				}
+			}
+			task.start();
+		}
+		
+		document.getElementById("submit").addEventListener('tap',function(event){
+			console.log("点击上传。。。");
+			sendCommentInfo();
+		});
+		
+		document.getElementById("picture-btn").addEventListener('tap',function () {
+			
+			var btnArray = [{title:"拍照"},{title:"从相册中选取"}];
+			plus.nativeUI.actionSheet( {
+				title:"选择照片",
+				cancel:"取消",
+				buttons:btnArray
+			}, function(e){
+				var index = e.index;
+				var text = '你刚点击了,';
+				switch (index){
+					case 0:
+						text += "取消";
+						break;
+					case 1:
+						text += "拍照或录像";
+						shareCameraPicture();
+						break;
+					case 2:
+						text += "选取现有的";
+						shareGalleryPicture();
+						break;
+				}
+			});
+		});
+		
+		var shares=null;
+		// H5 plus事件处理
+		function plusReady(){
+
+//			updateSerivces();
+		}
+		if(window.plus){
+			plusReady();
+		}else{
+			document.addEventListener('plusready', plusReady, false);
+		}
+
+
+		// 拍照添加图片分享
+		function shareCameraPicture(){
+			var picbox = document.getElementById("picture_box");
+			var cmr=plus.camera.getCamera();
+			cmr.captureImage(function(p){				
+				plus.io.resolveLocalFileSystemURL(p,function(entry){	
+					var imgPath = entry.toLocalURL();
+					var img = document.createElement("img");
+//					img.style = 'height: 100px;width: 100px;padding: 5px;';
+					img.height='200';
+//					img.width='200';
+//					img.src = imgPath;
+					img.realUrl = p;
+					picbox.insertBefore(img,document.getElementById("picture-btn"));
+//					appendFile(p);
+//					appendFile(entry.toLocalURL());
+//					var image = new Image();
+//					image.src = imgPath;
+//					image.onload = function () {
+//						var imgData = getBase64Image(image);
+//						img.src =imgData;						
+//					}
+					compressImage(imgPath,imgPath);
+					img.src = imgPath;
+					
+				},function(e){
+					console.log('读取拍照文件错误：'+e.message);
+				} );
+			},function(e){
+//				outLine('拍照失败：'+e.message);
+				console.log("拍照失败"+e.message);	
+			});
+		}
+		// 从相册添加图片分享
+		function shareGalleryPicture(){
+			var picbox = document.getElementById("picture_box");
+			plus.gallery.pick(function(p){
+				// 从相册返回的路径不需要转换可以直接使用
+				var img = document.createElement("img");
+//				img.style = 'height: 100px;width: 100px;padding: 5px;';
+				img.height = '200';
+//				img.width = '200';
+				img.src = p;
+				img.realUrl = p;
+				var ext = p.substr(-4);
+				var new_name = p.replace(ext,"_1"+ext);
+				console.log(p.substr(-4));
+				picbox.insertBefore(img,document.getElementById("picture-btn"));
+//				appendFile(p);
+				compressImage(p,new_name);
+		    });
+		}
+		var index=1;
+		function appendFile(p){
+			
+			files.push({name:"uploadkey",path:p});
+
+		}
+		
+		function compressImage(src, dstname) {
+			console.log("----compressImage--");
+			//var dstname="_downloads/"+getUid()+".jpg";  
+			plus.zip.compressImage({
+					src: src,
+					dst: dstname,
+					overwrite: true,
+					quality: 20
+				},
+				function(event) {
+					imgflag = 1;
+					console.log("Compress success:" + event.target);
+					console.log(dstname);
+					appendFile(dstname);
+					return event.target;
+				},
+				function(error) {
+					console.log(error);
+					return src;
+				});
+
+		}
+		
+		function getBase64Image (img) {
+			var canvas = document.createElement("canvas");
+			var width =img.width;
+			var height = img.height;
+			if (width > height) {
+				if (width > 100) {
+					height = Math.round(height *= 100 / width);
+					width = 100;					
+				}
+			} else{
+				if (height > 100) {
+					width = Math.round(width *= 100 / height);
+					height = 100;					
+				}				
+			}
+			canvas.width = width;
+			canvas.height = height;
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img,0,0,width,height);
+			var dataURL = canvas.toDataURL("image/png",0.8);
+			return dataURL;//.replace("data:image/png;base64,","");
+		}
+
+	</script>
+</html>

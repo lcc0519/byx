@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+
+		<style type="text/css">
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			li {
+				list-style-type: none;
+			}
+			
+			.yuyuediv {
+				float: left;
+				border: 1px solid #E8E8E8;
+				height: 50px;
+				width: 100%;
+				line-height: 50px;
+				background-color: #FFFFFF;
+				vertical-align: middle;
+				/*margin-top: 20px;*/
+			}
+			
+			.yuyue {
+				height: 20px;
+				width: 20px;
+				vertical-align: middle;
+				/*margin: auto 0;*/
+			}
+			
+			.liuyan {
+				float: left;
+				border: 1px solid #E8E8E8;
+				height: 50px;
+				width: 100%;
+				line-height: 50px;
+				background-color: #FFFFFF;
+				vertical-align: middle;
+				margin-top: 10px;
+				margin-bottom: 80px;
+				font-size: 15px;
+			}
+			
+			.footer {
+				height: 50px;
+				/*background:#ff6666;*/
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+			
+			#heji {
+				border-top: 1px solid #E8E8E8;
+				float: left;
+				height: 60px;
+				width: 70%;
+				line-height: 50px;
+				padding-right: 10px;
+				color: black;
+				background-color: #FFFFFF;
+				text-align: left;
+				padding-left: 10px;
+				font-size: 15px;
+				/*margin-left:5px;*/
+			}
+			
+			#heji span {
+				font-size: 15px;
+			}
+			
+			#submit_lab {
+				float: right;
+				font-size: 17px;
+				width: 30%;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+				color: #FFFFFF;
+				background: deepskyblue;
+			}
+			
+			.cellImg {
+				float: left;
+				/*width: 80px;*/
+				height: 80px;
+				vertical-align: middle;
+				position: relative;
+				/*padding-left: 10px;*/
+			}
+			
+			.itemName {
+				margin-top: 10px;
+				color: black;
+				line-height: 30px;
+			}
+			
+			.shuliang {
+				float: right;
+				color: black;
+				/*margin-right: 20px;*/
+				/*text-align: right;*/
+			}
+			
+			.heji {
+				float: left;
+				text-align: left;
+				font-size: 10px;
+			}
+			
+			.buy_div {
+				float: left;
+				width: 100%;
+				padding-right: 10px;
+			}
+			
+			.buy_div input {
+				width: 30px;
+				height: 30px;
+				float: left;
+				border: 0;
+				border-radius: 0;
+				background-color: #FFFFFF;
+				margin-left: 0px;
+				margin-right: 0px;
+				text-align: center;
+			}
+			
+			.buy-label {
+				float: left;
+				margin-left: 10px;
+				width: 30%;
+				line-height: 30px;
+				font-size: 15px;
+				color: gray;
+			}
+			
+			.buy-numbox {
+				height: 30px;
+				float: right;
+			}
+			
+			.buy-numbox-minus {
+				float: left;
+				border: 0;
+				border-radius: 0;
+				background-color: #E8E8E8;
+				width: 30px;
+				height: 30px;
+				margin-right: 0px;
+			}
+			
+			.buy-numbox-plus {
+				float: left;
+				border: 0;
+				border-radius: 0;
+				background-color: #E8E8E8;
+				width: 30px;
+				height: 30px;
+				margin-left: 0px;
+			}
+			
+			.leftClassCell {
+				margin: 0 auto;
+				padding-left: 1%;
+				width: 30%;
+				float: left;
+				display: table-cell;
+				line-height: 110px;
+				vertical-align: middle;
+			}
+			
+			.rightClassCell {
+				padding-left: 5px;
+				width: 70%;
+				float: left;
+				line-height: 110px;
+			}
+			
+			.itemName {
+				color: black;
+				line-height: 2em;
+				margin-top: 5px;
+			}
+			
+			.itemfeatures {
+				font-size: 0.6em;
+				line-height: 0.5em;
+				padding-top: 3px;
+			}
+			
+			.price {
+				color: red;
+				line-height: 1.0em;
+				display: inline;
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+			}
+			
+			.mui-table-view:after {
+				height: 0px;
+			}
+			
+			.delivery:after {
+				height: 0px;
+			}
+			/*.total_col {
+				border-top: 1px solid #E0E0E0;
+			}*/
+			
+			.delivery-label {
+				float: left;
+				margin-left: 10px;
+				line-height: 30px;
+				font-size: 15px;
+				padding-right: 10px;
+				color: gray;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 确认订单</h1>
+		</header>
+		<div id="content" class="mui-content" style="display: block;">
+			<div style="margin-bottom: 10px;background-color: #FFFFFF;">
+				<ul id="dingdanAddress" class="mui-table-view" style="border-bottom: 5px dashed #FF5809;">
+					<li class="mui-table-view-cell mui-media">
+						<div style="width: 15%;float: left;vertical-align: middle;line-height: 80px;">
+							<span class="mui-icon iconfont icon-map" style="font-size:40px;vertical-align: middle;margin-left: 15%;"></span>
+						</div>
+						<div style="width: 80%;float: left;">
+							<p id="people" style="width: 65%;float: left;padding-top: 4%;color: gray;font-size:16px"></p>
+							<p id="phone" style="width: 35%;float: left;padding-top: 4%;color: gray;font-size:16px"></p>
+							<p id="shouhuodizhi" style="word-wrap: break-word;font-size:16px"></p>
+						</div>
+						<div style="width: 5%;float: right;line-height: 80px;">
+							<span class="mui-icon mui-icon mui-icon-arrowright" style="font-size:30px;vertical-align: middle;color: gray;"></span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div id="DingdanList" style="margin-bottom: 10px;">
+				<!--<ul class="mui-table-view">
+					<li class="mui-table-view-cell" style="padding-left: 10px;">
+						<span id="productItem_' + index + '" class="mui-icon iconfont icon-dianpu" style="font-size: 20px;"></span>
+						<label>店铺</label>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<div class="leftClassCell">
+							<img src="../images/bbys.png" class="cellImg" />
+						</div>
+						<div class="rightClassCell">
+							<p id="name" class="itemName mui-ellipsis-2">' + item.c_name + '</p>
+							<div style="line-height: 1.2em;">
+								<p>规格：' + item.guige + '</p>
+								<p class="price">' + '¥' + item.huiyuanprice + '<span>x1</span></p>
+							</div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell" style="padding-left: 10px;">
+						<div style="float: left;width: 75%;">
+							<label style="float: right;padding-right: 5%;">共<label>n</label>件商品</label>
+						</div>
+						<div style="float: left;width: 25%;">
+							<label>小计:<label>nvvvvv</label></label>
+						</div>
+					</li>
+				</ul>-->
+			</div>
+			<ul id="yuyue" class="mui-table-view" style="display: none;">
+				<li style="text-align: center;padding: 10px 0px;">
+					<p>希望技师什么时间服务</p>
+				</li>
+				<li style="text-align: center;padding-bottom: 10px;">
+					<div id="yuyuetime" class="mui-btn" style="background: deepskyblue;color: white;width: 90%;padding: 8px 0px;">
+						选择服务时间
+					</div>
+				</li>
+
+			</ul>
+
+			<!--<div class="yuyuediv">
+				<span id="yuyue" style="margin-left: 10px;font-size: 15px;color: #666666;border:1px solid orange;border-radius: 5px;padding:3px;">选择预约送货时间</span>
+				<span id="yuyuetime"></span>
+			</div>
+
+			<div class="liuyan">
+				<label style="width:30%;margin-left: 10px;color: #666666;">给商家留言：</label><input id="liuyanmess" type="text" placeholder="限制在20字以内" maxlength="20" style="width:70%;border:1px solid #999999;border-radius: 5px;font-size: 15px;color: #666666;" />
+			</div>-->
+
+			<nav id="navbar" class="mui-bar mui-bar-tab" style="display: none;">
+				<div class="footer">
+					<label id="heji">合计:
+						<span id="shijiprice" style="color: #FF5809;">¥0.00</span>
+					</label>
+					<label id="submit_lab">提交订单</label>
+				</div>
+			</nav>
+		</div>
+		<script src="../js/mui.min.js" charset="UTF-8"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/ajax.js" charset=""></script>
+		<script src="../js/own.js" charset="UTF-8"></script>
+		<script src="../js/common.js"></script>
+		<script src="../../js/app.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<!--<script src="../js/mui.dtpicker.js"></script>-->
+
+		<script type="text/javascript" charset="UTF-8">
+			var yuyuetime = document.getElementById('yuyuetime');
+			var peopleLab = document.getElementById('people');
+			var telLab = document.getElementById('tel');
+			var xiaoquLab = document.getElementById('xiaoqu');
+			var hejiLab = document.getElementById('heji');
+			var shijipriceSp = document.getElementById('shijiprice');
+			var DingdanList = document.getElementById('DingdanList');
+			var submitLab = document.getElementById('submit_lab');
+			var dingdanAddressA = document.getElementById('dingdanAddress');
+			var liuyanMess = document.getElementById('liuyanmess');
+			var selectedName;
+			var selectedTel;
+			var selectedAddress;
+			var submitListArray = new Array();
+			var queryResultOBJ;
+			var shangpindetail;
+			var totalprice;
+			var creater_id;
+			var resultArray = [];
+			var shangpinArray = [];
+			var pingtai;
+			var order_flag = '0';
+			var self;
+			mui.init();
+
+			//接收chooseAddress.html自定义事件修改地址		
+			window.addEventListener('addresslist', function() {
+				console.log("update address");
+				getAddressList();
+			});
+
+			mui.plusReady(function() {
+
+				self = plus.webview.currentWebview();
+				shangpindetail = self.goodsDetail;
+				console.log("xiangqing==" + JSON.stringify(shangpindetail))
+				totalprice = self.total_price;
+				creater_id = self.creater_id;
+				pingtai = self.pingtai;
+				order_flag = self.order_flag;
+				getAddressList();
+				dingdanAddressA.addEventListener('tap', function() {
+					mui.openWindow({
+						url: "../cart/chooseAddress.html",
+						id: "chooseAddress.html",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: 100
+						},
+						waiting: {
+							autoShow: true,
+							title: '正在加载...'
+						},
+						extras: {
+							"creater_id": creater_id
+						}
+					});
+				});
+				var data = [];
+				for(var i = 8; i <= 18; i++) {
+					var item = {};
+					item.text = i;
+					item.value = i;
+					data.push(item);
+				}
+
+				yuyuetime.addEventListener('tap', function() {
+					var picker = new mui.DtPicker({
+						//						type: "",
+						//						beginDate: new Date(),
+						customData: {
+							"h": data,
+						}
+					});
+					picker.show(function(rs) {
+						yuyuetime.innerText = rs.text;
+						picker.dispose();
+					});
+				}, false);
+
+			});
+
+			function getAddressList() {
+				if(chkNetStatus() == "OK") {
+					var itemList = [];
+					mui.ajax(QUERY_ADDRESS_URL, {
+						data: {
+							creater_id: creater_id
+						},
+						async: false,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						success: function(data) {
+							var info = JSON.stringify(data);
+							console.log("dingdan====" + info)
+							var obj = eval(data);
+							if(obj.success == 1) {
+								//wait.close();
+								//								document.querySelector('#net_error').style.display = 'none';
+								//								document.querySelector('#not_message').style.display = 'none';
+								//								document.querySelector('.addressItem').style.display = 'block';
+								if(obj.address_info == "") {
+									console.log("lllllllllllllllll")
+									mui.alert('请先添加地址', '', function() {
+										mui.openWindow({
+											url: "../cart/chooseAddress.html",
+											id: "chooseAddress.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											},
+											extras: {
+												"creater_id": creater_id
+											}
+										});
+
+									});
+								} else {
+
+									for(var i = 0; i < obj.address_info.length; i++) {
+										item = {};
+										item.shouhuoid = obj.address_info[i].id;
+										item.shouhuoren_name = obj.address_info[i].shouhuoren_name;
+										item.shouhuoren_tel = obj.address_info[i].shouhuoren_tel;
+										item.shouhuoren_address = obj.address_info[i].shouhuoren_address;
+										item.youbian = obj.address_info[i].youbian;
+										itemList.push(item);
+									}
+									selectedName = itemList[0].shouhuoren_name;
+									selectedTel = itemList[0].shouhuoren_tel;
+									selectedAddress = itemList[0].shouhuoren_address;
+									GetVal(selectedName, selectedTel, selectedAddress)
+									refreshDingdan(shangpindetail, selectedName, selectedTel, selectedAddress);
+								}
+								//productlistSuccess(itemList);
+							} else {
+								wait.close();
+								document.querySelector('.addressItem').style.display = 'none';
+								document.querySelector('#net_error').style.display = 'none';
+								document.querySelector('#not_message').style.display = 'block';
+								var queryResultMsg = obj.errorMsg;
+
+								console.log("hhhhhh" + queryResultMsg);
+								if(queryResultMsg == '') {
+									document.getElementById('word1').innerHTML = "获取数据失败";
+								} else {
+									document.getElementById('word1').innerHTML = queryResultMsg;
+								}
+
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//	wait.close();
+							mui.toast("获取地址信息失败！");
+							//							document.querySelector('#not_message').style.display = 'none';
+							//							document.querySelector('.addressItem').style.display = 'none';
+							//							document.querySelector('#net_error').style.display = 'block';
+						}
+					})
+
+				} else {
+					mui.toast("网络异常");
+				}
+			}
+
+			function refreshDingdan(strArr, selectedName, selectedTel, selectedAddress) {
+				DingdanList.innerHTML = '';
+				var html = '';
+				resultArray = [];
+				console.log("dingdanlist：" + JSON.stringify(strArr));
+				mui.each(strArr, function(index, item) {
+					var ids = index;
+					var n, kuaidifei = 0;
+					var price = 0;
+					html += '<ul id="' + index + '" class="mui-table-view" style="margin-top:7px;">\
+					<li class="mui-table-view-cell" style="border-bottom: 1px solid #f4f4f4;padding-left: 10px;">\
+					<label class="mui-icon iconfont icon-dianpu" style="font-size: 20px;"></label>\
+					<label>' + item.shangjia_name + '</label>\
+				</li>';
+					shangpinArray = [];
+					mui.each(strArr[index].goodslist, function(index, item) {
+						kuaidifei += item.kuaidifei * item.shangpin_shuliang;
+						n = index + 1;
+						price += parseFloat(item.shangpin_jiage * item.shangpin_shuliang);
+						html += '<li class="mui-table-view-cell mui-media">\
+						<div class="leftClassCell">\
+							<img src="' + item.pic + '" class="cellImg" />\
+						</div>\
+						<div class="rightClassCell">\
+							<p id="name" class="itemName mui-ellipsis-2">' + item.shangpin_name + '</p>\
+							<div style="line-height: 1.2em;">\
+								<p>' + item.shangpin_guige + '</p>\
+								<p class="price">' + '¥' + item.shangpin_jiage + '<span class="shuliang">x' + item.shangpin_shuliang + '</span></p>\
+							</div>\
+						</div>\
+					</li>';
+						var items = {};
+						if(order_flag != '1') {
+							items.gouwuche_id = item.gouwuche_id;
+							items.guige = item.shangpin_guige;
+						}
+						items.shangpin_id = item.shangpin_id;
+						items.shangpin_bianhao = item.shangpin_bianhao;
+						items.product_name = item.shangpin_name;
+						items.shuliang = item.shangpin_shuliang;
+						items.signal_price = item.shangpin_jiage;
+						shangpinArray.push(items);
+					});
+
+					html += '<li class="mui-table-view-cell total_col" style="padding-left: 10px;">\
+							<label style="font-size:16px;color:grey;float:right">小计:<label id="xiaoji" class="price" style="margin-left:5px">¥' + price + '</label></label>\
+					</li></ul>';
+					var dataItem = {};
+					dataItem.shangjia_id = item.shangjia_id;
+					dataItem.pingtai = pingtai;
+					dataItem.creater = creater_id;
+					dataItem.songhuo_shijian = "2017";
+					dataItem.total_price = price;
+					dataItem.shouhuoren_name = selectedName;
+					dataItem.shouhuoren_tel = selectedTel;
+					dataItem.shouhuoren_address = selectedAddress;
+					dataItem.shouhuoren_youbian = "264000";
+					dataItem.shangpin = shangpinArray;
+					resultArray.push(dataItem)
+				});
+				console.log("ddff=" + JSON.stringify(resultArray))
+				DingdanList.innerHTML = html;
+				document.getElementById('content').style.display = "block";
+				shijipriceSp.innerText = "¥" + totalprice;
+			}
+
+			function stopEvt(event) {
+				event.stopPropagation(); //阻止点击事件向上冒泡  
+			}
+
+			//提交订单
+			submitLab.addEventListener('tap', function() {
+				console.log("iioioo=" + JSON.stringify(resultArray))
+				for(var i = 0; i < resultArray.length; i++) {
+					var countArray = [];
+					var goods = resultArray[i].shangpin;
+					for(var j = 0; j < goods.length; j++) {
+						var item = {};
+						item.shangjia_id = resultArray[i].shangjia_id;
+						item.shangpin_bianhao = goods[j].shangpin_bianhao;
+						countArray.push(item);
+					}
+					//	kucun = queryKucun(countArray);
+					//	if(queryKucunResult(goods, kucun))
+					submitOrder(resultArray[i]);
+				}
+				//pay('alipay');
+			});
+
+			function submitOrder(arr) {
+				console.log("xiadan=" + JSON.stringify(arr))
+				var URL;
+				if(order_flag == '1')
+					URL = ZHIJIE_XIADAN_URL;
+				else
+					URL = CART_XIADAN_URL;
+				console.log("urlllll=" + URL);
+				mui.ajax(URL, {
+					data: JSON.stringify(arr),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						//w.close();
+						var infor = JSON.stringify(data);
+						console.log("下单:" + infor);
+						var obj = eval(data);
+						if(obj.success == '1') {
+							//pay('alipay', obj.danhao);
+							openPayView(obj.danhao);
+							mui.toast("下单成功！");
+							if(order_flag != '1') {
+								var cartRefresh = plus.webview.getWebviewById("cart/cart-webview.html")
+								mui.fire(cartRefresh, 'submitSuccess');
+							}
+						} else
+							mui.toast("下单失败！");
+
+					},
+					error: function(xhr, type, errorThrown) {
+						//w.close();
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+					}
+
+				});
+			}
+
+			function openPayView(danhao) {
+				var amount = document.getElementById('shijiprice').innerText;
+				mui.openWindow({
+					url: '../cart/zhifudingdan.html',
+					id: 'zhifudingdan.html',
+					styles: {
+						popGesture: "none"
+					},
+					show: {
+						//	autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						"danhao": danhao,
+						"totalprice": amount
+					}
+				})
+			}
+
+			function GetVal(name, phone, address) {
+				//	console.log("GetVal" + address);
+				document.getElementById('people').innerText = "收货人:" + name;
+				document.getElementById('phone').innerText = phone;
+				document.getElementById('shouhuodizhi').innerText = "服务地点:" + address;
+				for(var i = 0; i < resultArray.length; i++) {
+					resultArray[i].shouhuoren_name = name;
+					resultArray[i].shouhuoren_tel = phone;
+					resultArray[i].shouhuoren_address = address;
+				}
+				document.getElementById("yuyue").style.display = "";
+				document.getElementById("navbar").style.display = "";
+				refreshDingdan(shangpindetail, name, phone, address);
+
+			}
+
+			var pays = {};
+			var w = null;
+			var PAYSERVER = ALIPAYSERVER;
+			// 支付
+			function pay(id, danhao) {
+				if(checkServices(pays[id])) {
+					var url = PAYSERVER;
+					w = plus.nativeUI.showWaiting();
+					// 请求支付订单
+					var amount = document.getElementById('shijiprice').innerText;
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch(xhr.readyState) {
+							case 4:
+								w.close();
+								w = null;
+								if(xhr.status == 200) {
+									console.log('----- 请求订单成功 -----');
+									console.log(xhr.responseText);
+									var order = xhr.responseText;
+									plus.payment.request(pays[id], order, function(result) {
+										console.log('----- 支付成功 -----');
+										console.log(JSON.stringify(result));
+										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
+											self.close();
+											//	back();
+										}, '支付');
+									}, function(e) {
+										console.log('----- 支付失败 -----');
+										console.log('[' + e.code + ']：' + e.message);
+										plus.nativeUI.alert('请前往待付款中支付！', function() {
+											self.close();
+											//back();
+										}, '支付失败：' + e.code);
+									});
+								} else {
+									console.log('----- 请求订单失败 -----');
+									console.log(xhr.status);
+									plus.nativeUI.alert('获取订单信息失败！', null, '支付');
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('POST', PAYSERVER, true);
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					console.log("huiyuanYuE:" + amount);
+					console.log('请求支付订单：' + PAYSERVER);
+					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					xhr.send(args);
+				}
+			}
+
+			function checkServices(pc) {
+				if(!pc.serviceReady) {
+					var txt = null;
+					switch(pc.id) {
+						case 'alipay':
+							txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，请先安装应用';
+							break;
+						default:
+							txt = '系统未安装“' + pc.description + '”服务，无法完成支付，请先安装应用';
+							break;
+					}
+					mui.alert(txt);
+					return false;
+				} else {
+					return true;
+				}
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,495 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+	</head>
+	<style>
+		html,
+		body {
+			background-color: #efeff4;
+		}
+		
+		.mui-table-view .mui-table-view-cell {
+			background: white;
+			padding: 0px;
+			height: 100px;
+		}
+		
+		.mui-table-view:before {
+			height: 0px;
+		}
+		
+		.mui-table-view:after {
+			height: 0px;
+		}
+		
+		.leftClassCell {
+			padding: 1%;
+			width: 30%;
+			float: left;
+			line-height: 90px;
+			display: table-cell;
+			/*vertical-align: middle;*/
+			/*background: yellow;*/
+		}
+		
+		.rightClassCell {
+			width: 60%;
+			float: left;
+		}
+		
+		.ClassCell {
+			width: 10%;
+			float: left;
+			line-height: 100px;
+		}
+		
+		.itemName {
+			color: black;
+			margin-top: 10px;
+			line-height: 1.5em;
+		}
+		
+		.price {
+			color: #41CEA9;
+			line-height: 1.5em;
+			margin-right: 2px;
+			display: inline;
+		}
+		
+		.guige {
+			line-height: 1.5em;
+		}
+		
+		.mui-table-view-cell .mui-media {
+			padding: 0px;
+		}
+		
+		.cellImg {
+			max-width: 70%;
+			vertical-align: middle;
+			/*position: relative;*/
+			margin-left: 12px;
+		}
+		
+		.totalPrice {
+			width: 30%;
+			float: left;
+			line-height: 40px;
+			padding-left: 12px;
+			text-align: left;
+		}
+		
+		.leftButton {
+			width: 40%;
+			float: left;
+			line-height: 40px;
+			text-align: right;
+		}
+		
+		.rightButton {
+			width: 30%;
+			float: left;
+			line-height: 40px;
+			text-align: right;
+			padding-right: 20px;
+		}
+		
+		.button-style {
+			vertical-align: middle;
+			padding: 3px 24px;
+			border-radius: 20px;
+		}
+		
+		.button-cancle {
+			vertical-align: middle;
+			padding: 3px 10px;
+			border-radius: 20px;
+		}
+		
+		.itemTitle {
+			color: black;
+			vertical-align: middle;
+			line-height: 2em;
+			display: inline;
+		}
+		
+		.price-cell {
+			display: inline;
+			color: black;
+		}
+	</style>
+
+	<body>
+		<header class="mui-navbar-inner mui-bar mui-bar-nav">
+			<h1 class="mui-center mui-title">我的订单</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>
+		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
+			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word" style="color: gray; font-size: 0.9em;">网络异常</span>
+			<br />
+			<button type="button" class="mui-btn own-btn-green" style="margin-top: 10px; padding: 5px 20px;">重新加载</button>
+		</div>
+		<div id="not_message" class="notInfo" style="text-align: center; margin-top: 200px;display: none;">
+			<img src="../images/ic_data_empty.png" style="height: 100px;" />
+			<br />
+			<span id="word1" style="color: gray; font-size: 0.9em;"></span>
+		</div>
+		<div id="diangdanItem" class="diangdanItem" style="display: block;margin-top: 44px;">
+			<!--<div>
+				<ul class="mui-table-view" style="height: 30px;">
+					<li class="mui-table-view-cell mui-media" style="height: 30px;">
+						<p class="itemTitle" style="padding-left: 7px;">订单编号：</p>
+						<p class="itemTitle">123456</p>
+					</li>
+					<li class="mui-table-view-cell mui-media">
+						<div class="leftClassCell">
+							<img src="../images/banjin.jpg" class="cellImg" />
+						</div>
+						<div class="rightClassCell">
+							<p class="itemName mui-ellipsis-2">今麦郎方便面108g</p>
+							<p class="price">¥5</p>
+						</div>
+						<div class="ClassCell">
+							<p class="count">x1</p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media" style="padding: 0px;height: 40px;margin: 0px;">
+						<div class="totalPrice">
+							<p class="price-cell">总价:</p>
+							<p class="price-cell">price</p>
+						</div>
+						<div class="leftButton">
+							<button class="button-style">取消</button>
+						</div>
+						<div class="rightButton">
+							<button class="button-style" style="border-color: orange;color: orange;">付款</button>
+						</div>
+					</li>
+				</ul>
+			</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var self;
+			var creater_id;
+			var dataList = [];
+			mui.plusReady(function() {
+				self = plus.webview.currentWebview();
+				creater_id = self.createrid;
+				queryAllDingdan(creater_id, "");
+				console.log("-----getChannels------");
+				plus.payment.getChannels(function(channels) {
+					var txt = '支付通道信息：';
+					for(var i in channels) {
+						var channel = channels[i];
+						if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+							continue;
+						}
+						pays[channel.id] = channel;
+						txt += 'id:' + channel.id + ', ';
+						txt += 'description:' + channel.description + ', ';
+						txt += 'serviceReady:' + channel.serviceReady + '； ';
+						//						checkServices(channel);
+					}
+					console.log(txt);
+					//		info.innerText=txt;
+				}, function(e) {
+					mui.alert('获取支付通道失败：' + e.message);
+
+				});
+			})
+
+			function queryAllDingdan(creater_id, status) {
+				mui.ajax(QUERY_DINGDAN_URL, {
+					data: {
+						creater_id: creater_id,
+						pay_status: status
+					},
+					async: false,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var infor = JSON.stringify(data);
+						var obj = eval(data);
+						console.log("product22====" + infor);
+						if(obj.success == 1) {
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'none';
+							document.querySelector('.diangdanItem').style.display = 'block';
+							for(var j = 0; j < obj.dingdan_info.length; j++) {
+								var shangpinInfo = obj.dingdan_info[j].shangpin_info;
+								for(var i = 0; i < shangpinInfo.length; i++) {
+									var picstr = shangpinInfo[i].hpic0;
+									var ss = [];
+									ss = picstr.split("/");
+									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+									shangpinInfo[i].picture = SHOP_PICTURE_URL + picstr;
+								}
+							}
+							dataList = obj.dingdan_info;
+							productlistSuccess(dataList);
+						} else {
+							document.querySelector('.diangdanItem').style.display = 'none';
+							document.querySelector('#net_error').style.display = 'none';
+							document.querySelector('#not_message').style.display = 'block';
+							//var queryResultMsg = obj.errorMsg;
+							var queryResultMsg = "没有订单信息！";
+							//console.log("hhhhhh" + queryResultMsg);
+							if(queryResultMsg == '') {
+								document.getElementById('word1').innerHTML = "获取数据失败";
+							} else {
+								document.getElementById('word1').innerHTML = queryResultMsg;
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//						wait.close();
+						document.querySelector('#homeDiv').style.display = 'none';
+						document.querySelector('#search-class').style.display = 'none';
+						document.querySelector('#net_error').style.display = 'block';
+						document.querySelector('#not_message').style.display = 'none';
+						//w.close();
+						mui.toast("网络异常");
+						console.log("error type:" + type);
+						console.log(xhr.status);
+						console.log(xhr.readyState);
+						console.log(xhr.response);
+
+					}
+
+				})
+			}
+
+			function productlistSuccess(datalist) {
+				var loginDiv = document.querySelector('.diangdanItem');
+				var html = '';
+				mui.each(datalist, function(index, item) {
+
+					var listTitle = '<div id =' + index + ' style="margin-bottom:7px;">';
+					listTitle += '<ul class="mui-table-view">\
+					<li class="mui-table-view-cell mui-media" style="height: 30px;">\
+					<span class="mui-icon iconfont icon-dianpu" style="padding-left: 12px;"></span>\
+					<p class="itemTitle">' + item.shangjia_name + '</p>\
+					</li>';
+					var listItem = '';
+					listItem += listTitle;
+					mui.each(item.shangpin_info, function(index, item) {
+						var pic;
+						var picstr = item.hpic0;
+						var ss = [];
+						ss = picstr.split("/");
+						picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
+						pic = SHOP_PICTURE_URL + picstr;
+						listItem += '<li  class="mui-table-view-cell mui-media" onclick="itemButton(this)">\
+					<div class="leftClassCell">\
+					<img src="' + pic + '" class="cellImg" />\
+					</div>\
+					<div class="rightClassCell">\
+					<p class="itemName mui-ellipsis-2">' + item.shangpin_name + '</p>\
+					<p class="guige">规格:' + item.shangpin_guige + '</p>\
+					<p class="price" style="color:red">¥' + item.shangpin_jiage + '</p>\
+					</div>\
+					<div class="ClassCell">\
+					<p class="count">x' + item.shangpin_shuliang + '</p>\
+					</div>\
+					</li>';
+					});
+					var leftBottom = '';
+					leftBottom += listItem;
+					leftBottom += '<li class="mui-table-view-cell mui-media" style="padding: 0px;height: 40px;margin: 0px;">\
+					<div class="totalPrice">\
+					<p class="price-cell">总价:</p>\
+					<p class="price-cell" style="color:red">¥' + item.total_price + '</p>\
+					</div>\
+					';
+					if(item.pay_status == "未支付") {
+						leftBottom += '<div class="leftButton" >\
+						<button id =' + index + ' class="button-cancle" onclick="cancleButton(this)">取消订单</button>\
+					</div>\
+					<div id =' + index + ' class="rightButton" onclick="payButton(this)">\
+					<button class="button-style" style="border-color: orange;color: orange;">付款</button>\
+					</div>';
+					} else if(item.pay_status == "支付完成") {
+						leftBottom += '<div id =' + index + ' class="rightButton" style="width: 70%;" onclick="shouhuoButton(this)">\
+					<p  style="color: orange;">待发货</p>\
+					</div>';
+					}
+
+					leftBottom += '</li>\
+					</ul>\
+					</div>';
+					html += leftBottom;
+
+				});
+				console.log(html);
+				loginDiv.innerHTML = html;
+			}
+
+			function cancleButton(o) {
+				inputNumbox = document.getElementById('numbox' + o.id);
+				var btnArray = ['否', '是'];
+				mui.confirm('确认取消订单？', '', btnArray, function(e) {
+					if(e.index == 1) {
+						if(chkNetStatus() == "OK") {
+							cancleItem(dataList[o.id].danhao);
+						} else
+							mui.toast("网络异常");
+					} else {
+
+					}
+				})
+			}
+
+			function cancleItem(danhao) {
+				var item = {};
+				var arr = [];
+				item.danhao = danhao;
+				arr.push(item);
+				mui.ajax(DELETE_DINGDAN_URL, {
+					data: JSON.stringify(arr),
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						var info = JSON.stringify(data);
+						console.log("cancle====" + info);
+						var obj = eval(data);
+						if(obj.success == 1) {
+							mui.toast("取消订单成功");
+							queryAllDingdan(creater_id, "");
+						} else {
+							var cancelOneResultMsg = obj.errorMsg;
+							if(cancelOneResultMsg == ' ')
+								mui.toast("取消订单失败");
+							else
+								mui.toast(cancelOneResultMsg);
+						}
+
+					},
+					error: function(xhr, type, errorThrown) {
+						document.querySelector('#not_message').style.display = 'none';
+						document.querySelector('.cart_item').style.display = 'none';
+						document.querySelector('#net_error').style.display = 'block';
+					}
+
+				})
+			}
+
+			function itemButton(event) {
+				var index = event.parentNode.parentNode.id;
+				//	console.log("id=====" + index);
+				if(dataList[index].pay_status == "未支付") {
+					var weburl = 'daifukuanDetail.html';
+					var webid = 'daifukuanDetail.html';
+				} else if(dataList[index].pay_status == "支付完成") {
+					var weburl = 'daifahuoDetail.html';
+					var webid = 'daifahuoDetail.html';
+				}
+
+				mui.openWindow({
+					url: weburl,
+					id: webid,
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: false,
+						title: '正在加载...'
+					},
+					extras: {
+						"dataArray": dataList[index],
+						//						"yizhanNum": thisYizhan,
+						//						"xiaoqu": yizhan_info.xiaoqu,
+						//						"userId": yizhan_info.id
+					}
+				});
+			}
+			var pays = {};
+			var w = null;
+			var PAYSERVER = ALIPAYSERVER;
+
+			function payButton(o) {
+				var danhao = dataList[o.id].danhao;
+				var total_price = dataList[o.id].total_price;
+				if(checkServices(pays['alipay'])) {
+					var url = PAYSERVER;
+					w = plus.nativeUI.showWaiting();
+					// 请求支付订单
+					//var amount = document.getElementById('shijiprice').innerText;
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						switch(xhr.readyState) {
+							case 4:
+								w.close();
+								w = null;
+								if(xhr.status == 200) {
+									console.log('----- 请求订单成功 -----');
+									console.log(xhr.responseText);
+									var order = xhr.responseText;
+									plus.payment.request(pays['alipay'], order, function(result) {
+										console.log('----- 支付成功 -----');
+										console.log(JSON.stringify(result));
+										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力。', function() {
+											//self.close();
+											//	back();
+										}, '支付');
+									}, function(e) {
+										console.log('----- 支付失败 -----');
+										console.log('[' + e.code + ']：' + e.message);
+										plus.nativeUI.alert('请重新支付！', function() {
+											//self.close();
+											//back();
+										}, '支付失败：' + e.code);
+									});
+								} else {
+									console.log('----- 请求订单失败 -----');
+									console.log(xhr.status);
+									plus.nativeUI.alert('获取订单信息失败！', null, '支付');
+								}
+								break;
+							default:
+								break;
+						}
+					}
+					xhr.open('POST', PAYSERVER, true);
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+					console.log('请求支付订单：' + PAYSERVER);
+					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					xhr.send(args);
+				}
+			}
+
+			function checkServices(pc) {
+				if(!pc.serviceReady) {
+					var txt = null;
+					switch(pc.id) {
+						case 'alipay':
+							txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，请先安装应用';
+							break;
+						default:
+							txt = '系统未安装“' + pc.description + '”服务，无法完成支付，请先安装应用';
+							break;
+					}
+					mui.alert(txt);
+					return false;
+				} else {
+					return true;
+				}
+			}
+		</script>
+	</body>
+
+</html>

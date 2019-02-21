@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+	</head>
+
+	<body>	
+		<header class="mui-bar mui-bar-nav">
+		   <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">社区论坛</h1>
+			<a id="menu" class="mui-icon mui-icon-plus mui-pull-right" style="display: none;color: #FFFFFF;"></a>
+		</header>
+		<div class="mui-content"></div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'z_pullrefresh_sub.html',
+				id:'z_pullrefresh_sub.html',
+				styles:{
+					top: '44px',
+					bottom: '0px',
+				}
+			}]
+		});
+		
+		function plusReady(){
+			var user_obj=eval(app.getDatas(PREFERENCE_USER));
+			console.log("---------plusReady-----------="+user_obj.role);
+			
+			if(user_obj.role=="undefined"||user_obj.role==null||user_obj.role==""){
+				return;
+			}
+			else{
+				var roleArray = user_obj.role.split(",");
+				var hasZhutiAuthority = false;
+				
+				for(var i=0;i<roleArray.length;i++){
+					if(roleArray[i]=="13"){
+						hasZhutiAuthority = true;
+						break;
+					}
+				}
+				if(hasZhutiAuthority){
+					document.getElementById("menu").style.display='block';
+				}else{
+					document.getElementById("menu").style.display='none';
+				}
+			}
+		}
+		if(window.plus){
+			plusReady();
+		}else{
+			document.addEventListener('plusready', plusReady, false);
+		}
+		//	自定义事件，模拟点击“首页选项卡”
+		window.addEventListener('gozhuti', function() {
+			console.log("您正在打开主题首页");
+			plusReady();
+			var goPage_subtongzhi = plus.webview.getWebviewById('z_pullrefresh_sub.html');
+			mui.fire(goPage_subtongzhi,'gosubzhuti',null);
+		});
+		document.getElementById("menu").addEventListener('tap',function () {
+	//				var url = this.getAttribute('href');
+					console.log("open new tongzhi");
+					mui.openWindow({
+						url: 'add_zhuti.html',
+						id: 'add_zhuti.html',
+						preload: true,
+						show: {
+							aniShow: 'slide-in-right',
+							duration:300
+							},
+						styles: {
+							popGesture: 'hide'
+							},
+						waiting: {
+							autoShow: false
+						}
+					});
+				});
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#zpullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+	</script>
+
+</html>

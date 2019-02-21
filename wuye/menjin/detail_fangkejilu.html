@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/common.css">
+		<style type="text/css">
+			.detailcontent{
+				margin-top: 45px;
+			}
+		</style>
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 60px;
+				text-align: center;
+				margin-top: 15px;
+				margin-left: 15px;
+				margin-right: 10px;
+				
+			}
+			.input-style {
+				float: right;
+				line-height: 50px;
+				text-align: left;
+				align-content: flex-end;
+				
+			}
+			.span-title{
+				height: 50px;
+				float: left;
+				line-height: 50px;
+				text-align: left;
+				padding-left: 10px;
+				color: gray;
+			}
+			.h5-title,
+			h5{
+				right: 40px;
+				left: 40px;
+				font-size: 14px;
+				font-weight: 400;
+				color: black;
+				padding-left:20px;
+				padding-right: 10px;
+			}
+			.mui-input-group .mui-input-row:after {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				left: 10px;
+				right: 10px;
+				height: 1px;
+				content: '';
+				-webkit-transform: scaleY(.5);
+				transform: scaleY(.5);
+				background-color: #c8c7cc
+			}
+			.mui-input-group span {
+				width: 25%;
+			}			
+			.mui-input-row span~div{
+				width: 75%;
+			}
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto 4;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			#msg-play {
+				-webkit-user-select: none !important;
+				user-select: none !important;
+				overflow-x:hidden;
+                display: inline-block;
+                width: 200px;
+				border-radius: 5px;
+				border: solid 1px #d3d3d3;
+				background-color: #EEEEEE;
+                margin-top: 3px;
+                margin-bottom: 5px;
+			}						
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 id="title" class="mui-title mui-center" style="color: white;">访客详情</h1>
+		</header>
+		<div class="mui-content">
+			
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">访客姓名:</span>
+					<div id="" class="input-style">
+						<input id='name' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">联系电话：</span>
+					<div id="" class="input-style">	
+						<input id='tel' type="number" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>
+
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">访客性别：</span>
+					<div id="" class="input-style">	
+						<input id='sex' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>
+				</div>
+				 <div class="mui-input-row" style="height: auto;">
+					<span class="span-title">身份证号:</span>
+					<div id="" class="input-style">
+						<input id='cardid' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>                  
+				</div>		
+			    <div class="mui-input-row" style="height: auto;">
+					<span class="span-title">到访时间:</span>
+					<div id="" class="input-style">
+						<input id='time' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>                  
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">到访事由:</span>
+					<div id="" class="input-style">
+						<input id='content' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>                  
+				</div>	
+				<div class="mui-input-row" style="height: auto;">
+					<span class="span-title">到访状态:</span>
+					<div id="" class="input-style">
+						<input id='status' type="text" class="" style="font-size: 1em;" disabled="disabled"/>
+					</div>                  
+				</div>	
+			</form>
+		</div>
+		<script src="../js/mui.min.js"></script>
+	    <script src="../js/mui.zoom.js"></script>
+	    <script src="../js/mui.previewimage.js"></script>		
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">		
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					
+					showBaoxiuInfo();
+				});
+				
+				function showBaoxiuInfo () {
+
+					var fangkeid=plus.webview.currentWebview().fangke_id;
+					var fangke_obj = eval(app.getDatas('Fangke_list'));
+					for (var i = 0; i < fangke_obj.fangke.length; i++) {
+						
+						var itemobj=fangke_obj.fangke[i];
+						if (fangkeid===itemobj.id) {
+							document.getElementById("name").value=itemobj.fkname;
+							document.getElementById("tel").value=itemobj.fktel;
+							document.getElementById("sex").value=itemobj.fksex;
+							document.getElementById("cardid").value=itemobj.fkcid;
+							document.getElementById("time").value=itemobj.fk_time;	
+							document.getElementById("content").value=itemobj.lf_yuanyin;
+							if(itemobj.fk_flag=="1"){
+								document.getElementById("status").value="已到访";
+							}
+							else{
+								document.getElementById("status").value="未到访";
+							}
+							
+							
+						}
+						else{
+							continue;
+						}
+					}
+				}		
+				
+			}(mui, document));
+				
+		</script>
+	</body>
+</html>

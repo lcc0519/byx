@@ -1,0 +1,747 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" href="../css/style.css"/>
+		<link href="../css/mui.listpicker.css" rel="stylesheet" />
+		<link href="../css/mui.dtpicker.css" rel="stylesheet" />
+		<style type="text/css">
+			.icon-style {
+				float: left;
+				width: 30px;
+				height: 30px;
+				line-height: 50px;
+				text-align: center;
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+			.input-style {
+				float: left;
+				line-height: 50px;
+				text-align: center;
+				
+			}
+			.mui-icon-time:before{
+				margin-top: 5px;
+				margin-left: 10px;
+				margin-right: 10px;
+				float: left;
+				content:url(../images/icon_visit_time.png)
+			}
+	
+			.mui-btn .mui-icon {
+				
+				font-size: inherit
+			}
+			
+			.mui-btn.mui-icon {
+				height: 66px;
+				color: #AAAAAA;
+				font-size: 16px;
+				line-height: 3;
+				padding-right: 50%;
+				
+			}
+		</style>		
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="background-color:DeepSkyBlue">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: white;"></a>
+		    <h1 class="mui-title mui-center" style="color: white;">访客邀请码</h1>
+			<!--<a><span class="mui-title-right "style="float: left;color: white;" >分享</span></a>-->
+			 <a id="fenxiang" class="mui-icon mui-icon-pengyouquan mui-pull-right" style="color: white;visibility:hidden;"></a>	
+		</header>
+		<div class="mui-content">
+			<form id='login-form' class="mui-input-group">
+				<div class="mui-input-row" style="height: auto;">					
+					<img class="icon-style "  src="../images/icon_guest_name.png"/>
+					<div id="" class="input-style" style="width: 70%;">
+						<input id='name' type="text" class="mui-input-clear mui-input" list="namelist" placeholder="访客姓名" onkeyup="CNletter(this,20)">
+						<datalist id="namelist"> 
+    					</datalist>
+					</div>
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<img class="icon-style "  src="../images/icon_tel.png"/>
+					<div id="" class="input-style" style="width: 70%;">				
+						<input id='tel' type="number" class="mui-input-clear mui-input" list="phonelist" placeholder="联系电话" onkeyup="onlyNum(this,11)">
+						<datalist id="phonelist"> 
+    					</datalist>
+					</div>
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<img class="icon-style "  src="../images/icon_gender.png"/>
+					<div id="" class="input-style"  style="width: 70%;float: left;">	
+						<input type="radio" name="sex" value="男">男</input>
+						<input type="radio" name="sex" value="女" style="margin-left: 30px;">女</input>						
+						<!--<select id="xiaoqulist" style="padding-left: 10px;">
+							<option value="choose"  disabled="disabled" >
+								<span class="mui-h5">性别</span>
+							</option>	
+							<option value="choose"  ><span class="mui-h5">男</span></option>	
+							<option  value="choose" ><span class="mui-h5">女</span></option>	
+						</select>-->
+					</div>			
+				</div>
+				<div class="mui-input-row" style="height: auto;">
+					<img class="icon-style "  src="../images/icon_identity_card.png"/>
+					<div id="" class="input-style" style="width: 70%;">
+						<input id='shenfenzheng' type="text" maxlength="18" class="mui-input-clear mui-input" placeholder="身份证号码">						
+					</div>
+				</div>
+					<button id='time' data-options='{"value":"2017-01-01 00:00","beginYear":2017,"endYear":2030}' class="btn mui-btn mui-icon mui-btn-block mui-icon-time">选择到访时间 </button>				
+			</form>
+			<form  action="" method="post">
+				<input id="content" style="height: 80px;" id='account' type="text"  class="mui-input-clear mui-input" placeholder="到访事由（20字以内）">
+			</form>	
+			<p style="text-align: center;">到访时间起2小时内有效</p>
+			<div class="mui-content-padded mui-row" style="margin-top: 20px;">
+				<div class="mui-col-sm-12 mui-col-xs-12" style="margin: 10px 0;">
+					<button id='create' class="mui-btn mui-btn-primary" style="width: 100%;background-color: deepskyblue;border: 0.5px solid deepskyblue;color: white;padding:10px;">生成邀请码</button>
+				</div>
+			</div>
+			<div style="text-align: center;padding-top: 8px;margin-bottom: 20px;">
+				<div id="qrcode1" class="qrcode" style="">
+				</div>
+				<img id="img" class="pic" style="visibility: hidden; -webkit-touch-callout:default;"/>
+			</div>
+			<!--<div id="qrcode" style="width:100px; height:100px; margin-top:15px;">123</div>-->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../../js/app.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/mui.listpicker.js"></script>
+		<script src="../js/mui.dtpicker.js"></script>
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.qrcode.min.js" ></script>
+		<!--<script type="text/javascript" src="touch.js" ></script>-->
+		<script type="text/javascript">
+			var shares=null;
+			var files=[];
+			var qrcodeUrl="";
+			var namedata = document.getElementById('namelist');
+			var phonedata = document.getElementById('phonelist');
+			var nameList = [];
+			var phoneList = [];
+			var regphone = /^1[0-9]{10}/;
+			var user_obj;
+			var erweimacontent;
+			var pic_path;
+			
+			(function($) {
+				//$.init();
+				mui.init({
+					swipeBack: false, //启用右滑关闭功能
+					gestureConfig: {
+						tap: true, //默认为true
+						longtap: true //默认为false				
+					}
+				});
+				$.plusReady(function(){
+					user_obj = eval(app.getDatas(PREFERENCE_USER));
+					updateSerivces();
+					if(localStorage.name != null) {
+						var str = localStorage.name;
+						//重新转换为对象 
+						nameList = JSON.parse(str);
+						console.log("kkk=" + JSON.stringify(nameList))
+					}
+					setNamelist(nameList);
+					if(localStorage.tel != null) {
+						var str = localStorage.tel;
+						//重新转换为对象 
+						phoneList = JSON.parse(str);
+						console.log("kkk=" + JSON.stringify(phoneList))
+					}
+					setPhonelist(phoneList);			
+				});
+				var btns = $('.btn');
+				var pickers = {};
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						var result = this;
+						/*
+						 * 首次显示时实例化组件
+						 * 示例为了简洁，将 options 放在了按钮的 dom 上
+						 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						 */
+						pickers[id] = pickers[id] || new $.DtPicker(options);
+						pickers[id].show(function(rs) {
+							/*
+							 * rs.value 拼合后的 value
+							 * rs.text 拼合后的 text
+							 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							 * rs.m 月，用法同年
+							 * rs.d 日，用法同年
+							 * rs.h 时，用法同年
+							 * rs.i 分（minutes 的第二个字母），用法同年
+							 */
+							result.innerText = rs.text;
+							result.style.color="black";
+						});
+					}, false);
+					
+				});
+				document.getElementById("fenxiang").addEventListener("tap",function(){
+					//shareSystem();
+					
+					var ids = [{
+						id: "weixin",
+						ex: "WXSceneSession"
+					}, {
+						id: "weixin",
+						ex: "WXSceneTimeline"
+					}],
+					bts = [{
+						title: "发送给微信好友"
+					}, {
+						title: "分享到微信朋友圈"
+					}];
+					plus.nativeUI.actionSheet({
+						cancel: "取消",
+						buttons: bts
+					}, function(e) {
+						var i = e.index;
+						if(i > 0) {
+							var s_id = ids[i - 1].id;
+							var share = shares[s_id];
+							if(share) {
+								if(share.authenticated) {
+									shareMessage(share, ids[i - 1].ex,"fenxiang");
+								} else {
+									share.authorize(function() {
+										shareMessage(share, ids[i - 1].ex,"fenxiang");
+									}, function(e) {
+										console.log("认证授权失败：" + e.code + " - " + e.message);
+									});
+								}
+							} else {
+								mui.toast("无法获取分享服务，请检查manifest.json中分享插件参数配置，并重新打包")
+							}
+						}
+					});
+				});
+				var createbtn = document.getElementById("create");
+				createbtn.addEventListener('tap', function() {
+					
+					var fangkename = document.getElementById('name').value;
+					console.log("opop---" + fangkename)
+					if(fangkename.length <= 0){
+					}
+					else {
+						var item = {};
+						item.name = fangkename;
+						nameList.push(item);
+						nameList = uniqueName(nameList)
+						var str = JSON.stringify(nameList);
+						localStorage.name = str;
+						setNamelist(nameList);
+					}
+					
+					var fangkedianhua = document.getElementById('tel').value;
+					if(fangkedianhua.length <= 0){
+					}
+					else if(!regphone.test(fangkedianhua) || fangkedianhua.length > 11){
+						mui.toast("手机号码格式不正确");
+					}
+					else{
+						var item = {};
+						item.tel = fangkedianhua;
+						phoneList.push(item);
+						phoneList = uniqueTel(phoneList)
+						var str = JSON.stringify(phoneList);
+						localStorage.tel = str;
+						setPhonelist(phoneList);
+					}
+					
+					if(document.getElementById("name").value.length <= 0){
+						mui.alert("请填写访客姓名");
+					}else if(document.getElementById("tel").value==""){
+						mui.alert("请填写联系电话");
+					}
+					else if(getSex().value==""){
+						mui.alert("请选择性别");
+					}
+					else if(document.getElementById("shenfenzheng").value==""){
+						mui.alert("请填写身份证号");
+					}
+					else if(document.getElementById("shenfenzheng").value.length!=18){
+						mui.alert("身份证号填写有误，请检查");
+					}
+					else if(document.getElementById("time").innerText=="选择到访时间"||document.getElementById("time").innerText==""){
+						mui.alert("请选择到访时间");
+					}
+					else if(document.getElementById("content").value==""){
+						mui.alert("请填写到访事由");
+					}
+					else{
+						document.getElementById("fenxiang").style.visibility="hidden";
+						console.log("------user_obj.xiaoqu-------------="+user_obj.xiaoqu);
+						var sex = getSex();
+						
+						var nameval = document.getElementById("name").value;
+						var telval = document.getElementById("tel").value;
+						var cidval = document.getElementById("shenfenzheng").value;
+						var timeval = document.getElementById("time").innerText;
+						var contentval = document.getElementById("content").value;
+
+						console.log("------user_obj.id-------------="+user_obj.id);
+						console.log("------user_obj.xiaoqu-------------="+user_obj.xiaoqu);
+						console.log("------sex-------------="+sex);
+						console.log("------nameval-------------="+nameval);
+						console.log("------telval-------------="+telval);
+						console.log("------cidval-------------="+cidval);
+						console.log("------timeval-------------="+timeval);
+						console.log("------contentval-------------="+contentval);
+						console.log("------Insert_Fangkejilu_URL-------------="+Insert_Fangkejilu_URL);
+						
+						mui.ajax(Insert_Fangkejilu_URL,{
+							data:{
+								creater:user_obj.id,
+								xiaoqu:user_obj.xiaoqu,
+								fkname:nameval,
+								fktel:telval,
+								fksex:sex,
+								fkcid:cidval,
+								fk_time:timeval,
+								lf_yuanyin:contentval
+							},
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function (data){							
+								var infor=JSON.stringify(data);
+								var obj=eval(data);
+								console.log("--------return---info------="+infor);
+								if (obj.success==1) {
+									console.log("fangkema success");
+									console.log("fangkema success---------="+obj.filepath);
+									//makrQRCodeFromServer(obj.fk_uid);	
+									getQRCodeFromServer(obj.filepath);
+								} else{
+									//mui.toast(obj.errorMsg);	
+									mui.toast("网络异常，请稍候重试");	
+								}								
+							},							
+							error:function(xhr,type,errorThrown){
+								mui.toast("网络异常，请先检查网络");	
+							}
+						});	
+						//makrQRCode();
+						//picSaveAndShow();
+					}
+				});
+			})(mui);
+			var type ='png';
+			/**
+			 * 在本地进行文件保存
+			 * @param  {String} data     要保存到本地的图片数据
+			 * @param  {String} filename 文件名
+			 */
+			function saveFile(data, filename){
+			    var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+			    save_link.href = data;
+			    save_link.download = filename;
+			   
+			    var event = document.createEvent('MouseEvents');
+			    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			    save_link.dispatchEvent(event);
+			};
+			
+			var fixtype=function(type){
+	            type=type.toLocaleLowerCase().replace(/jpg/i,'jpeg');
+	            var r=type.match(/png|jpeg|bmp|gif/)[0];
+	            return 'image/'+r;
+	        };
+	        function utf16to8(str) {  
+		            var out, i, len, c;  
+		            out = "";  
+		            len = str.length;  
+		            for (i = 0; i < len; i++) {  
+		                c = str.charCodeAt(i);  
+		                if ((c >= 0x0001) && (c <= 0x007F)) {  
+		                    out += str.charAt(i);  
+		                } else if (c > 0x07FF) {  
+		                    out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
+		                    out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));  
+		                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));  
+		                } else {  
+		                    out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));  
+		                    out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));  
+		                }  
+		            }  
+		            return out;  
+		        }  
+		        
+		    
+		    function makrQRCodeFromServer(message) {
+				
+				erweimacontent = message;
+				
+				if(erweimacontent!=""){
+					var qrcode = jQuery('#qrcode1').qrcode(utf16to8(message)).hide();
+					var canvas=qrcode.find('canvas').get(qrcode.find('canvas').length-1);
+	   				
+					var imgUri = canvas.toDataURL("image/png");
+					$('.pic').attr('src',imgUri);
+					var ui =document.getElementById("img");
+					ui.style.visibility="visible";
+					img.realUrl=img.src;
+	             	
+	             	document.getElementById("fenxiang").style.visibility="visible";
+				}
+			}
+		    
+		    function getQRCodeFromServer(message) {
+				
+				erweimacontent = message;
+				
+				if(erweimacontent!=""){
+//					var qrcode = jQuery('#qrcode1').qrcode(utf16to8(message)).hide();
+//					var canvas=qrcode.find('canvas').get(qrcode.find('canvas').length-1);
+//	   				
+//					var imgUri = canvas.toDataURL("image/png");
+//					$('.pic').attr('src',imgUri);
+					
+					var s = new Array();
+					s = erweimacontent.split("/");
+					pic_path = BASE_URL + s[1] + "/" + s[2] + "/" + s[3];
+					console.log("pic_path:" + pic_path);
+					var ui =document.getElementById("img");
+					ui.style.visibility="visible";
+					//ui.src = pic_path;
+					img.src=pic_path;
+					img.realUrl=img.src;
+					//img.realUrl=img.src;
+	             	
+	             	document.getElementById("fenxiang").style.visibility="visible";
+				}
+			}
+		     
+			function makrQRCode() {
+				var sex = getSex();
+				qrcodeUrl = "业主ID："+eval(app.getDatas(PREFERENCE_USER)).id
+				+"\n访客姓名："+document.getElementById("name").value
+				+"\n联系电话："+document.getElementById("tel").value
+				+"\n性别："+sex
+				+"\n身份证号码："+document.getElementById("shenfenzheng").value
+				+"\n到访时间："+document.getElementById("time").innerText
+				+"\n到访事由："+document.getElementById("content").value;
+				
+				var qrcode = jQuery('#qrcode1').qrcode(utf16to8(qrcodeUrl)).hide();
+				var canvas=qrcode.find('canvas').get(qrcode.find('canvas').length-1);
+   				
+				var imgUri = canvas.toDataURL("image/png");
+				$('.pic').attr('src',imgUri);
+				var ui =document.getElementById("img");
+				ui.style.visibility="visible";
+				img.realUrl=img.src;
+             	
+             	document.getElementById("fenxiang").style.visibility="visible";
+			}
+			function picSaveAndShow(){
+				var sex = getSex();
+				var qrcodeUrl = "业主ID："+eval(app.getDatas(PREFERENCE_USER)).id
+				+"\n访客姓名："+document.getElementById("name").value
+				+"\n联系电话："+document.getElementById("tel").value
+				+"\n性别："+sex
+				+"\n身份证号码："+document.getElementById("shenfenzheng").value
+				+"\n到访时间："+document.getElementById("time").innerText
+				+"\n到访事由："+document.getElementById("content").value;
+				
+				var qrcode = jQuery('#qrcode1').qrcode(utf16to8(qrcodeUrl)).hide();
+				var canvas=qrcode.find('canvas').get(qrcode.find('canvas').length-1);
+
+				var imgUri = canvas.toDataURL("image/png").replace('image/png', 'image/octet-stream');//(fixtype('jpg'),"image/octet-stream"); // 获取生成的图片的url  
+//           	// 下载后的问题名
+				var filename = 'baidufe_' + (new Date()).getTime() + '.' + "png";
+				var curWwwPath = window.document.location.href;
+				console.log("-----curWwwPath----"+curWwwPath);
+				filename = curWwwPath.substr(7,curWwwPath.lastIndexOf("/")+1)+filename;
+				var myimg = imgUri.substr(31,imgUri.length-1);
+				console.log("----------imgUri---------="+imgUri);
+				console.log("-----------filename----------="+filename);
+				console.log("-----------myimg----------="+myimg);
+				
+				saveFile(imgUri,filename);
+				
+			}
+//			//触摸长按事件
+//             // touch.on(document.getElementById("img"),'hold',function(){
+//             document.getElementById("img").addEventListener("longtap",function(){ 	
+//                  var actionList = {title:'请选择您要执行的操作',cancel:"取消保存",buttons:[{title:"保存图片到相册"}]};
+//                  var imgSrc = this.src;
+//                  //弹出actionSheet选项
+//                  plus.nativeUI.actionSheet(actionList,function(e){
+//                      if(e.index==1){
+//                          //创建一个下载任务
+//                          var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status){
+//                              //下载完成的回调函数
+//                              if (status == 200 ) { 
+//                                  plus.gallery.save(d.filename,function(){//保存到相册
+//                                      plus.io.resolveLocalFileSystemURL(d.filename,function(entry){
+//                                          entry.remove();//删除临时文件
+//                                      });
+//                                      return alert('图片已保存至相册');
+//                                  });                     
+//                              }else{
+//                                  alert("保存失败!" + status); 
+//                              }  
+//                          });
+//                          imgDtask.start();//开始下载任务
+//                      }
+//                  });
+//              });
+			/**
+			 * 更新分享服务
+			 */
+			function updateSerivces(){
+				plus.share.getServices(function(s){
+					shares={};
+					for(var i in s){
+						var t=s[i];
+						shares[t.id]=t;
+					}
+				}, function(e){
+					console.log('获取分享服务列表失败：'+e.message);
+				});
+			}
+			/**
+		 * 调用系统分享
+		  */
+		function shareSystem(){
+			console.log("------------------111111111------------");
+			var msg={content:erweimacontent};
+			//var msg={};
+			//msg.pictures = ["_www/images/share_bysq_common_H5.png"];
+			console.log("------------------22222222222------------");
+			
+			//shareSystemNativeJS();
+			plus.share.sendWithSystem?plus.share.sendWithSystem(msg, function(){			
+				console.log("------------------33333333333------------");
+			}, function(e){
+				console.log('Failed: '+JSON.stringify(e));
+			}):shareSystemNativeJS();
+		}
+		
+		function shareSystemNativeJS() {
+			console.log("------------------4444444444------------");
+			if(plus.os.name!=='Android'){
+				plus.nativeUI.alert('此平台暂不支持系统分享功能!');
+				return;
+			}
+			console.log("------------------55555555555------------");
+			var intent=new Intent(Intent.ACTION_SEND);
+			if(pic&&pic.realUrl){
+				var p = '';
+				p = pic.realUrl;
+				if(p.substr(0,7)==='file://'){
+					p=p.substr(7);
+				}else if(p.sub(0)!=='/'){
+					p=plus.io.convertLocalFileSystemURL(p);
+				}
+			}
+			var f = new File(p);
+			var uri = Uri.fromFile(f);
+			if(f.exists()&&f.isFile()){
+				intent.setType('image/*');
+				intent.putExtra(Intent.EXTRA_STREAM,uri);
+			}else{
+				intent.setType('text/plain');
+			}
+			intent.putExtra(Intent.EXTRA_SUBJECT,'HelloH5');
+			intent.putExtra(Intent.EXTRA_TEXT,"sharecontent.value");
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			main.startActivity(Intent.createChooser(intent,'系统分享HelloH5'));
+		}
+			/**
+			   * 分享操作
+			   * @param {JSON} sb 分享操作对象s.s为分享通道对象(plus.share.ShareService)
+			   * @param {Boolean} bh 是否分享链接
+			   */
+			function shareAction(sb,bh) {
+				if(!sb||!sb.s){
+					return;
+				}
+				var msg={content:"访客二维码",extra:{scene:sb.x}};
+				if(bh){
+					msg.href=sharehref.value;
+					if(sharehrefTitle&&sharehrefTitle.value!=''){
+						msg.title=sharehrefTitle.value;
+					}
+					if(sharehrefDes&&sharehrefDes.value!=''){
+						msg.content=sharehrefDes.value;
+					}
+					msg.thumbs=['_www/logo.png'];
+					msg.pictures=['_www/logo.png'];
+				}else{
+					if(img&&img.realUrl){
+						msg.pictures=[img.realUrl];
+					}
+				}
+				// 发送分享
+				if(sb.s.authenticated){
+					shareMessage(msg, sb.s);
+				}else{
+					sb.s.authorize(function(){
+						shareMessage(msg,sb.s);
+					}, function(e){
+						console.log('认证授权失败：'+e.code+' - '+e.message);
+					});
+				}
+			}
+			/**
+			   * 发送分享消息
+			   * @param {JSON} msg
+			   * @param {plus.share.ShareService} s
+			   */
+//			function shareMessage(msg, s){
+//				console.log(JSON.stringify(msg));
+//				s.send(msg, function(){
+//					console.log('分享到"'+s.description+'"成功！');
+//				}, function(e){
+//					console.log('分享到"'+s.description+'"失败: '+JSON.stringify(e));
+//				});
+//			}
+			
+			function shareMessage(share, ex,imgid) {
+				var sharecount=0;
+				console.log("---shareMessage---"+share+","+ex+","+imgid);
+				var msg = {
+					extra: {
+						scene: ex
+					}
+				};
+				if(imgid=="fenxiang"){
+					//msg.pictures = ["_www/images/share_bysq_common_H5.png"];
+				}
+	
+				msg.content = user_obj.realname+"发给您的访客邀请码："+"\n"+erweimacontent+"\n"+"小区："+user_obj.xiaoqu_name+"\n"+"预计到访时间："+"\n"+document.getElementById("time").innerText+"\n"+"预计到访时间起2小时内有效";
+				console.log("picture: " + pic_path);
+				msg.pictures =[pic_path];
+				
+				share.send(msg, function() {
+					console.log("分享到\"" + share.description + "\"成功！ ");
+					mui.toast("分享成功");
+				}, function(e) {
+					if(e.code==-2){
+						mui.toast("已取消分享");
+					}
+					else{
+						mui.toast("分享失败");
+					}
+				});
+			}
+			/**
+			 * 解除所有分享服务的授权
+			 */
+			function cancelAuth(){try{
+				for(var i in shares){
+					var s=shares[i];
+					if(s.authenticated){
+						console.log('取消"'+s.description+'"');
+					}
+					s.forbid();
+				}
+				// 取消授权后需要更新服务列表
+				updateSerivces();
+				console.log('操作成功！');}catch(e){alert(e);}
+			}
+			// 打开分享
+			function shareShow(){
+				var shareBts=[];
+				// 更新分享列表
+				var ss=shares['weixin'];
+				if(navigator.userAgent.indexOf('qihoo')<0){  //在360流应用中微信不支持分享图片
+					ss&&ss.nativeClient&&(shareBts.push({title:'微信朋友圈',s:ss,x:'WXSceneTimeline'}),
+					shareBts.push({title:'微信好友',s:ss,x:'WXSceneSession'}));
+				}
+				ss=shares['sinaweibo'];
+				ss&&shareBts.push({title:'新浪微博',s:ss});
+				ss=shares['qq'];
+				ss&&ss.nativeClient&&shareBts.push({title:'QQ',s:ss});
+				// 弹出分享列表
+				shareBts.length>0?plus.nativeUI.actionSheet({title:'分享',cancel:'取消',buttons:shareBts}, function(e){
+					(e.index>0)&&shareAction(shareBts[e.index-1],false);
+				}):plus.nativeUI.alert('当前环境无法支持分享操作!');
+			}
+			function getSex(){  
+			   var radio = document.getElementsByName("sex");    
+			   for (i=0; i<radio.length; i++) {    
+			       if (radio[i].checked) {    
+			           return radio[i].value;  
+			       }    
+			   }
+			   return "";
+			}
+			
+			function setNamelist(nameLists) {
+				console.log("lll=" + nameLists + " ")
+				namedata.innerHTML = ' ';
+				var nameHtml = '';
+				mui.each(nameLists, function(index, item) {
+					//for(var i = 0; i < nl.length; i++)
+					nameHtml += '<option value="' + item.name + '" > </option>';
+				})
+				namedata.innerHTML = nameHtml;
+			}
+
+			function setPhonelist(phoneLists) {
+				console.log("lll=" + phoneLists + " ")
+				phonedata.innerHTML = ' ';
+				var phoneHtml = '';
+				mui.each(phoneLists, function(index, item) {
+					//for(var i = 0; i < nl.length; i++)
+					phoneHtml += '<option value="' + item.tel + '" > </option>';
+				})
+				phonedata.innerHTML = phoneHtml;
+			}
+			
+			function uniqueName(arr) {
+				// 遍历arr，把元素分别放入tmp数组(不存在才放)
+				var tmp = [];
+				var shuzu = [];
+				for(var i in arr) {
+					//该元素在tmp内部不存在才允许追加
+					if(tmp.indexOf(arr[i].name) == -1) {
+						tmp.push(arr[i].name);
+						var item = {};
+						item.name = arr[i].name;
+						shuzu.push(item);
+					}
+				}
+				return shuzu;
+			}
+
+			function uniqueTel(arr) {
+				// 遍历arr，把元素分别放入tmp数组(不存在才放)
+				var tmp = [];
+				var shuzu = [];
+				for(var i in arr) {
+					//该元素在tmp内部不存在才允许追加
+					if(tmp.indexOf(arr[i].tel) == -1) {
+						tmp.push(arr[i].tel);
+						var item = {};
+						item.tel = arr[i].tel;
+						shuzu.push(item);
+					}
+				}
+				return shuzu;
+			}
+		</script>
+	</body>
+
+</html>
