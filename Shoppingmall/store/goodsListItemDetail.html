@@ -594,18 +594,19 @@
 		<script src="../js/mui.lazyload.img.js"></script>
 
 		<script>
-			var mySwiper = new Swiper(".swiper-container", {
-				direction: "horizontal",
-				/*横向滑动*/
-				loop: true,
-				/*形成环路（即：可以从最后一张图跳转到第一张图*/
-				pagination: ".swiper-pagination",
-				/*分页器*/
-				lazyLoading: true, //启动延迟加载
-				　　lazyLoadingInPrevNext: true, //延迟加载应用到最接近的slide的图片
-				　　lazyLoadingInPrevNextAmount: 1, //加载下一个slide
-				　　lazyLoadingOnTransitionStart: true, //过渡到slide一开始就加载，设置为true
-			});
+			/*lcc 屏蔽了这一段code，解决加载页面慢的问题，2019/2/21*/
+//			var mySwiper = new Swiper(".swiper-container", {
+//				direction: "horizontal",
+//				/*横向滑动*/
+//				loop: true,
+//				/*形成环路（即：可以从最后一张图跳转到第一张图*/
+//				pagination: ".swiper-pagination",
+//				/*分页器*/
+//				lazyLoading: true, //启动延迟加载
+//				　　lazyLoadingInPrevNext: true, //延迟加载应用到最接近的slide的图片
+//				　　lazyLoadingInPrevNextAmount: 1, //加载下一个slide
+//				　　lazyLoadingOnTransitionStart: true, //过渡到slide一开始就加载，设置为true
+//			});
 			mui.previewImage();
 			//			var user_obj = eval(app.getDatas(PREFERENCE_USER));
 			var shoucangStatus = "";
@@ -661,7 +662,9 @@
 				placeholder: '../../images/ic_launcher.png',
 				autoDestroy: false
 			});
+			console.log("产品详情页====111111111====:" )
 			mui.plusReady(function() {
+				console.log("产品详情页========:" )
 				var self = plus.webview.currentWebview();
 				goodsDetail = self.goodsDetail;
 				creater_id = self.createrid;
@@ -947,7 +950,7 @@
 				initNetAndData(goodsDetail.shangjia_id, goodsDetail.bianhao, creater_id);
 			}
 
-			function initNetAndData(shangjia_id, bianhao, creater_id) {
+			function initNetAndData(shangjia_id, bianhao, creater_id) { 
 				console.log(shangjia_id + " " + bianhao + " " + creater_id)
 				mui.ajax(GOODS_DETAIL_URL, {
 					data: {

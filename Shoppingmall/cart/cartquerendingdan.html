@@ -450,11 +450,20 @@
 										item.shouhuoren_tel = obj.address_info[i].shouhuoren_tel;
 										item.shouhuoren_address = obj.address_info[i].shouhuoren_address;
 										item.youbian = obj.address_info[i].youbian;
+										item.moren = obj.address_info[i].moren;
 										itemList.push(item);
 									}
 									selectedName = itemList[0].shouhuoren_name;
 									selectedTel = itemList[0].shouhuoren_tel;
 									selectedAddress = itemList[0].shouhuoren_address;
+									//lcc
+									for(var i = 0; i < itemList.length; i++) {
+										if(itemList[i].moren == "1"){
+											selectedName = itemList[i].shouhuoren_name;
+											selectedTel = itemList[i].shouhuoren_tel;
+											selectedAddress = itemList[i].shouhuoren_address;
+										}
+									}
 									GetVal(selectedName, selectedTel, selectedAddress)
 									refreshDingdan(shangpindetail, selectedName, selectedTel, selectedAddress);
 								}
@@ -739,6 +748,9 @@
 
 			function openPayView(danhao) {
 				var amount = document.getElementById('shijiprice').innerText;
+				//lcc 2019/2/23 价格多了一个金钱符号
+				amount = amount.substr(1,amount.length);
+				console.log("jiage"+amount);
 				mui.openWindow({
 					url: 'zhifudingdan.html',
 					id: 'zhifudingdan.html',
@@ -797,10 +809,24 @@
 									plus.payment.request(pays[id], order, function(result) {
 										console.log('----- 支付成功 -----');
 										console.log(JSON.stringify(result));
-										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
-											self.close();
-											//	back();
-										}, '支付');
+										//lcc  2019/2/22,支付成功页面跳转
+										mui.openWindow({
+											url: "zhifuchenggong.html",
+											id: "zhifuchenggong.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											}
+										});
+//										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
+//											self.close();
+//											//	back();
+//										}, '支付');
 									}, function(e) {
 										console.log('----- 支付失败 -----');
 										console.log('[' + e.code + ']：' + e.message);
@@ -823,7 +849,9 @@
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					console.log("huiyuanYuE:" + amount);
 					console.log('请求支付订单：' + PAYSERVER);
-					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					//lcc 2019/2/23   支付页面总显示0.01元
+//					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					var args = "total=" + amount + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
 					xhr.send(args);
 				}
 			}

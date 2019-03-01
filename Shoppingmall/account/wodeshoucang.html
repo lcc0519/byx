@@ -231,10 +231,13 @@
 			var wait;
 			var self;
 			var creater_id;
+			var pingtai;
 			//var thisYizhan = localStorage.getItem(SELECTED_YIZHAN_PREFIX);
 			mui.plusReady(function() {
 				self = plus.webview.currentWebview();
 				creater_id = self.creater_id;
+				pingtai = creater_id.split("_")[0];
+				console.log("=====pingtai=="+pingtai);
 				load_listview(creater_id);
 				mui('.shop-select-all').on('tap', 'span', function() {
 					console.log("i am happy!!!")
@@ -535,6 +538,48 @@
 				return true;
 
 			}
+		/*	
+			function itemButton(id) {
+				console.log("id=====" + id);
+				var index = id.split("_")[1];
+				console.log("index=====" + index);
+				var extras = {};
+				extras.goodsDetail = dataList[index];
+				extras.createrid = creater_id;
+				extras.pingtai = pingtai;
+				console.log("shoucang==========extras="+JSON.stringify(extras));
+				var webview = plus.webview.create("store/goodsListItemDetail.html", "store/goodsListItemDetail.html", {
+						titleNView: {
+							'backgroundColor': '#f7f7f7', //导航栏背景色
+							'titleText': '商品详情', //导航栏标题
+							'titleColor': '#000000', //文字颜色
+							type: 'transparent', //透明渐变样式
+							autoBackButton: true, //自动绘制返回箭头
+							buttons: [{
+								fontSrc: "_www/Shoppingmall/fonts/iconfont.ttf",
+								text: '\ue698',
+								fontSize: '24px',
+								float: 'right',
+								onclick: switchToCart
+							}],
+							splitLine: { //底部分割线
+								color: '#cccccc'
+							}
+						}
+					},
+					extras);
+
+				webview.show("slide-in-right", 300); //直接显示
+			}
+			function switchToCart() {
+				var gocart = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+				mui.fire(gocart, 'gocart');
+				var goshop = plus.webview.getWebviewById('tab-index');
+				mui.fire(goshop, 'goshop');
+				gocart.show("pop-in");
+				goshop.show("pop-in");
+			}
+			*/
 
 			function itemButton(id) {
 				console.log("id=====" + id);

@@ -433,10 +433,35 @@
 				});
 			}
 
-			function checkboxButton(event) {
+/*			function checkboxButton(event) {
 				if(dataList[event.id].morenzhuangtai == '0'){
 					if(chkNetStatus() == "OK")
 						setAsDefault(event.id,"1");
+					else{
+						mui.toast("网络异常，请检查网络连接");
+					}
+				}
+				else if(dataList[event.id].morenzhuangtai == '1'){
+					if(chkNetStatus() == "OK")
+						setAsDefault(event.id,"0");
+					else{
+						mui.toast("网络异常，请检查网络连接");
+					}
+				}
+			}*/
+			// lcc 2019/2/28 设置默认地址
+			function checkboxButton(event) {
+				if(dataList[event.id].morenzhuangtai == '0'){
+					if(chkNetStatus() == "OK"){
+						for(var i = 0; i < dataList.length; i++) {
+							if(i == event.id){
+								setAsDefault(event.id,"1");
+							}else{
+								setAsDefault(i,"0");
+							}
+						}
+					}
+						
 					else{
 						mui.toast("网络异常，请检查网络连接");
 					}

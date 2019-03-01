@@ -1,5 +1,6 @@
 var SHOP_BASE_URL = "http://120.192.167.83/baiyixinkeji_new/server/";
 var SHOP_PICTURE_URL = "http://120.192.167.83/baiyixinkeji_new/";
+var BASE_URL_W = "http://120.192.167.83/";
 var SHOP_TYPE = SHOP_BASE_URL + "shangjiafenlei.php";
 var SHOP_SUBPAGE_TYPE = SHOP_BASE_URL + "shangpinfenleiByshangjiafenlei.php";
 var GOODS_LIST_URL = SHOP_BASE_URL + "ShangpinSelAll_byshangjiafenlei_byshangpinfenlei.php";
@@ -34,6 +35,11 @@ var SEARCH_FROM_ALL = SHOP_BASE_URL + "ShangpinShaiXuan_fromAll.php";
 var SEARCH_FROM_STORE = SHOP_BASE_URL + "ShangpinShaiXuan_fromShangJia.php";
 var SEARCH_FROM_SHANGJIA_FENLEI = SHOP_BASE_URL + "ShangpinShaiXuan_fromShangJiaFenLei.php";
 var SEARCH_FROM_SHANGPIN_FENLEI = SHOP_BASE_URL + "ShangpinShaiXuan_fromShangPinFenLei.php";
+var Comment_URL = SHOP_BASE_URL + "addPingJia.php";//lcc 2019/2/25 pingjia
+var shop_wxPay_url =BASE_URL_W +"baiyixin_common_weixinPay_ios/shop_wxPay.php";
+
+
+
 var chkNetStatus = function() {
 	var type = {};
 	type[plus.networkinfo.CONNECTION_UNKNOW] = "Unknown connection";

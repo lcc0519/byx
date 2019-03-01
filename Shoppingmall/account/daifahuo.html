@@ -206,8 +206,10 @@
 					document.querySelector('#net_error').style.display = 'block';
 
 			}
-
-			function load_query_daishouhuo(action) {
+//  lcc 2019/2/22 传参数少一个，引起代付款状态错误
+			function load_query_daishouhuo(creater_id, action) {
+				console.log(creater_id);
+				console.log(action);
 				dataList = [];
 				mui.ajax(QUERY_DINGDAN_URL, {
 					data: {

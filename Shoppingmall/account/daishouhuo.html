@@ -176,6 +176,7 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/common.js"></script>
 		<script src="../../js/app.js"></script>
+		<script src="../../js/common.js"></script>
 		<script type="text/javascript">
 			mui.init();
 			var currentWebView;
@@ -324,7 +325,6 @@
 
 			function itemButton(event) {
 				var index = event.parentNode.parentNode.id;
-				//console.log("biaohao====" + shangpinNum);
 				mui.openWindow({
 					url: 'daishouhuoDetail.html',
 					id: 'daishouhuoDetail.html',
@@ -345,30 +345,36 @@
 					}
 				});
 			}
+			
+			// add by lcc 2019/2/25 添加确认收货功能
+//			function payButton(event) {
+//				var index = event.parentNode.parentNode.id;
+//				
+//			}
 
-			function confirmButton(o) {
-				console.log("vvvv===" + o.id)
+			function payButton(o) {
+				console.log("vvvv===" + o.id);
+				console.log("vvvv=danhao==" + dataList[o.id].danhao);
 				var btnArray = ['否', '是'];
 				mui.confirm('确认收货？', '', btnArray, function(e) {
 					if(e.index == 1) {
 						if(chkNetStatus() == "OK") {
 							//cancleItem(thisYizhan, yizhan_info.xiaoqu, yizhan_info.id, "\'" + dataList[o.parentNode.id].dingdanhao + "\'", o);
-							shouHuo(dataList[o.id].dingdanhao, o);
+							shouHuo(dataList[o.id].danhao, o);
 						} else
 							mui.toast("网络异常");
 					} else {
 
 					}
-				})
+				}); 
 			}
 
 			function shouHuo(dingdanhao, o) {
 				console.log("vvvv===" + dingdanhao)
 				mui.ajax(Update_Yizhan_Dingdan_URL, {
-					data: JSON.stringify({
-						orderno: dingdanhao,
-						order_status: 5
-					}),
+					data: {
+						danhao: dingdanhao
+					},
 					dataType: 'json', //服务器返回json格式数据
 					type: 'post', //HTTP请求类型
 					timeout: 10000, //超时时间设置为10秒；

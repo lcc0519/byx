@@ -24,7 +24,7 @@
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">物业</span>
 			</a>
-			<a class="mui-tab-item" href="store/store-webview.html">
+			<a id="storeTab" class="mui-tab-item" href="store/store-webview.html">
 				<span class="mui-icon iconfont icon-dianpu"></span>
 				<span class="mui-tab-label">商超</span>
 			</a>
@@ -120,6 +120,19 @@
 				if (defaultTab !== current) {
 					current.classList.remove('mui-active');
 					defaultTab.classList.add('mui-active');
+				}
+			});
+			// add lcc 2019/2/27
+			window.addEventListener('goshop', function() {
+				console.log("trigger----goshop----!!!3333");
+				var storeTab = document.getElementById("storeTab");
+				//模拟首页点击
+				mui.trigger(storeTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if(storeTab !== current) {
+					current.classList.remove('mui-active');
+					storeTab.classList.add('mui-active');
 				}
 			});
 			

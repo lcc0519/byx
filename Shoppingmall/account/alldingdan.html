@@ -467,7 +467,9 @@
 					xhr.open('POST', PAYSERVER, true);
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					console.log('请求支付订单：' + PAYSERVER);
-					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					// lcc 2019/2/23 支付页面0.01元
+//					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					var args = "total=" + total_price + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
 					xhr.send(args);
 				}
 			}

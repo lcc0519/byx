@@ -229,6 +229,8 @@
 			}
 
 			function load_query_daifukuan(creater_id, action) {
+				console.log("creater_id====" + creater_id);
+				console.log("action====" + action);
 				dataList = [];
 				mui.ajax(QUERY_DINGDAN_URL, {
 					data: {
@@ -254,6 +256,7 @@
 							document.querySelector('.diangdanItem').style.display = 'block';
 							for(var j = 0; j < obj.dingdan_info.length; j++) {
 								var shangpinInfo = obj.dingdan_info[j].shangpin_info;
+								console.log("shangpinInfo====" + shangpinInfo);
 								for(var i = 0; i < shangpinInfo.length; i++) {
 									var picstr = shangpinInfo[i].hpic0;
 									var ss = [];
@@ -261,7 +264,7 @@
 									picstr = ss[1] + "/" + ss[2] + "/" + ss[3];
 									shangpinInfo[i].picture = SHOP_PICTURE_URL + picstr;
 								}
-							}
+							}							
 							dataList = obj.dingdan_info;
 							refreshDaifukuanListview(obj.dingdan_info);
 						} else {
@@ -457,10 +460,22 @@
 									plus.payment.request(pays['alipay'], order, function(result) {
 										console.log('----- 支付成功 -----');
 										console.log(JSON.stringify(result));
-										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力。', function() {
-											//self.close();
-											//	back();
-										}, '支付');
+//										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力。', function() {
+//										}, '支付');
+										// lcc 2019/2/26 
+										mui.openWindow({
+											url: "../cart/zhifuchenggong.html",
+											id: "zhifuchenggong.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											}
+										});
 									}, function(e) {
 										console.log('----- 支付失败 -----');
 										console.log('[' + e.code + ']：' + e.message);
@@ -482,7 +497,9 @@
 					xhr.open('POST', PAYSERVER, true);
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					console.log('请求支付订单：' + PAYSERVER);
-					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					//lcc 2019/2/23   支付页面总显示0.01元
+//					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					var args = "total=" + total_price + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
 					xhr.send(args);
 				}
 			}

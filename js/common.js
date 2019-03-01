@@ -87,7 +87,7 @@ var Query_Yizhan_Wodemendian_All_URL = YIZHAN_BASE_URL + "server/stationSelAllo.
 var Query_Yizhan_Wodexiaoxi_All_URL = YIZHAN_BASE_URL + "server/messageSelAll.php";
 var Insert_Yizhan_Dingdan_URL = YIZHAN_BASE_URL + "server/order_insert.php";
 var Insert_Yizhan_Dingdan_URL_iOS = YIZHAN_BASE_URL + "server/order_insert_appstore.php"; //本地数据for appstore
-var Update_Yizhan_Dingdan_URL = YIZHAN_BASE_URL + "server/order_Modify.php";
+var Update_Yizhan_Dingdan_URL = YIZHAN_BASE_URL + "order_shouhuo.php";
 var PAY_WUYEFEI_NOTIFY_URL = BASE_URL + "server/zhifubao/notice.php";
 var PAY_ZHEJIAYIZHAN_NOTIFY_URL = YIZHAN_BASE_URL + "server/zhifubao/notice.php";
 
@@ -164,8 +164,8 @@ var Commit_WUYE_PayFail_URL_IOS = BASE_URL + "server/zhifubao/Wuye_fail.php";
 var Commit_WUYE_PayFail_URL = BASE_URL + "server/zhifubao/Wuye_fail.php";
 var Commit_WUYE_Wepay_URL_IOS = BASE_URL_W + "baiyixin_common_weixinPay_ios/Wuye_WePay.php";//微信支付_ios
 var Commit_WUYE_Wepay_URL = BASE_URL_W + "baiyixin_common_weixinPay_ios/Wuye_WePay.php";//微信支付_android
-
-
+var shop_wxPay_url =BASE_URL_W +"baiyixin_common_weixinPay_ios/shop_wxPay.php";
+//var shop_wxPay_url =BASE_URL_W +"baiyixin_common_weixinPay_ios/shop_wxPay.php";//weixinzhifu
 var WUYE_UNWEBPAY_URL = BASE_URL_W + "upacp_demo_b2c/Wuye_FrontConsume.php"; //yinlianzhifu
 var WUYE_UNWEBPAY_QUERY_URL = BASE_URL_W + "upacp_demo_b2c/WuYeFee_Query.php"; //yinlianzhifu
 //*****end
@@ -366,6 +366,8 @@ var DSDIANZAN_URL = BASE_URL + "hudongserver_xiaoqu/insertZhutiLikes.php"; //点
 var GETALLZHUTI_URL = BASE_URL + "hudongserver_xiaoqu/selectZhuti.php"; //获得所有主题
 var ADDZHUTI_URL = BASE_URL + "hudongserver_xiaoqu/insertZhuti.php"; //新增主题
 var DELZHUTI_URL = BASE_URL + "hudongserver_xiaoqu/deleteZhuti.php"; //删除主题
+
+
 
 //检查网络是否通畅					
 var chkNetStatus = function() {

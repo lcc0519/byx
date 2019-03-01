@@ -4252,7 +4252,10 @@
       "Shoppingmall/images/ic_wifi_empty.png",
       "Shoppingmall/css/iconfont.css"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/cart/cartquerendingdan.html",
+      "Shoppingmall/store/dianpu.html"
+    ]
   },
   "Shoppingmall/account/account-webview.html": {
     "resources": [
@@ -4289,7 +4292,9 @@
       "mine/binddianti.html",
       "mine/wodefangchan.html",
       "mine/wodebeiyaoqing.html",
-      "mine/wodechoujiang.html"
+      "mine/wodechoujiang.html",
+      "Shoppingmall/account/daipingjia.html",
+      "Shoppingmall/account/alldingdan.html"
     ]
   },
   "Shoppingmall/account/daishouhuo.html": {
@@ -4305,7 +4310,9 @@
       "Shoppingmall/fonts/iconfont.ttf",
       "Shoppingmall/css/iconfont.css"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/account/daishouhuoDetail.html"
+    ]
   },
   "Shoppingmall/account/daifahuo.html": {
     "resources": [
@@ -4320,7 +4327,9 @@
       "Shoppingmall/fonts/iconfont.ttf",
       "Shoppingmall/css/iconfont.css"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/account/daifahuoDetail.html"
+    ]
   },
   "Shoppingmall/store/dianpu.html": {
     "resources": [
@@ -4340,7 +4349,9 @@
       "Shoppingmall/images/title4.jpg"
     ],
     "refer": [
-      "Shoppingmall/store/goodsListItemDetail.html"
+      "Shoppingmall/store/goodsListItemDetail.html",
+      "Shoppingmall/store/goodsListItemDetailNew.html",
+      "Shoppingmall/search.html"
     ]
   },
   "Shoppingmall/search.html": {
@@ -4353,7 +4364,9 @@
       "images/ic_wifi_empty.png",
       "Shoppingmall/js/zepto.min.js"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/store/goodsListItemDetail.html"
+    ]
   },
   "wuye/tingche/tingcherecord.html": {
     "resources": [
@@ -4435,7 +4448,10 @@
       "Shoppingmall/fonts/mui.ttf",
       "Shoppingmall/css/iconfont.css"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/cart/zhifudingdan.html",
+      "Shoppingmall/cart/chooseAddress.html"
+    ]
   },
   "Shoppingmall/account/daifukuan.html": {
     "resources": [
@@ -4449,7 +4465,10 @@
       "Shoppingmall/images/ic_wifi_empty.png",
       "Shoppingmall/css/iconfont.css"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/account/daifukuanDetail.html",
+      "Shoppingmall/cart/zhifuchenggong.html"
+    ]
   },
   "Shoppingmall/account/peisongzhong.html": {
     "resources": [
@@ -4549,7 +4568,9 @@
       "Shoppingmall/css/iconfont.css",
       "Shoppingmall/fonts/iconfont.ttf"
     ],
-    "refer": []
+    "refer": [
+      "Shoppingmall/account/daifahuoDetail.html"
+    ]
   },
   "mine/changeNickname.html": {
     "resources": [
@@ -4640,6 +4661,27 @@
     "refer": [
       "mine/addnewhouse_xiaoqu.html",
       "mine/choujiang.html"
+    ]
+  },
+  "Shoppingmall/cart/zhifudingdan.html": {
+    "refer": [
+      "Shoppingmall/cart/zhifuchenggong.html"
+    ]
+  },
+  "Shoppingmall/cart/zhifuchenggong.html": {
+    "refer": [
+      "Shoppingmall/account/daifahuo.html"
+    ]
+  },
+  "Shoppingmall/account/daipingjia.html": {
+    "refer": [
+      "Shoppingmall/account/pingjia.html",
+      "Shoppingmall/account/daipingjiaDetail.html"
+    ]
+  },
+  "Shoppingmall/account/daipingjiaDetail.html": {
+    "refer": [
+      "Shoppingmall/account/pingjia.html"
     ]
   }
 }

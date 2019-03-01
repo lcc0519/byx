@@ -272,10 +272,23 @@
 										plus.payment.request(pays['alipay'], order, function(result) {
 											console.log('----- 支付成功 -----');
 											console.log(JSON.stringify(result));
-											plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力。', function() {
-												//self.close();
-												//	back();
-											}, '支付');
+											mui.openWindow({
+											url: "../cart/zhifuchenggong.html",
+											id: "zhifuchenggong.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											}
+										});
+//											plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力。', function() {
+//												//self.close();
+//												//	back();
+//											}, '支付');
 										}, function(e) {
 											console.log('----- 支付失败 -----');
 											console.log('[' + e.code + ']：' + e.message);
@@ -297,7 +310,9 @@
 						xhr.open('POST', PAYSERVER, true);
 						xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 						console.log('请求支付订单：' + PAYSERVER);
-						var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+						// lcc 2019/2/23 支付页面0.01元
+//						var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+						var args = "total=" + total_price + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
 						xhr.send(args);
 					}
 				})

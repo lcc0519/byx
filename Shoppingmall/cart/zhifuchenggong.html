@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<style>
+			.rightButton {
+				width: 100%;
+				float: left;
+				line-height: 40px;
+				text-align: right;
+				padding-right: 20px;
+			}
+			.bottom-bar {
+				position: fixed;
+				/*width: 100%;*/
+				bottom: 0px;
+				left: 0px;
+				right: 0px;
+				background: white;
+				height: 44px;
+				line-height: 44px;
+				color: #fff;
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title"> 支付成功</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<h1>订单支付成功！</h1>
+				
+		
+			</div>
+			<!--<div id="" style="margin-left: 5%;margin-right: 5%;margin-top: 50%;">
+				<button id="daifahuo" type="button" class="mui-btn mui-btn-primary mui-btn-block mui-btn-outlined">去待发货</button>
+			</div>-->
+			
+		</div>
+		<!--<ul class="bottom-bar mui-table-view">
+			<div class="rightButton">
+				<button  class="button-style" style="border-color: orange;color: orange;">去待发货</button>
+			</div>
+		</ul>-->
+		</body>
+	
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+//		(function($) {
+//			$.oldBack = mui.back;
+//			$.back = function(event) {
+//				if(mui.os.android) {
+//					var tabindex = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+//					mui.fire(tabindex, 'gohome');
+//				} else {
+//					plus.runtime.quit();
+//				}
+//			};
+//		})(mui);
+
+	
+	mui.back = function(event){  
+   	 	if(mui.os.android) {
+			var tabindex = plus.webview.getWebviewById('./Shoppingmall/shop-main.html');
+			mui.fire(tabindex, 'goshop');
+    		tabindex.show();
+		} else {
+			plus.runtime.quit();
+		}
+	}  
+		
+	/*	var data = app.getDatas(SHOPACCOUNT);
+		var creater_id = data.type + "_" + data.xiaoqu + "_" + data.id;
+		var user_obj = eval(app.getDatas(PUBLIC_USER));
+		document.getElementById("daifahuo").addEventListener('tap', function() {
+			if(user_obj.account != "guest") {
+				mui.openWindow({
+					url: "../account/daifahuo.html",
+					id: "daifahuo.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: 100
+					},
+					waiting: {
+						autoShow: true,
+						title: '正在加载...'
+					},
+					extras: {
+						"createrid": creater_id
+					}
+				});
+			} else {
+				showRegistTips();
+			}
+		});
+		function showRegistTips() {
+
+			var btnArray = ['暂不注册', '注册用户'];
+			mui.confirm('当前为游客模式，请先注册用户', '温馨提示', btnArray, function(e) {
+				if(e.index == 1) {
+					mui.openWindow({
+						url: '../../register_sc.html',
+						id: 'register_sc.html',
+						//						preload: true,
+						show: {
+							aniShow: 'slide-in-right',
+							duration: 300
+						},
+						styles: {
+							popGesture: 'hide'
+						},
+						waiting: {
+							autoShow: false
+						}
+					});
+				}
+			});
+		}*/
+	</script>
+</html>

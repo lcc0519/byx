@@ -139,7 +139,7 @@
 				"frameworks": []
 			},
 			"google": {
-				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"packagename": "com.baiyixinkj.BYSQ",/*Android应用包名，如io.dcloud.HelloH5*/
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/
 				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
@@ -206,7 +206,7 @@
 					"ldpi": "","hdpi":"images/welcome_480x762.png","xhdpi":"images/welcome_720x1242.png","xxhdpi":"images/welcome_1080x1882.png"
 				}
 			}
-		},"ads":{"rp":false,"splash":false,"push":false,"spot":false},"adid":"126457240105"
+		},"ads":{"rp":false,"splash":false,"push":false,"spot":false},"adid":"126405260602"
 	},
 	"dependencies": {
 		"pages": {
@@ -4488,7 +4488,10 @@
 					"Shoppingmall/images/ic_wifi_empty.png",
 					"Shoppingmall/css/iconfont.css"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/cart/cartquerendingdan.html",
+					"Shoppingmall/store/dianpu.html"
+				],
 				"priority": 0
 			},
 			"Shoppingmall/account/account-webview.html": {
@@ -4526,7 +4529,9 @@
 					"mine/binddianti.html",
 					"mine/wodefangchan.html",
 					"mine/wodebeiyaoqing.html",
-					"mine/wodechoujiang.html"
+					"mine/wodechoujiang.html",
+					"Shoppingmall/account/daipingjia.html",
+					"Shoppingmall/account/alldingdan.html"
 				],
 				"priority": 0
 			},
@@ -4543,7 +4548,9 @@
 					"Shoppingmall/fonts/iconfont.ttf",
 					"Shoppingmall/css/iconfont.css"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/account/daishouhuoDetail.html"
+				],
 				"priority": 0
 			},
 			"Shoppingmall/account/daifahuo.html": {
@@ -4559,7 +4566,9 @@
 					"Shoppingmall/fonts/iconfont.ttf",
 					"Shoppingmall/css/iconfont.css"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/account/daifahuoDetail.html"
+				],
 				"priority": 0
 			},
 			"Shoppingmall/store/dianpu.html": {
@@ -4580,7 +4589,9 @@
 					"Shoppingmall/images/title4.jpg"
 				],
 				"refer": [
-					"Shoppingmall/store/goodsListItemDetail.html"
+					"Shoppingmall/store/goodsListItemDetail.html",
+					"Shoppingmall/store/goodsListItemDetailNew.html",
+					"Shoppingmall/search.html"
 				],
 				"priority": 0
 			},
@@ -4594,7 +4605,9 @@
 					"images/ic_wifi_empty.png",
 					"Shoppingmall/js/zepto.min.js"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/store/goodsListItemDetail.html"
+				],
 				"priority": 0
 			},
 			"wuye/tingche/tingcherecord.html": {
@@ -4679,7 +4692,10 @@
 					"Shoppingmall/fonts/mui.ttf",
 					"Shoppingmall/css/iconfont.css"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/cart/zhifudingdan.html",
+					"Shoppingmall/cart/chooseAddress.html"
+				],
 				"priority": 0
 			},
 			"Shoppingmall/account/daifukuan.html": {
@@ -4694,7 +4710,10 @@
 					"Shoppingmall/images/ic_wifi_empty.png",
 					"Shoppingmall/css/iconfont.css"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/account/daifukuanDetail.html",
+					"Shoppingmall/cart/zhifuchenggong.html"
+				],
 				"priority": 0
 			},
 			"Shoppingmall/account/peisongzhong.html": {
@@ -4801,7 +4820,9 @@
 					"Shoppingmall/css/iconfont.css",
 					"Shoppingmall/fonts/iconfont.ttf"
 				],
-				"refer": [],
+				"refer": [
+					"Shoppingmall/account/daifahuoDetail.html"
+				],
 				"priority": 0
 			},
 			"mine/changeNickname.html": {
@@ -4910,6 +4931,35 @@
 				"refer": [
 					"mine/addnewhouse_xiaoqu.html",
 					"mine/choujiang.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/cart/zhifudingdan.html": {
+				"resources": [],
+				"refer": [
+					"Shoppingmall/cart/zhifuchenggong.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/cart/zhifuchenggong.html": {
+				"resources": [],
+				"refer": [
+					"Shoppingmall/account/daifahuo.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/account/daipingjia.html": {
+				"resources": [],
+				"refer": [
+					"Shoppingmall/account/pingjia.html",
+					"Shoppingmall/account/daipingjiaDetail.html"
+				],
+				"priority": 0
+			},
+			"Shoppingmall/account/daipingjiaDetail.html": {
+				"resources": [],
+				"refer": [
+					"Shoppingmall/account/pingjia.html"
 				],
 				"priority": 0
 			}

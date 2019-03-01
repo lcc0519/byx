@@ -76,6 +76,7 @@
 
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/common.js"></script>
+		<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 		<script type="text/javascript">
 			mui.init()
 			var danhao;
@@ -135,10 +136,134 @@
 				if(flag == "zhifubao") {
 					pay('alipay', danhao);
 					console.log("zhifubao zhifu")
-				} else
-					pay('wxpay', danhao);
-
+				} else{
+					var payurl=shop_wxPay_url;//"http://demo.dcloud.net.cn/payment/wxpayv3.HBuilder/?total=1";
+					//var failurl_android=Commit_WUYE_PayFail_URL;
+					//pay('wxpay', danhao);
+					WeixinRequest("wxpay",payurl,"",danhao)
+				}
+					
 			})
+			//随机数
+			function randomString(len) {
+				var date = new Date();
+    			var year=date.getFullYear();
+			    var month = date.getMonth() + 1;
+			    var strDate = date.getDate();
+			    if (month >= 1 && month <= 9) {
+			        month = "0" + month.toString();
+			    }
+			    if (strDate >= 0 && strDate <= 9) {
+			        strDate = "0" + strDate.toString();
+			    }
+			　　	len = len || 32;
+			　　	var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz234567809';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+			　　	var maxPos = $chars.length;
+			　　	var pwd = '';
+			　　	for (i = 0; i < len; i++) {
+			　　　　	pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+			　　	}
+			　　	return year.toString()+ month.toString()+strDate.toString()+pwd;
+			};
+			//微信支付
+			function WeixinRequest(payid,payurl,failurl,danhao){
+//				var WXPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=1'; 
+				
+				//var attach=user.xiaoqu+"_"+"10001"+"_"+"297";
+				//Math.random().toString(36).substr(2);
+				billno = randomString(10);
+				//var sign=randomString(32);
+				var ip = returnCitySN["cip"];
+				var wxmoney=totalprice*100;
+				console.log("------------billno--------="+billno);
+				console.log("-------------wxmoney-------="+wxmoney);
+				console.log("-------------ip-------="+ip);
+				if(chkNetStatus() == "OK") {
+					var w=plus.nativeUI.showWaiting("请稍候...");
+					console.log("payurl--"+payurl);
+					mui.ajax(payurl, {
+						data: {
+							body: "商超购物",
+//							attach:"",	zhangchuanhua test
+							//attach:"shangchaoceshi",	
+							out_trade_no:danhao,
+							total_fee:wxmoney,
+							spbill_create_ip:ip,
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 8000, //超时时间设置为10秒；
+						success:function (data){
+							w.close();								
+							var infor=JSON.stringify(data);
+							console.log("wuye wx info:"+infor);
+							var jsonobj=eval(data);
+							var order=JSON.stringify({
+								appid:jsonobj.appid,
+								noncestr:jsonobj.noncestr,
+								package:jsonobj.package,
+								partnerid:jsonobj.partnerid,
+								prepayid:jsonobj.prepayid,
+								timestamp:jsonobj.timestamp,
+								//sign:"02630979CD33B0DFA4AB664C08910D1F"
+								sign:jsonobj.sign
+							});
+							console.log(order);
+							console.log("----------------------------------");
+							console.log(pays['wxpay']);
+							plus.payment.request(pays['wxpay'],order,function(result){
+								mui.openWindow({
+											url: "zhifuchenggong.html",
+											id: "zhifuchenggong.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											}
+										});
+//								plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善。',function(){
+//									mui.back();
+//								},'缴费');	
+							},function(e){
+								console.log("wx payfailback");
+								
+								console.log("e"+e.message);
+								//payfailback(billno,attach,failurl);
+								//var errmsg = e.message.substr(e.message.indexOf("]")+1);
+								//plus.nativeUI.alert(errmsg,null,"支付失败");
+								
+	//							plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：'+e.code);
+							});
+						},
+						error: function(xhr, type, errorThrown){
+							w.close();
+							console.log("type--"+type);
+							console.log(xhr.status);
+							console.log(xhr.responseText);
+							if(xhr.status==200){								
+								if(xhr.responseText.indexOf('商品支付中') >= 0){
+									plus.nativeUI.alert('支付失败：商品支付中或已支付完成...',function(){
+										mui.back();
+									},'缴费');
+									return;
+								}
+//							
+							}else{
+								console.log('获取订单信息失败！');
+								plus.nativeUI.alert('获取订单信息失败！', null, '缴费');
+							}
+						}
+					});
+	
+				} else {
+					mui.toast("网络异常");
+				}
+			};
+
 			// 支付
 			function pay(id, danhao) {
 				if(checkServices(pays[id])) {
@@ -159,10 +284,23 @@
 									plus.payment.request(pays[id], order, function(result) {
 										console.log('----- 支付成功 -----');
 										console.log(JSON.stringify(result));
-										plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
+										mui.openWindow({
+											url: "zhifuchenggong.html",
+											id: "zhifuchenggong.html",
+											show: {
+												autoShow: true,
+												aniShow: "slide-in-right",
+												duration: 100
+											},
+											waiting: {
+												autoShow: true,
+												title: '正在加载...'
+											}
+										});
+										/*plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
 											self.close();
 											//	back();
-										}, '支付');
+										}, '支付');*/
 									}, function(e) {
 										console.log('----- 支付失败 -----');
 										console.log('[' + e.code + ']：' + e.message);
@@ -185,7 +323,8 @@
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					console.log("huiyuanYuE:" + totalprice);
 					console.log('请求支付订单：' + PAYSERVER);
-					var args = "total=" + 0.01 + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
+					//lcc 2019/2/23   支付页面总显示0.01元
+					var args = "total=" + totalprice + "&subject=" + danhao + "&body=" + danhao + "&out_trade_no=" + danhao;
 					xhr.send(args);
 				}
 			}

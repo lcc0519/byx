@@ -152,8 +152,9 @@
 		</form>-->
 
 		<script src="../js/mui.min.js"></script>
-		<script src="../../js/common.js "></script>
-		<script src="../../js/app.js "></script>
+		<script src="../js/common.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/app.js"></script>
 		<script src="../../js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
 			mui.init();
@@ -167,13 +168,17 @@
 			var commentArr = new Array();
 			var index = 5;
 			var dingdanhao;
+			var shangjiaId;
 			mui.plusReady(function() {
 				self = plus.webview.currentWebview();
 				dingdanhao = self.dingdanhao;
+				shangjiaId = self.shangjia_id;
 				yizhanNum = self.yizhanNum;
 				userId = self.userId;
 				xiaoqu = self.xiaoqu;
 				shangpinItem = self.shangpin;
+				console.log("dingdanhao----" + dingdanhao);
+				console.log("shangjiaId----" + shangjiaId);
 				console.log("shangpinItem----" + JSON.stringify(shangpinItem));
 				for(var i = 0; i < shangpinItem.length; i++) {
 					pingfenArr.push(5);
@@ -223,9 +228,9 @@
 				for(var i = 0; i < shangpinItem.length; i++) {
 					//					var num=i+1;
 					var pic = shangpinItem[i].picture;
-					var bianma = shangpinItem[i].c_no;
+					var shangpin_bianhao = shangpinItem[i].shangpin_bianhao;
 					var name = shangpinItem[i].shangpin_name;
-					bianmaArr.push(bianma);
+					bianmaArr.push(shangpin_bianhao);
 					pingfenArr.push(5);
 					html = '<ul class="mui-table-view" ><li class="mui-table-view-cell shangpin" ><div style="width: 12%;float: left;">\
 						<img src="' + pic + '" style="width: 30px;height: 30px;" />\
@@ -311,37 +316,35 @@
 			}
 
 			function sendData(commentArr, pingfenArr) {
-				var user_info = app.getDatas(PREFERENCE_USER);
+				var user_info =  eval(app.getDatas(PUBLIC_USER));
 				var account = user_info.account;
-				var touxiang = user_info.touxiang;
+				var account_name = user_info.real_name;
 				var shangpinArr = new Array();
+				console.log("account----" + account);
+				console.log("account_name----" + account_name);
 				for(var i = 0; i < pingfenArr.length; i++) {
 					var item = {};
-					item.c_no = bianmaArr[i];
-					item.c_comment = commentArr[i];
+					item.shangpin_bianhao = bianmaArr[i];
+					item.content = commentArr[i];
 					item.pingfen = pingfenArr[i].toString();
 					shangpinArr.push(item);
 				}
 				console.log(JSON.stringify(shangpinArr));
 				console.log(JSON.stringify({
-					stationo: yizhanNum,
+					danhao: dingdanhao,
+					shangjia_id:shangjiaId,
 					shangpin: shangpinArr,
-					userid: userId,
-					shequ: xiaoqu,
-					orderno: dingdanhao,
-					accountname: account,
-					touxiang: touxiang
-
+					creater: account,
+					creater_name: account_name					
 				}));
+				
 				mui.ajax(Comment_URL, {
 					data: JSON.stringify({
-						stationo: yizhanNum,
+						danhao: dingdanhao,//订单号
+						shangjia_id:shangjiaId,
 						shangpin: shangpinArr, //商品编号、评分、内容
-						userid: userId,
-						shequ: xiaoqu,
-						orderno: dingdanhao, //订单号
-						accountname: account,
-						touxiang: touxiang
+						creater: account,
+						creater_name: account_name		
 					}),
 					dataType: 'json', //服务器返回json格式数据
 					type: 'post', //HTTP请求类型
@@ -361,7 +364,16 @@
 							//							mui.fire(listview, 'refresh');
 							//							var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
 							//							mui.fire(account, 'refresh_count');
-							changeState(dingdanhao);
+//							changeState(dingdanhao);
+
+								mui.toast("评价成功");
+								var close = plus.webview.getWebviewById('daipingjiaDetail.html');
+								mui.fire(close, 'close');
+								var listview = plus.webview.getWebviewById('daipingjia.html');
+								mui.fire(listview, 'refresh');
+								var account = plus.webview.getWebviewById('mine/tab-webview-subpage-account.html');
+								mui.fire(account, 'refresh');
+								mui.back();
 						} else {
 							var submitResultMsg = obj.errorMsg;
 							if(submitResultMsg == '') {

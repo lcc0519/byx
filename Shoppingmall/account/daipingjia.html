@@ -128,7 +128,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 id="title" class="mui-title">待收货</h1>
+			<h1 id="title" class="mui-title">待评价</h1>
 		</header>
 		<div id="net_error" class="notInfo_error" style="text-align: center; margin-top: 150px;display: none;">
 			<img src="../images/ic_wifi_empty.png" style="height: 100px;" />
@@ -362,6 +362,8 @@
 				//				})
 				//				var index = o.parentNode.parentNode.id;
 				console.log("oooo=" + JSON.stringify(dataList[o.id].shangpin_info))
+				console.log("oooo商家ID=" + dataList[o.id].shangjia_id);
+				console.log("oooo订单号=" + dataList[o.id].danhao);
 				mui.openWindow({
 					url: 'pingjia.html',
 					id: 'pingjia.html',
@@ -375,6 +377,8 @@
 						title: '正在加载...'
 					},
 					extras: {
+						"dingdanhao": dataList[o.id].danhao,
+						"shangjia_id":dataList[o.id].shangjia_id,
 						"shangpin": dataList[o.id].shangpin_info
 					}
 				});
